@@ -1,0 +1,13 @@
+{
+  "title_line1": "Ihre Website,",
+  "title_line2": "fertig gedacht.",
+  "card_heading": "Digitales Handwerk aus dem Rems-Murr-Kreis.",
+  "card_text": "Individuelles Design statt Baukasten – für Gastronomie, Handwerk und Vereine, die online genauso überzeugen sollen wie vor Ort.",
+  "badges": [
+    { "icon": "📍", "titel": "Aus der Region", "text": "Für die Region" },
+    { "icon": "⚡", "titel": "Schnell & mobil", "text": "Für jedes Gerät gebaut" },
+    { "icon": "🎨", "titel": "Eigenes Design", "text": "Kein Baukasten-Look" },
+    { "icon": "🛠️", "titel": "Betreuung nach Launch", "text": "Immer erreichbar" },
+    { "icon": "🔒", "titel": "Rechtssicher", "text": "Impressum & Datenschutz" }
+  ]
+}

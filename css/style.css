@@ -1042,6 +1042,7 @@ button { font: inherit; cursor: pointer; }
 }
 
 .package-card__badge {
+  display: none;
   position: absolute;
   top: -13px;
   left: 32px;
@@ -1052,6 +1053,7 @@ button { font: inherit; cursor: pointer; }
   padding: 4px 12px;
   border-radius: 999px;
 }
+.package-card--featured .package-card__badge { display: inline-block; }
 
 .package-card h3 { font-size: 1.35rem; }
 .package-card__tagline { margin-top: 8px; color: var(--green-deep); font-weight: 600; font-size: 0.95rem; }

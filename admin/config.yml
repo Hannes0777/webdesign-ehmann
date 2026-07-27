@@ -1,0 +1,209 @@
+# ============================================================
+#  Sveltia CMS – Konfiguration für Webdesign Ehmann
+#  Bearbeitet werden JSON-Dateien im Ordner /content/
+# ============================================================
+
+backend:
+  name: github
+  repo: Hannes0777/webdesign-ehmann
+  branch: master
+  # Eigener Cloudflare-Worker nur für diese Website: E-Mail/Passwort-Login,
+  # kein GitHub-Account nötig, kein Zugriff auf andere Websites möglich.
+  base_url: https://cms-auth-webdesign-ehmann.ehmann-hannes07.workers.dev
+
+media_folder: uploads
+public_folder: /uploads
+
+# Hochgeladene Dateinamen automatisch in URL-sichere Form bringen (Kleinbuchstaben,
+# Bindestriche statt Leerzeichen/Sonderzeichen) - verhindert kaputte Bild-Links,
+# wenn z.B. ein Foto direkt vom Handy mit Leerzeichen im Namen hochgeladen wird.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+
+locale: de
+
+# ============================================================
+#  SAMMLUNGEN
+# ============================================================
+
+collections:
+
+  # ----------------------------------------------------------
+  #  STARTSEITE – WILLKOMMENSBEREICH
+  # ----------------------------------------------------------
+  - name: hero
+    label: "🏠 Startseite – Willkommensbereich"
+    description: "Die große Einstiegsanimation ganz oben: die zwei Kopfzeilen, der Text auf der Karte und die 5 kleinen Info-Kacheln (Badges)."
+    files:
+      - name: hero
+        label: "Willkommensbereich verwalten"
+        file: content/hero.json
+        fields:
+          - name: title_line1
+            label: "Hauptüberschrift – erste Zeile"
+            widget: string
+          - name: title_line2
+            label: "Hauptüberschrift – zweite Zeile (goldener Verlauf)"
+            widget: string
+          - name: card_heading
+            label: "Überschrift auf der Karte"
+            widget: string
+          - name: card_text
+            label: "Text auf der Karte"
+            widget: text
+          - name: badges
+            label: "Info-Kacheln (Badges)"
+            label_singular: "Kachel"
+            widget: list
+            min: 5
+            max: 5
+            summary: "{{titel}}"
+            fields:
+              - name: icon
+                label: "Symbol (Emoji)"
+                widget: string
+                hint: "Ein einzelnes Emoji, z.B. 📍 oder ⚡"
+              - name: titel
+                label: "Titel"
+                widget: string
+              - name: text
+                label: "Kurzer Zusatztext"
+                widget: string
+
+  # ----------------------------------------------------------
+  #  LEISTUNGEN & PAKETE
+  # ----------------------------------------------------------
+  - name: pakete
+    label: "💼 Leistungen & Pakete"
+    description: "Die drei Preis-Pakete im Bereich 'Leistungen & Pakete'. Die Reihenfolge entspricht der Reihenfolge auf der Website."
+    files:
+      - name: pakete
+        label: "Pakete verwalten"
+        file: content/pakete.json
+        fields:
+          - name: pakete
+            label: "Pakete"
+            label_singular: "Paket"
+            widget: list
+            min: 3
+            max: 3
+            summary: "{{name}}"
+            fields:
+              - name: name
+                label: "Paketname"
+                widget: string
+              - name: meistgewaehlt
+                label: "Als 'Meistgewählt' hervorheben"
+                widget: boolean
+                default: false
+                hint: "Nur bei einem Paket aktivieren."
+              - name: tagline
+                label: "Kurzer Slogan"
+                widget: string
+              - name: fuer
+                label: "Für wen ist dieses Paket?"
+                widget: string
+              - name: punkte
+                label: "Leistungspunkte"
+                label_singular: "Punkt"
+                widget: list
+                field:
+                  name: text
+                  label: "Punkt"
+                  widget: string
+
+  # ----------------------------------------------------------
+  #  ÜBER MICH
+  # ----------------------------------------------------------
+  - name: uebermich
+    label: "🙋 Über mich"
+    files:
+      - name: uebermich
+        label: "Text & Ablauf verwalten"
+        file: content/uebermich.json
+        fields:
+          - name: absatz1
+            label: "Erster Absatz"
+            widget: text
+          - name: absatz2
+            label: "Zweiter Absatz"
+            widget: text
+          - name: schritte
+            label: "Ablauf in 3 Schritten"
+            label_singular: "Schritt"
+            widget: list
+            min: 3
+            max: 3
+            summary: "{{titel}}"
+            fields:
+              - name: titel
+                label: "Titel"
+                widget: string
+              - name: text
+                label: "Beschreibungstext"
+                widget: text
+
+  # ----------------------------------------------------------
+  #  KONTAKT
+  # ----------------------------------------------------------
+  - name: kontakt
+    label: "✉️ Kontakt"
+    files:
+      - name: kontakt
+        label: "Kontakt-E-Mail verwalten"
+        file: content/kontakt.json
+        fields:
+          - name: email
+            label: "E-Mail-Adresse"
+            widget: string
+            hint: "Wird überall auf der Website eingesetzt, wo eine E-Mail-Adresse verlinkt ist (Footer, Impressum, Datenschutz)."
+
+  # ----------------------------------------------------------
+  #  EINSTELLUNGEN
+  # ----------------------------------------------------------
+  - name: einstellungen
+    label: "⚙️ Einstellungen"
+    description: "Allgemeine Seiteninfos."
+    files:
+      - name: siteinfo
+        label: "Allgemeine Seiteninfos"
+        file: content/siteinfo.json
+        fields:
+          - name: site_title
+            label: "Seitentitel (erscheint im Browser-Tab)"
+            widget: string
+          - name: meta_description
+            label: "Kurzbeschreibung für Suchmaschinen"
+            widget: text
+            hint: "Ca. 150 Zeichen – wird von Google in den Suchergebnissen angezeigt."
+
+  # ----------------------------------------------------------
+  #  RECHTLICHES  (Angaben fürs Impressum)
+  # ----------------------------------------------------------
+  - name: rechtliches
+    label: "⚖️ Rechtliches"
+    description: "Angaben fürs Impressum und Datenschutzerklärung. Wichtig: Diese Felder unbedingt vor dem echten Online-Gang ausfüllen – solange ein Feld leer bleibt, erscheint dort ein auffällig gestalteter Hinweis-Platzhalter."
+    files:
+      - name: rechtliches
+        label: "Impressum-Angaben verwalten"
+        file: content/rechtliches.json
+        fields:
+          - name: strasse
+            label: "Straße & Hausnummer"
+            widget: string
+            required: false
+          - name: ort
+            label: "PLZ & Ort"
+            widget: string
+            required: false
+          - name: telefon
+            label: "Telefonnummer"
+            widget: string
+            required: false
+          - name: ustid
+            label: "USt-IdNr. oder Kleinunternehmer-Hinweis"
+            widget: string
+            required: false
+            hint: "Format DE + 9 Ziffern (z.B. DE123456789) - oder, falls keine USt-IdNr. vorhanden, ein Hinweis auf die Kleinunternehmerregelung nach § 19 UStG."
