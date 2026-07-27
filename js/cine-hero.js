@@ -3,6 +3,13 @@
    hoch und öffnet sich zur Bühne für ein Handy-Mockup samt
    Badges, zieht sich danach zur Anfrage-CTA zurück.
 
+   Auf schmalen Bildschirmen (<1024px) läuft eine leichtere,
+   nicht gepinnte Variante: die gepinnte Vollbild-Bühne mit allen
+   5 Badges passt dort nicht (Badges überlappen sich/den Text, das
+   Wordmark gerät unter die fixierte Kopfzeile) - stattdessen fädet
+   die Karte einmalig beim Reinscrollen ein, inklusive der kleinen
+   "Website wird gebaut"-Animation im Laptop-Mockup.
+
    Läuft nur, wenn GSAP/ScrollTrigger verfügbar sind und
    reduced-motion aus ist - sonst bleibt die im CSS sichtbare,
    statische Fassung stehen (siehe .cine-hero--active in style.css).
@@ -20,29 +27,12 @@
 
   if (prefersReducedMotion) return;
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
-  /* Die gepinnte Kartenbühne + Badge-Konstellation ist auf schmale
-     Bildschirme nicht ausgelegt (Badges überlappen sich/den Text, das
-     Wordmark gerät unter die fixierte Kopfzeile) - unter 1024px bleibt
-     die im CSS sichtbare, gestapelte Grundfassung stehen. */
-  if (window.innerWidth < 1024) return;
 
   try {
     gsap.registerPlugin(ScrollTrigger);
 
     const line1 = "#cine-line-1";
     const line2 = "#cine-line-2";
-    const textWrapper = "#cine-text-wrapper";
-    const ctaWrapper = "#cine-cta-wrapper";
-    const brand = "#cine-card-brand";
-    const mockup = "#cine-mockup";
-    const laptop = "#cine-laptop";
-    const cardText = "#cine-card-text";
-    const badge1 = "#cine-badge-1";
-    const badge2 = "#cine-badge-2";
-    const badge3 = "#cine-badge-3";
-    const badge4 = "#cine-badge-4";
-    const badge5 = "#cine-badge-5";
-    const buildMouse = "#build-mouse";
     const buildNav = "#build-nav";
     const buildLine1 = "#build-line1";
     const buildLine2 = "#build-line2";
@@ -53,33 +43,8 @@
     gsap.set([buildNav, buildLine1, buildLine2, buildBtn], { scaleX: 0 });
     gsap.set(buildCards, { autoAlpha: 0, y: 6 });
     gsap.set(buildCursor, { autoAlpha: 0 });
-    gsap.set(buildMouse, { autoAlpha: 0, x: -40, y: -30 });
 
-    /* ---------- Maus-Sheen + leichte 3D-Neigung des Handys ---------- */
-    let rafId = null;
-    function onMouseMove(e) {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
-        const rect = card.getBoundingClientRect();
-        const mx = e.clientX - rect.left;
-        const my = e.clientY - rect.top;
-        card.style.setProperty("--mx", `${mx}px`);
-        card.style.setProperty("--my", `${my}px`);
-
-        const xVal = (e.clientX / window.innerWidth - 0.5) * 2;
-        const yVal = (e.clientY / window.innerHeight - 0.5) * 2;
-        gsap.to(laptop, {
-          rotationY: xVal * 8,
-          rotationX: -yVal * 8,
-          ease: "power3.out",
-          duration: 1,
-        });
-      });
-    }
-    window.addEventListener("mousemove", onMouseMove);
-
-    /* ---------- Intro: Zeilen lösen sich beim Laden ein ---------- */
+    /* ---------- Intro: Zeilen lösen sich beim Laden ein (alle Breiten) ---------- */
     gsap.set([line1, line2], {
       autoAlpha: 0,
       y: 40,
@@ -108,6 +73,93 @@
         },
         "-=0.7"
       );
+
+    /* ============================================================
+       SCHMALE BILDSCHIRME (<1024px): leichte, nicht gepinnte Reveal-
+       Animation statt der gepinnten Vollbild-Bühne.
+       ============================================================ */
+    if (window.innerWidth < 1024) {
+      const badge1 = "#cine-badge-1";
+      const badge2 = "#cine-badge-2";
+
+      gsap.set(card, { autoAlpha: 0, y: 50, scale: 0.94 });
+      gsap.set([badge1, badge2], { autoAlpha: 0, y: 20, scale: 0.9 });
+
+      /* Scrub statt einmaligem Trigger: die Karte sitzt auf dem Handy
+         oft schon knapp unterhalb des ersten Bildschirms, ein "spielt
+         ab, sobald sichtbar"-Trigger wäre also sofort beim Laden
+         erfüllt. Mit scrub hängt die Animation an den ersten ~500px
+         Scrollweg, startet also garantiert bei 0. */
+      const mobileTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: heroSection,
+          start: "top top",
+          end: "+=500",
+          scrub: 0.5,
+        },
+      });
+
+      mobileTl
+        .to(card, { autoAlpha: 1, y: 0, scale: 1, ease: "power2.out", duration: 1 }, 0)
+        .to(buildNav, { scaleX: 1, ease: "power2.out", duration: 0.3 }, 0.3)
+        .to(buildLine1, { scaleX: 1, ease: "power2.out", duration: 0.4 }, 0.5)
+        .to(buildCursor, { autoAlpha: 1, duration: 0.15 }, 0.9)
+        .to(buildLine2, { scaleX: 1, ease: "power2.out", duration: 0.3 }, 1.0)
+        .to(buildCursor, { autoAlpha: 0, duration: 0.15 }, 1.3)
+        .to(buildBtn, { scaleX: 1, ease: "power2.out", duration: 0.25 }, 1.4)
+        .to(buildCards[0], { autoAlpha: 1, y: 0, duration: 0.2, ease: "power2.out" }, 1.5)
+        .to(buildCards[1], { autoAlpha: 1, y: 0, duration: 0.2, ease: "power2.out" }, 1.58)
+        .to(buildCards[2], { autoAlpha: 1, y: 0, duration: 0.2, ease: "power2.out" }, 1.66)
+        .to(buildCards[3], { autoAlpha: 1, y: 0, duration: 0.2, ease: "power2.out" }, 1.74)
+        .to(badge1, { autoAlpha: 1, y: 0, scale: 1, ease: "back.out(1.4)", duration: 0.6 }, 0.4)
+        .to(badge2, { autoAlpha: 1, y: 0, scale: 1, ease: "back.out(1.4)", duration: 0.6 }, 0.6);
+
+      ScrollTrigger.refresh();
+      return;
+    }
+
+    /* ============================================================
+       DESKTOP (>=1024px): gepinnte Cinematic-Bühne mit allen 5
+       Badges, Vollbild-Ausbau und Rückzug zur Anfrage-CTA.
+       ============================================================ */
+    const textWrapper = "#cine-text-wrapper";
+    const ctaWrapper = "#cine-cta-wrapper";
+    const brand = "#cine-card-brand";
+    const mockup = "#cine-mockup";
+    const laptop = "#cine-laptop";
+    const cardText = "#cine-card-text";
+    const badge1 = "#cine-badge-1";
+    const badge2 = "#cine-badge-2";
+    const badge3 = "#cine-badge-3";
+    const badge4 = "#cine-badge-4";
+    const badge5 = "#cine-badge-5";
+    const buildMouse = "#build-mouse";
+
+    gsap.set(buildMouse, { autoAlpha: 0, x: -40, y: -30 });
+
+    /* ---------- Maus-Sheen + leichte 3D-Neigung des Handys ---------- */
+    let rafId = null;
+    function onMouseMove(e) {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const rect = card.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        card.style.setProperty("--mx", `${mx}px`);
+        card.style.setProperty("--my", `${my}px`);
+
+        const xVal = (e.clientX / window.innerWidth - 0.5) * 2;
+        const yVal = (e.clientY / window.innerHeight - 0.5) * 2;
+        gsap.to(laptop, {
+          rotationY: xVal * 8,
+          rotationX: -yVal * 8,
+          ease: "power3.out",
+          duration: 1,
+        });
+      });
+    }
+    window.addEventListener("mousemove", onMouseMove);
 
     /* ---------- Haupt-Sequenz, an den Scroll gekoppelt ---------- */
     const tl = gsap.timeline({
