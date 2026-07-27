@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body { margin: 0; background: #FFF7EA; font-family: 'Nunito', sans-serif; }
+    @keyframes floaty { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-18px) rotate(3deg); } }
+    @keyframes floaty2 { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(14px) rotate(-4deg); } }
+    @keyframes wiggle { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+    @keyframes blink { 0%,90%,100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+    a { color: #8C5CFF; }
+    a:hover { color: #FF6F91; }
+  </style>
+</helmet>
+
+<div style="width:100%;overflow:hidden;background:#FFF7EA;color:#2B1F45;position:relative;">
+
+  <!-- NAV -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:28px 6vw;position:relative;z-index:5;">
+    <div style="font-family:'Fredoka',sans-serif;font-size:28px;font-weight:700;color:#8C5CFF;text-decoration:underline;text-decoration-style:wavy;text-decoration-color:#FF6F91;text-decoration-thickness:3px;text-underline-offset:6px;">Squiggle</div>
+    <div style="font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#8C5CFF;background:#fff;padding:8px 16px;border-radius:999px;box-shadow:0 4px 0 rgba(140,92,255,0.15);transition:transform .2s ease;" style-hover="transform:rotate(-3deg) scale(1.05);">Konzept-Vorschau</div>
+  </div>
+
+  <!-- HERO -->
+  <div style="position:relative;padding:40px 6vw 100px;display:flex;align-items:center;gap:48px;flex-wrap:wrap;">
+    <div style="position:absolute;top:-60px;right:8%;width:220px;height:220px;background:#FFCB3D;border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;opacity:0.85;animation:floaty 7s ease-in-out infinite;z-index:0;"></div>
+    <div style="position:absolute;bottom:-40px;left:2%;width:160px;height:160px;background:#2FD3C4;border-radius:63% 37% 54% 46% / 39% 52% 48% 61%;opacity:0.7;animation:floaty2 8s ease-in-out infinite;z-index:0;"></div>
+
+    <div style="flex:1 1 420px;min-width:320px;position:relative;z-index:2;">
+      <h1 style="font-family:'Fredoka',sans-serif;font-size:clamp(40px,6vw,68px);line-height:1.05;margin:0 0 20px;font-weight:700;color:#2B1F45;">Kritzel dich <span style="color:#FF6F91;">glücklich.</span></h1>
+      <p style="font-size:19px;line-height:1.6;color:#4A3B66;max-width:460px;margin:0 0 32px;font-weight:600;">Squiggle ist die Mal- und Doodle-App für alle, die gern über die Linien malen &ndash; egal ob 6 oder 60. Bunte Pinsel, endlose Leinwand, null Regeln.</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <button onclick="{{ showToast }}" style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;color:#fff;background:#8C5CFF;border:none;padding:16px 34px;border-radius:999px;cursor:pointer;box-shadow:0 6px 0 #6B3FD1;transition:transform .15s ease;" style-hover="transform:translateY(-4px) scale(1.03);" style-active="transform:translateY(2px);box-shadow:0 3px 0 #6B3FD1;">Squiggle entdecken</button>
+        <div style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;color:#8C5CFF;">bald f&uuml;r iOS &amp; Android</div>
+      </div>
+      <sc-if value="{{ toastVisible }}">
+        <div style="margin-top:18px;font-weight:700;font-size:14px;background:#2B1F45;color:#FFF7EA;display:inline-block;padding:10px 18px;border-radius:14px;">Squiggle kommt bald &ndash; bleib gespannt! ✎</div>
+      </sc-if>
+    </div>
+
+    <div style="flex:1 1 340px;min-width:280px;position:relative;z-index:2;display:flex;justify-content:center;">
+      <div style="width:320px;height:400px;background:#FF6F91;border-radius:44% 56% 60% 40% / 48% 42% 58% 52%;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 20px 40px rgba(255,111,145,0.35);">
+        <div style="width:250px;height:330px;border-radius:32px;background:repeating-linear-gradient(135deg,#fff0 0 10px,#ffffff33 10px 20px);background-color:#fff5;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:monospace;font-size:13px;color:#fff;text-align:center;padding:0 20px;">[ App-Vorschau ]</span>
+        </div>
+        <div style="position:absolute;bottom:-28px;right:-24px;width:110px;height:110px;animation:floaty 5s ease-in-out infinite;transition:transform .2s ease;" style-hover="transform:scale(1.15) rotate(-8deg);">
+          <div style="width:100%;height:100%;background:#FFCB3D;border-radius:60% 40% 55% 45% / 45% 55% 45% 55%;position:relative;box-shadow:0 8px 18px rgba(0,0,0,0.15);">
+            <div style="position:absolute;top:36%;left:26%;width:12px;height:16px;background:#2B1F45;border-radius:50%;animation:blink 4s infinite;"></div>
+            <div style="position:absolute;top:36%;left:58%;width:12px;height:16px;background:#2B1F45;border-radius:50%;animation:blink 4s infinite;"></div>
+            <div style="position:absolute;top:56%;left:38%;width:26px;height:13px;background:#2B1F45;border-radius:0 0 26px 26px;"></div>
+            <div style="position:absolute;top:50%;left:14%;width:14px;height:9px;background:#FF6F91;border-radius:50%;opacity:0.7;"></div>
+            <div style="position:absolute;top:50%;left:76%;width:14px;height:9px;background:#FF6F91;border-radius:50%;opacity:0.7;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIGGO INTRO STRIP -->
+  <div style="display:flex;align-items:center;gap:20px;padding:0 6vw 70px;max-width:680px;">
+    <div style="width:76px;height:76px;flex-shrink:0;animation:wiggle 3.5s ease-in-out infinite;transition:transform .2s ease;" style-hover="transform:scale(1.2);">
+      <div style="width:100%;height:100%;background:#2FD3C4;border-radius:55% 45% 48% 52% / 50% 50% 50% 50%;position:relative;">
+        <div style="position:absolute;top:34%;left:24%;width:10px;height:13px;background:#2B1F45;border-radius:50%;"></div>
+        <div style="position:absolute;top:34%;left:60%;width:10px;height:13px;background:#2B1F45;border-radius:50%;"></div>
+        <div style="position:absolute;top:54%;left:36%;width:22px;height:11px;background:#2B1F45;border-radius:0 0 22px 22px;"></div>
+      </div>
+    </div>
+    <p style="font-weight:700;font-size:17px;margin:0;color:#2B1F45;">Hallo, ich bin <span style="color:#2FD3C4;">Wiggo</span>! Dein kleiner Kritzel-Kumpel, der auf jeder Seite hier ein bisschen herumwuselt.</p>
+  </div>
+
+  <!-- FEATURES -->
+  <div style="padding:20px 6vw 100px;position:relative;">
+    <h2 style="font-family:'Fredoka',sans-serif;font-size:clamp(30px,4vw,42px);text-align:center;margin:0 0 48px;color:#2B1F45;">Was Squiggle draufhat</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;max-width:1100px;margin:0 auto;">
+
+      <div style="background:#fff;border-radius:38% 62% 55% 45% / 45% 40% 60% 55%;padding:44px 30px;text-align:center;box-shadow:0 10px 0 rgba(140,92,255,0.08);transition:transform .25s ease,box-shadow .25s ease;cursor:default;" style-hover="transform:translateY(-8px) rotate(-2deg);box-shadow:0 16px 0 rgba(140,92,255,0.12);">
+        <div style="width:64px;height:64px;margin:0 auto 20px;background:#FFCB3D;border-radius:60% 40% 45% 55% / 55% 45% 55% 45%;transition:transform .25s ease;" style-hover="transform:scale(1.15) rotate(10deg);"></div>
+        <h3 style="font-family:'Fredoka',sans-serif;font-size:20px;margin:0 0 10px;color:#2B1F45;">Endloses Farbenmeer</h3>
+        <p style="font-size:15px;color:#4A3B66;line-height:1.5;margin:0;">Unbegrenzte Farbpaletten und Verl&auml;ufe f&uuml;r jede Stimmung.</p>
+      </div>
+
+      <div style="background:#fff;border-radius:55% 45% 40% 60% / 40% 55% 45% 60%;padding:44px 30px;text-align:center;box-shadow:0 10px 0 rgba(140,92,255,0.08);transition:transform .25s ease,box-shadow .25s ease;cursor:default;" style-hover="transform:translateY(-8px) rotate(2deg);box-shadow:0 16px 0 rgba(140,92,255,0.12);">
+        <div style="width:64px;height:64px;margin:0 auto 20px;background:#FF6F91;border-radius:45% 55% 60% 40% / 60% 40% 55% 45%;transition:transform .25s ease;" style-hover="transform:scale(1.15) rotate(-10deg);"></div>
+        <h3 style="font-family:'Fredoka',sans-serif;font-size:20px;margin:0 0 10px;color:#2B1F45;">Pinsel f&uuml;r jede Laune</h3>
+        <p style="font-size:15px;color:#4A3B66;line-height:1.5;margin:0;">Von Filzstift bis Glitzerspray &ndash; jedes Werkzeug hat Charakter.</p>
+      </div>
+
+      <div style="background:#fff;border-radius:45% 55% 58% 42% / 55% 45% 58% 42%;padding:44px 30px;text-align:center;box-shadow:0 10px 0 rgba(140,92,255,0.08);transition:transform .25s ease,box-shadow .25s ease;cursor:default;" style-hover="transform:translateY(-8px) rotate(-2deg);box-shadow:0 16px 0 rgba(140,92,255,0.12);">
+        <div style="width:64px;height:64px;margin:0 auto 20px;background:#2FD3C4;border-radius:50% 50% 40% 60% / 60% 40% 60% 40%;transition:transform .25s ease;" style-hover="transform:scale(1.15) rotate(10deg);"></div>
+        <h3 style="font-family:'Fredoka',sans-serif;font-size:20px;margin:0 0 10px;color:#2B1F45;">F&uuml;r kleine &amp; gro&szlig;e K&uuml;nstler</h3>
+        <p style="font-size:15px;color:#4A3B66;line-height:1.5;margin:0;">Einfach genug f&uuml;r Kinderh&auml;nde, tief genug f&uuml;r Profis.</p>
+      </div>
+
+      <div style="background:#fff;border-radius:60% 40% 45% 55% / 45% 60% 40% 55%;padding:44px 30px;text-align:center;box-shadow:0 10px 0 rgba(140,92,255,0.08);transition:transform .25s ease,box-shadow .25s ease;cursor:default;" style-hover="transform:translateY(-8px) rotate(2deg);box-shadow:0 16px 0 rgba(140,92,255,0.12);">
+        <div style="width:64px;height:64px;margin:0 auto 20px;background:#8C5CFF;border-radius:55% 45% 55% 45% / 45% 55% 45% 55%;transition:transform .25s ease;" style-hover="transform:scale(1.15) rotate(-10deg);"></div>
+        <h3 style="font-family:'Fredoka',sans-serif;font-size:20px;margin:0 0 10px;color:#2B1F45;">Speichern &amp; Teilen</h3>
+        <p style="font-size:15px;color:#4A3B66;line-height:1.5;margin:0;">Kunstwerke sichern und mit einem Kritzel-Klick verschicken.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCREENSHOTS / APP PREVIEW -->
+  <div style="padding:40px 6vw 110px;background:#8C5CFF;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;left:-30px;width:180px;height:180px;background:#7B4FE8;border-radius:50%;opacity:0.5;transform:{{ decoRotate1 }};"></div>
+    <h2 style="font-family:'Fredoka',sans-serif;font-size:clamp(30px,4vw,42px);text-align:center;margin:0 0 12px;color:#fff;position:relative;z-index:1;">So sieht's drinnen aus</h2>
+    <p style="text-align:center;color:#EAE1FF;font-weight:700;margin:0 0 56px;position:relative;z-index:1;">(Screenshots folgen &ndash; hier erstmal Platzhalter)</p>
+    <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;position:relative;z-index:1;">
+
+      <div style="width:200px;height:400px;background:#fff;border-radius:46px;padding:14px;box-shadow:0 20px 40px rgba(0,0,0,0.25);transform:rotate(-6deg);transition:transform .3s ease,box-shadow .3s ease;" style-hover="transform:rotate(-2deg) translateY(-12px) scale(1.04);box-shadow:0 28px 50px rgba(0,0,0,0.3);">
+        <div style="width:100%;height:100%;border-radius:34px;background:repeating-linear-gradient(45deg,#FFCB3D22 0 10px,#FFCB3D44 10px 20px);background-color:#FFF7EA;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:monospace;font-size:12px;color:#4A3B66;">Leinwand-Screen</span>
+        </div>
+      </div>
+
+      <div style="width:200px;height:400px;background:#fff;border-radius:46px;padding:14px;box-shadow:0 20px 40px rgba(0,0,0,0.25);transform:translateY(-16px);transition:transform .3s ease,box-shadow .3s ease;" style-hover="transform:translateY(-28px) scale(1.04);box-shadow:0 28px 50px rgba(0,0,0,0.3);">
+        <div style="width:100%;height:100%;border-radius:34px;background:repeating-linear-gradient(45deg,#FF6F9122 0 10px,#FF6F9144 10px 20px);background-color:#FFF7EA;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:monospace;font-size:12px;color:#4A3B66;">Pinsel-Auswahl</span>
+        </div>
+      </div>
+
+      <div style="width:200px;height:400px;background:#fff;border-radius:46px;padding:14px;box-shadow:0 20px 40px rgba(0,0,0,0.25);transform:rotate(6deg);transition:transform .3s ease,box-shadow .3s ease;" style-hover="transform:rotate(2deg) translateY(-12px) scale(1.04);box-shadow:0 28px 50px rgba(0,0,0,0.3);">
+        <div style="width:100%;height:100%;border-radius:34px;background:repeating-linear-gradient(45deg,#2FD3C422 0 10px,#2FD3C444 10px 20px);background-color:#FFF7EA;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:monospace;font-size:12px;color:#4A3B66;">Galerie</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <div style="padding:100px 6vw;display:flex;gap:48px;align-items:center;flex-wrap:wrap;max-width:1100px;margin:0 auto;">
+    <div style="flex:1 1 300px;min-width:260px;display:flex;justify-content:center;">
+      <div style="width:260px;height:260px;background:#FFCB3D;border-radius:48% 52% 58% 42% / 45% 55% 45% 55%;position:relative;animation:floaty 9s ease-in-out infinite;transition:transform .2s ease;" style-hover="transform:scale(1.08) rotate(6deg);">
+        <div style="position:absolute;top:38%;left:28%;width:16px;height:20px;background:#2B1F45;border-radius:50%;"></div>
+        <div style="position:absolute;top:38%;left:62%;width:16px;height:20px;background:#2B1F45;border-radius:50%;"></div>
+        <div style="position:absolute;top:58%;left:38%;width:32px;height:16px;background:#2B1F45;border-radius:0 0 32px 32px;"></div>
+      </div>
+    </div>
+    <div style="flex:1 1 400px;min-width:300px;">
+      <h2 style="font-family:'Fredoka',sans-serif;font-size:clamp(28px,4vw,38px);margin:0 0 18px;color:#2B1F45;">Die Idee hinter Squiggle</h2>
+      <p style="font-size:17px;line-height:1.7;color:#4A3B66;font-weight:600;margin:0 0 16px;">Squiggle ist als kleines Herzensprojekt entstanden: eine Mal-App ohne Druck, ohne perfekte Linien, nur pure Kritzel-Freude. Wiggo war die erste Kritzelei &ndash; und wurde kurzerhand zum Gesicht der App.</p>
+      <p style="font-size:17px;line-height:1.7;color:#4A3B66;font-weight:600;margin:0;">Diese Seite ist eine Konzept-Vorschau f&uuml;r ein Portfolio-Projekt und zeigt, wie Squiggle als Marke aussehen k&ouml;nnte.</p>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div style="padding:20px 6vw 110px;position:relative;">
+    <h2 style="font-family:'Fredoka',sans-serif;font-size:clamp(30px,4vw,42px);text-align:center;margin:0 0 48px;color:#2B1F45;">Was (imagin&auml;re) Kritzler sagen</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;max-width:1000px;margin:0 auto;">
+
+      <div style="background:#FFCB3D;border-radius:36px 8px 36px 8px;padding:32px 28px;transition:transform .25s ease;" style-hover="transform:translateY(-6px) rotate(-1.5deg);">
+        <p style="font-size:16px;line-height:1.6;color:#2B1F45;font-weight:700;margin:0 0 14px;">&bdquo;Ich male jetzt jeden Tag Monster. Wiggo ist mein bester Freund.&ldquo;</p>
+        <p style="font-size:13px;color:#5A4A20;font-weight:700;margin:0;">&mdash; Mia, 8 Jahre</p>
+      </div>
+
+      <div style="background:#FF6F91;border-radius:8px 36px 8px 36px;padding:32px 28px;transition:transform .25s ease;" style-hover="transform:translateY(-6px) rotate(1.5deg);">
+        <p style="font-size:16px;line-height:1.6;color:#fff;font-weight:700;margin:0 0 14px;">&bdquo;Endlich eine App, bei der nichts perfekt sein muss. Genau mein Stil.&ldquo;</p>
+        <p style="font-size:13px;color:#FFE9EF;font-weight:700;margin:0;">&mdash; Jonas, Illustrator</p>
+      </div>
+
+      <div style="background:#2FD3C4;border-radius:36px 8px 36px 8px;padding:32px 28px;transition:transform .25s ease;" style-hover="transform:translateY(-6px) rotate(-1.5deg);">
+        <p style="font-size:16px;line-height:1.6;color:#123A36;font-weight:700;margin:0 0 14px;">&bdquo;Meine Tochter kritzelt jetzt statt auf der Tapete &ndash; auf dem Tablet.&ldquo;</p>
+        <p style="font-size:13px;color:#0E5A52;font-weight:700;margin:0;">&mdash; Familie Bergmann</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA / FOOTER -->
+  <div style="background:#2B1F45;padding:90px 6vw 50px;position:relative;overflow:hidden;">
+    <div style="position:absolute;bottom:-50px;right:6%;width:200px;height:200px;background:#8C5CFF;border-radius:50% 50% 40% 60% / 55% 45% 55% 45%;opacity:0.5;transform:{{ decoRotate2 }};"></div>
+    <div style="text-align:center;position:relative;z-index:1;">
+      <h2 style="font-family:'Fredoka',sans-serif;font-size:clamp(30px,4.5vw,46px);color:#fff;margin:0 0 20px;">Bereit zum Kritzeln?</h2>
+      <p style="color:#C9BEEA;font-weight:700;font-size:16px;margin:0 0 32px;">Squiggle ist noch in Arbeit &ndash; schau bald wieder vorbei.</p>
+      <button onclick="{{ showToast }}" style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;color:#2B1F45;background:#FFCB3D;border:none;padding:16px 34px;border-radius:999px;cursor:pointer;box-shadow:0 6px 0 #C99B1E;transition:transform .15s ease;" style-hover="transform:translateY(-4px) scale(1.03);" style-active="transform:translateY(2px);box-shadow:0 3px 0 #C99B1E;">Bald verf&uuml;gbar</button>
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;gap:10px;margin-top:60px;position:relative;z-index:1;">
+      <div style="width:36px;height:36px;animation:wiggle 4s ease-in-out infinite;transition:transform .2s ease;" style-hover="transform:scale(1.3);">
+        <div style="width:100%;height:100%;background:#FF6F91;border-radius:55% 45% 48% 52% / 50% 50% 50% 50%;"></div>
+      </div>
+      <p style="color:#8C7BB5;font-size:13px;font-weight:700;margin:0;">Squiggle &middot; Fiktives Konzept-Projekt &middot; 2026</p>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { toastVisible: false, scrollY: 0 };
+
+  componentDidMount() {
+    this._onScroll = () => this.setState({ scrollY: window.scrollY });
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+  }
+
+  showToast = () => {
+    this.setState({ toastVisible: true });
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(() => this.setState({ toastVisible: false }), 2600);
+  };
+
+  renderVals() {
+    return {
+      toastVisible: this.state.toastVisible,
+      showToast: this.showToast,
+      decoRotate1: `rotate(${this.state.scrollY * 0.03}deg)`,
+      decoRotate2: `rotate(${-this.state.scrollY * 0.02}deg)`,
+    };
+  }
+}
+</script>
+</body>
+</html>

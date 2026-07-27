@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <rect width="1200" height="800" fill="#F4F6F1"/>
+  <g stroke="#3D7EA6" stroke-width="1.5" fill="none" opacity="0.4">
+    <path d="M-40 480 L 260 320 L 520 460 L 800 260 L 1300 440"/>
+    <path d="M-40 540 L 260 400 L 520 520 L 800 340 L 1300 500"/>
+    <path d="M-40 600 L 260 480 L 520 580 L 800 420 L 1300 560"/>
+  </g>
+  <g fill="#2F7A52" opacity="0.85">
+    <circle cx="260" cy="320" r="5"/>
+    <circle cx="800" cy="260" r="5"/>
+  </g>
+  <text x="600" y="440" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" letter-spacing="2" fill="#5B625A">STEINENBERG</text>
+  <text x="600" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="40" font-weight="700" fill="#191B18">SAV OG Steinenberg</text>
+  <text x="600" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#5B625A">Schw&#228;bischer Albverein &#183; Wandern im Wieslauftal</text>
+</svg>

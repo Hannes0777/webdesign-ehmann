@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <rect width="1200" height="800" fill="#F4F6F1"/>
+  <g stroke="#3D7EA6" stroke-width="1.5" fill="none" opacity="0.4">
+    <path d="M-40 560 Q 220 500 480 560 T 1000 560 T 1300 540"/>
+    <path d="M-40 620 Q 220 570 480 620 T 1000 620 T 1300 600"/>
+    <path d="M-40 680 Q 220 640 480 680 T 1000 680 T 1300 660"/>
+  </g>
+  <circle cx="600" cy="300" r="130" fill="none" stroke="#2F7A52" stroke-width="2" opacity="0.7"/>
+  <circle cx="600" cy="300" r="4" fill="#2F7A52"/>
+  <text x="600" y="440" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" letter-spacing="2" fill="#5B625A">KAISERSBACH</text>
+  <text x="600" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="40" font-weight="700" fill="#191B18">Rader's Waldsch&#228;nke</text>
+  <text x="600" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#5B625A">Biergarten &amp; Bootsvermietung am Ebnisee</text>
+</svg>

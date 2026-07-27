@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <rect width="1200" height="800" fill="#F4F6F1"/>
+  <g stroke="#3D7EA6" stroke-width="1.5" fill="none" opacity="0.35">
+    <path d="M-40 240 Q 220 200 480 240 T 1000 240 T 1300 220"/>
+    <path d="M-40 300 Q 220 260 480 300 T 1000 300 T 1300 280"/>
+  </g>
+  <g stroke="#2F7A52" stroke-width="2" fill="none" opacity="0.8">
+    <line x1="520" y1="330" x2="680" y2="470"/>
+    <line x1="520" y1="470" x2="680" y2="330"/>
+    <circle cx="600" cy="400" r="95"/>
+  </g>
+  <text x="600" y="500" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" letter-spacing="2" fill="#5B625A">RUDERSBERG</text>
+  <text x="600" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="40" font-weight="700" fill="#191B18">Metzgerei Hinderer</text>
+  <text x="600" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#5B625A">7. Generation &#183; Metzgerei &amp; Partyservice</text>
+</svg>

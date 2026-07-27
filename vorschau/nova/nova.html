@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    html,body{margin:0;padding:0;background:#09090b;overflow-x:hidden;}
+    *{box-sizing:border-box;}
+    @media (pointer:fine){ html,body{cursor:none;} }
+    ::selection{background:oklch(0.75 0.15 200);color:#09090b;}
+    @keyframes novaPulse{0%,100%{opacity:.25;transform:scale(1);}50%{opacity:.9;transform:scale(1.4);}}
+  </style>
+</helmet>
+<div id="nova-app" style="position:relative;height:100vh;overflow-y:auto;overflow-x:hidden;font-family:'Sora',sans-serif;color:#EDEDF0;background:#09090b;-webkit-overflow-scrolling:touch;">
+
+  <div id="nova-cursor" style="position:fixed;top:0;left:0;width:18px;height:18px;border-radius:50%;background:oklch(0.75 0.15 200);pointer-events:none;z-index:9999;transform:translate3d(-50%,-50%,0);mix-blend-mode:difference;transition:width .25s,height .25s,background .3s,border .3s;will-change:transform;"></div>
+
+  <div id="nova-progress-track" style="position:fixed;top:0;left:0;width:100%;height:3px;background:rgba(255,255,255,.06);z-index:200;">
+    <div id="nova-progress-fill" style="width:0%;height:100%;background:linear-gradient(90deg, oklch(0.75 0.15 200), oklch(0.75 0.15 55));"></div>
+  </div>
+
+  <div id="nova-bg" style="position:fixed;inset:-5% -5% -5% -5%;z-index:1;overflow:hidden;pointer-events:none;will-change:transform;">
+    <div style="position:absolute;top:8%;left:6%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle, oklch(0.6 0.13 200 / .18), transparent 70%);filter:blur(40px);"></div>
+    <div style="position:absolute;bottom:4%;right:8%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle, oklch(0.6 0.13 55 / .16), transparent 70%);filter:blur(40px);"></div>
+    <div style="position:absolute;top:14%;left:22%;width:4px;height:4px;border-radius:50%;background:oklch(0.85 0.1 200);animation:novaPulse 4s ease-in-out infinite;"></div>
+    <div style="position:absolute;top:32%;left:72%;width:3px;height:3px;border-radius:50%;background:oklch(0.85 0.1 55);animation:novaPulse 5s ease-in-out infinite .5s;"></div>
+    <div style="position:absolute;top:62%;left:14%;width:3px;height:3px;border-radius:50%;background:oklch(0.85 0.1 200);animation:novaPulse 3.5s ease-in-out infinite 1s;"></div>
+    <div style="position:absolute;top:78%;left:60%;width:5px;height:5px;border-radius:50%;background:oklch(0.85 0.1 55);animation:novaPulse 6s ease-in-out infinite .3s;"></div>
+    <div style="position:absolute;top:48%;left:88%;width:3px;height:3px;border-radius:50%;background:oklch(0.85 0.1 200);animation:novaPulse 4.5s ease-in-out infinite .8s;"></div>
+    <div style="position:absolute;top:20%;left:48%;width:2px;height:2px;border-radius:50%;background:oklch(0.85 0.1 55);animation:novaPulse 5.5s ease-in-out infinite 1.3s;"></div>
+    <div style="position:absolute;top:88%;left:30%;width:3px;height:3px;border-radius:50%;background:oklch(0.85 0.1 200);animation:novaPulse 4.2s ease-in-out infinite .6s;"></div>
+  </div>
+  <div id="nova-mid" style="position:fixed;inset:0;z-index:2;pointer-events:none;will-change:transform;opacity:.35;">
+    <div style="position:absolute;top:0;left:12%;width:1px;height:100%;background:linear-gradient(to bottom, transparent, rgba(255,255,255,.08), transparent);"></div>
+    <div style="position:absolute;top:0;left:88%;width:1px;height:100%;background:linear-gradient(to bottom, transparent, rgba(255,255,255,.08), transparent);"></div>
+  </div>
+
+  <div id="nova-watch-stage" style="position:fixed;top:50%;left:50%;width:560px;height:560px;transform:translate(-50%,-50%);z-index:5;pointer-events:none;perspective:2600px;">
+    <div id="nova-glow" style="position:absolute;inset:-45%;border-radius:50%;background:radial-gradient(circle, oklch(0.75 0.15 200 / .35), transparent 60%);filter:blur(30px);opacity:0;"></div>
+    <div id="nova-watch" style="position:absolute;inset:0;transform-style:preserve-3d;transform:translate3d(0,0,0) scale(var(--w-scale,0.72)) rotateY(calc(var(--w-roty,0) * 1deg)) rotateX(calc(var(--w-rotx,0) * 1deg));opacity:var(--w-op,0);will-change:transform,opacity;">
+      <div style="position:absolute;left:50%;top:50%;width:340px;height:40px;margin:230px 0 0 -170px;border-radius:50%;background:radial-gradient(ellipse, rgba(0,0,0,.55), transparent 70%);filter:blur(10px);transform:translateZ(-60px);"></div>
+
+      <!-- strap top (rose-gold mesh) -->
+      <div style="position:absolute;left:50%;top:50%;width:100px;height:190px;margin:-330px 0 0 -50px;border-radius:20px 20px 6px 6px;background:linear-gradient(160deg,#e3bd93,#a9764a 75%);box-shadow:inset 0 0 14px rgba(0,0,0,.4);transform:translateZ(-24px) translateY(calc(var(--ex,0) * -170px)) rotateX(calc(var(--ex,0) * 18deg));"></div>
+      <div style="position:absolute;left:50%;top:50%;width:100px;height:190px;margin:-330px 0 0 -50px;border-radius:20px 20px 6px 6px;background:repeating-linear-gradient(45deg, rgba(0,0,0,.16) 0 1.5px, transparent 1.5px 5px), repeating-linear-gradient(-45deg, rgba(255,255,255,.18) 0 1.5px, transparent 1.5px 5px);transform:translateZ(-23px) translateY(calc(var(--ex,0) * -170px)) rotateX(calc(var(--ex,0) * 18deg));"></div>
+      <!-- strap bottom -->
+      <div style="position:absolute;left:50%;top:50%;width:100px;height:190px;margin:140px 0 0 -50px;border-radius:6px 6px 20px 20px;background:linear-gradient(340deg,#e3bd93,#a9764a 75%);box-shadow:inset 0 0 14px rgba(0,0,0,.4);transform:translateZ(-24px) translateY(calc(var(--ex,0) * 170px)) rotateX(calc(var(--ex,0) * -18deg));"></div>
+      <div style="position:absolute;left:50%;top:50%;width:100px;height:190px;margin:140px 0 0 -50px;border-radius:6px 6px 20px 20px;background:repeating-linear-gradient(45deg, rgba(0,0,0,.16) 0 1.5px, transparent 1.5px 5px), repeating-linear-gradient(-45deg, rgba(255,255,255,.18) 0 1.5px, transparent 1.5px 5px);transform:translateZ(-23px) translateY(calc(var(--ex,0) * 170px)) rotateX(calc(var(--ex,0) * -18deg));"></div>
+
+      <!-- lugs -->
+      <div style="position:absolute;left:50%;top:50%;width:36px;height:40px;margin:-160px 0 0 -80px;border-radius:9px;background:linear-gradient(150deg,#f2d3ab,#b8825a);transform:translateZ(-6px) rotate(-18deg) translateY(calc(var(--ex,0) * -30px));"></div>
+      <div style="position:absolute;left:50%;top:50%;width:36px;height:40px;margin:-160px 0 0 44px;border-radius:9px;background:linear-gradient(150deg,#f2d3ab,#b8825a);transform:translateZ(-6px) rotate(18deg) translateY(calc(var(--ex,0) * -30px));"></div>
+      <div style="position:absolute;left:50%;top:50%;width:36px;height:40px;margin:120px 0 0 -80px;border-radius:9px;background:linear-gradient(330deg,#f2d3ab,#b8825a);transform:translateZ(-6px) rotate(18deg) translateY(calc(var(--ex,0) * 30px));"></div>
+      <div style="position:absolute;left:50%;top:50%;width:36px;height:40px;margin:120px 0 0 44px;border-radius:9px;background:linear-gradient(330deg,#f2d3ab,#b8825a);transform:translateZ(-6px) rotate(-18deg) translateY(calc(var(--ex,0) * 30px));"></div>
+
+      <!-- case (rose gold) -->
+      <div style="position:absolute;left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:conic-gradient(from 90deg, #f3d6ae, #b0794e 15%, #f8dfba, #a06a41 45%, #f3d6ae 60%, #bb8659 75%, #f3d6ae 90%, #f3d6ae);box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 0 12px rgba(255,255,255,.3);transform:translateZ(0px);"></div>
+      <!-- bezel -->
+      <div style="position:absolute;left:50%;top:50%;width:266px;height:266px;margin:-133px 0 0 -133px;border-radius:50%;background:linear-gradient(160deg,#eecda0,#a3703f);box-shadow:inset 0 0 10px rgba(0,0,0,.3), 0 0 0 2px rgba(255,255,255,.15);transform:translateZ(18px) scale(calc(1 + var(--ex,0)*0.02));"></div>
+
+      <!-- dial: navy sunburst -->
+      <div style="position:absolute;left:50%;top:50%;width:238px;height:238px;margin:-119px 0 0 -119px;border-radius:50%;background:radial-gradient(circle at 40% 32%, #1c3253, #0a1526 80%);transform:translateZ(calc(28px + var(--ex,0)*95px));"></div>
+      <div style="position:absolute;left:50%;top:50%;width:238px;height:238px;margin:-119px 0 0 -119px;border-radius:50%;background:repeating-conic-gradient(from 0deg, rgba(255,255,255,.09) 0deg .5deg, transparent .5deg 3deg);-webkit-mask:radial-gradient(circle, transparent 70px, #000 72px);mask:radial-gradient(circle, transparent 70px, #000 72px);transform:translateZ(calc(29px + var(--ex,0)*95px));"></div>
+      <!-- minute track -->
+      <div style="position:absolute;left:50%;top:50%;width:230px;height:230px;margin:-115px 0 0 -115px;border-radius:50%;background:repeating-conic-gradient(from 0deg, rgba(230,208,178,.7) 0deg .3deg, transparent .3deg 6deg);-webkit-mask:radial-gradient(circle, transparent 108px, #000 110px, #000 114px, transparent 116px);mask:radial-gradient(circle, transparent 108px, #000 110px, #000 114px, transparent 116px);transform:translateZ(calc(30px + var(--ex,0)*95px));"></div>
+      <!-- hour batons -->
+      <div style="position:absolute;left:50%;top:50%;width:198px;height:198px;margin:-99px 0 0 -99px;transform:translateZ(calc(31px + var(--ex,0)*95px));">
+        <div style="position:absolute;left:50%;top:6px;width:5px;height:22px;margin-left:-2.5px;border-radius:2px;background:linear-gradient(#f8dfba,#b0794e);"></div>
+        <div style="position:absolute;left:50%;bottom:6px;width:5px;height:22px;margin-left:-2.5px;border-radius:2px;background:linear-gradient(#f8dfba,#b0794e);"></div>
+        <div style="position:absolute;top:50%;left:6px;width:22px;height:5px;margin-top:-2.5px;border-radius:2px;background:linear-gradient(90deg,#f8dfba,#b0794e);"></div>
+        <div style="position:absolute;top:50%;right:6px;width:22px;height:5px;margin-top:-2.5px;border-radius:2px;background:linear-gradient(90deg,#f8dfba,#b0794e);"></div>
+        <div style="position:absolute;left:50%;top:50%;width:198px;height:198px;margin:-99px 0 0 -99px;border-radius:50%;background:repeating-conic-gradient(from -15deg, #f8dfba 0deg 2.2deg, transparent 2.2deg 30deg);-webkit-mask:radial-gradient(circle, transparent 84px, #000 86px, #000 96px, transparent 98px);mask:radial-gradient(circle, transparent 84px, #000 86px, #000 96px, transparent 98px);opacity:.9;"></div>
+      </div>
+      <!-- logo -->
+      <div style="position:absolute;left:50%;top:50%;margin:-58px 0 0 -20px;font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:.22em;color:#ecd9bb;transform:translateZ(calc(31px + var(--ex,0)*95px));">NOVA</div>
+      <!-- moonphase complication -->
+      <div style="position:absolute;left:50%;top:50%;width:96px;height:96px;margin:-8px 0 0 -48px;border-radius:50%;background:radial-gradient(circle at 45% 35%, #142a4a, #060d1a 85%);box-shadow:inset 0 0 14px rgba(0,0,0,.7);overflow:hidden;transform:translateZ(calc(31px + var(--ex,0)*95px));">
+        <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:#cfe0f5;top:14%;left:20%;box-shadow:14px 30px 0 #cfe0f5, 30px 8px 0 #cfe0f5, 46px 42px 0 rgba(207,224,245,.6), 62px 18px 0 rgba(207,224,245,.5), 20px 60px 0 rgba(207,224,245,.7), 70px 66px 0 #cfe0f5;"></div>
+        <div style="position:absolute;left:50%;top:30%;width:34px;height:34px;margin-left:-17px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #f2f1ea, #b9b6a8 75%);box-shadow:0 0 8px rgba(255,255,255,.4);"></div>
+        <div style="position:absolute;left:50%;bottom:8%;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #f2f1ea, #b9b6a8 75%);box-shadow:0 0 6px rgba(255,255,255,.35);"></div>
+      </div>
+      <!-- date window -->
+      <div style="position:absolute;left:50%;top:50%;width:26px;height:18px;margin:56px 0 0 -13px;border-radius:2px;background:#e9e6df;box-shadow:inset 0 0 2px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:11px;color:#20242c;transform:translateZ(calc(31px + var(--ex,0)*95px));">16</div>
+
+      <!-- hands -->
+      <div style="position:absolute;left:50%;top:50%;width:5px;height:50px;margin:-50px 0 0 -2.5px;border-radius:3px;background:linear-gradient(#f8dfba,#c79457);transform-origin:50% 100%;transform:translateZ(calc(33px + var(--ex,0)*95px)) rotate(150deg);box-shadow:0 0 6px rgba(0,0,0,.3);"></div>
+      <div style="position:absolute;left:50%;top:50%;width:3.5px;height:72px;margin:-72px 0 0 -1.75px;border-radius:3px;background:linear-gradient(#f8dfba,#c79457);transform-origin:50% 100%;transform:translateZ(calc(33px + var(--ex,0)*95px)) rotate(35deg);box-shadow:0 0 6px rgba(0,0,0,.3);"></div>
+      <div style="position:absolute;left:50%;top:50%;width:1.5px;height:56px;margin:-40px 0 0 -0.75px;border-radius:2px;background:oklch(0.75 0.15 200);transform-origin:50% 72%;transform:translateZ(calc(34px + var(--ex,0)*95px)) rotate(255deg);"></div>
+      <div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#f8dfba;box-shadow:0 0 6px rgba(0,0,0,.4);transform:translateZ(calc(35px + var(--ex,0)*95px));"></div>
+
+      <!-- crystal reflection -->
+      <div style="position:absolute;left:50%;top:50%;width:250px;height:250px;margin:-125px 0 0 -125px;border-radius:50%;background:radial-gradient(circle at 28% 24%, rgba(255,255,255,.4), rgba(180,210,255,.06) 40%, rgba(10,12,14,.02) 70%);box-shadow:inset 0 0 30px rgba(255,255,255,.1);transform:translateZ(calc(40px + var(--ex,0)*170px));"></div>
+
+      <!-- crown -->
+      <div style="position:absolute;left:50%;top:50%;width:16px;height:26px;margin:-13px 0 0 137px;border-radius:4px;background:repeating-linear-gradient(0deg, #f2d3ab 0 2px, #b0794e 2px 4px);box-shadow:2px 2px 6px rgba(0,0,0,.4);transform:translateZ(6px) translateX(calc(var(--ex,0) * 90px)) translateZ(calc(var(--ex,0)*30px));"></div>
+    </div>
+    <span style="position:absolute;top:5%;left:50%;transform:translate(-50%,0);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:oklch(0.75 0.15 200);opacity:var(--ex,0);white-space:nowrap;font-family:'Space Grotesk',sans-serif;">Titan-Armband</span>
+    <span style="position:absolute;top:20%;left:80%;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:oklch(0.8 0.13 55);opacity:var(--ex,0);white-space:nowrap;font-family:'Space Grotesk',sans-serif;">Saphirglas</span>
+    <span style="position:absolute;top:48%;left:88%;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:oklch(0.75 0.15 200);opacity:var(--ex,0);white-space:nowrap;font-family:'Space Grotesk',sans-serif;">Titan-Krone</span>
+    <span style="position:absolute;bottom:6%;left:50%;transform:translate(-50%,0);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:oklch(0.8 0.13 55);opacity:var(--ex,0);white-space:nowrap;font-family:'Space Grotesk',sans-serif;">Präzisionswerk</span>
+  </div>
+
+  <div id="nova-content" style="position:relative;width:100%;z-index:10;">
+
+    <section id="scene-hero" class="scene" data-cursor="cyan" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;position:relative;">
+      <div style="display:flex;gap:0.01em;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(72px,15vw,180px);letter-spacing:-0.02em;line-height:1;">
+        <span class="wordmark-letter" style="display:inline-block;opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1) 0s, transform 1s cubic-bezier(.2,.7,.2,1) 0s;color:#F4F4F6;">N</span>
+        <span class="wordmark-letter" style="display:inline-block;opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1) .08s, transform 1s cubic-bezier(.2,.7,.2,1) .08s;color:#F4F4F6;">O</span>
+        <span class="wordmark-letter" style="display:inline-block;opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1) .16s, transform 1s cubic-bezier(.2,.7,.2,1) .16s;color:#F4F4F6;">V</span>
+        <span class="wordmark-letter" style="display:inline-block;opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1) .24s, transform 1s cubic-bezier(.2,.7,.2,1) .24s;color:oklch(0.75 0.15 200);">A</span>
+      </div>
+      <p data-reveal="1" style="margin:28px 0 0;font-size:clamp(16px,2vw,22px);letter-spacing:.08em;color:#B8B9BE;opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);">ZEIT. NEU GEDACHT.</p>
+      <p data-reveal="1" style="margin:14px 0 0;max-width:480px;font-size:15px;line-height:1.7;color:#82838a;opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .1s, transform .9s cubic-bezier(.2,.7,.2,1) .1s;">Eine Hybrid-Uhr aus Titan, Saphirglas und Intelligenz — für die, die Präzision als Haltung verstehen.</p>
+      <div style="position:absolute;bottom:36px;left:50%;transform:translate(-50%,0);display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span style="width:1px;height:34px;background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.5));animation:novaPulse 2.4s ease-in-out infinite;"></span>
+        <span style="font-size:10px;letter-spacing:.22em;color:#6a6b70;font-family:'Space Grotesk',sans-serif;">SCROLLEN</span>
+      </div>
+    </section>
+
+    <section id="scene-reveal" class="scene" data-cursor="copper" style="min-height:220vh;display:flex;align-items:center;padding:0 8%;position:relative;">
+      <div style="max-width:460px;">
+        <span data-reveal="1" style="display:inline-block;font-size:12px;letter-spacing:.2em;color:oklch(0.8 0.13 55);text-transform:uppercase;opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);font-family:'Space Grotesk',sans-serif;">Konstruktion</span>
+        <h2 data-reveal="1" style="margin:18px 0 0;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(32px,4.2vw,52px);line-height:1.15;color:#F4F4F6;opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .08s, transform .9s cubic-bezier(.2,.7,.2,1) .08s;">Jedes Bauteil ein Statement.</h2>
+        <p data-reveal="1" style="margin:22px 0 0;font-size:16px;line-height:1.8;color:#9a9ba1;opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .16s, transform .9s cubic-bezier(.2,.7,.2,1) .16s;">NOVA entsteht aus vier Kernkomponenten: einem federleichten Titan-Gehäuse, einem kratzfesten Saphirglas, einem seidenmatten Keramik-Ring und einem Präzisionswerk im Zentrum. Beim Zusammenbau begegnen sich Handwerk und Technologie — sichtbar in jedem Detail.</p>
+      </div>
+    </section>
+
+    <section id="scene-materials" class="scene" data-cursor="cyan" style="min-height:260vh;display:flex;align-items:center;justify-content:flex-end;padding:0 8%;position:relative;">
+      <div style="max-width:420px;width:100%;">
+        <span style="display:inline-block;font-size:12px;letter-spacing:.2em;color:oklch(0.75 0.15 200);text-transform:uppercase;font-family:'Space Grotesk',sans-serif;">Material</span>
+        <h2 style="margin:18px 0 34px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(28px,3.6vw,44px);line-height:1.15;color:#F4F4F6;">Drei Materialien. Eine Idee.</h2>
+        <div style="position:relative;height:280px;">
+          <div class="material-panel" style="position:absolute;inset:0;opacity:0;transition:opacity .4s ease, transform .4s ease;">
+            <div style="width:88px;height:88px;border-radius:8px;background:repeating-linear-gradient(115deg, #4a4c50 0 6px, #26272a 6px 12px);margin-bottom:18px;box-shadow:0 12px 30px rgba(0,0,0,.4);"></div>
+            <h3 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:22px;color:#F4F4F6;">Titan</h3>
+            <p style="margin:0;font-size:15px;line-height:1.7;color:#9a9ba1;">Federleicht, biokompatibel, widerstandsfähig gegen Kratzer und Korrosion. Das Gehäuse von NOVA wiegt kaum mehr als Luft.</p>
+          </div>
+          <div class="material-panel" style="position:absolute;inset:0;opacity:0;transition:opacity .4s ease, transform .4s ease;">
+            <div style="width:88px;height:88px;border-radius:8px;background:repeating-linear-gradient(115deg, rgba(150,200,255,.35) 0 6px, rgba(20,24,30,.9) 6px 12px);margin-bottom:18px;box-shadow:0 12px 30px rgba(0,0,0,.4);"></div>
+            <h3 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:22px;color:#F4F4F6;">Saphirglas</h3>
+            <p style="margin:0;font-size:15px;line-height:1.7;color:#9a9ba1;">Härte 9 auf der Mohs-Skala. Klarheit, die auch nach Jahren nicht nachlässt — ein Fenster, das für immer klar bleibt.</p>
+          </div>
+          <div class="material-panel" style="position:absolute;inset:0;opacity:0;transition:opacity .4s ease, transform .4s ease;">
+            <div style="width:88px;height:88px;border-radius:8px;background:repeating-linear-gradient(115deg, #2c2a28 0 6px, #17150f 6px 12px);margin-bottom:18px;box-shadow:0 12px 30px rgba(0,0,0,.4);"></div>
+            <h3 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:22px;color:#F4F4F6;">Keramik</h3>
+            <p style="margin:0;font-size:15px;line-height:1.7;color:#9a9ba1;">Seidenmatte Oberfläche, thermisch stabil, hypoallergen. Der Lünettenring bleibt makellos, Tag für Tag.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="scene-features" class="scene" data-cursor="copper" style="min-height:260vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9vh;padding:14vh 8%;position:relative;">
+      <div style="text-align:center;">
+        <span style="display:inline-block;font-size:12px;letter-spacing:.2em;color:oklch(0.8 0.13 55);text-transform:uppercase;font-family:'Space Grotesk',sans-serif;">Features</span>
+        <h2 style="margin:18px 0 0;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(28px,3.6vw,44px);color:#F4F4F6;">Drei Prinzipien.</h2>
+      </div>
+      <div data-reveal="1" style="max-width:520px;width:100%;display:flex;gap:22px;align-items:baseline;opacity:0;transform:translateY(24px) scale(0.98);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);align-self:flex-start;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;color:oklch(0.75 0.15 200);letter-spacing:.1em;">01</span>
+        <div><h3 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:24px;color:#F4F4F6;">NOVA Pulse</h3><p style="margin:0;font-size:15px;line-height:1.75;color:#9a9ba1;">Kontinuierliche Bio-Sensorik erfasst Herzfrequenz, Sauerstoffsättigung und Erholung — unauffällig, präzise, immer wach.</p></div>
+      </div>
+      <div data-reveal="1" style="max-width:520px;width:100%;display:flex;gap:22px;align-items:baseline;opacity:0;transform:translateY(24px) scale(0.98);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);align-self:flex-end;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;color:oklch(0.8 0.13 55);letter-spacing:.1em;">02</span>
+        <div><h3 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:24px;color:#F4F4F6;">72h Energie-Kern</h3><p style="margin:0;font-size:15px;line-height:1.75;color:#9a9ba1;">Ein hybrider Energiespeicher aus kinetischer und solarer Ladung. Drei Tage Laufzeit, ohne je den Anschluss zu suchen.</p></div>
+      </div>
+      <div data-reveal="1" style="max-width:520px;width:100%;display:flex;gap:22px;align-items:baseline;opacity:0;transform:translateY(24px) scale(0.98);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);align-self:flex-start;">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;color:oklch(0.75 0.15 200);letter-spacing:.1em;">03</span>
+        <div><h3 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:24px;color:#F4F4F6;">Modulares Gehäuse</h3><p style="margin:0;font-size:15px;line-height:1.75;color:#9a9ba1;">Lünette, Armband und Zifferblatt lassen sich in Sekunden tauschen. Eine Uhr, unzählige Formen.</p></div>
+      </div>
+    </section>
+
+    <section id="scene-manifest" class="scene" data-cursor="cyan" style="min-height:140vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 6%;position:relative;">
+      <div style="max-width:920px;">
+        <div data-reveal="1" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,5.6vw,74px);line-height:1.15;color:#F4F4F6;opacity:0;transform:translateY(24px);transition:opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1);">ZEIT IST DAS EINZIGE MATERIAL,</div>
+        <div data-reveal="1" style="margin-top:6px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,5.6vw,74px);line-height:1.15;background:linear-gradient(90deg, oklch(0.75 0.15 200), oklch(0.8 0.13 55));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;transform:translateY(24px);transition:opacity 1s cubic-bezier(.2,.7,.2,1) .12s, transform 1s cubic-bezier(.2,.7,.2,1) .12s;">DAS WIR NICHT VERSCHWENDEN.</div>
+        <p data-reveal="1" style="margin-top:30px;font-size:15px;letter-spacing:.14em;color:#6a6b70;text-transform:uppercase;opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .24s, transform .9s cubic-bezier(.2,.7,.2,1) .24s;">NOVA — gebaut, um es zu ehren.</p>
+      </div>
+    </section>
+
+    <section id="scene-cta" class="scene" data-cursor="copper" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:28px;padding:80px 24px 40px;position:relative;">
+      <div>
+        <h2 data-reveal="1" style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:clamp(30px,4.4vw,54px);color:#F4F4F6;opacity:0;transform:translateY(20px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);">Die Zukunft am Handgelenk.</h2>
+        <p data-reveal="1" style="margin:14px 0 0;font-size:16px;color:#9a9ba1;opacity:0;transform:translateY(20px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .1s, transform .9s cubic-bezier(.2,.7,.2,1) .1s;">NOVA ist bereit. Sind Sie es auch?</p>
+      </div>
+      <a href="#" data-reveal="1" data-hoverable="1" style="margin-top:8px;display:inline-flex;align-items:center;gap:10px;padding:16px 34px;border-radius:100px;border:1px solid rgba(255,255,255,.16);color:#F4F4F6;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:15px;letter-spacing:.03em;background:rgba(255,255,255,.03);opacity:0;transform:translateY(20px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) .2s, transform .9s cubic-bezier(.2,.7,.2,1) .2s, background .3s, border-color .3s;" style-hover="background:rgba(255,255,255,.08);border-color:oklch(0.75 0.15 55 / .6);">Jetzt entdecken <span>→</span></a>
+      <div style="margin-top:60px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="display:flex;gap:26px;">
+          <a href="#" style="color:#6a6b70;text-decoration:none;font-size:13px;letter-spacing:.05em;" style-hover="color:#F4F4F6;">Presse</a>
+          <a href="#" style="color:#6a6b70;text-decoration:none;font-size:13px;letter-spacing:.05em;" style-hover="color:#F4F4F6;">Kontakt</a>
+          <a href="#" style="color:#6a6b70;text-decoration:none;font-size:13px;letter-spacing:.05em;" style-hover="color:#F4F4F6;">Instagram</a>
+        </div>
+        <p style="margin:0;font-size:12px;color:#4c4d52;">© 2026 NOVA. Konzept-Showcase — kein reales Produkt.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const root = document.getElementById('nova-app');
+    if (!root) return;
+    this.root = root;
+    this.cursor = root.querySelector('#nova-cursor');
+    this.progressFill = root.querySelector('#nova-progress-fill');
+    this.bg = root.querySelector('#nova-bg');
+    this.mid = root.querySelector('#nova-mid');
+    this.watch = root.querySelector('#nova-watch');
+    this.glow = root.querySelector('#nova-glow');
+    this.content = root.querySelector('#nova-content');
+    this.materialsSection = root.querySelector('#scene-materials');
+    this.materialPanels = Array.from(root.querySelectorAll('.material-panel'));
+    this.scenes = Array.from(root.querySelectorAll('.scene'));
+    this.revealEls = Array.from(root.querySelectorAll('[data-reveal]'));
+
+    this.smooth = 0;
+    this.mouseX = 0.5; this.mouseY = 0.5;
+    this.cursorX = window.innerWidth / 2; this.cursorY = window.innerHeight / 2;
+    this.targetCursorX = this.cursorX; this.targetCursorY = this.cursorY;
+
+    this._setupObserver();
+    this._setupCursor();
+    const revealWordmark = () => {
+      root.querySelectorAll('.wordmark-letter').forEach(l => { l.style.opacity = '1'; l.style.transform = 'translateY(0)'; });
+    };
+    setTimeout(revealWordmark, 200);
+    setTimeout(revealWordmark, 600);
+
+    this._tick = this._tick.bind(this);
+    this._raf = requestAnimationFrame(this._tick);
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._onMouse) window.removeEventListener('mousemove', this._onMouse);
+    if (this._io) this._io.disconnect();
+    if (this._ioSection) this._ioSection.disconnect();
+  }
+
+  _setupCursor() {
+    this._onMouse = (e) => {
+      this.mouseX = e.clientX / window.innerWidth;
+      this.mouseY = e.clientY / window.innerHeight;
+      this.targetCursorX = e.clientX; this.targetCursorY = e.clientY;
+    };
+    window.addEventListener('mousemove', this._onMouse);
+    this.root.querySelectorAll('a,button,[data-hoverable]').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        if (!this.cursor) return;
+        this.cursor.style.width = '46px'; this.cursor.style.height = '46px';
+        this.cursor.style.background = 'transparent';
+        this.cursor.style.border = '1.5px solid rgba(255,255,255,.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        if (!this.cursor) return;
+        this.cursor.style.width = '18px'; this.cursor.style.height = '18px';
+        this.cursor.style.border = 'none';
+        this.cursor.style.background = this._appliedTone === 'copper' ? 'oklch(0.75 0.15 55)' : 'oklch(0.75 0.15 200)';
+      });
+    });
+  }
+
+  _setupObserver() {
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0) scale(1)';
+          this._io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.35 });
+    this.revealEls.forEach(el => this._io.observe(el));
+
+    this._ioSection = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && e.intersectionRatio > 0.5) this._cursorTone = e.target.getAttribute('data-cursor');
+      });
+    }, { threshold: [0.5] });
+    this.scenes.forEach(s => this._ioSection.observe(s));
+  }
+
+  _clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  _map(v, a, b, c, d) { const t = this._clamp((v - a) / (b - a), 0, 1); return c + (d - c) * t; }
+  _tri(p, s, peak, e) { if (p <= s || p >= e) return 0; if (p <= peak) return this._map(p, s, peak, 0, 1); return this._map(p, peak, e, 1, 0); }
+
+  _tick() {
+    const raw = this.root.scrollTop;
+    this.smooth += (raw - this.smooth) * 0.15;
+
+    const maxScroll = Math.max(1, this.root.scrollHeight - this.root.clientHeight);
+    const p = this._clamp(this.smooth / maxScroll, 0, 1);
+
+    if (this.progressFill) this.progressFill.style.width = (p * 100) + '%';
+    if (this.bg) this.bg.style.transform = `translate3d(0, ${-this.smooth * 0.06}px, 0)`;
+    if (this.mid) this.mid.style.transform = `translate3d(0, ${-this.smooth * 0.15}px, 0)`;
+
+    const ex = this._tri(p, 0.10, 0.24, 0.34);
+    let scale;
+    if (p < 0.10) scale = this._map(p, 0, 0.10, 0.72, 1);
+    else if (p < 0.34) scale = 1;
+    else if (p < 0.52) scale = this._map(p, 0.34, 0.52, 1, 1.55);
+    else if (p < 0.60) scale = this._map(p, 0.52, 0.60, 1.55, 1);
+    else if (p < 0.74) scale = 1;
+    else if (p < 0.87) scale = this._map(p, 0.74, 0.87, 1, 0.55);
+    else if (p < 0.95) scale = this._map(p, 0.87, 0.95, 0.55, 1.22);
+    else scale = this._map(p, 0.95, 1, 1.22, 1.05);
+
+    let op;
+    if (p < 0.09) op = 0;
+    else if (p < 0.15) op = this._map(p, 0.09, 0.15, 0, 1);
+    else if (p < 0.74) op = 1;
+    else if (p < 0.87) op = this._map(p, 0.74, 0.87, 1, 0.14);
+    else if (p < 0.94) op = this._map(p, 0.87, 0.94, 0.14, 1);
+    else op = 1;
+
+    const rotY = p * 340 + (this.mouseX - 0.5) * 16;
+    const rotX = (this.mouseY - 0.5) * -10 + Math.sin(p * Math.PI * 2) * 2;
+    const glow = this._clamp(ex * 0.7 + this._map(p, 0.87, 1, 0, 0.5), 0, 1);
+
+    if (this.watch) {
+      this.watch.style.setProperty('--ex', ex);
+      this.watch.style.setProperty('--w-scale', scale);
+      this.watch.style.setProperty('--w-op', op);
+      this.watch.style.setProperty('--w-roty', rotY);
+      this.watch.style.setProperty('--w-rotx', rotX);
+    }
+    if (this.glow) this.glow.style.opacity = glow;
+
+    if (this.materialsSection && this.materialPanels.length) {
+      const appRect = this.root.getBoundingClientRect();
+      const rect = this.materialsSection.getBoundingClientRect();
+      const relTop = rect.top - appRect.top;
+      const localP = this._clamp((appRect.height * 0.5 - relTop) / rect.height, 0, 1);
+      this.materialPanels.forEach((panel, i) => {
+        const center = (i + 0.5) / this.materialPanels.length;
+        const dist = Math.abs(localP - center) * this.materialPanels.length;
+        const o = this._clamp(1 - dist * 1.3, 0, 1);
+        panel.style.opacity = o;
+        panel.style.transform = `translateY(${(1 - o) * 18}px)`;
+      });
+    }
+
+    if (this._cursorTone && this.cursor && this._cursorTone !== this._appliedTone) {
+      this._appliedTone = this._cursorTone;
+      this.cursor.style.background = this._cursorTone === 'copper' ? 'oklch(0.75 0.15 55)' : 'oklch(0.75 0.15 200)';
+    }
+
+    this.cursorX += (this.targetCursorX - this.cursorX) * 0.25;
+    this.cursorY += (this.targetCursorY - this.cursorY) * 0.25;
+    if (this.cursor) this.cursor.style.transform = `translate3d(${this.cursorX}px, ${this.cursorY}px, 0)`;
+
+    this._raf = requestAnimationFrame(this._tick);
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
