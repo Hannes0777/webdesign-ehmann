@@ -739,10 +739,14 @@ button { font: inherit; cursor: pointer; }
 
 .dstyles__bg { display: none; }
 
+/* Grundzustand (gestapelter Fallback): Panel und zugehörige Vorschau
+   liegen als direkte Geschwister im Dokumentfluss - auf schmalen
+   Bildschirmen also automatisch Stichpunkte 1, Vorschau 1, Stichpunkte
+   2, Vorschau 2, ... statt aller Texte gefolgt von allen Vorschauen. */
 .dstyles__grid {
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 40px;
 }
 @media (min-width: 1024px) {
   .dstyles__grid {
@@ -752,8 +756,6 @@ button { font: inherit; cursor: pointer; }
     align-items: start;
   }
 }
-
-.dstyles__col-text { position: relative; }
 
 /* Grundzustand (gestapelter Fallback): alle Panels sitzen auf dem
    normalen dunklen Seitenhintergrund -> einheitlich heller Text. */
@@ -768,12 +770,6 @@ button { font: inherit; cursor: pointer; }
    Textschema, passend zur Hintergrundfarbe seines Kapitels
    (dunkel/hell/bunt) - siehe @media(min-width:1024px) weiter unten. */
 
-.dstyles__panel {
-  margin-top: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid var(--border);
-}
-.dstyles__panel:last-of-type { border-bottom: none; padding-bottom: 0; }
 .dstyles__eyebrow {
   display: inline-block;
   margin-bottom: 12px;
@@ -812,17 +808,6 @@ button { font: inherit; cursor: pointer; }
 }
 
 .dstyles__dots { display: none; }
-
-.dstyles__col-preview {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-.dstyles__mockup-stage {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
 
 /* --- Mockup-Rahmen (gemeinsam) --- */
 .dstyles__mockup {
@@ -909,15 +894,21 @@ button { font: inherit; cursor: pointer; }
     z-index: 0;
     background: #0d1210;
   }
-  .dstyles--active .dstyles__grid { position: relative; z-index: 1; width: 100%; }
-  .dstyles--active .dstyles__col-text { min-height: 380px; }
+  /* Alle Panels teilen sich Spalte 1/Zeile 1, alle Mockups Spalte
+     2/Zeile 1 - die explizite Zeilenhöhe ist nötig, weil absolut
+     positionierte Grid-Items selbst nichts zur Zeilenhöhe beitragen. */
+  .dstyles--active .dstyles__grid {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    grid-template-rows: 440px;
+  }
   .dstyles--active .dstyles__panel {
+    grid-column: 1;
+    grid-row: 1;
     position: absolute;
     inset: 0 auto auto 0;
     width: 100%;
-    margin-top: 0;
-    padding-bottom: 0;
-    border-bottom: none;
     opacity: 0;
     visibility: hidden;
   }
@@ -925,7 +916,11 @@ button { font: inherit; cursor: pointer; }
   .dstyles--active .dstyles__dots {
     display: flex;
     gap: 8px;
-    margin-top: 340px;
+    grid-column: 1;
+    grid-row: 1;
+    position: absolute;
+    top: 340px;
+    left: 0;
   }
   .dstyles--active .dstyles__dot {
     width: 8px;
@@ -937,8 +932,9 @@ button { font: inherit; cursor: pointer; }
   }
   .dstyles--active .dstyles__dot.is-active { background: var(--green-deep); border-color: var(--green-deep); }
 
-  .dstyles--active .dstyles__mockup-stage { position: relative; height: 440px; }
   .dstyles--active .dstyles__mockup {
+    grid-column: 2;
+    grid-row: 1;
     position: absolute;
     inset: 0;
     margin: 0;

@@ -20,6 +20,11 @@
 
   if (prefersReducedMotion) return;
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+  /* Die gepinnte Kartenbühne + Badge-Konstellation ist auf schmale
+     Bildschirme nicht ausgelegt (Badges überlappen sich/den Text, das
+     Wordmark gerät unter die fixierte Kopfzeile) - unter 1024px bleibt
+     die im CSS sichtbare, gestapelte Grundfassung stehen. */
+  if (window.innerWidth < 1024) return;
 
   try {
     gsap.registerPlugin(ScrollTrigger);
