@@ -200,9 +200,13 @@ button { font: inherit; cursor: pointer; }
 
 @media (max-width: 1024px) {
   /* Feste Kopfzeile: auf dem Handy voll deckend statt der 80%-Transparenz
-     + Blur - sonst scheinen hellere Inhalte (z.B. helle Design-Stile-
-     Vorschau) durch und Logo/Menüpunkte sind kaum noch zu erkennen. */
-  .nav { background: var(--paper); }
+     + Blur. backdrop-filter muss hier komplett weg, nicht nur die
+     Deckkraft hoch: in iOS Safari macht backdrop-filter auf .nav dieses
+     Element zum "containing block" für seine position:fixed-Kinder -
+     dadurch wurde das mobile Menü (.nav__menu, selbst position:fixed) auf
+     die 76px-Kopfzeile statt auf den vollen Bildschirm eingeschränkt und
+     Seiteninhalt (z.B. Design-Stile) schien durchs Menü durch. */
+  .nav { background: var(--paper); backdrop-filter: none; -webkit-backdrop-filter: none; }
   .nav__toggle { display: flex; }
   .nav__menu {
     position: fixed;
