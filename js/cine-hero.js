@@ -79,6 +79,7 @@
        Animation statt der gepinnten Vollbild-Bühne.
        ============================================================ */
     if (window.innerWidth < 1024) {
+      const textWrapper = "#cine-text-wrapper";
       const badge1 = "#cine-badge-1";
       const badge2 = "#cine-badge-2";
 
@@ -100,6 +101,7 @@
       });
 
       mobileTl
+        .to(textWrapper, { autoAlpha: 0, y: -30, scale: 1.05, filter: "blur(8px)", ease: "power1.in", duration: 1 }, 0)
         .to(card, { autoAlpha: 1, y: 0, scale: 1, ease: "power2.out", duration: 1 }, 0)
         .to(buildNav, { scaleX: 1, ease: "power2.out", duration: 0.3 }, 0.3)
         .to(buildLine1, { scaleX: 1, ease: "power2.out", duration: 0.4 }, 0.5)
