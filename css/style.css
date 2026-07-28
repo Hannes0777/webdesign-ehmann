@@ -1018,66 +1018,153 @@ button { font: inherit; cursor: pointer; }
 }
 
 /* ============================================================
-   PACKAGES
+   LEISTUNGEN — Grundleistung + optionale CMS-Erweiterung
    ============================================================ */
-.packages {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+.leistung-layout {
+  display: flex;
+  align-items: stretch;
+  gap: 28px;
 }
 
-.package-card {
+@media (max-width: 900px) {
+  .leistung-layout { flex-direction: column; align-items: center; }
+}
+
+.leistung-card {
   position: relative;
+  width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px;
+  padding: 36px;
   display: flex;
   flex-direction: column;
 }
 
-.package-card--featured {
+.leistung-card--core {
+  flex: 1.15 1 0%;
   border-color: var(--gold);
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(217, 174, 92, 0.15);
 }
 
-.package-card__badge {
-  display: none;
+.leistung-card--addon {
+  flex: 0.82 1 0%;
+  border-style: dashed;
+  background: transparent;
+  transition:
+    flex-grow 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    background 0.4s ease;
+}
+
+.leistung-card--addon.is-expanded {
+  flex-grow: 1.15;
+  border-style: solid;
+  border-color: var(--gold);
+  background: var(--surface);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(217, 174, 92, 0.15);
+  animation: leistung-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes leistung-pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.035); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+  .leistung-card--core, .leistung-card--addon { flex: 0 0 auto; }
+}
+
+.leistung-card__eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.leistung-card__badge {
   position: absolute;
   top: -13px;
-  left: 32px;
-  background: var(--gold);
-  color: #211705;
+  left: 36px;
+  background: var(--paper-alt);
+  color: var(--mist);
+  border: 1px solid var(--border);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 999px;
+  transition: opacity 0.3s ease;
 }
-.package-card--featured .package-card__badge { display: inline-block; }
+.leistung-card--addon.is-expanded .leistung-card__badge { opacity: 0; }
 
-.package-card h3 { font-size: 1.35rem; }
-.package-card__tagline { margin-top: 8px; color: var(--green-deep); font-weight: 600; font-size: 0.95rem; }
-.package-card__for { margin-top: 12px; color: var(--mist); font-size: 0.9rem; }
+.leistung-card h3 { margin-top: 10px; font-size: 1.5rem; }
+.leistung-card__tagline { margin-top: 8px; color: var(--green-deep); font-weight: 600; font-size: 0.95rem; }
 
-.package-card ul { margin-top: 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
-.package-card li {
+.leistung-card__text { margin-top: 16px; color: var(--mist); font-size: 0.95rem; line-height: 1.65; }
+
+.leistung-card__intro { margin-top: 24px; font-weight: 600; font-size: 0.92rem; }
+
+.leistung-checklist { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.leistung-checklist li {
   position: relative;
-  padding-left: 22px;
+  padding-left: 30px;
   font-size: 0.92rem;
   color: var(--ink);
 }
-.package-card li::before {
+.leistung-checklist li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 8px;
-  width: 8px;
-  height: 8px;
+  top: 1px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--green-soft);
+}
+.leistung-checklist li::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(-45deg);
 }
 
-.package-card .btn { margin-top: 28px; }
+.leistung-card__note { margin-top: 20px; color: var(--mist); font-size: 0.85rem; font-style: italic; }
+
+.leistung-card .btn { margin-top: 28px; }
+.leistung-card--addon .btn { margin-top: auto; }
+
+.leistung-connector {
+  align-self: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--paper-alt);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, color 0.3s ease;
+}
+.leistung-connector:hover { border-color: var(--gold); color: var(--green-deep); }
+.leistung-connector.is-active { transform: rotate(45deg); border-color: var(--gold); }
+
+@media (max-width: 900px) {
+  .leistung-card--core, .leistung-card--addon { max-width: 480px; }
+}
 
 /* ============================================================
    ABOUT

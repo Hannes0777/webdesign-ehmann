@@ -73,46 +73,71 @@ collections:
                 widget: string
 
   # ----------------------------------------------------------
-  #  LEISTUNGEN & PAKETE
+  #  LEISTUNGEN
   # ----------------------------------------------------------
   - name: pakete
-    label: "💼 Leistungen & Pakete"
-    description: "Die drei Preis-Pakete im Bereich 'Leistungen & Pakete'. Die Reihenfolge entspricht der Reihenfolge auf der Website."
+    label: "💼 Leistungen"
+    description: "Die Grundleistung (individuelle Website-Erstellung) und die optionale CMS-Erweiterung im Bereich 'Leistungen'."
     files:
       - name: pakete
-        label: "Pakete verwalten"
+        label: "Leistungen verwalten"
         file: content/pakete.json
         fields:
-          - name: pakete
-            label: "Pakete"
-            label_singular: "Paket"
-            widget: list
-            min: 3
-            max: 3
-            summary: "{{name}}"
+          - name: grundleistung
+            label: "Grundleistung – Individuelle Website-Erstellung"
+            widget: object
             fields:
-              - name: name
-                label: "Paketname"
+              - name: titel
+                label: "Titel"
                 widget: string
-              - name: meistgewaehlt
-                label: "Als 'Meistgewählt' hervorheben"
-                widget: boolean
-                default: false
-                hint: "Nur bei einem Paket aktivieren."
               - name: tagline
                 label: "Kurzer Slogan"
                 widget: string
-              - name: fuer
-                label: "Für wen ist dieses Paket?"
+              - name: absatz1
+                label: "Einleitungstext – erster Absatz"
+                widget: text
+              - name: absatz2
+                label: "Einleitungstext – zweiter Absatz"
+                widget: text
+              - name: punkte_intro
+                label: "Überschrift über der Leistungsliste"
                 widget: string
               - name: punkte
-                label: "Leistungspunkte"
-                label_singular: "Punkt"
+                label: "Enthaltene Leistungen"
+                label_singular: "Leistung"
                 widget: list
                 field:
                   name: text
-                  label: "Punkt"
+                  label: "Leistung"
                   widget: string
+          - name: cms_erweiterung
+            label: "Optionale Erweiterung – CMS-System"
+            widget: object
+            fields:
+              - name: titel
+                label: "Titel"
+                widget: string
+              - name: tagline
+                label: "Kurzer Slogan"
+                widget: string
+              - name: beschreibung
+                label: "Beschreibungstext"
+                widget: text
+              - name: vorteile_intro
+                label: "Überschrift über der Vorteile-Liste"
+                widget: string
+              - name: vorteile
+                label: "Vorteile"
+                label_singular: "Vorteil"
+                widget: list
+                field:
+                  name: text
+                  label: "Vorteil"
+                  widget: string
+              - name: hinweis
+                label: "Preishinweis"
+                widget: string
+                hint: "Erscheint klein unter der Vorteile-Liste, z.B. Hinweis zur individuellen Berechnung."
 
   # ----------------------------------------------------------
   #  ÜBER MICH
