@@ -199,6 +199,10 @@ button { font: inherit; cursor: pointer; }
 .nav__link:hover { color: var(--ink); }
 
 @media (max-width: 1024px) {
+  /* Feste Kopfzeile: auf dem Handy voll deckend statt der 80%-Transparenz
+     + Blur - sonst scheinen hellere Inhalte (z.B. helle Design-Stile-
+     Vorschau) durch und Logo/Menüpunkte sind kaum noch zu erkennen. */
+  .nav { background: var(--paper); }
   .nav__toggle { display: flex; }
   .nav__menu {
     position: fixed;
