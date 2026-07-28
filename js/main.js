@@ -4,7 +4,6 @@
 const nav = document.getElementById('main-nav');
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
-const navBackdrop = document.getElementById('nav-backdrop');
 
 function setScrolled() {
   const scrolled = window.scrollY > 40;
@@ -24,7 +23,6 @@ function openNavMenu() {
   document.body.style.top = `-${navScrollY}px`;
   document.body.classList.add('nav-open');
   navMenu.classList.add('is-open');
-  if (navBackdrop) navBackdrop.classList.add('is-open');
   navToggle.setAttribute('aria-expanded', 'true');
   navToggle.setAttribute('aria-label', 'Navigation schließen');
 }
@@ -34,7 +32,6 @@ function closeNavMenu() {
   document.body.style.top = '';
   window.scrollTo(0, navScrollY);
   navMenu.classList.remove('is-open');
-  if (navBackdrop) navBackdrop.classList.remove('is-open');
   navToggle.setAttribute('aria-expanded', 'false');
   navToggle.setAttribute('aria-label', 'Navigation öffnen');
 }
@@ -50,10 +47,6 @@ navToggle.addEventListener('click', () => {
 navMenu.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', closeNavMenu);
 });
-
-if (navBackdrop) {
-  navBackdrop.addEventListener('click', closeNavMenu);
-}
 
 /* ============================================================
    SCROLL REVEAL
