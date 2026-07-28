@@ -47,17 +47,30 @@ if ('IntersectionObserver' in window && revealEls.length) {
 }
 
 /* ============================================================
-   LEISTUNGEN — CMS-Karte per Klick "aufplobben" lassen
+   LEISTUNGEN — CMS-Karte per Klick "aufplobben" lassen und beide
+   CTAs zu einem gemeinsamen Button verschmelzen
    ============================================================ */
+const leistungSection = document.getElementById('leistungen');
 const leistungAddon = document.getElementById('leistung-addon');
 const leistungConnector = document.querySelector('.leistung-connector');
 const leistungCmsBtn = leistungAddon ? leistungAddon.querySelector('.btn') : null;
+const leistungCombinedBtn = document.getElementById('leistung-combined-btn');
 const cmsSelect = document.getElementById('f-cms');
 
 function setLeistungExpanded(expanded) {
   if (!leistungAddon) return;
   leistungAddon.classList.toggle('is-expanded', expanded);
+  if (leistungSection) leistungSection.classList.toggle('leistungen--expanded', expanded);
   if (leistungConnector) leistungConnector.classList.toggle('is-active', expanded);
+}
+
+function goToKontaktMitCms() {
+  setLeistungExpanded(true);
+  if (cmsSelect) cmsSelect.value = 'Ja, mit CMS-System';
+  window.setTimeout(() => {
+    const kontakt = document.getElementById('kontakt');
+    if (kontakt) kontakt.scrollIntoView({ behavior: 'smooth' });
+  }, 500);
 }
 
 if (leistungConnector) {
@@ -74,12 +87,14 @@ if (leistungConnector) {
 if (leistungCmsBtn) {
   leistungCmsBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    setLeistungExpanded(true);
-    if (cmsSelect) cmsSelect.value = 'Ja, mit CMS-System';
-    window.setTimeout(() => {
-      const kontakt = document.getElementById('kontakt');
-      if (kontakt) kontakt.scrollIntoView({ behavior: 'smooth' });
-    }, 500);
+    goToKontaktMitCms();
+  });
+}
+
+if (leistungCombinedBtn) {
+  leistungCombinedBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    goToKontaktMitCms();
   });
 }
 
