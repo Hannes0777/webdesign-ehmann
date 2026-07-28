@@ -630,6 +630,14 @@ button { font: inherit; cursor: pointer; }
      damit es nicht mit GSAPs transform-Tweens (Einflug/Ausflug) kollidiert. */
   animation: cine-badge-float 5s ease-in-out infinite;
 }
+@media (max-width: 1023px) {
+  /* Auf dem Handy fehlt oft der Kontrast-Hintergrund hinter der Glasoptik -
+     hier einen fast deckenden dunklen Ton statt der 6%-Transparenz. */
+  .cine-badge {
+    background: rgba(15, 17, 18, 0.92);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
 .cine-badge--1 { top: 4%; left: -8%; animation-delay: 0s; }
 .cine-badge--3 { top: 4%; right: -8%; animation-delay: 1.1s; }
 .cine-badge--4 { bottom: -8%; left: -10%; animation-delay: 2.2s; }
@@ -857,7 +865,10 @@ button { font: inherit; cursor: pointer; }
   color: rgba(255, 255, 255, 0.55);
 }
 @media (max-width: 1023px) {
-  .dstyles__address { color: rgba(255, 255, 255, 0.85); }
+  .dstyles__address {
+    background: rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.9);
+  }
 }
 .dstyles__address--light { background: #ffffff; border: 1px solid #e4e7e1; color: #5b625a; }
 
