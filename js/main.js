@@ -4,6 +4,7 @@
 const nav = document.getElementById('main-nav');
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
+const navBackdrop = document.getElementById('nav-backdrop');
 
 function setScrolled() {
   const scrolled = window.scrollY > 40;
@@ -12,18 +13,47 @@ function setScrolled() {
 setScrolled();
 window.addEventListener('scroll', setScrolled, { passive: true });
 
+/* Hintergrund-Scroll sperren, solange das Menü offen ist. Nur
+   overflow:hidden reicht auf iOS Safari nicht zuverlässig - body wird
+   zusätzlich fixiert und die Scroll-Position beim Öffnen/Schließen
+   ausgeglichen, damit die Seite nicht springt. */
+let navScrollY = 0;
+
+function openNavMenu() {
+  navScrollY = window.scrollY;
+  document.body.style.top = `-${navScrollY}px`;
+  document.body.classList.add('nav-open');
+  navMenu.classList.add('is-open');
+  if (navBackdrop) navBackdrop.classList.add('is-open');
+  navToggle.setAttribute('aria-expanded', 'true');
+  navToggle.setAttribute('aria-label', 'Navigation schließen');
+}
+
+function closeNavMenu() {
+  document.body.classList.remove('nav-open');
+  document.body.style.top = '';
+  window.scrollTo(0, navScrollY);
+  navMenu.classList.remove('is-open');
+  if (navBackdrop) navBackdrop.classList.remove('is-open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-label', 'Navigation öffnen');
+}
+
 navToggle.addEventListener('click', () => {
-  const open = navMenu.classList.toggle('is-open');
-  navToggle.setAttribute('aria-expanded', String(open));
-  navToggle.setAttribute('aria-label', open ? 'Navigation schließen' : 'Navigation öffnen');
+  if (navMenu.classList.contains('is-open')) {
+    closeNavMenu();
+  } else {
+    openNavMenu();
+  }
 });
 
 navMenu.querySelectorAll('a').forEach((link) => {
-  link.addEventListener('click', () => {
-    navMenu.classList.remove('is-open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  });
+  link.addEventListener('click', closeNavMenu);
 });
+
+if (navBackdrop) {
+  navBackdrop.addEventListener('click', closeNavMenu);
+}
 
 /* ============================================================
    SCROLL REVEAL
