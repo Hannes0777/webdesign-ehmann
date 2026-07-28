@@ -1,47 +1,31 @@
 {
-  "pakete": [
-    {
-      "name": "Starter",
-      "meistgewaehlt": false,
-      "tagline": "Eine starke Seite, die alles Wichtige zeigt.",
-      "fuer": "Für Betriebe, die online sichtbar und erreichbar sein wollen.",
-      "kostenlose_pflege": false,
-      "punkte": [
-        "Individuelles Design statt Baukasten-Vorlage",
-        "Eine Seite mit allen wichtigen Infos",
-        "Mobil optimiert und schnell ladend",
-        "Kontaktformular mit E-Mail-Versand",
-        "Impressum & Datenschutzerklärung inklusive"
-      ]
-    },
-    {
-      "name": "Business",
-      "meistgewaehlt": true,
-      "tagline": "Mehr Inhalt, mehr Kontrolle über die eigene Seite.",
-      "fuer": "Für Betriebe mit mehreren Themen: Speisekarte, Sortiment, Termine.",
-      "kostenlose_pflege": true,
-      "punkte": [
-        "Alles aus „Starter“",
-        "Mehrere Unterseiten in eigener Struktur",
-        "Eigener Redaktionszugang für Texte & Bilder",
-        "Bildergalerie und/oder Terminübersicht",
-        "Suchmaschinen-Grundoptimierung",
-        "Kostenlose Pflege & kleine Änderungen"
-      ]
-    },
-    {
-      "name": "Premium",
-      "meistgewaehlt": false,
-      "tagline": "Website plus laufende Betreuung.",
-      "fuer": "Für Betriebe, die sich um die Technik nicht selbst kümmern wollen.",
-      "kostenlose_pflege": true,
-      "punkte": [
-        "Alles aus „Business“",
-        "Kostenlose, laufende Pflege, Updates, kleine Änderungen",
-        "Fester Ansprechpartner bei Fragen",
-        "Erweiterungen nach Bedarf",
-        "Technische Betreuung von Hosting & Formular"
-      ]
-    }
-  ]
+  "grundleistung": {
+    "titel": "Individuelle Website-Erstellung",
+    "tagline": "Ihre Website. Genau nach Ihren Anforderungen.",
+    "absatz1": "Jedes Unternehmen ist unterschiedlich – deshalb entstehen keine Lösungen von der Stange. Ich entwickle individuelle Websites, die zu Ihrem Betrieb, Ihren Zielen und Ihren Kunden passen.",
+    "absatz2": "Von der einfachen Unternehmenspräsentation bis zur umfangreichen Website mit zusätzlichen Funktionen wird jedes Projekt individuell geplant und umgesetzt.",
+    "punkte_intro": "Grundlegende Website-Erstellung beinhaltet:",
+    "punkte": [
+      "Individuelles Design passend zu Ihrem Unternehmen",
+      "Optimierung für Smartphone, Tablet und Desktop",
+      "Schnelle Ladezeiten und moderne Umsetzung",
+      "Strukturierung Ihrer Inhalte",
+      "Kontaktmöglichkeiten für Ihre Kunden",
+      "Grundlegende technische Optimierung",
+      "Einrichtung Ihrer Website"
+    ]
+  },
+  "cms_erweiterung": {
+    "titel": "CMS-System",
+    "tagline": "Inhalte selbst verwalten und bearbeiten.",
+    "beschreibung": "Mit einem CMS können Sie Inhalte Ihrer Website selbst verwalten und bearbeiten.",
+    "vorteile_intro": "Vorteile:",
+    "vorteile": [
+      "Texte selbst ändern",
+      "Bilder austauschen",
+      "Inhalte ohne Programmierkenntnisse aktualisieren",
+      "Mehr Kontrolle über Ihre Website"
+    ],
+    "hinweis": "Die Einrichtung eines CMS wird individuell nach Aufwand berechnet."
+  }
 }

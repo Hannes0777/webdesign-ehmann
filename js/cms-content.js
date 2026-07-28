@@ -72,33 +72,44 @@
     }
   }
 
-  // ── 3. Pakete (Leistungen & Preise) ───────────────────────
-  if (pakete && Array.isArray(pakete.pakete)) {
-    const cards = document.querySelectorAll('.package-card');
-    pakete.pakete.forEach((pak, i) => {
-      const card = cards[i];
-      if (!card || !pak) return;
-
-      card.classList.toggle('package-card--featured', !!pak.meistgewaehlt);
-
-      const h3 = card.querySelector('h3');
-      if (h3 && pak.name) h3.textContent = pak.name;
-      const tagline = card.querySelector('.package-card__tagline');
-      if (tagline && pak.tagline) tagline.textContent = pak.tagline;
-      const fuer = card.querySelector('.package-card__for');
-      if (fuer && pak.fuer) fuer.textContent = pak.fuer;
-
-      const ul = card.querySelector('ul');
-      if (ul && Array.isArray(pak.punkte)) {
-        ul.innerHTML = pak.punkte.map((p) => '<li>' + p + '</li>').join('');
+  // ── 3. Leistungen (Grundleistung & CMS-Erweiterung) ───────
+  if (pakete) {
+    const core = pakete.grundleistung;
+    const coreCard = document.getElementById('leistung-core');
+    if (core && coreCard) {
+      const h3 = coreCard.querySelector('h3');
+      if (h3 && core.titel) h3.textContent = core.titel;
+      const tagline = coreCard.querySelector('.leistung-card__tagline');
+      if (tagline && core.tagline) tagline.textContent = core.tagline;
+      const texts = coreCard.querySelectorAll('.leistung-card__text');
+      if (texts[0] && core.absatz1) texts[0].textContent = core.absatz1;
+      if (texts[1] && core.absatz2) texts[1].textContent = core.absatz2;
+      const intro = coreCard.querySelector('.leistung-card__intro');
+      if (intro && core.punkte_intro) intro.textContent = core.punkte_intro;
+      const ul = coreCard.querySelector('.leistung-checklist');
+      if (ul && Array.isArray(core.punkte)) {
+        ul.innerHTML = core.punkte.map((p) => '<li>' + p + '</li>').join('');
       }
+    }
 
-      const cta = card.querySelector('a.btn');
-      if (cta) {
-        cta.classList.toggle('btn--primary', !!pak.meistgewaehlt);
-        cta.classList.toggle('btn--ghost', !pak.meistgewaehlt);
+    const addon = pakete.cms_erweiterung;
+    const addonCard = document.getElementById('leistung-addon');
+    if (addon && addonCard) {
+      const h3 = addonCard.querySelector('h3');
+      if (h3 && addon.titel) h3.textContent = addon.titel;
+      const tagline = addonCard.querySelector('.leistung-card__tagline');
+      if (tagline && addon.tagline) tagline.textContent = addon.tagline;
+      const text = addonCard.querySelector('.leistung-card__text');
+      if (text && addon.beschreibung) text.textContent = addon.beschreibung;
+      const intro = addonCard.querySelector('.leistung-card__intro');
+      if (intro && addon.vorteile_intro) intro.textContent = addon.vorteile_intro;
+      const ul = addonCard.querySelector('.leistung-checklist');
+      if (ul && Array.isArray(addon.vorteile)) {
+        ul.innerHTML = addon.vorteile.map((p) => '<li>' + p + '</li>').join('');
       }
-    });
+      const note = addonCard.querySelector('.leistung-card__note');
+      if (note && addon.hinweis) note.textContent = addon.hinweis;
+    }
   }
 
   // ── 4. Über mich ──────────────────────────────────────────

@@ -47,6 +47,43 @@ if ('IntersectionObserver' in window && revealEls.length) {
 }
 
 /* ============================================================
+   LEISTUNGEN — CMS-Karte per Klick "aufplobben" lassen
+   ============================================================ */
+const leistungAddon = document.getElementById('leistung-addon');
+const leistungConnector = document.querySelector('.leistung-connector');
+const leistungCmsBtn = leistungAddon ? leistungAddon.querySelector('.btn') : null;
+const cmsSelect = document.getElementById('f-cms');
+
+function setLeistungExpanded(expanded) {
+  if (!leistungAddon) return;
+  leistungAddon.classList.toggle('is-expanded', expanded);
+  if (leistungConnector) leistungConnector.classList.toggle('is-active', expanded);
+}
+
+if (leistungConnector) {
+  leistungConnector.addEventListener('click', () => {
+    setLeistungExpanded(!leistungAddon.classList.contains('is-expanded'));
+  });
+  leistungConnector.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    setLeistungExpanded(!leistungAddon.classList.contains('is-expanded'));
+  });
+}
+
+if (leistungCmsBtn) {
+  leistungCmsBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    setLeistungExpanded(true);
+    if (cmsSelect) cmsSelect.value = 'Ja, mit CMS-System';
+    window.setTimeout(() => {
+      const kontakt = document.getElementById('kontakt');
+      if (kontakt) kontakt.scrollIntoView({ behavior: 'smooth' });
+    }, 500);
+  });
+}
+
+/* ============================================================
    CONTACT FORM
    ============================================================ */
 const form = document.getElementById('contact-form');
