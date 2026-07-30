@@ -156,20 +156,10 @@ collections:
             hint: "Rundes Porträtfoto, erscheint links neben dem Text. Leer lassen für die Kürzel-Kachel (HE)."
           - name: foto_ausschnitt
             label: "Bildausschnitt im Kreis"
-            widget: select
+            widget: string
             required: false
             default: "center"
-            hint: "Welcher Bereich des Fotos im runden Ausschnitt zu sehen ist, falls das Foto nicht mittig passt."
-            options:
-              - { label: "Mitte", value: "center" }
-              - { label: "Oben", value: "top" }
-              - { label: "Unten", value: "bottom" }
-              - { label: "Links", value: "left" }
-              - { label: "Rechts", value: "right" }
-              - { label: "Oben links", value: "top left" }
-              - { label: "Oben rechts", value: "top right" }
-              - { label: "Unten links", value: "bottom left" }
-              - { label: "Unten rechts", value: "bottom right" }
+            hint: "Mit dem Zieh-Werkzeug unter /admin/foto-position.html den Ausschnitt per Maus festlegen, den dort angezeigten Wert hier einfügen (z.B. „42% 63%“). Leer bzw. „center“ = Mitte."
           - name: absatz1
             label: "Erster Absatz"
             widget: text
