@@ -1314,9 +1314,11 @@ button { font: inherit; cursor: pointer; }
 }
 
 .about__badge {
+  position: relative;
   width: 96px;
   height: 96px;
   border-radius: 50%;
+  overflow: hidden;
   background: var(--green);
   color: #fff;
   display: flex;
@@ -1325,6 +1327,18 @@ button { font: inherit; cursor: pointer; }
   font-weight: 700;
   font-size: 1.5rem;
 }
+.about__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Der globale Reset weiter oben (img { display:block }) ist Autoren-CSS
+   und schlägt damit das UA-Stylesheet-Rule [hidden]{display:none} -
+   ohne diese Regel würde das versteckte <img> trotz [hidden] sichtbar
+   bleiben (leerer Alt-Text statt Foto). */
+.about__photo[hidden] { display: none; }
 
 .about__lead {
   margin-top: 16px;
