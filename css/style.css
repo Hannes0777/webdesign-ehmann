@@ -165,10 +165,11 @@ button { font: inherit; cursor: pointer; }
 
 .nav__logo {
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.4rem;
   letter-spacing: -0.02em;
+  color: var(--gold);
 }
-.nav__logo-dot { color: var(--green); }
+.nav__logo-dot { color: var(--ink); }
 
 .nav__toggle {
   display: none;
@@ -201,12 +202,26 @@ button { font: inherit; cursor: pointer; }
   gap: 32px;
 }
 .nav__link {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--mist);
+  position: relative;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
   transition: color 0.2s ease;
 }
-.nav__link:hover { color: var(--ink); }
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav__link:hover { color: var(--gold); }
+.nav__link:hover::after { transform: scaleX(1); }
 
 @media (max-width: 1024px) {
   /* Feste Kopfzeile: auf dem Handy voll deckend statt der 80%-Transparenz
@@ -313,7 +328,7 @@ button { font: inherit; cursor: pointer; }
   margin: 0;
   font-size: clamp(2.1rem, 1.5rem + 2.6vw, 4rem);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
