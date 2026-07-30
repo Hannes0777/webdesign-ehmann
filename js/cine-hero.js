@@ -246,7 +246,7 @@
       .fromTo(
         ctaWrapper,
         { autoAlpha: 0, scale: 0.92 },
-        { autoAlpha: 1, scale: 1, ease: "power2.out", duration: 1.2 },
+        { autoAlpha: 1, scale: 1, pointerEvents: "auto", ease: "power2.out", duration: 1.2 },
         8.7
       );
 
