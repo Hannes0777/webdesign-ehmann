@@ -114,6 +114,16 @@
 
   // ── 4. Über mich ──────────────────────────────────────────
   if (uebermich) {
+    if (uebermich.foto) {
+      const photo = document.getElementById('about-photo');
+      const initials = document.getElementById('about-initials');
+      if (photo) {
+        photo.src = uebermich.foto;
+        photo.hidden = false;
+      }
+      if (initials) initials.hidden = true;
+    }
+
     const paras = document.querySelectorAll('#ueber-mich .about__content > p');
     if (paras[0] && uebermich.absatz1) paras[0].textContent = uebermich.absatz1;
     if (paras[1] && uebermich.absatz2) paras[1].textContent = uebermich.absatz2;

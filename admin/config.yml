@@ -149,6 +149,11 @@ collections:
         label: "Text & Ablauf verwalten"
         file: content/uebermich.json
         fields:
+          - name: foto
+            label: "Foto"
+            widget: image
+            required: false
+            hint: "Rundes Porträtfoto, erscheint links neben dem Text. Leer lassen für die Kürzel-Kachel (HE)."
           - name: absatz1
             label: "Erster Absatz"
             widget: text
