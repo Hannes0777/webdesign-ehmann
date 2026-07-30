@@ -89,7 +89,14 @@ button { font: inherit; cursor: pointer; }
 .section { padding: 96px 0; }
 .section--alt { background: var(--paper-alt); }
 
+@media (max-width: 640px) {
+  .section { padding: 64px 0; }
+}
+
 .section-header { max-width: 640px; margin-bottom: 56px; }
+@media (max-width: 640px) {
+  .section-header { margin-bottom: 36px; }
+}
 .section-title {
   margin-top: 12px;
   font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
@@ -780,7 +787,7 @@ button { font: inherit; cursor: pointer; }
 
 @media (max-width: 640px) {
   .cine-hero__stage { padding-top: 116px; gap: 32px; }
-  .cine-card { min-height: 700px; }
+  .cine-card { min-height: 600px; }
   .cine-mockup { height: 380px; }
 }
 
@@ -801,6 +808,9 @@ button { font: inherit; cursor: pointer; }
   position: relative;
   padding: 96px 0;
 }
+@media (max-width: 640px) {
+  .dstyles__stage { padding: 56px 0; }
+}
 
 .dstyles__bg { display: none; }
 
@@ -812,6 +822,9 @@ button { font: inherit; cursor: pointer; }
   display: flex;
   flex-direction: column;
   gap: 40px;
+}
+@media (max-width: 640px) {
+  .dstyles__grid { gap: 28px; }
 }
 @media (min-width: 1024px) {
   .dstyles__grid {
@@ -939,7 +952,7 @@ button { font: inherit; cursor: pointer; }
 }
 
 @media (max-width: 640px) {
-  .dstyles__mockup { height: 380px; }
+  .dstyles__mockup { height: 300px; }
 }
 
 /* --- Aktiver Zustand: gepinnte Crossfade-Bühne (nur Desktop-Layout,
