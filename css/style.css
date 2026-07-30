@@ -142,8 +142,11 @@ button { font: inherit; cursor: pointer; }
 
 .btn--nav {
   padding: 10px 20px;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
+  background: var(--gold);
+  color: var(--paper);
 }
+.btn--nav:hover { background: var(--gold-deep); }
 
 /* ============================================================
    NAVIGATION
@@ -340,6 +343,14 @@ button { font: inherit; cursor: pointer; }
   color: var(--ink);
 }
 .cine-line--accent {
+  /* padding-bottom + kompensierender negativer margin-bottom: der
+     Gradient für background-clip:text wird sonst exakt auf die
+     Zeilenbox zugeschnitten und lässt Unterlängen (g) am unteren
+     Rand ungefärbt/transparent stehen - sieht wie abgeschnitten aus.
+     Der Puffer gibt dem Gradient genug Raum, ohne den Zeilenabstand
+     zu verändern. */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
   background: linear-gradient(180deg, var(--ink) 0%, var(--green) 100%);
   -webkit-background-clip: text;
   background-clip: text;
