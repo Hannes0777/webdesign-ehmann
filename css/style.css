@@ -333,6 +333,10 @@ button { font: inherit; cursor: pointer; }
   z-index: 2;
   text-align: center;
   will-change: opacity, transform;
+  /* Ist jetzt das einzige <h1> der Seite (statt zwei <h1>-Zeilen) - Größe
+     kommt weiterhin von .cine-line, hier nur den UA-Standard (2em) neutralisieren. */
+  font-size: 1rem;
+  font-weight: inherit;
 }
 .cine-line {
   margin: 0;
