@@ -129,7 +129,9 @@ button { font: inherit; cursor: pointer; }
 
 .btn--primary {
   background: var(--green);
-  color: #fff;
+  /* Weiß auf --green (#b98f3f) hat nur ~3:1 Kontrast (WCAG AA braucht 4.5:1) -
+     --paper wie schon bei .btn--nav auf demselben Goldton verwendet (~8.7:1). */
+  color: var(--paper);
 }
 .btn--primary:hover { background: var(--green-deep); }
 
