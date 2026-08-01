@@ -6,6 +6,7 @@
   <meta name="description" content="Webdesign Ehmann – individuelle Websites für Gastronomie, Handwerk und Vereine in Rudersberg und im Rems-Murr-Kreis. Von Hannes Ehmann.">
   <title>Webdesign Ehmann – Webdesign in Rudersberg &amp; Rems-Murr-Kreis</title>
   <link rel="canonical" href="https://www.webdesign-ehmann.de/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Webdesign Ehmann – Webdesign in Rudersberg & Rems-Murr-Kreis">
@@ -37,9 +38,11 @@
 
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- GSAP + ScrollTrigger (defer: blockiert nicht mehr das erste Rendern/LCP,
+       läuft aber garantiert vor den eigenen Skripten unten, da defer-Skripte
+       in Dokumentreihenfolge nach dem Parsen ausgeführt werden) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
 
@@ -80,10 +83,10 @@
       <div class="cine-hero__grain" aria-hidden="true"></div>
       <div class="cine-hero__grid" aria-hidden="true"></div>
 
-      <div class="cine-text-wrapper" id="cine-text-wrapper">
-        <h1 class="cine-line" id="cine-line-1">Ihre Website,</h1>
-        <h1 class="cine-line cine-line--accent" id="cine-line-2">fertig gedacht.</h1>
-      </div>
+      <h1 class="cine-text-wrapper" id="cine-text-wrapper">
+        <div class="cine-line" id="cine-line-1">Ihre Website,</div>
+        <div class="cine-line cine-line--accent" id="cine-line-2">fertig gedacht.</div>
+      </h1>
 
       <div class="cine-cta-wrapper" id="cine-cta-wrapper">
         <h2 class="cine-cta-heading">Bereit für Ihre neue Website?</h2>
@@ -541,9 +544,9 @@
   <p class="footer__copyright">© <span id="year"></span> Webdesign Ehmann</p>
 </footer>
 
-<script src="js/cms-content.js"></script>
-<script src="js/cine-hero.js"></script>
-<script src="js/dstyles.js"></script>
-<script src="js/main.js"></script>
+<script src="js/cms-content.js" defer></script>
+<script src="js/cine-hero.js" defer></script>
+<script src="js/dstyles.js" defer></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
