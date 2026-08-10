@@ -1288,6 +1288,47 @@ button { font: inherit; cursor: pointer; }
 }
 
 /* ============================================================
+   MARKETING-LEISTUNGEN
+   ============================================================ */
+.marketing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+.marketing-card {
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.marketing-card h3 { font-size: 1.1rem; color: var(--green-deep); }
+.marketing-card p { margin-top: 10px; color: var(--mist); font-size: 0.92rem; line-height: 1.6; }
+
+.marketing-examples {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .marketing-examples { grid-template-columns: 1fr; }
+}
+.marketing-example {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.marketing-example img { display: block; width: 100%; height: auto; }
+.marketing-example figcaption {
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  color: var(--mist);
+  background: var(--surface);
+}
+
+/* ============================================================
    ABOUT
    ============================================================ */
 .about {

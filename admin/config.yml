@@ -189,6 +189,38 @@ collections:
                 widget: text
 
   # ----------------------------------------------------------
+  #  MARKETING-LEISTUNGEN
+  # ----------------------------------------------------------
+  - name: marketing
+    label: "📣 Marketing-Leistungen"
+    description: "Social-Media-Betreuung, Flyer- und Logo-Design als Zusatzleistung."
+    files:
+      - name: marketing
+        label: "Marketing-Leistungen verwalten"
+        file: content/marketing.json
+        fields:
+          - name: titel
+            label: "Überschrift"
+            widget: string
+          - name: text
+            label: "Einleitungstext"
+            widget: text
+          - name: leistungen
+            label: "Leistungen"
+            label_singular: "Leistung"
+            widget: list
+            min: 3
+            max: 3
+            summary: "{{titel}}"
+            fields:
+              - name: titel
+                label: "Titel"
+                widget: string
+              - name: text
+                label: "Kurzbeschreibung"
+                widget: string
+
+  # ----------------------------------------------------------
   #  CMS-ERKLÄRUNG
   # ----------------------------------------------------------
   - name: cms_erklaerung
