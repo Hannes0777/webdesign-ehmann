@@ -1126,105 +1126,89 @@ button { font: inherit; cursor: pointer; }
 }
 
 /* ============================================================
-   LEISTUNGEN — Grundleistung + optionale CMS-Erweiterung
+   LEISTUNGEN — 3 Pakete (Starter/Business/Premium)
    ============================================================ */
-.leistung-layout {
-  display: flex;
-  align-items: stretch;
+.pricing-hint {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--mist);
+  font-style: italic;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
+  align-items: stretch;
 }
-
 @media (max-width: 900px) {
-  .leistung-layout { flex-direction: column; align-items: center; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
 }
 
-.leistung-card {
+.pricing-card {
   position: relative;
-  width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 36px;
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
+.pricing-card:hover { transform: translateY(-6px); }
 
-.leistung-card--core {
-  flex: 1.15 1 0%;
+.pricing-card--featured {
   border-color: var(--gold);
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(217, 174, 92, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.leistung-card--core:hover {
-  transform: translateY(-6px);
+.pricing-card--featured:hover {
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(217, 174, 92, 0.25);
 }
 
-.leistung-card--addon {
-  flex: 0.82 1 0%;
-  border-style: dashed;
-  background: transparent;
-  transition:
-    flex-grow 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
-    transform 0.3s ease,
-    border-color 0.4s ease,
-    box-shadow 0.4s ease,
-    background 0.4s ease;
-}
-.leistung-card--addon:hover {
-  transform: translateY(-6px);
-  border-color: var(--gold);
-}
-
-.leistung-card--addon.is-expanded {
-  flex-grow: 1.15;
-  border-style: solid;
-  border-color: var(--gold);
-  background: var(--surface);
-  box-shadow: var(--shadow-md), 0 0 0 1px rgba(217, 174, 92, 0.15);
-  animation: leistung-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes leistung-pop {
-  0% { transform: scale(1); }
-  45% { transform: scale(1.035); }
-  100% { transform: scale(1); }
-}
-
-@media (max-width: 900px) {
-  .leistung-card--core, .leistung-card--addon { flex: 0 0 auto; }
-}
-
-.leistung-card__eyebrow {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.leistung-card__badge {
+.pricing-card__badge {
   position: absolute;
   top: -13px;
   left: 36px;
-  background: var(--paper-alt);
-  color: var(--mist);
-  border: 1px solid var(--border);
+  background: var(--gold);
+  color: var(--paper);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 4px 12px;
   border-radius: 999px;
-  transition: opacity 0.3s ease;
 }
-.leistung-card--addon.is-expanded .leistung-card__badge { opacity: 0; }
 
-.leistung-card h3 { margin-top: 10px; font-size: 1.5rem; }
-.leistung-card__tagline { margin-top: 8px; color: var(--green-deep); font-weight: 600; font-size: 0.95rem; }
+.pricing-card__name { font-size: 1.4rem; }
+.pricing-card__price {
+  margin-top: 10px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--green-deep);
+}
+.pricing-card__price-prefix {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--mist);
+  margin-right: 4px;
+}
+.pricing-card__tagline { margin-top: 6px; color: var(--mist); font-size: 0.95rem; }
 
-.leistung-card__text { margin-top: 16px; color: var(--mist); font-size: 0.95rem; line-height: 1.65; }
+.pricing-card__list { margin-bottom: 8px; }
 
-.leistung-card__intro { margin-top: 24px; font-weight: 600; font-size: 0.92rem; }
+.pricing-card .btn { margin-top: auto; padding-top: 28px; }
+
+.pricing-addons {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.pricing-addon {
+  padding: 20px 24px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+.pricing-addon__title { font-size: 0.95rem; color: var(--gold); }
+.pricing-addon__text { margin-top: 8px; color: var(--mist); font-size: 0.88rem; line-height: 1.6; }
 
 .leistung-checklist { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
 .leistung-checklist li {
@@ -1255,66 +1239,52 @@ button { font: inherit; cursor: pointer; }
   transform: rotate(-45deg);
 }
 
-.leistung-card__note { margin-top: 20px; color: var(--mist); font-size: 0.85rem; font-style: italic; }
-
-.leistung-card .btn {
-  margin-top: 28px;
-  max-height: 60px;
-  overflow: hidden;
-  transition: opacity 0.3s ease, max-height 0.4s ease, margin-top 0.4s ease, padding 0.4s ease;
-}
-.leistung-card--addon .btn { margin-top: auto; }
-
-#leistungen.leistungen--expanded .leistung-card .btn {
-  opacity: 0;
-  max-height: 0;
-  margin-top: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  pointer-events: none;
-}
-
 .leistung-combined-cta {
   max-width: 360px;
-  margin: 0 auto;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  pointer-events: none;
-  transition:
-    max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 0.4s ease 0.1s,
-    margin-top 0.45s ease;
-}
-#leistungen.leistungen--expanded .leistung-combined-cta {
-  max-height: 80px;
-  margin-top: 32px;
-  opacity: 1;
-  pointer-events: auto;
+  margin: 40px auto 0;
 }
 
-.leistung-connector {
-  align-self: center;
-  flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+/* ============================================================
+   CMS-ERKLÄRUNG
+   ============================================================ */
+.cms-showcase {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .cms-showcase { grid-template-columns: 1fr; }
+}
+
+.cms-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.cms-shot {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
   border: 1px solid var(--border);
-  background: var(--paper-alt);
-  color: var(--gold);
+  box-shadow: var(--shadow-sm);
+}
+.cms-shot__chrome {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, color 0.3s ease;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #14171a;
+  border-bottom: 1px solid var(--border);
 }
-.leistung-connector:hover { border-color: var(--gold); color: var(--green-deep); }
-.leistung-connector.is-active { transform: rotate(45deg); border-color: var(--gold); }
-
-@media (max-width: 900px) {
-  .leistung-card--core, .leistung-card--addon { max-width: 480px; }
+.cms-shot__chrome span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); }
+.cms-shot img { display: block; width: 100%; height: auto; }
+.cms-shot figcaption {
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  color: var(--mist);
+  line-height: 1.5;
 }
 
 /* ============================================================
@@ -1359,7 +1329,21 @@ button { font: inherit; cursor: pointer; }
   font-size: 1.15rem;
   line-height: 1.65;
 }
-.about__content > p + p { margin-top: 16px; color: var(--mist); }
+.about__text + .about__text { margin-top: 16px; color: var(--mist); }
+
+.about__quote {
+  margin: 28px 0 0;
+  padding: 20px 24px;
+  border-left: 3px solid var(--gold);
+  background: var(--green-soft);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.about__quote p {
+  margin: 0;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
 
 .steps {
   margin-top: 48px;
