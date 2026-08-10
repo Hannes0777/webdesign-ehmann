@@ -27,13 +27,14 @@
     }
   }
 
-  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches] = await Promise.all([
+  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches, cmsErklaerung] = await Promise.all([
     fetchJSON('content/siteinfo.json'),
     fetchJSON('content/hero.json'),
     fetchJSON('content/pakete.json'),
     fetchJSON('content/uebermich.json'),
     fetchJSON('content/kontakt.json'),
     fetchJSON('content/rechtliches.json'),
+    fetchJSON('content/cms-erklaerung.json'),
   ]);
 
   // ── 1. Seiteninfos ────────────────────────────────────────
@@ -72,43 +73,63 @@
     }
   }
 
-  // ── 3. Leistungen (Grundleistung & CMS-Erweiterung) ───────
+  // ── 3. Leistungen (3 Pakete + Zusatz-Hinweise) ────────────
   if (pakete) {
-    const core = pakete.grundleistung;
-    const coreCard = document.getElementById('leistung-core');
-    if (core && coreCard) {
-      const h3 = coreCard.querySelector('h3');
-      if (h3 && core.titel) h3.textContent = core.titel;
-      const tagline = coreCard.querySelector('.leistung-card__tagline');
-      if (tagline && core.tagline) tagline.textContent = core.tagline;
-      const texts = coreCard.querySelectorAll('.leistung-card__text');
-      if (texts[0] && core.absatz1) texts[0].textContent = core.absatz1;
-      if (texts[1] && core.absatz2) texts[1].textContent = core.absatz2;
-      const intro = coreCard.querySelector('.leistung-card__intro');
-      if (intro && core.punkte_intro) intro.textContent = core.punkte_intro;
-      const ul = coreCard.querySelector('.leistung-checklist');
-      if (ul && Array.isArray(core.punkte)) {
-        ul.innerHTML = core.punkte.map((p) => '<li>' + p + '</li>').join('');
-      }
+    const hint = document.getElementById('pricing-hint');
+    if (hint && pakete.preis_hinweis) hint.textContent = pakete.preis_hinweis;
+
+    const cards = document.querySelectorAll('.pricing-card');
+    if (Array.isArray(pakete.pakete)) {
+      pakete.pakete.forEach((p, i) => {
+        const card = cards[i];
+        if (!card || !p) return;
+        const name = card.querySelector('.pricing-card__name');
+        if (name && p.name) name.textContent = p.name;
+        const price = card.querySelector('.pricing-card__price');
+        if (price && p.ab_preis) {
+          price.innerHTML = '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
+        }
+        const tagline = card.querySelector('.pricing-card__tagline');
+        if (tagline && p.tagline) tagline.textContent = p.tagline;
+        const ul = card.querySelector('.pricing-card__list');
+        if (ul && Array.isArray(p.leistungen)) {
+          ul.innerHTML = p.leistungen.map((l) => '<li>' + l + '</li>').join('');
+        }
+        const cta = card.querySelector('.pricing-card__cta');
+        if (cta && p.name) {
+          cta.textContent = p.name + ' anfragen';
+          cta.dataset.paket = p.name;
+        }
+        card.classList.toggle('pricing-card--featured', !!p.empfohlen);
+        let badge = card.querySelector('.pricing-card__badge');
+        if (p.empfohlen && !badge) {
+          badge = document.createElement('span');
+          badge.className = 'pricing-card__badge';
+          badge.textContent = 'Empfohlen';
+          card.prepend(badge);
+        } else if (!p.empfohlen && badge) {
+          badge.remove();
+        }
+      });
     }
 
-    const addon = pakete.cms_erweiterung;
-    const addonCard = document.getElementById('leistung-addon');
-    if (addon && addonCard) {
-      const h3 = addonCard.querySelector('h3');
-      if (h3 && addon.titel) h3.textContent = addon.titel;
-      const tagline = addonCard.querySelector('.leistung-card__tagline');
-      if (tagline && addon.tagline) tagline.textContent = addon.tagline;
-      const text = addonCard.querySelector('.leistung-card__text');
-      if (text && addon.beschreibung) text.textContent = addon.beschreibung;
-      const intro = addonCard.querySelector('.leistung-card__intro');
-      if (intro && addon.vorteile_intro) intro.textContent = addon.vorteile_intro;
-      const ul = addonCard.querySelector('.leistung-checklist');
-      if (ul && Array.isArray(addon.vorteile)) {
-        ul.innerHTML = addon.vorteile.map((p) => '<li>' + p + '</li>').join('');
+    if (pakete.cms_addon) {
+      const box = document.getElementById('pricing-addon-cms');
+      if (box) {
+        const title = box.querySelector('.pricing-addon__title');
+        if (title && pakete.cms_addon.titel) title.textContent = pakete.cms_addon.titel;
+        const text = box.querySelector('.pricing-addon__text');
+        if (text && pakete.cms_addon.text) text.textContent = pakete.cms_addon.text;
       }
-      const note = addonCard.querySelector('.leistung-card__note');
-      if (note && addon.hinweis) note.textContent = addon.hinweis;
+    }
+    if (pakete.marketing_addon) {
+      const box = document.getElementById('pricing-addon-marketing');
+      if (box) {
+        const title = box.querySelector('.pricing-addon__title');
+        if (title && pakete.marketing_addon.titel) title.textContent = pakete.marketing_addon.titel;
+        const text = box.querySelector('.pricing-addon__text');
+        if (text && pakete.marketing_addon.text) text.textContent = pakete.marketing_addon.text;
+      }
     }
   }
 
@@ -131,9 +152,13 @@
       if (initials) initials.hidden = true;
     }
 
-    const paras = document.querySelectorAll('#ueber-mich .about__content > p');
+    const paras = document.querySelectorAll('#ueber-mich .about__text');
     if (paras[0] && uebermich.absatz1) paras[0].textContent = uebermich.absatz1;
     if (paras[1] && uebermich.absatz2) paras[1].textContent = uebermich.absatz2;
+    if (paras[2] && uebermich.werdegang) paras[2].textContent = uebermich.werdegang;
+
+    const quote = document.querySelector('#about-quote p');
+    if (quote && uebermich.zitat) quote.textContent = '„' + uebermich.zitat + '"';
 
     const steps = document.querySelectorAll('.steps__item');
     if (Array.isArray(uebermich.schritte)) {
@@ -145,6 +170,18 @@
         if (titel && s.titel) titel.textContent = s.titel;
         if (text && s.text) text.textContent = s.text;
       });
+    }
+  }
+
+  // ── 4b. CMS-Erklärung ──────────────────────────────────────
+  if (cmsErklaerung) {
+    const titel = document.getElementById('cms-titel');
+    if (titel && cmsErklaerung.titel) titel.textContent = cmsErklaerung.titel;
+    const text = document.getElementById('cms-text');
+    if (text && cmsErklaerung.text) text.textContent = cmsErklaerung.text;
+    const ul = document.getElementById('cms-vorteile');
+    if (ul && Array.isArray(cmsErklaerung.vorteile)) {
+      ul.innerHTML = cmsErklaerung.vorteile.map((p) => '<li>' + p + '</li>').join('');
     }
   }
 

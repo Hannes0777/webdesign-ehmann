@@ -326,85 +326,125 @@
   </section>
 
   <!-- =====================================================
-       LEISTUNGEN — Grundleistung + optionale CMS-Erweiterung
+       LEISTUNGEN — 3 Pakete (Starter/Business/Premium)
        ===================================================== -->
   <section id="leistungen" class="section section--alt" aria-label="Leistungen">
     <div class="container">
       <div class="section-header">
         <span class="eyebrow">Leistungen</span>
-        <h2 class="section-title">
-          Eine individuelle Website — mit optionalem CMS zum Selbstverwalten.
-        </h2>
+        <h2 class="section-title">Drei Pakete — für jeden Umfang das passende.</h2>
         <p class="section-lead">
           Keine Lösung von der Stange: Sie erhalten eine Website, die genau
-          für Ihren Betrieb konzipiert wird. Wer Inhalte künftig selbst
-          pflegen möchte, ergänzt das CMS-System dazu.
+          für Ihren Betrieb konzipiert wird. Die Pakete geben eine Orientierung
+          zum Umfang, den genauen Zuschnitt besprechen wir gemeinsam.
         </p>
+        <p class="pricing-hint" id="pricing-hint">Einführungspreis für die ersten Kunden</p>
       </div>
 
-      <div class="leistung-layout">
+      <div class="pricing-grid" id="pricing-grid">
 
-        <div class="leistung-card leistung-card--core reveal" id="leistung-core">
-          <span class="leistung-card__eyebrow">Grundleistung</span>
-          <h3>Individuelle Website-Erstellung</h3>
-          <p class="leistung-card__tagline">Ihre Website. Genau nach Ihren Anforderungen.</p>
-
-          <p class="leistung-card__text">
-            Jedes Unternehmen ist unterschiedlich – deshalb entstehen keine
-            Lösungen von der Stange. Ich entwickle individuelle Websites,
-            die zu Ihrem Betrieb, Ihren Zielen und Ihren Kunden passen.
-          </p>
-          <p class="leistung-card__text">
-            Von der einfachen Unternehmenspräsentation bis zur umfangreichen
-            Website mit zusätzlichen Funktionen wird jedes Projekt
-            individuell geplant und umgesetzt.
-          </p>
-
-          <p class="leistung-card__intro">Grundlegende Website-Erstellung beinhaltet:</p>
-          <ul class="leistung-checklist">
+        <div class="pricing-card reveal" data-paket="0">
+          <h3 class="pricing-card__name">Starter</h3>
+          <p class="pricing-card__price"><span class="pricing-card__price-prefix">ab</span> 200&nbsp;€</p>
+          <p class="pricing-card__tagline">Eine Seite, alle wichtigen Infos auf einen Blick.</p>
+          <ul class="leistung-checklist pricing-card__list">
+            <li>Einseitige Website (One-Pager) mit allen wichtigen Infos</li>
             <li>Individuelles Design passend zu Ihrem Unternehmen</li>
-            <li>Optimierung für Smartphone, Tablet und Desktop</li>
-            <li>Schnelle Ladezeiten und moderne Umsetzung</li>
-            <li>Strukturierung Ihrer Inhalte</li>
-            <li>Kontaktmöglichkeiten für Ihre Kunden</li>
-            <li>Grundlegende technische Optimierung</li>
-            <li>Einrichtung Ihrer Website</li>
+            <li>Optimiert für Smartphone, Tablet &amp; Desktop</li>
+            <li>Kontaktmöglichkeit für Ihre Kunden</li>
+            <li>Schnelle Ladezeiten, moderne Umsetzung</li>
+            <li>Rechtssicher (Impressum &amp; Datenschutz)</li>
           </ul>
-
-          <a href="#kontakt" class="btn btn--primary btn--block">Individuelles Angebot anfragen</a>
+          <a href="#kontakt" class="btn btn--ghost btn--block pricing-card__cta" data-paket="Starter">Starter anfragen</a>
         </div>
 
-        <div class="leistung-connector reveal" role="button" tabindex="0" aria-label="CMS-Erweiterung zur Grundleistung hinzufügen"><span aria-hidden="true">+</span></div>
-
-        <div class="leistung-card leistung-card--addon reveal" id="leistung-addon">
-          <span class="leistung-card__badge">Optional</span>
-          <h3>CMS-System</h3>
-          <p class="leistung-card__tagline">Inhalte selbst verwalten und bearbeiten.</p>
-
-          <p class="leistung-card__text">
-            Mit einem CMS können Sie Inhalte Ihrer Website selbst verwalten
-            und bearbeiten.
-          </p>
-
-          <p class="leistung-card__intro">Vorteile:</p>
-          <ul class="leistung-checklist">
-            <li>Texte selbst ändern</li>
-            <li>Bilder austauschen</li>
-            <li>Inhalte ohne Programmierkenntnisse aktualisieren</li>
-            <li>Mehr Kontrolle über Ihre Website</li>
+        <div class="pricing-card reveal" data-paket="1">
+          <h3 class="pricing-card__name">Business</h3>
+          <p class="pricing-card__price"><span class="pricing-card__price-prefix">ab</span> 400&nbsp;€</p>
+          <p class="pricing-card__tagline">Mehrseitige Website mit klarer Struktur.</p>
+          <ul class="leistung-checklist pricing-card__list">
+            <li>Alles aus Starter</li>
+            <li>Mehrseitige Website (z.B. Leistungen, Über uns, Kontakt einzeln)</li>
+            <li>Kontaktformular statt nur E-Mail/Telefon</li>
+            <li>Grundlegende SEO-Optimierung (Meta-Angaben, Struktur, Sitemap)</li>
+            <li>Anbindung Standort/Anfahrt (Karte)</li>
           </ul>
-
-          <p class="leistung-card__note">Die Einrichtung eines CMS wird individuell nach Aufwand berechnet.</p>
-
-          <a href="#kontakt" class="btn btn--ghost btn--block">CMS dazu buchen</a>
+          <a href="#kontakt" class="btn btn--ghost btn--block pricing-card__cta" data-paket="Business">Business anfragen</a>
         </div>
 
+        <div class="pricing-card pricing-card--featured reveal" data-paket="2">
+          <span class="pricing-card__badge">Empfohlen</span>
+          <h3 class="pricing-card__name">Premium</h3>
+          <p class="pricing-card__price"><span class="pricing-card__price-prefix">ab</span> 700&nbsp;€</p>
+          <p class="pricing-card__tagline">Die umfangreichste, individuellste Umsetzung.</p>
+          <ul class="leistung-checklist pricing-card__list">
+            <li>Alles aus Business</li>
+            <li>Umfangreichste Individualisierung (z.B. Animationen, besonderes Design)</li>
+            <li>Beliebig viele Unterseiten nach Bedarf</li>
+            <li>Umfangreiche lokale SEO-Vorbereitung (strukturierte Daten)</li>
+            <li>Priorität bei Umsetzung &amp; Support</li>
+          </ul>
+          <a href="#kontakt" class="btn btn--primary btn--block pricing-card__cta" data-paket="Premium">Premium anfragen</a>
+        </div>
+
+      </div>
+
+      <div class="pricing-addons">
+        <div class="pricing-addon" id="pricing-addon-cms">
+          <h4 class="pricing-addon__title">CMS-System</h4>
+          <p class="pricing-addon__text">Bei jedem Paket optional dazu buchbar: Inhalte selbst verwalten, ohne Programmierkenntnisse. Die Einrichtung wird individuell nach Aufwand berechnet.</p>
+        </div>
+        <div class="pricing-addon" id="pricing-addon-marketing">
+          <h4 class="pricing-addon__title">Marketing-Leistungen</h4>
+          <p class="pricing-addon__text">Social-Media-Betreuung, Flyer- und Logo-Design sind zu jedem Paket zubuchbar — ab Premium vergünstigt.</p>
+        </div>
       </div>
 
       <div class="leistung-combined-cta">
-        <a href="#kontakt" class="btn btn--primary btn--block" id="leistung-combined-btn">Website + CMS anfragen</a>
+        <a href="#kontakt" class="btn btn--primary btn--block" id="leistung-combined-btn">Unverbindliches Angebot anfragen</a>
       </div>
 
+    </div>
+  </section>
+
+  <!-- =====================================================
+       CMS-ERKLÄRUNG — echte Screenshots aus dem eigenen
+       Sveltia-Panel, kein Mockup.
+       ===================================================== -->
+  <section id="cms-erklaerung" class="section" aria-label="CMS-System im Detail">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">CMS-System im Detail</span>
+        <h2 class="section-title" id="cms-titel">So sieht die Selbstverwaltung Ihrer Website aus.</h2>
+        <p class="section-lead" id="cms-text">Sveltia CMS ist die Oberfläche, mit der Sie Ihre eigene Website später selbst pflegen — ganz ohne Programmierkenntnisse, direkt im Browser. Hier ein echter Blick hinein.</p>
+      </div>
+
+      <div class="cms-showcase">
+        <ul class="leistung-checklist" id="cms-vorteile">
+          <li>Alle Inhalte übersichtlich nach Bereichen sortiert</li>
+          <li>Texte direkt bearbeiten, Vorschau in Echtzeit</li>
+          <li>Bilder per Klick austauschen</li>
+          <li>Änderungen landen direkt live auf Ihrer Website</li>
+        </ul>
+
+        <div class="cms-gallery">
+          <figure class="cms-shot">
+            <div class="cms-shot__chrome"><span></span><span></span><span></span></div>
+            <img src="assets/cms/cms-uebersicht.webp" alt="Sveltia CMS: Übersicht aller Inhaltsbereiche einer Website" loading="lazy" width="1915" height="888">
+            <figcaption>Alle Bereiche der Website übersichtlich sortiert</figcaption>
+          </figure>
+          <figure class="cms-shot">
+            <div class="cms-shot__chrome"><span></span><span></span><span></span></div>
+            <img src="assets/cms/cms-editieren.webp" alt="Sveltia CMS: Textfelder bearbeiten mit Live-Vorschau" loading="lazy" width="1915" height="905">
+            <figcaption>Texte bearbeiten — mit Vorschau in Echtzeit</figcaption>
+          </figure>
+          <figure class="cms-shot">
+            <div class="cms-shot__chrome"><span></span><span></span><span></span></div>
+            <img src="assets/cms/cms-bild-tauschen.webp" alt="Sveltia CMS: Foto per Klick austauschen" loading="lazy" width="1915" height="909">
+            <figcaption>Bilder per Klick austauschen</figcaption>
+          </figure>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -420,17 +460,30 @@
       <div class="about__content">
         <span class="eyebrow">Über mich</span>
         <h2 class="section-title">Hannes Ehmann</h2>
-        <p class="about__lead">
-          Ich baue Websites für Betriebe, die ich kenne — den Biergarten am
-          See, die Metzgerei im Ort, den Wanderverein, den Heizungsbetrieb.
-          Kein Baukasten, kein Vorlagen-Look: jede Website wird für den
-          jeweiligen Betrieb konzipiert und programmiert.
+        <p class="about__lead about__text">
+          Von Rudersberg aus baue ich Websites für Betriebe im ganzen
+          Rems-Murr-Kreis — für Gastronomie, Handwerk und Vereine aus der
+          Region. Kein Baukasten, kein Vorlagen-Look: jede Website wird für
+          den jeweiligen Betrieb konzipiert und programmiert.
         </p>
-        <p>
+        <p class="about__text">
           Dazu gehört für mich mehr als eine hübsche Startseite: schnelle
           Ladezeiten, ein Kontaktformular, das wirklich ankommt, und eine
           Seite, die auch in zwei Jahren noch gepflegt werden kann.
         </p>
+        <p class="about__text">
+          Hauptberuflich mache ich gerade eine Ausbildung zum Elektroniker –
+          Technik, Logik und Programmieren gehören da genauso dazu wie beim
+          Webdesign. Mit 18 baue ich nebenher Websites für Betriebe aus der
+          Region, weil mich beides schon lange interessiert: gutes Design und
+          die Technik, die dahintersteckt. Aus dem Hobby soll mit der Zeit
+          mehr werden – Schritt für Schritt ein zweites berufliches
+          Standbein.
+        </p>
+
+        <blockquote class="about__quote" id="about-quote">
+          <p>„Das hier ist mein Hobby, aus dem ich Schritt für Schritt einen Beruf mache."</p>
+        </blockquote>
 
         <div class="steps">
           <div class="steps__item">
@@ -493,13 +546,24 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="f-cms">Interessieren Sie sich auch für das CMS?</label>
-          <select id="f-cms" name="cms">
-            <option value="">Bin mir noch nicht sicher</option>
-            <option value="Nein, nur die Website">Nein, nur die Website</option>
-            <option value="Ja, mit CMS-System">Ja, mit CMS-System</option>
-          </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-paket">Welches Paket interessiert Sie?</label>
+            <select id="f-paket" name="paket">
+              <option value="">Bin mir noch nicht sicher</option>
+              <option value="Starter">Starter</option>
+              <option value="Business">Business</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-cms">Interessieren Sie sich auch für das CMS?</label>
+            <select id="f-cms" name="cms">
+              <option value="">Bin mir noch nicht sicher</option>
+              <option value="Nein, nur die Website">Nein, nur die Website</option>
+              <option value="Ja, mit CMS-System">Ja, mit CMS-System</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">

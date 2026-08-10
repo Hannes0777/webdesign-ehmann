@@ -1,31 +1,53 @@
 {
-  "grundleistung": {
-    "titel": "Individuelle Website-Erstellung",
-    "tagline": "Ihre Website. Genau nach Ihren Anforderungen.",
-    "absatz1": "Jedes Unternehmen ist unterschiedlich – deshalb entstehen keine Lösungen von der Stange. Ich entwickle individuelle Websites, die zu Ihrem Betrieb, Ihren Zielen und Ihren Kunden passen.",
-    "absatz2": "Von der einfachen Unternehmenspräsentation bis zur umfangreichen Website mit zusätzlichen Funktionen wird jedes Projekt individuell geplant und umgesetzt.",
-    "punkte_intro": "Grundlegende Website-Erstellung beinhaltet:",
-    "punkte": [
-      "Individuelles Design passend zu Ihrem Unternehmen",
-      "Optimierung für Smartphone, Tablet und Desktop",
-      "Schnelle Ladezeiten und moderne Umsetzung",
-      "Strukturierung Ihrer Inhalte",
-      "Kontaktmöglichkeiten für Ihre Kunden",
-      "Grundlegende technische Optimierung",
-      "Einrichtung Ihrer Website"
-    ]
-  },
-  "cms_erweiterung": {
+  "preis_hinweis": "Einführungspreis für die ersten Kunden",
+  "pakete": [
+    {
+      "name": "Starter",
+      "ab_preis": "200",
+      "tagline": "Eine Seite, alle wichtigen Infos auf einen Blick.",
+      "empfohlen": false,
+      "leistungen": [
+        "Einseitige Website (One-Pager) mit allen wichtigen Infos",
+        "Individuelles Design passend zu Ihrem Unternehmen",
+        "Optimiert für Smartphone, Tablet & Desktop",
+        "Kontaktmöglichkeit für Ihre Kunden",
+        "Schnelle Ladezeiten, moderne Umsetzung",
+        "Rechtssicher (Impressum & Datenschutz)"
+      ]
+    },
+    {
+      "name": "Business",
+      "ab_preis": "400",
+      "tagline": "Mehrseitige Website mit klarer Struktur.",
+      "empfohlen": false,
+      "leistungen": [
+        "Alles aus Starter",
+        "Mehrseitige Website (z.B. Leistungen, Über uns, Kontakt einzeln)",
+        "Kontaktformular statt nur E-Mail/Telefon",
+        "Grundlegende SEO-Optimierung (Meta-Angaben, Struktur, Sitemap)",
+        "Anbindung Standort/Anfahrt (Karte)"
+      ]
+    },
+    {
+      "name": "Premium",
+      "ab_preis": "700",
+      "tagline": "Die umfangreichste, individuellste Umsetzung.",
+      "empfohlen": true,
+      "leistungen": [
+        "Alles aus Business",
+        "Umfangreichste Individualisierung (z.B. Animationen, besonderes Design)",
+        "Beliebig viele Unterseiten nach Bedarf",
+        "Umfangreiche lokale SEO-Vorbereitung (strukturierte Daten)",
+        "Priorität bei Umsetzung & Support"
+      ]
+    }
+  ],
+  "cms_addon": {
     "titel": "CMS-System",
-    "tagline": "Inhalte selbst verwalten und bearbeiten.",
-    "beschreibung": "Mit einem CMS können Sie Inhalte Ihrer Website selbst verwalten und bearbeiten.",
-    "vorteile_intro": "Vorteile:",
-    "vorteile": [
-      "Texte selbst ändern",
-      "Bilder austauschen",
-      "Inhalte ohne Programmierkenntnisse aktualisieren",
-      "Mehr Kontrolle über Ihre Website"
-    ],
-    "hinweis": "Die Einrichtung eines CMS wird individuell nach Aufwand berechnet."
+    "text": "Bei jedem Paket optional dazu buchbar: Inhalte selbst verwalten, ohne Programmierkenntnisse. Die Einrichtung wird individuell nach Aufwand berechnet."
+  },
+  "marketing_addon": {
+    "titel": "Marketing-Leistungen",
+    "text": "Social-Media-Betreuung, Flyer- und Logo-Design sind zu jedem Paket zubuchbar — ab Premium vergünstigt."
   }
 }

@@ -70,54 +70,28 @@ if ('IntersectionObserver' in window && revealEls.length) {
 }
 
 /* ============================================================
-   LEISTUNGEN — CMS-Karte per Klick "aufplobben" lassen und beide
-   CTAs zu einem gemeinsamen Button verschmelzen
+   LEISTUNGEN — Paket-CTAs wählen das Paket im Kontaktformular vor
    ============================================================ */
-const leistungSection = document.getElementById('leistungen');
-const leistungAddon = document.getElementById('leistung-addon');
-const leistungConnector = document.querySelector('.leistung-connector');
-const leistungCmsBtn = leistungAddon ? leistungAddon.querySelector('.btn') : null;
+const paketSelect = document.getElementById('f-paket');
+
+function goToKontaktMitPaket(paketName) {
+  if (paketSelect && paketName) paketSelect.value = paketName;
+  const kontakt = document.getElementById('kontakt');
+  if (kontakt) kontakt.scrollIntoView({ behavior: 'smooth' });
+}
+
+document.querySelectorAll('.pricing-card__cta').forEach((btn) => {
+  btn.addEventListener('click', (event) => {
+    event.preventDefault();
+    goToKontaktMitPaket(btn.dataset.paket);
+  });
+});
+
 const leistungCombinedBtn = document.getElementById('leistung-combined-btn');
-const cmsSelect = document.getElementById('f-cms');
-
-function setLeistungExpanded(expanded) {
-  if (!leistungAddon) return;
-  leistungAddon.classList.toggle('is-expanded', expanded);
-  if (leistungSection) leistungSection.classList.toggle('leistungen--expanded', expanded);
-  if (leistungConnector) leistungConnector.classList.toggle('is-active', expanded);
-}
-
-function goToKontaktMitCms() {
-  setLeistungExpanded(true);
-  if (cmsSelect) cmsSelect.value = 'Ja, mit CMS-System';
-  window.setTimeout(() => {
-    const kontakt = document.getElementById('kontakt');
-    if (kontakt) kontakt.scrollIntoView({ behavior: 'smooth' });
-  }, 500);
-}
-
-if (leistungConnector) {
-  leistungConnector.addEventListener('click', () => {
-    setLeistungExpanded(!leistungAddon.classList.contains('is-expanded'));
-  });
-  leistungConnector.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    event.preventDefault();
-    setLeistungExpanded(!leistungAddon.classList.contains('is-expanded'));
-  });
-}
-
-if (leistungCmsBtn) {
-  leistungCmsBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    goToKontaktMitCms();
-  });
-}
-
 if (leistungCombinedBtn) {
   leistungCombinedBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    goToKontaktMitCms();
+    goToKontaktMitPaket('');
   });
 }
 

@@ -73,36 +73,42 @@ collections:
                 widget: string
 
   # ----------------------------------------------------------
-  #  LEISTUNGEN
+  #  LEISTUNGEN / PAKETE
   # ----------------------------------------------------------
   - name: pakete
-    label: "💼 Leistungen"
-    description: "Die Grundleistung (individuelle Website-Erstellung) und die optionale CMS-Erweiterung im Bereich 'Leistungen'."
+    label: "💼 Leistungen & Pakete"
+    description: "Die 3 Pakete (Starter/Business/Premium) sowie die Zusatz-Hinweise zu CMS und Marketing-Leistungen."
     files:
       - name: pakete
-        label: "Leistungen verwalten"
+        label: "Pakete verwalten"
         file: content/pakete.json
         fields:
-          - name: grundleistung
-            label: "Grundleistung – Individuelle Website-Erstellung"
-            widget: object
+          - name: preis_hinweis
+            label: "Preishinweis (klein, über allen Paketen)"
+            widget: string
+            hint: "Erscheint als kleiner Hinweistext, z.B. 'Einführungspreis für die ersten Kunden'."
+          - name: pakete
+            label: "Pakete"
+            label_singular: "Paket"
+            widget: list
+            min: 3
+            max: 3
+            summary: "{{name}} – ab {{ab_preis}} €"
             fields:
-              - name: titel
-                label: "Titel"
+              - name: name
+                label: "Name (z.B. Starter/Business/Premium)"
+                widget: string
+              - name: ab_preis
+                label: "Ab-Preis in Euro (nur Zahl, ohne €-Zeichen)"
                 widget: string
               - name: tagline
                 label: "Kurzer Slogan"
                 widget: string
-              - name: absatz1
-                label: "Einleitungstext – erster Absatz"
-                widget: text
-              - name: absatz2
-                label: "Einleitungstext – zweiter Absatz"
-                widget: text
-              - name: punkte_intro
-                label: "Überschrift über der Leistungsliste"
-                widget: string
-              - name: punkte
+              - name: empfohlen
+                label: "Als 'empfohlen' hervorheben"
+                widget: boolean
+                default: false
+              - name: leistungen
                 label: "Enthaltene Leistungen"
                 label_singular: "Leistung"
                 widget: list
@@ -110,34 +116,26 @@ collections:
                   name: text
                   label: "Leistung"
                   widget: string
-          - name: cms_erweiterung
-            label: "Optionale Erweiterung – CMS-System"
+          - name: cms_addon
+            label: "Hinweis-Box: CMS-System"
             widget: object
             fields:
               - name: titel
                 label: "Titel"
                 widget: string
-              - name: tagline
-                label: "Kurzer Slogan"
-                widget: string
-              - name: beschreibung
-                label: "Beschreibungstext"
+              - name: text
+                label: "Text"
                 widget: text
-              - name: vorteile_intro
-                label: "Überschrift über der Vorteile-Liste"
+          - name: marketing_addon
+            label: "Hinweis-Box: Marketing-Leistungen"
+            widget: object
+            fields:
+              - name: titel
+                label: "Titel"
                 widget: string
-              - name: vorteile
-                label: "Vorteile"
-                label_singular: "Vorteil"
-                widget: list
-                field:
-                  name: text
-                  label: "Vorteil"
-                  widget: string
-              - name: hinweis
-                label: "Preishinweis"
-                widget: string
-                hint: "Erscheint klein unter der Vorteile-Liste, z.B. Hinweis zur individuellen Berechnung."
+              - name: text
+                label: "Text"
+                widget: text
 
   # ----------------------------------------------------------
   #  ÜBER MICH
@@ -166,6 +164,15 @@ collections:
           - name: absatz2
             label: "Zweiter Absatz"
             widget: text
+          - name: werdegang
+            label: "Werdegang & Motivation"
+            widget: text
+            required: false
+            hint: "Kurzer Absatz zu Ausbildung/Werdegang und warum Sie Webdesign machen."
+          - name: zitat
+            label: "Kurzes Zitat (hervorgehoben dargestellt)"
+            widget: string
+            required: false
           - name: schritte
             label: "Ablauf in 3 Schritten"
             label_singular: "Schritt"
@@ -180,6 +187,32 @@ collections:
               - name: text
                 label: "Beschreibungstext"
                 widget: text
+
+  # ----------------------------------------------------------
+  #  CMS-ERKLÄRUNG
+  # ----------------------------------------------------------
+  - name: cms_erklaerung
+    label: "🖥️ CMS-Erklärung"
+    description: "Text im Bereich, der zeigt, wie das CMS-System aussieht und was es kann."
+    files:
+      - name: cms_erklaerung
+        label: "CMS-Erklärung verwalten"
+        file: content/cms-erklaerung.json
+        fields:
+          - name: titel
+            label: "Überschrift"
+            widget: string
+          - name: text
+            label: "Einleitungstext"
+            widget: text
+          - name: vorteile
+            label: "Vorteile-Liste"
+            label_singular: "Vorteil"
+            widget: list
+            field:
+              name: text
+              label: "Vorteil"
+              widget: string
 
   # ----------------------------------------------------------
   #  KONTAKT
