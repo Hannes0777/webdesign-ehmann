@@ -27,7 +27,7 @@
     }
   }
 
-  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches, cmsErklaerung] = await Promise.all([
+  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches, cmsErklaerung, marketing] = await Promise.all([
     fetchJSON('content/siteinfo.json'),
     fetchJSON('content/hero.json'),
     fetchJSON('content/pakete.json'),
@@ -35,6 +35,7 @@
     fetchJSON('content/kontakt.json'),
     fetchJSON('content/rechtliches.json'),
     fetchJSON('content/cms-erklaerung.json'),
+    fetchJSON('content/marketing.json'),
   ]);
 
   // ── 1. Seiteninfos ────────────────────────────────────────
@@ -182,6 +183,25 @@
     const ul = document.getElementById('cms-vorteile');
     if (ul && Array.isArray(cmsErklaerung.vorteile)) {
       ul.innerHTML = cmsErklaerung.vorteile.map((p) => '<li>' + p + '</li>').join('');
+    }
+  }
+
+  // ── 4c. Marketing-Leistungen ───────────────────────────────
+  if (marketing) {
+    const titel = document.getElementById('marketing-titel');
+    if (titel && marketing.titel) titel.textContent = marketing.titel;
+    const text = document.getElementById('marketing-text');
+    if (text && marketing.text) text.textContent = marketing.text;
+    const cards = document.querySelectorAll('#marketing-grid .marketing-card');
+    if (Array.isArray(marketing.leistungen)) {
+      marketing.leistungen.forEach((l, i) => {
+        const card = cards[i];
+        if (!card || !l) return;
+        const h3 = card.querySelector('h3');
+        const p = card.querySelector('p');
+        if (h3 && l.titel) h3.textContent = l.titel;
+        if (p && l.text) p.textContent = l.text;
+      });
     }
   }
 
