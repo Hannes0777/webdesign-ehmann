@@ -71,13 +71,12 @@ if ('IntersectionObserver' in window && revealEls.length) {
 
 /* ============================================================
    LEISTUNGEN — Paket-CTAs wählen das Paket im Kontaktformular vor
+   (Kontakt ist eine eigene Seite: Paket wird als URL-Parameter
+   mitgegeben und dort ausgelesen, siehe unten)
    ============================================================ */
-const paketSelect = document.getElementById('f-paket');
-
 function goToKontaktMitPaket(paketName) {
-  if (paketSelect && paketName) paketSelect.value = paketName;
-  const kontakt = document.getElementById('kontakt');
-  if (kontakt) kontakt.scrollIntoView({ behavior: 'smooth' });
+  const url = paketName ? 'kontakt.html?paket=' + encodeURIComponent(paketName) : 'kontakt.html';
+  window.location.href = url;
 }
 
 document.querySelectorAll('.pricing-card__cta').forEach((btn) => {
@@ -93,6 +92,14 @@ if (leistungCombinedBtn) {
     event.preventDefault();
     goToKontaktMitPaket('');
   });
+}
+
+/* ── Kontaktseite: Paket aus URL-Parameter vorwählen ───────── */
+const paketSelect = document.getElementById('f-paket');
+if (paketSelect) {
+  const params = new URLSearchParams(window.location.search);
+  const paket = params.get('paket');
+  if (paket) paketSelect.value = paket;
 }
 
 /* ============================================================

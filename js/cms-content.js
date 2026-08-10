@@ -76,6 +76,8 @@
 
   // ── 3. Leistungen (3 Pakete + Zusatz-Hinweise) ────────────
   if (pakete) {
+    const offer = document.getElementById('offer-banner');
+    if (offer && pakete.sonderangebot_hinweis) offer.textContent = pakete.sonderangebot_hinweis;
     const hint = document.getElementById('pricing-hint');
     if (hint && pakete.preis_hinweis) hint.textContent = pakete.preis_hinweis;
 
@@ -87,8 +89,14 @@
         const name = card.querySelector('.pricing-card__name');
         if (name && p.name) name.textContent = p.name;
         const price = card.querySelector('.pricing-card__price');
-        if (price && p.ab_preis) {
-          price.innerHTML = '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
+        if (price) {
+          if (p.preis_text) {
+            price.textContent = p.preis_text;
+            price.classList.add('pricing-card__price--onrequest');
+          } else if (p.ab_preis) {
+            price.innerHTML = '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
+            price.classList.remove('pricing-card__price--onrequest');
+          }
         }
         const tagline = card.querySelector('.pricing-card__tagline');
         if (tagline && p.tagline) tagline.textContent = p.tagline;
@@ -114,15 +122,6 @@
       });
     }
 
-    if (pakete.cms_addon) {
-      const box = document.getElementById('pricing-addon-cms');
-      if (box) {
-        const title = box.querySelector('.pricing-addon__title');
-        if (title && pakete.cms_addon.titel) title.textContent = pakete.cms_addon.titel;
-        const text = box.querySelector('.pricing-addon__text');
-        if (text && pakete.cms_addon.text) text.textContent = pakete.cms_addon.text;
-      }
-    }
     if (pakete.marketing_addon) {
       const box = document.getElementById('pricing-addon-marketing');
       if (box) {

@@ -83,6 +83,10 @@ collections:
         label: "Pakete verwalten"
         file: content/pakete.json
         fields:
+          - name: sonderangebot_hinweis
+            label: "Sonderangebot-Banner (über den Paketen)"
+            widget: string
+            hint: "Gut sichtbarer Hinweis, dass es sich um ein befristetes Einführungsangebot handelt, z.B. '🎉 Sonderangebot für die ersten Kunden — befristete Einführungspreise'."
           - name: preis_hinweis
             label: "Preishinweis (klein, über allen Paketen)"
             widget: string
@@ -93,7 +97,7 @@ collections:
             widget: list
             min: 3
             max: 3
-            summary: "{{name}} – ab {{ab_preis}} €"
+            summary: "{{name}}"
             fields:
               - name: name
                 label: "Name (z.B. Starter/Business/Premium)"
@@ -101,6 +105,12 @@ collections:
               - name: ab_preis
                 label: "Ab-Preis in Euro (nur Zahl, ohne €-Zeichen)"
                 widget: string
+                required: false
+                hint: "Leer lassen und stattdessen 'Preis-Text' nutzen, wenn kein fester Ab-Preis gezeigt werden soll (z.B. bei Premium 'Preis auf Anfrage')."
+              - name: preis_text
+                label: "Preis-Text (überschreibt Ab-Preis, z.B. 'Preis auf Anfrage')"
+                widget: string
+                required: false
               - name: tagline
                 label: "Kurzer Slogan"
                 widget: string
@@ -116,16 +126,6 @@ collections:
                   name: text
                   label: "Leistung"
                   widget: string
-          - name: cms_addon
-            label: "Hinweis-Box: CMS-System"
-            widget: object
-            fields:
-              - name: titel
-                label: "Titel"
-                widget: string
-              - name: text
-                label: "Text"
-                widget: text
           - name: marketing_addon
             label: "Hinweis-Box: Marketing-Leistungen"
             widget: object

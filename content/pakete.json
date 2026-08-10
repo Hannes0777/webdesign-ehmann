@@ -1,9 +1,11 @@
 {
-  "preis_hinweis": "Einführungspreis für die ersten Kunden",
+  "sonderangebot_hinweis": "🎉 Sonderangebot für die ersten Kunden — befristete Einführungspreise",
+  "preis_hinweis": "Einführungspreis für die ersten Kunden, danach reguläre Preise",
   "pakete": [
     {
       "name": "Starter",
       "ab_preis": "200",
+      "preis_text": "",
       "tagline": "Eine Seite, alle wichtigen Infos auf einen Blick.",
       "empfohlen": false,
       "leistungen": [
@@ -18,6 +20,7 @@
     {
       "name": "Business",
       "ab_preis": "400",
+      "preis_text": "",
       "tagline": "Mehrseitige Website mit klarer Struktur.",
       "empfohlen": false,
       "leistungen": [
@@ -30,7 +33,8 @@
     },
     {
       "name": "Premium",
-      "ab_preis": "700",
+      "ab_preis": "",
+      "preis_text": "Preis auf Anfrage",
       "tagline": "Die umfangreichste, individuellste Umsetzung.",
       "empfohlen": true,
       "leistungen": [
@@ -42,10 +46,6 @@
       ]
     }
   ],
-  "cms_addon": {
-    "titel": "CMS-System",
-    "text": "Bei jedem Paket optional dazu buchbar: Inhalte selbst verwalten, ohne Programmierkenntnisse. Die Einrichtung wird individuell nach Aufwand berechnet."
-  },
   "marketing_addon": {
     "titel": "Marketing-Leistungen",
     "text": "Social-Media-Betreuung, Flyer- und Logo-Design sind zu jedem Paket zubuchbar — ab Premium vergünstigt."

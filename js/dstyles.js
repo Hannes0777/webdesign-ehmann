@@ -9,6 +9,36 @@
    und ohne reduced-motion - sonst bleibt die im CSS sichtbare,
    gestapelte Grundfassung stehen.
    ============================================================ */
+/* ---------- Vorschau-Iframes proportional auf Containergröße
+   skalieren (unabhängig von der Crossfade-Bühne, läuft immer) ---------- */
+(function () {
+  const FRAME_W = 1440;
+  const FRAME_H = 900;
+  const wraps = document.querySelectorAll(".dstyles__frame-wrap");
+  if (!wraps.length) return;
+
+  function scaleFrame(wrap) {
+    const iframe = wrap.querySelector(".dstyles__frame");
+    if (!iframe) return;
+    const w = wrap.clientWidth;
+    const h = wrap.clientHeight;
+    if (!w || !h) return;
+    const scale = Math.max(w / FRAME_W, h / FRAME_H);
+    iframe.style.transform = "scale(" + scale + ")";
+  }
+
+  function scaleAll() {
+    wraps.forEach(scaleFrame);
+  }
+
+  scaleAll();
+  window.addEventListener("resize", scaleAll);
+  if (typeof ResizeObserver !== "undefined") {
+    const ro = new ResizeObserver(scaleAll);
+    wraps.forEach((w) => ro.observe(w));
+  }
+})();
+
 (function () {
   const section = document.getElementById("dstyles");
   if (!section) return;
