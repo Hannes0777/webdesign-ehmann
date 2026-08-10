@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Design-Beispiel: Wärmetechnik Talblick – Design-Referenz von Webdesign Ehmann.">
+  <title>Wärmetechnik Talblick – Design-Beispiel</title>
+
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .demo-badge{position:fixed;top:14px;right:14px;z-index:1200;background:rgba(10,15,25,0.82);color:#fff;font-size:12px;font-weight:600;letter-spacing:.02em;padding:7px 14px;border-radius:999px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);}
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+  <span class="demo-badge">Design-Beispiel · fiktiver Betrieb</span>
+
+  <!-- =====================================================
+       EMERGENCY BANNER
+       ===================================================== -->
+  <div id="emergency-banner" class="emergency-banner" role="alert" aria-label="Notfall-Kontakt">
+    <div class="emergency-banner__inner">
+      <span class="emergency-banner__fire" aria-hidden="true">🔥</span>
+      <span class="emergency-banner__label">Heizungsnotfall?</span>
+      <span class="emergency-banner__number">
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        0000 / 000000
+      </span>
+      <span class="emergency-banner__suffix">– 24h Notdienst</span>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       NAVIGATION
+       ===================================================== -->
+  <header id="main-nav" class="nav" role="banner">
+    <div class="container nav__inner">
+
+      <a href="#startseite" class="nav__logo" aria-label="Wärmetechnik Talblick – Startseite">
+        <div class="nav__logo-mark" aria-hidden="true">
+          <i class="fa-solid fa-fire-flame-curved"></i>
+        </div>
+        <div class="nav__logo-text">
+          <span class="nav__logo-name">Talblick</span>
+          <span class="nav__logo-sub">Haus- &amp; Gebäudetechnik</span>
+        </div>
+      </a>
+
+      <div class="nav__desktop" aria-label="Hauptnavigation Desktop">
+        <ul role="list">
+          <li><a href="#leistungen" class="nav__link">Leistungen</a></li>
+          <li><a href="#referenzen" class="nav__link">Referenzen</a></li>
+          <li><a href="#ueber-uns" class="nav__link">Über uns</a></li>
+          <li><a href="#kontakt"   class="nav__link">Kontakt</a></li>
+        </ul>
+        <a href="#kontakt" class="btn btn--accent btn--sm">
+          <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+          Angebot anfragen
+        </a>
+      </div>
+
+      <button id="nav-toggle" class="nav__toggle"
+              aria-label="Navigation öffnen" aria-expanded="false"
+              aria-controls="nav-menu">
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <nav id="nav-menu" class="nav__menu" aria-label="Hauptnavigation" aria-hidden="true">
+    <ul role="list">
+      <li><a href="#startseite" class="nav__link">Start</a></li>
+      <li><a href="#leistungen" class="nav__link">Leistungen</a></li>
+      <li><a href="#referenzen" class="nav__link">Referenzen</a></li>
+      <li><a href="#ueber-uns" class="nav__link">Über uns</a></li>
+      <li><a href="#kontakt"   class="nav__link">Kontakt</a></li>
+      <li>
+        <a href="#kontakt" class="btn btn--accent nav__cta">
+          <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+          Angebot anfragen
+        </a>
+      </li>
+    </ul>
+    <span class="nav__emergency-call">
+      <i class="fa-solid fa-phone" aria-hidden="true"></i>
+      0000 / 000000 – 24h Notdienst
+    </span>
+  </nav>
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+  <main id="main-content">
+
+    <section id="startseite" class="hero" aria-label="Willkommen">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__grid"></div>
+        <div class="hero__orb hero__orb--1"></div>
+        <div class="hero__orb hero__orb--2"></div>
+        <div class="hero__orb hero__orb--3"></div>
+      </div>
+
+      <div class="container">
+        <div class="hero__inner">
+          <p class="hero__eyebrow">
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            Meisterbetrieb &middot; Schwäbischer Wald
+          </p>
+
+          <h1 class="hero__headline">
+            Ihr Fachbetrieb für<br>
+            <span class="hero__headline-em">Heizung &amp; Sanitär.</span>
+          </h1>
+
+          <p class="hero__sub">
+            Schnelle Hilfe bei Heizungsausfall – zuverlässige Installation, Wartung
+            und Badsanierung aus einer Hand. Meisterbetrieb seit über 20 Jahren.
+          </p>
+
+          <div class="hero__actions">
+            <a href="#kontakt" class="btn btn--accent btn--lg">
+              <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+              Jetzt Angebot anfragen
+            </a>
+            <span class="btn btn--outline-white btn--lg">
+              <i class="fa-solid fa-phone" aria-hidden="true"></i>
+              0000 / 000000
+            </span>
+          </div>
+
+          <div class="hero__trust" aria-label="Vertrauenssignale">
+            <div class="trust-badge">
+              <i class="fa-solid fa-award" aria-hidden="true"></i>
+              <span>Meisterbetrieb</span>
+            </div>
+            <div class="trust-badge">
+              <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+              <span>24h Notdienst</span>
+            </div>
+            <div class="trust-badge">
+              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+              <span>20+ Jahre Erfahrung</span>
+            </div>
+            <div class="trust-badge">
+              <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+              <span>Schwäbischer Wald &amp; Umgebung</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__scroll-cue" aria-hidden="true">
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </section>
+
+    <div class="stats-bar" aria-label="Zahlen &amp; Fakten">
+      <div class="container stats-bar__inner">
+        <div class="stat-item reveal" style="--delay: 0ms">
+          <span class="stat-item__num">20+</span>
+          <span class="stat-item__label">Jahre Erfahrung</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item reveal" style="--delay: 80ms">
+          <span class="stat-item__num">500+</span>
+          <span class="stat-item__label">Projekte abgeschlossen</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item reveal" style="--delay: 160ms">
+          <span class="stat-item__num">24h</span>
+          <span class="stat-item__label">Notdienst erreichbar</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item reveal" style="--delay: 240ms">
+          <span class="stat-item__num">100%</span>
+          <span class="stat-item__label">Meisterbetrieb-Qualität</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Leistungen ──────────────────────────────── -->
+    <section id="leistungen" class="section section--white" aria-labelledby="leistungen-title">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__eyebrow reveal">Was wir für Sie tun</p>
+          <h2 id="leistungen-title" class="section__title reveal">Unsere Leistungen</h2>
+          <p class="section__sub reveal">Von der Heizungsinstallation bis zur kompletten Badsanierung – alles aus einer Hand.</p>
+        </div>
+
+        <ul class="services-grid" role="list">
+
+          <li class="service-card reveal" style="--delay: 0ms">
+            <div class="service-card__icon">
+              <i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i>
+            </div>
+            <h3 class="service-card__title">Heizungsinstallation &amp; Wartung</h3>
+            <p class="service-card__desc">Einbau, Inbetriebnahme und jährliche Wartung aller Heizungsanlagen – Gas, Öl, Pellets und Wärmepumpe. Schnell, sicher, zuverlässig.</p>
+            <a href="#kontakt" class="service-card__link" aria-label="Heizungsinstallation anfragen">
+              Anfragen <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li class="service-card reveal" style="--delay: 80ms">
+            <div class="service-card__icon">
+              <i class="fa-solid fa-faucet-drip" aria-hidden="true"></i>
+            </div>
+            <h3 class="service-card__title">Badsanierung &amp; Sanitär</h3>
+            <p class="service-card__desc">Vollständige Badsanierungen, Sanitärinstallationen und Rohrverlegungen für Neubau und Bestandsgebäude nach Ihren Wünschen.</p>
+            <a href="#kontakt" class="service-card__link" aria-label="Badsanierung anfragen">
+              Anfragen <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li class="service-card reveal" style="--delay: 160ms">
+            <div class="service-card__icon">
+              <i class="fa-solid fa-solar-panel" aria-hidden="true"></i>
+            </div>
+            <h3 class="service-card__title">Wärmepumpe &amp; Solar</h3>
+            <p class="service-card__desc">Zukunftssichere Heiztechnik: Planung und Installation von Wärmepumpen und thermischen Solaranlagen inkl. Förderberatung.</p>
+            <a href="#kontakt" class="service-card__link" aria-label="Wärmepumpe anfragen">
+              Anfragen <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li class="service-card reveal" style="--delay: 240ms">
+            <div class="service-card__icon">
+              <i class="fa-solid fa-wind" aria-hidden="true"></i>
+            </div>
+            <h3 class="service-card__title">Lüftungsanlagen</h3>
+            <p class="service-card__desc">Kontrollierte Wohnraumlüftung für gesundes Raumklima, Energieeffizienz und effektive Schimmelprävention in Wohn- und Geschäftsgebäuden.</p>
+            <a href="#kontakt" class="service-card__link" aria-label="Lüftungsanlage anfragen">
+              Anfragen <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <li class="service-card service-card--emergency reveal" style="--delay: 320ms">
+            <div class="service-card__icon">
+              <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+            </div>
+            <h3 class="service-card__title">24h Notdienst</h3>
+            <p class="service-card__desc">Heizungsausfall oder Wasserrohrbruch? Wir sind rund um die Uhr erreichbar – auch an Wochenenden und Feiertagen.</p>
+            <span class="service-card__link service-card__link--emergency">
+              <i class="fa-solid fa-phone" aria-hidden="true"></i> 0000 / 000000
+            </span>
+          </li>
+
+        </ul>
+
+        <div class="services-cta reveal">
+          <div class="services-cta__inner">
+            <p class="services-cta__text">Nicht sicher, was Sie benötigen? Wir beraten Sie kostenlos und unverbindlich.</p>
+            <a href="#kontakt" class="btn btn--accent btn--lg">
+              <i class="fa-solid fa-comments" aria-hidden="true"></i>
+              Kostenlose Beratung anfragen
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Referenzprojekte ────────────────────────── -->
+    <section id="referenzen" class="section section--light" aria-labelledby="referenzen-title">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__eyebrow reveal">Unsere Arbeit</p>
+          <h2 id="referenzen-title" class="section__title reveal">Referenzprojekte</h2>
+          <p class="section__sub reveal">Einblicke in abgeschlossene Projekte der letzten Jahre.</p>
+        </div>
+
+        <ul class="gallery-grid" role="list">
+
+          <li class="gallery-card reveal" style="--delay: 0ms">
+            <div class="gallery-card__img gallery-card__img--1" role="img" aria-label="Heizungstausch Einfamilienhaus">
+              <div class="gallery-card__overlay">
+                <span class="gallery-card__tag">Wärmepumpe</span>
+              </div>
+            </div>
+            <div class="gallery-card__caption">
+              <h3 class="gallery-card__title">Heizungstausch Einfamilienhaus</h3>
+              <p class="gallery-card__meta">
+                <i class="fa-solid fa-map-pin" aria-hidden="true"></i>
+                Region &middot; 2024
+              </p>
+              <p class="gallery-card__desc">Kompletter Austausch der alten Gasheizung durch eine moderne Luft-Wasser-Wärmepumpe inkl. Hydraulikabgleich.</p>
+            </div>
+          </li>
+
+          <li class="gallery-card reveal" style="--delay: 80ms">
+            <div class="gallery-card__img gallery-card__img--2" role="img" aria-label="Badsanierung Komplett">
+              <div class="gallery-card__overlay">
+                <span class="gallery-card__tag">Badsanierung</span>
+              </div>
+            </div>
+            <div class="gallery-card__caption">
+              <h3 class="gallery-card__title">Badsanierung Komplett</h3>
+              <p class="gallery-card__meta">
+                <i class="fa-solid fa-map-pin" aria-hidden="true"></i>
+                Region &middot; 2023
+              </p>
+              <p class="gallery-card__desc">Vollständige Badsanierung mit neuer Dusche, Wanne, Armaturen und Fliesenarbeiten nach individuellen Kundenwünschen.</p>
+            </div>
+          </li>
+
+          <li class="gallery-card reveal" style="--delay: 160ms">
+            <div class="gallery-card__img gallery-card__img--3" role="img" aria-label="Sanitärinstallation Neubau">
+              <div class="gallery-card__overlay">
+                <span class="gallery-card__tag">Neubau</span>
+              </div>
+            </div>
+            <div class="gallery-card__caption">
+              <h3 class="gallery-card__title">Sanitärinstallation Neubau</h3>
+              <p class="gallery-card__meta">
+                <i class="fa-solid fa-map-pin" aria-hidden="true"></i>
+                Region &middot; 2024
+              </p>
+              <p class="gallery-card__desc">Komplette Heizungs- und Sanitärinstallation für ein Einfamilienhaus im Neubau – von der Planung bis zur Abnahme.</p>
+            </div>
+          </li>
+
+          <li class="gallery-card reveal" style="--delay: 240ms">
+            <div class="gallery-card__img gallery-card__img--4" role="img" aria-label="Lüftungsanlage Mehrfamilienhaus">
+              <div class="gallery-card__overlay">
+                <span class="gallery-card__tag">Lüftung</span>
+              </div>
+            </div>
+            <div class="gallery-card__caption">
+              <h3 class="gallery-card__title">Lüftungsanlage Mehrfamilienhaus</h3>
+              <p class="gallery-card__meta">
+                <i class="fa-solid fa-map-pin" aria-hidden="true"></i>
+                Region &middot; 2023
+              </p>
+              <p class="gallery-card__desc">Installation einer zentralen Wohnraumlüftung mit Wärmerückgewinnung in einem Mehrfamilienhaus mit 6 Wohneinheiten.</p>
+            </div>
+          </li>
+
+        </ul>
+
+        <p class="referenzen-note reveal">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          Design-Beispiel — Referenzprojekte sind zur Veranschaulichung frei erfunden.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── Über uns ────────────────────────────────── -->
+    <section id="ueber-uns" class="section section--blue" aria-labelledby="ueber-uns-title">
+      <div class="container about-grid">
+
+        <div class="about-text reveal reveal--left">
+          <p class="section__eyebrow section__eyebrow--light">Wer wir sind</p>
+          <h2 id="ueber-uns-title" class="section__title section__title--light about-title">Meisterbetrieb<br>aus der Region.</h2>
+
+          <p class="about-desc">
+            Seit über 20 Jahren steht der Name Talblick für handwerkliche Qualität,
+            Zuverlässigkeit und faire Preise. Als inhabergeführter Meisterbetrieb legen
+            wir höchsten Wert auf sorgfältige Ausführung, termintreue Abwicklung und
+            persönlichen Service.
+          </p>
+          <p class="about-desc">
+            Von der kleinen Reparatur bis zur kompletten Systemerneuerung – wir sind
+            Ihr verlässlicher Ansprechpartner in der Region.
+          </p>
+
+          <ul class="about-features" role="list">
+            <li class="about-feature">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span>Staatlich geprüfter Meisterbetrieb</span>
+            </li>
+            <li class="about-feature">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span>Kostenlose Erstberatung und Angebotserstellung</span>
+            </li>
+            <li class="about-feature">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span>24h Notdienst bei Heizungsausfall und Wasserrohrbruch</span>
+            </li>
+            <li class="about-feature">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span>Förderberatung für Wärmepumpen und Solaranlagen (BAFA, KfW)</span>
+            </li>
+          </ul>
+
+          <div class="about-badge">
+            <i class="fa-solid fa-certificate" aria-hidden="true"></i>
+            <span>Staatlich geprüfter Meisterbetrieb</span>
+          </div>
+
+          <a href="#kontakt" class="btn btn--accent btn--lg">
+            <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+            Angebot anfragen
+          </a>
+        </div>
+
+        <div class="about-visual reveal reveal--right">
+          <div class="about-photo">
+            <div class="about-photo__placeholder">
+              <i class="fa-solid fa-screwdriver-wrench about-photo__icon" aria-hidden="true"></i>
+              <p class="about-photo__label">[Foto Inhaber]</p>
+            </div>
+            <div class="about-photo__badge">
+              <i class="fa-solid fa-award" aria-hidden="true"></i>
+              Meisterbetrieb
+            </div>
+          </div>
+
+          <div class="about-stats">
+            <div class="about-stat">
+              <span class="about-stat__num">20+</span>
+              <span class="about-stat__label">Jahre Erfahrung</span>
+            </div>
+            <div class="about-stat">
+              <span class="about-stat__num">500+</span>
+              <span class="about-stat__label">Projekte</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Kontakt & Angebot ──────────────────────── -->
+    <section id="kontakt" class="section section--white" aria-labelledby="kontakt-title">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__eyebrow reveal">Wir freuen uns auf Sie</p>
+          <h2 id="kontakt-title" class="section__title reveal">Kostenloses Angebot anfragen</h2>
+          <p class="section__sub reveal">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+        </div>
+
+        <div class="kontakt-grid">
+
+          <div class="kontakt-form-wrap reveal reveal--left">
+            <h3 class="kontakt-form-title">Ihre Anfrage</h3>
+            <form id="contact-form" class="contact-form" novalidate>
+
+              <div class="cf-row cf-row--2">
+                <div class="cf-group" id="grp-name">
+                  <label for="cf-name">Name <span class="cf-required" aria-label="Pflichtfeld">*</span></label>
+                  <input type="text" id="cf-name" name="name"
+                         placeholder="Max Mustermann"
+                         required autocomplete="name">
+                  <span class="cf-error-msg" role="alert">Bitte geben Sie Ihren Namen ein.</span>
+                </div>
+                <div class="cf-group" id="grp-phone">
+                  <label for="cf-phone">Telefon <span class="cf-required" aria-label="Pflichtfeld">*</span></label>
+                  <input type="tel" id="cf-phone" name="phone"
+                         placeholder="0000 XXXXX"
+                         required autocomplete="tel">
+                  <span class="cf-error-msg" role="alert">Bitte geben Sie Ihre Telefonnummer ein.</span>
+                </div>
+              </div>
+
+              <div class="cf-group">
+                <label for="cf-address">Adresse</label>
+                <input type="text" id="cf-address" name="address"
+                       placeholder="Musterstraße 1"
+                       autocomplete="street-address">
+              </div>
+
+              <div class="cf-group" id="grp-type">
+                <label for="cf-type">Art des Auftrags <span class="cf-required" aria-label="Pflichtfeld">*</span></label>
+                <select id="cf-type" name="type" required>
+                  <option value="">— Bitte wählen —</option>
+                  <option value="heizung">Heizungsinstallation / -wartung</option>
+                  <option value="sanitaer">Sanitärinstallation</option>
+                  <option value="bad">Badsanierung</option>
+                  <option value="lueftung">Lüftungsanlage</option>
+                  <option value="solar">Wärmepumpe / Solaranlage</option>
+                  <option value="notdienst">Notdienst</option>
+                  <option value="sonstiges">Sonstiges</option>
+                </select>
+                <span class="cf-error-msg" role="alert">Bitte wählen Sie eine Auftragsart.</span>
+              </div>
+
+              <div class="cf-group">
+                <label for="cf-message">Kurze Beschreibung</label>
+                <textarea id="cf-message" name="message" rows="4"
+                          placeholder="Beschreiben Sie kurz Ihr Anliegen – z.B. Heizung läuft nicht, Bad renovieren, etc."></textarea>
+              </div>
+
+              <button type="submit" id="cf-submit" class="btn btn--accent btn--lg cf-submit">
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                Kostenloses Angebot anfragen
+              </button>
+
+              <p class="cf-hint">Design-Beispiel — es wird keine echte Anfrage versendet.</p>
+              <p id="cf-error-general" class="cf-error-general" hidden>Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es später erneut oder rufen Sie uns an.</p>
+            </form>
+
+            <div id="cf-success" class="cf-success" hidden aria-live="polite">
+              <i class="fa-solid fa-circle-check cf-success__icon" aria-hidden="true"></i>
+              <strong class="cf-success__title">Vielen Dank für Ihre Anfrage!</strong>
+              <p class="cf-success__text">Wir haben Ihre Nachricht erhalten und melden uns schnellstmöglich – in der Regel innerhalb von 24 Stunden – bei Ihnen.</p>
+            </div>
+          </div>
+
+          <div class="kontakt-info reveal reveal--right">
+            <div class="contact-details">
+              <h3 class="contact-details__title">Wärmetechnik Talblick</h3>
+              <address class="contact-details__address">
+                Schwäbischer Wald<br>
+                Baden-Württemberg
+              </address>
+
+              <span class="contact-phone">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                0000 / 000000
+              </span>
+
+              <div class="contact-hours">
+                <div class="contact-hours__row">
+                  <i class="fa-solid fa-clock" aria-hidden="true"></i>
+                  <div>
+                    <strong>Bürozeiten</strong>
+                    <span>Mo–Fr: 7:00–17:00 Uhr</span>
+                  </div>
+                </div>
+                <div class="contact-hours__row contact-hours__row--emergency">
+                  <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                  <div>
+                    <strong>Notdienst</strong>
+                    <span>24 Stunden &middot; 7 Tage &middot; 365 Tage</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-area">
+                <p class="contact-area__label">
+                  <i class="fa-solid fa-map" aria-hidden="true"></i>
+                  Einzugsgebiet
+                </p>
+                <p class="contact-area__list">Schwäbischer Wald und Umgebung</p>
+              </div>
+            </div>
+
+            <div class="contact-map">
+              <div style="width:100%;height:280px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-alt, #eef1f4);border-radius:12px;text-align:center;padding:1rem;">
+                <p style="opacity:.7">Design-Beispiel — keine reale Adresse hinterlegt.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer__inner">
+
+      <div class="footer__brand">
+        <div class="footer__logo">
+          <i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i>
+          <span>Talblick</span>
+        </div>
+        <p class="footer__tagline">Haus- und Gebäudetechnik &middot; Meisterbetrieb</p>
+        <address class="footer__address">Schwäbischer Wald, Baden-Württemberg</address>
+        <span class="footer__phone">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          0000 / 000000
+        </span>
+        <p class="footer__notdienst">
+          <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+          24h Notdienst verfügbar
+        </p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Leistungen Footer">
+        <h4 class="footer__nav-title">Leistungen</h4>
+        <a href="#leistungen">Heizungsinstallation</a>
+        <a href="#leistungen">Badsanierung &amp; Sanitär</a>
+        <a href="#leistungen">Wärmepumpe &amp; Solar</a>
+        <a href="#leistungen">Lüftungsanlagen</a>
+        <a href="#leistungen">24h Notdienst</a>
+      </nav>
+
+      <nav class="footer__nav" aria-label="Unternehmen Footer">
+        <h4 class="footer__nav-title">Unternehmen</h4>
+        <a href="#startseite">Start</a>
+        <a href="#referenzen">Referenzen</a>
+        <a href="#ueber-uns">Über uns</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#kontakt">Angebot anfragen</a>
+      </nav>
+
+      <div class="footer__area">
+        <h4 class="footer__nav-title">Einzugsgebiet</h4>
+        <p>Schwäbischer Wald und Umgebung</p>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <div class="container footer__bottom-inner">
+        <p>&copy; <span id="footer-year"></span> Design-Beispiel &ndash; Wärmetechnik Talblick</p>
+        <div class="footer__legal-links">
+          <a href="https://www.webdesign-ehmann.de" target="_blank" rel="noopener">Erstellt von Webdesign Ehmann</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

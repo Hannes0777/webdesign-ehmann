@@ -1,0 +1,77 @@
+/* ============================================================
+   fonts.css — selbst gehostete Schriftarten (Lora, Inter)
+   ------------------------------------------------------------
+   Ersetzt das Nachladen von Google Fonts (fonts.googleapis.com /
+   fonts.gstatic.com). Dateien liegen lokal in assets/fonts/ –
+   dadurch keine Verbindung zu Google-Servern und keine
+   Übertragung der Besucher-IP an Dritte (siehe Datenschutzerklärung).
+
+   Herkunft: fonts.google.com/specimen/Lora und /specimen/Inter,
+   Lizenz: SIL Open Font License 1.1 (beide Familien).
+   Es handelt sich um Variable Fonts – eine Datei deckt mehrere
+   Schriftschnitte ab, daher zeigen mehrere @font-face-Regeln auf
+   dieselbe lokale Datei.
+   Subset: "latin" (deckt auch deutsche Umlaute/ß ab, U+0000–00FF).
+   ============================================================ */
+
+/* Inter – Body-Schrift (400, 500, 600 / normal) */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/inter-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/inter-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/inter-latin.woff2') format('woff2');
+}
+
+/* Lora – Überschriften-Schrift (400, 600, 700 / normal) */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/lora-latin-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/lora-latin-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/lora-latin-normal.woff2') format('woff2');
+}
+
+/* Lora – kursiv (400, 600 / italic) */
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/lora-latin-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/lora-latin-italic.woff2') format('woff2');
+}

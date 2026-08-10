@@ -902,6 +902,13 @@ button { font: inherit; cursor: pointer; }
   background: var(--panel-dot);
 }
 
+.dstyles__note {
+  margin-top: 18px;
+  font-size: 0.78rem;
+  color: var(--panel-mist);
+  opacity: 0.75;
+}
+
 .dstyles__dots { display: none; }
 
 /* --- Mockup-Rahmen (gemeinsam) --- */
