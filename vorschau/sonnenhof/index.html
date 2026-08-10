@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Design-Beispiel: Landmetzgerei Sonnenhof – Design-Referenz von Webdesign Ehmann.">
+  <title>Landmetzgerei Sonnenhof – Design-Beispiel</title>
+
+  <link rel="stylesheet" href="css/fonts.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .demo-badge{position:fixed;top:14px;right:14px;z-index:500;background:rgba(20,10,10,0.82);color:#FFF8E7;font-size:12px;font-weight:600;letter-spacing:.02em;padding:7px 14px;border-radius:999px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);}
+  </style>
+</head>
+<body>
+
+<div id="progress-bar" aria-hidden="true">
+  <div id="progress-fill"></div>
+</div>
+
+<span class="demo-badge">Design-Beispiel · fiktiver Betrieb</span>
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+<header id="main-nav" class="nav" role="banner">
+  <div class="nav__inner container">
+    <a href="#hero" class="nav__logo" aria-label="Landmetzgerei Sonnenhof – Startseite">
+      <span class="nav__logo-text">
+        <span class="nav__logo-main">Sonnenhof</span>
+        <span class="nav__logo-sub">Landmetzgerei &amp; Partyservice</span>
+      </span>
+    </a>
+
+    <button id="nav-toggle" class="nav__toggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="nav-menu" class="nav__menu" aria-label="Hauptnavigation">
+      <ul role="list">
+        <li><a href="#hero" class="nav__link">Startseite</a></li>
+        <li><a href="#produkte" data-section="produkte" class="nav__link">Produkte</a></li>
+        <li><a href="#aktuelles" data-section="aktuelles" class="nav__link">Aktuelles</a></li>
+        <li><a href="#kontakt" data-section="kontakt" class="nav__link">Kontakt</a></li>
+        <li><a href="#ueber-uns" data-section="ueber-uns" class="nav__link">Über uns</a></li>
+        <li><a href="#partyservice" data-section="partyservice" class="nav__link">Partyservice</a></li>
+        <li><a href="#anfrage" data-section="partyservice" data-anchor="anfrage" class="btn btn--nav">Anfrage stellen</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
+  <section id="hero" class="hero" aria-label="Willkommen bei Landmetzgerei Sonnenhof">
+    <div class="hero__bg-wrap">
+      <div class="hero__bg"></div>
+      <div class="hero__overlay"></div>
+    </div>
+
+    <div class="hero__content container">
+      <p class="hero__eyebrow reveal-chars">Schwäbischer Wald · Gegründet seit über 150 Jahren</p>
+      <h1 class="hero__title">
+        <span class="hero__title-line reveal-line">Handwerkskunst</span>
+        <span class="hero__title-line reveal-line italic">seit Generationen.</span>
+      </h1>
+      <p class="hero__subtitle reveal-fade">Traditionelle Metzgerei mit Leidenschaft – die Familie hinter dem Sonnenhof steht seit der 5. Generation für höchste Qualität aus der Region.</p>
+      <div class="hero__ctas reveal-fade">
+        <a href="#produkte" data-section="produkte" class="btn btn--primary btn--lg">Unsere Produkte</a>
+        <a href="#anfrage" data-section="partyservice" data-anchor="anfrage" class="btn btn--outline btn--lg">Partyservice anfragen</a>
+      </div>
+    </div>
+
+    <div class="hero__scroll-indicator" aria-hidden="true">
+      <span>Entdecken</span>
+      <div class="hero__scroll-arrow"></div>
+    </div>
+
+    <div class="hero__badge hero__badge--1" aria-hidden="true">
+      <div class="badge__inner">
+        <span class="badge__icon">✦</span>
+        <span>Handwerk</span>
+      </div>
+    </div>
+    <div class="hero__badge hero__badge--2" aria-hidden="true">
+      <div class="badge__inner">
+        <span class="badge__icon">✦</span>
+        <span>Regional</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       TRUST TICKER
+       ===================================================== -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span>Handwerksqualität seit über 150 Jahren ✦</span>
+      <span>5. Generation Familienbetrieb ✦</span>
+      <span>Frisch &amp; Regional ✦</span>
+      <span>Partyservice für jeden Anlass ✦</span>
+      <span>Schwäbischer Wald ✦</span>
+      <span>Handwerksqualität seit über 150 Jahren ✦</span>
+      <span>5. Generation Familienbetrieb ✦</span>
+      <span>Frisch &amp; Regional ✦</span>
+      <span>Partyservice für jeden Anlass ✦</span>
+      <span>Schwäbischer Wald ✦</span>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       STATS / KENNDATEN
+       ===================================================== -->
+  <section class="stats" aria-label="Zahlen und Fakten">
+    <div class="container stats__grid">
+      <div class="stat-card" data-animate="fade-up">
+        <span class="stat-card__number" data-count="150">0</span>
+        <span class="stat-card__suffix">+</span>
+        <p class="stat-card__label">Jahre Geschichte</p>
+      </div>
+      <div class="stat-card" data-animate="fade-up" data-delay="0.1">
+        <span class="stat-card__number" data-count="5">0</span>
+        <span class="stat-card__suffix">.</span>
+        <p class="stat-card__label">Generation Familienbetrieb</p>
+      </div>
+      <div class="stat-card" data-animate="fade-up" data-delay="0.2">
+        <span class="stat-card__number" data-count="100">0</span>
+        <span class="stat-card__suffix">%</span>
+        <p class="stat-card__label">Regionale Herkunft</p>
+      </div>
+      <div class="stat-card" data-animate="fade-up" data-delay="0.3">
+        <span class="stat-card__number" data-count="6">0</span>
+        <span class="stat-card__suffix">×</span>
+        <p class="stat-card__label">Tage die Woche frisch</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SCHNELLZUGRIFF (mobil)
+       ===================================================== -->
+  <section class="quick-links mobile-section" aria-label="Schnellzugriff">
+    <div class="container">
+      <div class="quick-links__grid">
+        <a href="#produkte" data-section="produkte" class="quick-link-card" data-animate="fade-up">
+          <span class="quick-link-card__icon" aria-hidden="true">🥩</span>
+          <h3>Produkte</h3>
+          <p>Frischfleisch, Wurstwaren, Feinkost und mehr aus eigener Herstellung.</p>
+          <span class="quick-link-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#aktuelles" data-section="aktuelles" class="quick-link-card" data-animate="fade-up" data-delay="0.1">
+          <span class="quick-link-card__icon" aria-hidden="true">📰</span>
+          <h3>Aktuelles</h3>
+          <p>Wochenangebote, Tagesessen und saisonale Spezialitäten.</p>
+          <span class="quick-link-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#partyservice" data-section="partyservice" class="quick-link-card" data-animate="fade-up" data-delay="0.2">
+          <span class="quick-link-card__icon" aria-hidden="true">🎉</span>
+          <h3>Partyservice</h3>
+          <p>Catering für Feiern und Events – von der Planung bis zum letzten Gast.</p>
+          <span class="quick-link-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#ueber-uns" data-section="ueber-uns" class="quick-link-card" data-animate="fade-up" data-delay="0.3">
+          <span class="quick-link-card__icon" aria-hidden="true">📖</span>
+          <h3>Über uns</h3>
+          <p>5 Generationen Handwerkstradition.</p>
+          <span class="quick-link-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#kontakt" data-section="kontakt" class="quick-link-card" data-animate="fade-up" data-delay="0.1">
+          <span class="quick-link-card__icon" aria-hidden="true">📍</span>
+          <h3>Kontakt</h3>
+          <p>Adresse, Öffnungszeiten und Anfahrt.</p>
+          <span class="quick-link-card__arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PRODUKTE
+       ===================================================== -->
+  <section id="produkte" class="produkte desktop-section" aria-label="Unsere Produkte">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-eyebrow">Sortiment</span>
+        <h2 class="section-title">Unsere Produkte</h2>
+        <p class="section-subtitle">Ausgewählt, handwerklich veredelt und täglich frisch – entdecken Sie unsere Spezialitäten.</p>
+      </div>
+
+      <div class="produkte__grid">
+
+        <div class="produkt-card produkt-card--large" data-animate="fade-up">
+          <div class="produkt-card__img-wrap">
+            <img src="assets/images/produkt-frischfleisch.png"
+                 alt="Frisches Fleisch"
+                 class="produkt-card__img"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.closest('.produkt-card__img-wrap').classList.add('img-placeholder')">
+            <div class="produkt-card__img-placeholder" aria-hidden="true">
+              <span>Frischfleisch</span>
+            </div>
+            <div class="produkt-card__overlay">
+              <span class="produkt-card__tag">Kategorie 01</span>
+            </div>
+          </div>
+          <div class="produkt-card__body">
+            <h3 class="produkt-card__title">Frischfleisch</h3>
+            <p class="produkt-card__text">Rindfleisch, Schweinefleisch, Geflügel und Lammfleisch – alles frisch vom regionalen Erzeuger, täglich vorbereitet in unserem Betrieb.</p>
+            <ul class="produkt-card__list">
+              <li>Rind aus der Region</li>
+              <li>Schwein vom Bauernhof</li>
+              <li>Geflügel & Lamm</li>
+              <li>Tagesfrische Zuschnitte</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="produkt-card" data-animate="fade-up" data-delay="0.1">
+          <div class="produkt-card__img-wrap">
+            <img src="assets/images/produkt-wurstwaren.png"
+                 alt="Hausgemachte Wurstwaren"
+                 class="produkt-card__img"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.closest('.produkt-card__img-wrap').classList.add('img-placeholder')">
+            <div class="produkt-card__img-placeholder" aria-hidden="true">
+              <span>Wurstwaren</span>
+            </div>
+            <div class="produkt-card__overlay">
+              <span class="produkt-card__tag">Kategorie 02</span>
+            </div>
+          </div>
+          <div class="produkt-card__body">
+            <h3 class="produkt-card__title">Wurstwaren</h3>
+            <p class="produkt-card__text">Hauseigene Rezepturen, überliefert über Generationen. Von der klassischen Bratwurst bis zur feinen Leberwurst.</p>
+            <ul class="produkt-card__list">
+              <li>Hausspezialitäten</li>
+              <li>Fleischkäsvariationen</li>
+              <li>Hausmacherwurst</li>
+              <li>Spezialitäten aus dem Rauch</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="produkt-card" data-animate="fade-up" data-delay="0.2">
+          <div class="produkt-card__img-wrap">
+            <img src="assets/images/produkt-feinkost.png"
+                 alt="Feinkost und Delikatessen"
+                 class="produkt-card__img"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.closest('.produkt-card__img-wrap').classList.add('img-placeholder')">
+            <div class="produkt-card__img-placeholder" aria-hidden="true">
+              <span>Feinkost</span>
+            </div>
+            <div class="produkt-card__overlay">
+              <span class="produkt-card__tag">Kategorie 03</span>
+            </div>
+          </div>
+          <div class="produkt-card__body">
+            <h3 class="produkt-card__title">Feinkost</h3>
+            <p class="produkt-card__text">Fisch, Käse, frische Salate und Gourmetprodukte – eine erlesene Auswahl für besondere Genussmomente.</p>
+            <ul class="produkt-card__list">
+              <li>Frische Salate</li>
+              <li>Käsespezialitäten</li>
+              <li>Fischdelikatessen</li>
+              <li>Dosenspezialitäten</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="produkt-card" data-animate="fade-up" data-delay="0.3">
+          <div class="produkt-card__img-wrap">
+            <img src="assets/images/produkt-mittagstisch.png"
+                 alt="Mittagstisch und Tagesessen"
+                 class="produkt-card__img"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.closest('.produkt-card__img-wrap').classList.add('img-placeholder')">
+            <div class="produkt-card__img-placeholder" aria-hidden="true">
+              <span>Mittagstisch</span>
+            </div>
+            <div class="produkt-card__overlay">
+              <span class="produkt-card__tag">Kategorie 04</span>
+            </div>
+          </div>
+          <div class="produkt-card__body">
+            <h3 class="produkt-card__title">Mittagstisch & Tagesessen</h3>
+            <p class="produkt-card__text">Täglich frisch gekochte Gerichte – telefonisch vorbestellbar. Warm, hausgemacht und herzhaft.</p>
+            <ul class="produkt-card__list">
+              <li>Wechselnde Tagesgerichte</li>
+              <li>Telefonisch vorbestellen</li>
+              <li>Wochenangebote</li>
+              <li>Saisonale Spezialitäten</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="produkt-card" data-animate="fade-up" data-delay="0.1">
+          <div class="produkt-card__img-wrap">
+            <img src="assets/images/produkt-snacks.png"
+                 alt="Snacks und Imbiss"
+                 class="produkt-card__img"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.closest('.produkt-card__img-wrap').classList.add('img-placeholder')">
+            <div class="produkt-card__img-placeholder" aria-hidden="true">
+              <span>Snacks</span>
+            </div>
+            <div class="produkt-card__overlay">
+              <span class="produkt-card__tag">Kategorie 05</span>
+            </div>
+          </div>
+          <div class="produkt-card__body">
+            <h3 class="produkt-card__title">Snacks & Imbiss</h3>
+            <p class="produkt-card__text">Frische hausgemachte Snacks für den kleinen und großen Hunger – ideal für die Mittagspause oder zwischendurch.</p>
+            <ul class="produkt-card__list">
+              <li>Frische Wurstsemmeln</li>
+              <li>Fleischkäse-Variationen</li>
+              <li>Belegte Brote</li>
+              <li>Hausgemachte Salate</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="produkt-card produkt-card--cta" data-animate="fade-up" data-delay="0.2">
+          <div class="produkt-card__cta-inner">
+            <span class="produkt-card__cta-icon">✦</span>
+            <h3>Noch mehr entdecken</h3>
+            <p>Besuchen Sie uns persönlich und lassen Sie sich von unserer Auswahl inspirieren.</p>
+            <a href="#kontakt" class="btn btn--primary">Öffnungszeiten ansehen</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       AKTUELLES / WOCHENANGEBOTE
+       ===================================================== -->
+  <section id="aktuelles" class="aktuelles desktop-section" aria-label="Aktuelles und Wochenangebote">
+    <div class="aktuelles__bg-decor" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-eyebrow">Immer frisch</span>
+        <h2 class="section-title">Aktuelles &amp; Angebote</h2>
+        <p class="section-subtitle">Wochenkarte, saisonale Spezialitäten und aktuelle Aktionen – direkt aus unserer Metzgerei.</p>
+      </div>
+
+      <div class="aktuelles__grid" id="aktuelles-grid">
+
+        <div class="angebot-card" data-animate="fade-up">
+          <div class="angebot-card__top">
+            <span class="angebot-card__badge">Wochenangebot</span>
+          </div>
+          <div class="angebot-card__img img-placeholder-box">
+            <div class="placeholder-label">Ihr Foto hier</div>
+          </div>
+          <div class="angebot-card__body">
+            <h3>Wochenangebote</h3>
+            <p>Jeden Montag neu – unsere aktuellen Wochenangebote mit ausgewählten Fleisch- und Wurstwaren zu besonders günstigen Preisen.</p>
+            <a href="#kontakt" class="btn btn--secondary btn--sm">Jetzt anrufen</a>
+          </div>
+        </div>
+
+        <div class="angebot-card" data-animate="fade-up" data-delay="0.1">
+          <div class="angebot-card__top">
+            <span class="angebot-card__badge angebot-card__badge--green">Tagesessen</span>
+          </div>
+          <div class="angebot-card__img img-placeholder-box">
+            <div class="placeholder-label">Ihr Foto hier</div>
+          </div>
+          <div class="angebot-card__body">
+            <h3>Tagesessen</h3>
+            <p>Täglich frisch gekochte Mahlzeiten – telefonisch vorbestellbar. Warm, hausgemacht und direkt aus unserer Küche.</p>
+            <a href="#kontakt" class="btn btn--secondary btn--sm">Vorbestellen</a>
+          </div>
+        </div>
+
+        <div class="angebot-card" data-animate="fade-up" data-delay="0.2">
+          <div class="angebot-card__top">
+            <span class="angebot-card__badge angebot-card__badge--gold">Saison</span>
+          </div>
+          <div class="angebot-card__img img-placeholder-box">
+            <div class="placeholder-label">Ihr Foto hier</div>
+          </div>
+          <div class="angebot-card__body">
+            <h3>Saisonale Spezialitäten</h3>
+            <p>Grillsaison, Weihnachtszeit, Ostern – wir haben immer die passenden Spezialitäten für jeden Anlass und jede Jahreszeit.</p>
+            <a href="#kontakt" class="btn btn--secondary btn--sm">Mehr erfahren</a>
+          </div>
+        </div>
+
+        <div class="angebot-card angebot-card--highlight" data-animate="fade-up" data-delay="0.3">
+          <div class="angebot-card__body">
+            <span class="angebot-card__badge angebot-card__badge--white">Tipp</span>
+            <h3>Unsere Lieblinge</h3>
+            <p>Unsere hausinternen Favoriten – Fleischkäsvariationen, Dosenspezialitäten und mehr. Besuchen Sie uns und lassen Sie sich überraschen!</p>
+            <a href="#kontakt" class="btn btn--outline-light btn--sm">Besuchen Sie uns</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       KONTAKT & ÖFFNUNGSZEITEN
+       ===================================================== -->
+  <section id="kontakt" class="kontakt desktop-section" aria-label="Kontakt und Öffnungszeiten">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-eyebrow">Besuchen Sie uns</span>
+        <h2 class="section-title">Kontakt &amp; Öffnungszeiten</h2>
+      </div>
+
+      <div class="kontakt__grid">
+
+        <div class="kontakt__info" data-animate="fade-right">
+          <div class="kontakt__card">
+            <h3 class="kontakt__card-title">📍 Lage</h3>
+            <address id="kontakt-address">
+              Landmetzgerei Sonnenhof<br>
+              Schwäbischer Wald
+            </address>
+          </div>
+
+          <div class="kontakt__card">
+            <h3 class="kontakt__card-title">📞 Kontakt</h3>
+            <p><span class="kontakt__link">kontakt@beispiel.de</span></p>
+          </div>
+
+          <div class="kontakt__card kontakt__card--hours">
+            <h3 class="kontakt__card-title">🕐 Öffnungszeiten</h3>
+            <div class="hours-grid">
+              <div class="hours-row">
+                <span class="hours-day">Montag</span>
+                <span class="hours-time">07:30 – 18:00 Uhr</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Dienstag</span>
+                <span class="hours-time">07:30 – 18:00 Uhr</span>
+              </div>
+              <div class="hours-row hours-row--short">
+                <span class="hours-day">Mittwoch</span>
+                <span class="hours-time">07:30 – 13:00 Uhr</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Donnerstag</span>
+                <span class="hours-time">07:30 – 18:00 Uhr</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Freitag</span>
+                <span class="hours-time">07:30 – 18:00 Uhr</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Samstag</span>
+                <span class="hours-time">07:00 – 12:30 Uhr</span>
+              </div>
+              <div class="hours-row hours-row--closed">
+                <span class="hours-day">Sonntag</span>
+                <span class="hours-time">Geschlossen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kontakt__map-wrap" data-animate="fade-left">
+          <div class="kontakt__card" style="display:flex;align-items:center;justify-content:center;min-height:280px;text-align:center;">
+            <p style="opacity:.7">Design-Beispiel — keine reale Adresse hinterlegt.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       INTRO STATEMENT
+       ===================================================== -->
+  <section class="intro-statement desktop-section" aria-label="Unser Versprechen">
+    <div class="container">
+      <div class="intro-statement__inner" data-animate="fade-up">
+        <p class="intro-statement__quote">"Von hier,<br><em>für hier."</em></p>
+        <p class="intro-statement__text">Seit Generationen verbinden wir überliefertes Handwerk mit modernster Technik. Jedes Produkt, das Sie bei uns kaufen, entsteht mit Sorgfalt, Leidenschaft und dem Besten, was die Region zu bieten hat.</p>
+        <div class="intro-statement__badges">
+          <span class="quality-badge">✦ Handwerksbetrieb</span>
+          <span class="quality-badge">✦ Regionale Herkunft</span>
+          <span class="quality-badge">✦ Familienrezepte</span>
+          <span class="quality-badge">✦ Frisch täglich</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       ÜBER UNS
+       ===================================================== -->
+  <section id="ueber-uns" class="ueber-uns desktop-section" aria-label="Über uns">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-eyebrow">Unsere Geschichte</span>
+        <h2 class="section-title">Über uns</h2>
+      </div>
+
+      <div class="ueber-uns__grid">
+        <div class="ueber-uns__text" data-animate="fade-right">
+          <h3>Tradition trifft Leidenschaft</h3>
+          <p>Die Landmetzgerei Sonnenhof blickt auf über <strong>150 Jahre Geschichte</strong> zurück und ist heute in der 5. Generation ein fester Bestandteil des Lebens in der Region. Die Familie führt den Betrieb mit dem gleichen Engagement wie alle ihre Vorfahren.</p>
+          <p>Unser Motto <em>"Von hier, für hier"</em> bringt es auf den Punkt: Wir kombinieren überlieferte Handwerkskunst mit modernster Technik und stetiger Weiterentwicklung. Das Ergebnis sind Produkte, die schmecken wie früher – aber mit der Qualität von heute.</p>
+          <p>Alle unsere Fleisch- und Wurstwaren entstehen in unserem eigenen Betrieb. Wir kennen unsere Lieferanten persönlich und legen größten Wert auf regionale Herkunft und artgerechte Tierhaltung.</p>
+
+          <div class="ueber-uns__values">
+            <div class="value-item">
+              <span class="value-item__icon">⚒</span>
+              <h4>Handwerk</h4>
+              <p>Jedes Produkt entsteht in traditioneller Handarbeit nach überlieferten Rezepten.</p>
+            </div>
+            <div class="value-item">
+              <span class="value-item__icon">📍</span>
+              <h4>Regional</h4>
+              <p>Wir beziehen unser Fleisch ausschließlich von regionalen Betrieben aus der Umgebung.</p>
+            </div>
+            <div class="value-item">
+              <span class="value-item__icon">♻</span>
+              <h4>Nachhaltig</h4>
+              <p>Verantwortungsvoller Umgang mit Ressourcen und Respekt gegenüber Mensch und Tier.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ueber-uns__visual" data-animate="fade-left">
+          <div class="ueber-uns__img-main img-placeholder-box">
+            <img src="assets/images/team-foto.png"
+                 alt="Team der Landmetzgerei Sonnenhof"
+                 class="ueber-uns__img"
+                 loading="lazy"
+                 onerror="this.style.display='none'">
+            <div class="img-overlay-text">Landmetzgerei Sonnenhof</div>
+          </div>
+
+          <div class="ueber-uns__timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <strong>~1870er</strong>
+                <p>Gründung der Landmetzgerei Sonnenhof</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <strong>Über Generationen</strong>
+                <p>Überlieferung von Wissen und Rezepten über 5 Generationen</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <strong>Heute</strong>
+                <p>Die Familie führt den Betrieb mit modernster Technik und alter Handwerkskunst</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="gen-badge" aria-label="5. Generation Familienbetrieb">
+            <span class="gen-badge__num">5</span>
+            <span class="gen-badge__text">Generation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PARTYSERVICE
+       ===================================================== -->
+  <section id="partyservice" class="partyservice desktop-section" aria-label="Partyservice">
+    <div class="partyservice__bg-text" aria-hidden="true">PARTY</div>
+
+    <div class="container">
+      <div class="section-header section-header--light" data-animate="fade-up">
+        <span class="section-eyebrow section-eyebrow--light">Catering & Events</span>
+        <h2 class="section-title section-title--light">Partyservice</h2>
+        <p class="section-subtitle section-subtitle--light">Von der Planung bis zum letzten Gast – wir kümmern uns um alles.</p>
+      </div>
+
+      <div class="partyservice__grid">
+
+        <div class="partyservice__info" data-animate="fade-right">
+          <h3 class="partyservice__info-title">Was wir bieten</h3>
+
+          <div class="ps-feature">
+            <div class="ps-feature__icon">🍖</div>
+            <div>
+              <h4>Buffets & Grillplatten</h4>
+              <p>Reichhaltige Buffets mit hausgemachten Spezialitäten, Grillplatten und Aufschnitt – abgestimmt auf Ihre Wünsche.</p>
+            </div>
+          </div>
+          <div class="ps-feature">
+            <div class="ps-feature__icon">🎉</div>
+            <div>
+              <h4>Für jeden Anlass</h4>
+              <p>Geburtstage, Firmenfeiern, Hochzeiten, Vereinsfeste – wir begleiten Ihre Veranstaltung professionell.</p>
+            </div>
+          </div>
+          <div class="ps-feature">
+            <div class="ps-feature__icon">🏕️</div>
+            <div>
+              <h4>Aufbau & Ausstattung</h4>
+              <p>Wir liefern Zelt, Stehtische, Kühlwagen, Geschirr, Besteck, Gläser, Grills und Wärmeboxen.</p>
+            </div>
+          </div>
+          <div class="ps-feature">
+            <div class="ps-feature__icon">🧹</div>
+            <div>
+              <h4>Rundum-Service</h4>
+              <p>Aufbau, Dekoration, Personal vor Ort und Abbau nach der Veranstaltung – komplett aus einer Hand.</p>
+            </div>
+          </div>
+
+          <div class="partyservice__occasions" id="occasion-tags">
+            <span class="occasion-tag">Geburtstage</span>
+            <span class="occasion-tag">Hochzeiten</span>
+            <span class="occasion-tag">Firmenfeiern</span>
+            <span class="occasion-tag">Vereinsfeste</span>
+            <span class="occasion-tag">Jubiläen</span>
+            <span class="occasion-tag">Taufen</span>
+          </div>
+        </div>
+
+        <!-- ── Anfrage-Formular ── -->
+        <div id="anfrage" class="partyservice__form-wrap" data-animate="fade-left">
+          <div class="form-card">
+            <div class="form-card__header">
+              <h3>Unverbindlich anfragen</h3>
+              <p>Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+            </div>
+
+            <form id="partyservice-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="f-name">Name *</label>
+                  <input type="text" id="f-name" name="name" required placeholder="Ihr vollständiger Name" autocomplete="name">
+                  <span class="form-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="f-phone">Telefon *</label>
+                  <input type="tel" id="f-phone" name="phone" required placeholder="Ihre Telefonnummer" autocomplete="tel">
+                  <span class="form-error" role="alert"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="f-email">E-Mail *</label>
+                <input type="email" id="f-email" name="email" required placeholder="ihre@email.de" autocomplete="email">
+                <span class="form-error" role="alert"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="f-date">Datum der Veranstaltung *</label>
+                  <input type="date" id="f-date" name="date" required>
+                  <span class="form-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="f-persons">Anzahl Personen *</label>
+                  <input type="number" id="f-persons" name="persons" required min="1" placeholder="z.B. 50">
+                  <span class="form-error" role="alert"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="f-event">Art des Events *</label>
+                <select id="f-event" name="event" required>
+                  <option value="" disabled selected>Bitte wählen…</option>
+                  <option value="geburtstag">Geburtstag</option>
+                  <option value="hochzeit">Hochzeit</option>
+                  <option value="firmenevent">Firmenevent</option>
+                  <option value="vereinsfest">Vereinsfest</option>
+                  <option value="jubilaeum">Jubiläum</option>
+                  <option value="taufe">Taufe</option>
+                  <option value="sonstiges">Sonstiges</option>
+                </select>
+                <span class="form-error" role="alert"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="f-food">Gewünschte Speisen</label>
+                <textarea id="f-food" name="food" rows="2" placeholder="z.B. Buffet, Grillplatte, Aufschnitt…"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="f-notes">Anmerkungen & Wünsche</label>
+                <textarea id="f-notes" name="notes" rows="3" placeholder="Besondere Wünsche, Allergien oder weitere Informationen…"></textarea>
+              </div>
+
+              <div class="form-group form-group--checkbox">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="f-consent" name="consent" required>
+                  <span class="checkbox-custom"></span>
+                  <span>Ich stimme zu, dass meine Angaben zur Bearbeitung meiner Anfrage gespeichert werden. *</span>
+                </label>
+                <span class="form-error" role="alert"></span>
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--full">
+                <span class="btn__text">Unverbindlich anfragen</span>
+                <span class="btn__icon">→</span>
+              </button>
+
+              <p class="form-hint">✓ Design-Beispiel — es wird keine echte Anfrage versendet</p>
+              <p id="form-error-general" class="form-error-general" hidden>Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es später erneut oder rufen Sie uns an.</p>
+            </form>
+
+            <div id="form-success" class="form-success" hidden>
+              <div class="form-success__icon">✓</div>
+              <h4>Vielen Dank!</h4>
+              <p>Ihre Anfrage ist eingegangen. Wir melden uns innerhalb von 24 Stunden.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+<footer class="footer" role="contentinfo">
+  <div class="footer__top">
+    <div class="container footer__top-inner">
+      <div class="footer__brand">
+        <span class="footer__logo-main">Sonnenhof</span>
+        <span class="footer__logo-sub">Landmetzgerei &amp; Partyservice</span>
+        <p>Handwerksqualität seit über 150 Jahren.</p>
+      </div>
+      <div class="footer__links">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#produkte" data-section="produkte">Produkte</a></li>
+          <li><a href="#aktuelles" data-section="aktuelles">Aktuelles</a></li>
+          <li><a href="#kontakt" data-section="kontakt">Kontakt</a></li>
+          <li><a href="#ueber-uns" data-section="ueber-uns">Über uns</a></li>
+          <li><a href="#partyservice" data-section="partyservice">Partyservice</a></li>
+        </ul>
+      </div>
+      <div class="footer__contact">
+        <h4>Kontakt</h4>
+        <p id="footer-address">Schwäbischer Wald</p>
+        <p>kontakt@beispiel.de</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <p>&copy; <span id="year"></span> Design-Beispiel · Landmetzgerei Sonnenhof</p>
+      <div class="footer__legal">
+        <a href="https://www.webdesign-ehmann.de" target="_blank" rel="noopener">Erstellt von Webdesign Ehmann</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" class="back-to-top" aria-label="Nach oben scrollen">↑</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>

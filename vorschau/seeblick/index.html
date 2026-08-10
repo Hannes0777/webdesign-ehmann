@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Design-Beispiel: Biergarten & Bootsverleih am Silbersee – Design-Referenz von Webdesign Ehmann.">
+  <title>Seeblick Waldschänke &amp; Bootsverleih – Design-Beispiel</title>
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .demo-badge{position:fixed;top:14px;right:14px;z-index:500;background:rgba(20,23,20,0.82);color:#F5EDD8;font-size:12px;font-weight:600;letter-spacing:.02em;padding:7px 14px;border-radius:999px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);}
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+  <span class="demo-badge">Design-Beispiel · fiktiver Betrieb</span>
+
+  <!-- ================================================
+       NAVIGATION
+       ================================================ -->
+  <header id="main-nav" class="nav nav--transparent" role="banner">
+    <div class="container nav__inner">
+
+      <a href="#hero" class="nav__logo" aria-label="Seeblick Waldschänke & Bootsverleih – Startseite">
+        <span class="nav__logo-fallback nav__logo-text">Seeblick <strong>Waldschänke</strong></span>
+      </a>
+
+      <button id="nav-toggle" class="nav__toggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+      </button>
+
+      <nav id="nav-menu" class="nav__menu" aria-label="Hauptnavigation">
+        <ul role="list">
+          <li><a href="#bootsvermietung" class="nav__link">Bootsverleih</a></li>
+          <li><a href="#biergarten" class="nav__link">Biergarten</a></li>
+          <li><a href="#anfahrt" class="nav__link">Anfahrt</a></li>
+          <li><a href="#kontakt" class="nav__link">Kontakt</a></li>
+          <li><a href="#kontakt" class="btn btn--primary btn--sm nav__cta">Anfragen</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ================================================
+         HERO
+         ================================================ -->
+    <section id="hero" class="hero" aria-label="Willkommen bei Seeblick Waldschänke & Bootsverleih">
+      <div class="container hero__content">
+
+        <p class="hero__eyebrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg>
+          Am Silbersee &nbsp;·&nbsp; Schwäbischer Wald &nbsp;·&nbsp; Seit 1978
+        </p>
+
+        <h1 class="hero__headline">
+          Waldschänke &amp;<br>
+          <em>Bootsverleih.</em>
+        </h1>
+
+        <p class="hero__sub">
+          Biergarten mit 280 Sitzplätzen, Liegewiese und Seeblick — dazu Tretboote,
+          Ruderboote, Rutschenboote und Stand-Up Paddle direkt am Silbersee.
+          Seit Generationen in Familienhand.
+        </p>
+
+        <div class="hero__cta-group">
+          <a href="#biergarten" class="btn btn--primary btn--lg">Zum Biergarten</a>
+          <a href="#bootsvermietung" class="btn btn--outline-white btn--lg">Boote mieten</a>
+        </div>
+
+        <div class="hero__badges" aria-hidden="true">
+          <span class="hero__badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="currentColor" stroke-width="2"/><line x1="6" y1="1" x2="6" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="1" x2="10" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="1" x2="14" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Weißwurstfrühstück
+          </span>
+          <span class="hero__badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="currentColor" stroke-width="2"/><line x1="6" y1="1" x2="6" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="1" x2="10" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="1" x2="14" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Weizenbier vom Fass
+          </span>
+          <span class="hero__badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" stroke="currentColor" stroke-width="2"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" stroke="currentColor" stroke-width="2"/></svg>
+            280 Sitzplätze
+          </span>
+          <span class="hero__badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.5"/></svg>
+            Seit 1978
+          </span>
+        </div>
+
+        <div class="hero__stats" aria-label="Highlights">
+          <div class="hero__stat">
+            <span class="hero__stat-num">4</span>
+            <span class="hero__stat-label">Bootstypen</span>
+          </div>
+          <div class="hero__stat-divider" aria-hidden="true"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-num">280</span>
+            <span class="hero__stat-label">Sitzplätze</span>
+          </div>
+          <div class="hero__stat-divider" aria-hidden="true"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-num">1978</span>
+            <span class="hero__stat-label">Familienbesitz</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__wave" aria-hidden="true">
+        <div class="wave-track">
+          <svg class="wave-svg" viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill="rgba(42,83,32,0.35)" d="M0,55 C200,95 440,15 720,55 C1000,95 1240,15 1440,55 L1440,110 L0,110 Z"/>
+            <path fill="#F5EDD8" d="M0,80 C300,40 640,100 900,65 C1100,40 1320,82 1440,80 L1440,110 L0,110 Z"/>
+          </svg>
+          <svg class="wave-svg" viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="rgba(42,83,32,0.35)" d="M0,55 C200,95 440,15 720,55 C1000,95 1240,15 1440,55 L1440,110 L0,110 Z"/>
+            <path fill="#F5EDD8" d="M0,80 C300,40 640,100 900,65 C1100,40 1320,82 1440,80 L1440,110 L0,110 Z"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         BOOTSVERMIETUNG & PREISE
+         ================================================ -->
+    <section id="bootsvermietung" class="section section--sand" aria-labelledby="boote-heading">
+      <div class="container">
+
+        <header class="section__header">
+          <h2 id="boote-heading" class="section__title reveal">Bootsverleih</h2>
+          <p class="section__sub reveal">Am südlichen Ufer des Silbersees — für Familien, Paare und Gruppen. Reservierung ab 5 Booten möglich.</p>
+        </header>
+
+        <!-- Fotogalerie -->
+        <div class="photo-gallery reveal" role="region" aria-label="Fotos Bootsverleih am Silbersee">
+          <img src="assets/images/slider-boote1.jpg"  alt="Boote am Steg"          class="photo-gallery__img photo-gallery__img--tall" loading="lazy">
+          <img src="assets/images/slider-boote2.jpg"  alt="Tretboote und Ruderboote am Ufer"    class="photo-gallery__img" loading="lazy">
+          <img src="assets/images/see-boote.jpg"      alt="Blick über den See mit Booten"   class="photo-gallery__img" loading="lazy">
+          <img src="assets/images/slider-boote3.jpg"  alt="Boote auf dem See"               class="photo-gallery__img" loading="lazy">
+          <img src="assets/images/boote-steg.jpg"     alt="Bootsteg am See"                 class="photo-gallery__img photo-gallery__img--wide" loading="lazy">
+        </div>
+
+        <ul class="boats-grid" role="list">
+
+          <!-- Ruderboot -->
+          <li class="boat-card reveal" data-boat-id="ruderboot" aria-label="Ruderboot">
+            <span class="boat-card__badge" hidden>Beliebt</span>
+            <div class="boat-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 100 72" fill="none" xmlns="http://www.w3.org/2000/svg" width="90">
+                <path d="M8 44 Q50 60 92 44 L87 54 Q50 68 13 54 Z" fill="#1B4D6E" fill-opacity="0.12" stroke="#1B4D6E" stroke-width="2" stroke-linejoin="round"/>
+                <line x1="28" y1="44" x2="72" y2="44" stroke="#1B4D6E" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="50" cy="30" r="7" fill="#EAF4FC" stroke="#2D9CDB" stroke-width="2"/>
+                <line x1="30" y1="40" x2="6" y2="58" stroke="#1B4D6E" stroke-width="2.8" stroke-linecap="round"/>
+                <ellipse cx="4.5" cy="59.5" rx="7" ry="3" fill="#1B4D6E" fill-opacity="0.5" transform="rotate(-30 4.5 59.5)"/>
+                <line x1="70" y1="40" x2="94" y2="58" stroke="#1B4D6E" stroke-width="2.8" stroke-linecap="round"/>
+                <ellipse cx="95.5" cy="59.5" rx="7" ry="3" fill="#1B4D6E" fill-opacity="0.5" transform="rotate(30 95.5 59.5)"/>
+              </svg>
+            </div>
+            <h3 class="boat-card__name">Ruderboot</h3>
+            <p class="boat-card__capacity">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              bis 4 Personen
+            </p>
+            <p class="boat-card__desc">Romantisch und ursprünglich — das klassische Rudererlebnis auf glasklarem Wasser.</p>
+            <div class="boat-card__prices">
+              <div class="price-chip"><span>30 Min.</span><strong>6 €</strong></div>
+              <div class="price-chip"><span>60 Min.</span><strong>11 €</strong></div>
+            </div>
+            <a href="#kontakt" class="btn btn--outline btn--sm boat-card__cta">Anfragen</a>
+          </li>
+
+          <!-- Komfort-Tretboot -->
+          <li class="boat-card reveal" data-boat-id="tretboot" aria-label="Komfort-Tretboot">
+            <span class="boat-card__badge" hidden>Beliebt</span>
+            <div class="boat-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 100 72" fill="none" xmlns="http://www.w3.org/2000/svg" width="90">
+                <path d="M12 46 Q50 62 88 46 L83 56 Q50 70 17 56 Z" fill="#1B4D6E" fill-opacity="0.12" stroke="#1B4D6E" stroke-width="2" stroke-linejoin="round"/>
+                <rect x="32" y="28" width="36" height="18" rx="5" fill="white" stroke="#1B4D6E" stroke-width="2"/>
+                <rect x="38" y="32" width="10" height="10" rx="2" fill="#EAF4FC"/>
+                <rect x="52" y="32" width="10" height="10" rx="2" fill="#EAF4FC"/>
+                <circle cx="50" cy="46" r="11" stroke="#2D9CDB" stroke-width="2.2" fill="none"/>
+                <line x1="50" y1="35" x2="50" y2="57" stroke="#2D9CDB" stroke-width="1.5"/>
+                <line x1="39" y1="46" x2="61" y2="46" stroke="#2D9CDB" stroke-width="1.5"/>
+                <ellipse cx="39" cy="46" rx="5" ry="2.5" fill="#2D9CDB" fill-opacity="0.7"/>
+                <ellipse cx="61" cy="46" rx="5" ry="2.5" fill="#2D9CDB" fill-opacity="0.7"/>
+              </svg>
+            </div>
+            <h3 class="boat-card__name">Komfort-Tretboot</h3>
+            <p class="boat-card__capacity">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              bis 4 Personen
+            </p>
+            <p class="boat-card__desc">Gemütlich übers Wasser gleiten — der Komfort-Klassiker für Familien und Ausflügler.</p>
+            <div class="boat-card__prices">
+              <div class="price-chip"><span>30 Min.</span><strong>9 €</strong></div>
+              <div class="price-chip"><span>60 Min.</span><strong>17 €</strong></div>
+            </div>
+            <a href="#kontakt" class="btn btn--outline btn--sm boat-card__cta">Anfragen</a>
+          </li>
+
+          <!-- Rutschenboot (featured) -->
+          <li class="boat-card boat-card--featured reveal" data-boat-id="rutsche" aria-label="Rutschenboot – beliebt">
+            <span class="boat-card__badge">Beliebt</span>
+            <div class="boat-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 100 72" fill="none" xmlns="http://www.w3.org/2000/svg" width="90">
+                <path d="M8 50 Q50 64 92 50 L87 60 Q50 72 13 60 Z" fill="#1B4D6E" fill-opacity="0.12" stroke="#1B4D6E" stroke-width="2" stroke-linejoin="round"/>
+                <rect x="24" y="32" width="30" height="18" rx="4" fill="white" stroke="#1B4D6E" stroke-width="2"/>
+                <circle cx="38" cy="50" r="10" stroke="#2D9CDB" stroke-width="2" fill="none"/>
+                <line x1="38" y1="40" x2="38" y2="60" stroke="#2D9CDB" stroke-width="1.5"/>
+                <line x1="28" y1="50" x2="48" y2="50" stroke="#2D9CDB" stroke-width="1.5"/>
+                <ellipse cx="28" cy="50" rx="4" ry="2" fill="#2D9CDB" fill-opacity="0.7"/>
+                <ellipse cx="48" cy="50" rx="4" ry="2" fill="#2D9CDB" fill-opacity="0.7"/>
+                <rect x="70" y="12" width="7" height="35" rx="3" fill="#3A7D44" fill-opacity="0.85"/>
+                <path d="M70 18 Q62 32 74 50" stroke="#3A7D44" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <circle cx="74" cy="8" r="5" fill="#3A7D44" fill-opacity="0.5"/>
+              </svg>
+            </div>
+            <h3 class="boat-card__name">Rutschenboot</h3>
+            <p class="boat-card__capacity">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              bis 4 Personen
+            </p>
+            <p class="boat-card__desc">Mit integrierter Wasserrutsche direkt in den See — der absolute Spaßgarant für Groß und Klein!</p>
+            <div class="boat-card__prices">
+              <div class="price-chip price-chip--wide"><span>Preis</span><strong>auf Anfrage</strong></div>
+            </div>
+            <a href="#kontakt" class="btn btn--primary btn--sm boat-card__cta">Anfragen</a>
+          </li>
+
+          <!-- Stand-Up Paddle -->
+          <li class="boat-card reveal" data-boat-id="sup" aria-label="Stand-Up Paddle Board">
+            <span class="boat-card__badge" hidden>Beliebt</span>
+            <div class="boat-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 100 72" fill="none" xmlns="http://www.w3.org/2000/svg" width="90">
+                <path d="M18 57 Q50 67 82 57 L79 63 Q50 71 21 63 Z" fill="#1B4D6E" fill-opacity="0.12" stroke="#1B4D6E" stroke-width="2" stroke-linejoin="round"/>
+                <line x1="50" y1="40" x2="50" y2="57" stroke="#1B4D6E" stroke-width="2.2" stroke-linecap="round"/>
+                <circle cx="50" cy="33" r="7" fill="#EAF4FC" stroke="#2D9CDB" stroke-width="2"/>
+                <line x1="50" y1="43" x2="36" y2="36" stroke="#1B4D6E" stroke-width="2" stroke-linecap="round"/>
+                <line x1="50" y1="43" x2="64" y2="36" stroke="#1B4D6E" stroke-width="2" stroke-linecap="round"/>
+                <line x1="36" y1="14" x2="38" y2="57" stroke="#1B4D6E" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M30 12 Q36 8 42 12 L40 22 Q36 18 32 22 Z" fill="#1B4D6E" fill-opacity="0.55"/>
+              </svg>
+            </div>
+            <h3 class="boat-card__name">Stand-Up Paddle</h3>
+            <p class="boat-card__capacity">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg>
+              1 Person
+            </p>
+            <p class="boat-card__desc">Balance, Natur, Stille — SUP-Boarding am Silbersee. Ausweis erforderlich.</p>
+            <div class="boat-card__prices">
+              <div class="price-chip price-chip--wide"><span>60 Min.</span><strong>15 €</strong></div>
+            </div>
+            <a href="#kontakt" class="btn btn--outline btn--sm boat-card__cta">Anfragen</a>
+          </li>
+
+        </ul>
+
+        <!-- Preistabelle -->
+        <div class="price-table-wrap reveal">
+          <h3 class="price-table-heading">Preisübersicht</h3>
+          <div class="price-table-scroll" role="region" aria-label="Preistabelle Bootsverleih">
+            <table class="price-table">
+              <caption class="visually-hidden">Preise für alle Bootstypen</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Boot</th>
+                  <th scope="col">Personen</th>
+                  <th scope="col">30 Min.</th>
+                  <th scope="col">60 Min.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-boat-id="ruderboot">
+                  <th scope="row">Ruderboot</th>
+                  <td>bis 4</td>
+                  <td>6,00 €</td>
+                  <td>11,00 €</td>
+                </tr>
+                <tr data-boat-id="tretboot">
+                  <th scope="row">Komfort-Tretboot</th>
+                  <td>bis 4</td>
+                  <td>9,00 €</td>
+                  <td>17,00 €</td>
+                </tr>
+                <tr class="price-table__featured" data-boat-id="rutsche">
+                  <th scope="row">Rutschenboot</th>
+                  <td>bis 4</td>
+                  <td colspan="2" style="text-align:center">auf Anfrage</td>
+                </tr>
+                <tr data-boat-id="sup">
+                  <th scope="row">Stand-Up Paddle</th>
+                  <td>1</td>
+                  <td>—</td>
+                  <td>15,00 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="price-note">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="16" x2="12" y2="16.01" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+            Barzahlung vor Ort. Schwimmwesten inklusive. SUP: Ausweis erforderlich. Reservierung ab 5 Booten möglich.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================
+         WALDSCHÄNKE / BIERGARTEN
+         ================================================ -->
+    <section id="biergarten" class="section section--linen" aria-labelledby="biergarten-heading">
+      <div class="container">
+
+        <header class="section__header">
+          <h2 id="biergarten-heading" class="section__title reveal">Waldschänke &amp; Biergarten</h2>
+          <p class="section__sub reveal">280 Sitzplätze, Liegewiese mit direktem Seezugang und frische Küche — der perfekte Ort für einen unvergesslichen Tag am Silbersee.</p>
+        </header>
+
+        <!-- Biergarten Panoramafoto -->
+        <div class="biergarten-photo reveal">
+          <img src="assets/images/biergarten-banner.jpg"
+               alt="Seeblick Waldschänke — Biergarten mit Seeblick"
+               class="biergarten-photo__img"
+               loading="lazy">
+          <div class="biergarten-photo__overlay">
+            <span>Biergarten mit 280 Sitzplätzen &amp; direktem Seeblick</span>
+          </div>
+        </div>
+
+        <div class="biergarten-grid">
+
+          <!-- Angebots-Karten -->
+          <div class="biergarten-cards">
+
+            <div class="feature-card reveal" data-feature-id="essen">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="currentColor" stroke-width="2"/><line x1="6" y1="1" x2="6" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="1" x2="10" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="1" x2="14" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="feature-card__title">Essen &amp; Trinken</h3>
+              <ul class="feature-card__list">
+                <li>Weißwurstfrühstück</li>
+                <li>Weizenbier vom Fass</li>
+                <li>Grill &amp; Holzsteinofen</li>
+                <li>Frische Kuchen &amp; Kaffeespezialitäten</li>
+              </ul>
+            </div>
+
+            <div class="feature-card reveal" data-feature-id="liegewiese">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M8 12s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="9" y1="9" x2="9.01" y2="9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="15" y1="9" x2="15.01" y2="9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="feature-card__title">Liegewiese &amp; See</h3>
+              <ul class="feature-card__list">
+                <li>Große Liegewiese direkt am See</li>
+                <li>Direkter Zugang zum Wasser</li>
+                <li>Ideal für Familien mit Kindern</li>
+                <li>Seichtes Gewässer zum Baden</li>
+              </ul>
+            </div>
+
+            <div class="feature-card reveal" data-feature-id="events">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="feature-card__title">Events &amp; Gruppen</h3>
+              <ul class="feature-card__list">
+                <li>Firmenfeiern &amp; Geburtstage</li>
+                <li>Hochzeiten bis 250 Personen</li>
+                <li>Gruppenreservierung ab 8 Personen</li>
+                <li>Individuelle Angebote auf Anfrage</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <!-- Große Infokarte -->
+          <div class="biergarten-info reveal">
+            <div class="biergarten-highlight">
+              <div class="biergarten-highlight__stat">
+                <span class="biergarten-highlight__num">280</span>
+                <span class="biergarten-highlight__label">Sitzplätze</span>
+              </div>
+              <div class="biergarten-highlight__divider" aria-hidden="true"></div>
+              <div class="biergarten-highlight__stat">
+                <span class="biergarten-highlight__num">250</span>
+                <span class="biergarten-highlight__label">Pers. für Events</span>
+              </div>
+            </div>
+            <blockquote class="biergarten-quote">
+              <p>„Die Waldschänke bietet Biertische, Einzeltische mit Stühlen und ein Zelt — für jeden Anlass die passende Atmosphäre direkt am See."</p>
+            </blockquote>
+            <a href="#kontakt" class="btn btn--primary">Tisch oder Event anfragen</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         ÜBER UNS
+         ================================================ -->
+    <section id="familie" class="section section--forest" aria-labelledby="familie-heading">
+      <div class="container">
+        <div class="familie-grid">
+          <div class="familie-text reveal">
+            <p class="familie-since">Seit 1978</p>
+            <h2 id="familie-heading" class="section__title" style="color:#fff; text-align:left; margin-bottom:1rem;">Aus Liebe und Tradition am Silbersee</h2>
+            <p class="familie-desc">Der familienfreundliche Biergarten und der einladende Bootsverleih sind seit Generationen in Familienhand. Der Silbersee liegt in einer idyllischen Oase mitten im Schwäbischen Wald.</p>
+            <p class="familie-desc">Unser Ziel ist es, unsere Besucher aus dem stressigen Alltag zu entführen und eine Oase zu schaffen, in der man sich erholen und die Seele baumeln lassen kann.</p>
+          </div>
+          <div class="familie-lake reveal">
+            <div class="lake-card">
+              <div class="lake-card__icon" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.5"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3>Ein Naherholungsgebiet mit Geschichte</h3>
+              <p>Der Silbersee ist heute eines der beliebtesten Naherholungsgebiete der Region — umgeben von Wald, Natur und Stille.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         ANFAHRT & ÖFFNUNGSZEITEN
+         ================================================ -->
+    <section id="anfahrt" class="section section--sand" aria-labelledby="anfahrt-heading">
+      <div class="container">
+
+        <header class="section__header">
+          <h2 id="anfahrt-heading" class="section__title reveal">Anfahrt &amp; Öffnungszeiten</h2>
+          <p class="section__sub reveal">Wir freuen uns auf Ihren Besuch am Silbersee.</p>
+        </header>
+
+        <div class="anfahrt-grid" style="grid-template-columns: 1fr;">
+
+          <div class="anfahrt-info">
+
+            <div class="info-block reveal">
+              <h3 class="info-block__title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                Öffnungszeiten
+              </h3>
+              <p class="info-block__season">Saison: <strong>Frühjahr – Herbst</strong></p>
+              <p class="info-block__note" style="margin-top:0; margin-bottom:0.75rem; font-style:normal; color: var(--color-text-light);">Täglich bei schönem Wetter geöffnet.</p>
+              <table class="hours-table" aria-label="Öffnungszeiten">
+                <tbody>
+                  <tr data-row="bootsvermietung">
+                    <th scope="row">Bootsverleih</th>
+                    <td>Südliches Ufer</td>
+                  </tr>
+                  <tr data-row="biergarten">
+                    <th scope="row">Biergarten</th>
+                    <td>Rund um den See</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="info-block reveal">
+              <h3 class="info-block__title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg>
+                Lage &amp; Parkplatz
+              </h3>
+              <address class="info-block__address">
+                Seeblick Waldschänke &amp; Bootsverleih<br>
+                Am Silbersee<br>
+                Schwäbischer Wald
+              </address>
+              <p class="info-block__hint">Parkplätze direkt an der Bootsvermietung, wenige Gehminuten zum Biergarten.</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         KONTAKT
+         ================================================ -->
+    <section id="kontakt" class="section section--forest" aria-labelledby="kontakt-heading">
+      <div class="container">
+
+        <header class="section__header section__header--light">
+          <h2 id="kontakt-heading" class="section__title reveal">Kontakt &amp; Anfrage</h2>
+          <p class="section__sub reveal">Fragen zum Bootsverleih, Reservierungen für den Biergarten oder Events — wir freuen uns auf Ihre Nachricht.</p>
+        </header>
+
+        <div class="kontakt-grid">
+
+          <div class="kontakt-sidebar reveal">
+            <div class="contact-item">
+              <span class="contact-item__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/></svg>
+              </span>
+              <div>
+                <p class="contact-item__label">E-Mail</p>
+                <span class="contact-item__value">kontakt@beispiel.de</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              </span>
+              <div>
+                <p class="contact-item__label">Lage</p>
+                <p class="contact-item__value">Am Silbersee<br>Schwäbischer Wald</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              <div>
+                <p class="contact-item__label">Saison</p>
+                <p class="contact-item__value">Frühjahr – Herbst<br>täglich bei schönem Wetter</p>
+              </div>
+            </div>
+          </div>
+
+          <form id="contact-form" class="contact-form reveal" novalidate aria-label="Anfrage-Formular">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-name" class="form-label">Name <span aria-hidden="true" class="req">*</span></label>
+                <input type="text" id="f-name" name="name" class="form-input" autocomplete="name" required aria-required="true" aria-describedby="f-name-error" placeholder="Max Mustermann">
+                <span id="f-name-error" class="form-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="f-email" class="form-label">E-Mail <span aria-hidden="true" class="req">*</span></label>
+                <input type="email" id="f-email" name="email" class="form-input" autocomplete="email" required aria-required="true" aria-describedby="f-email-error" placeholder="ihre@email.de">
+                <span id="f-email-error" class="form-error" role="alert" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-date" class="form-label">Wunschdatum <span aria-hidden="true" class="req">*</span></label>
+                <input type="date" id="f-date" name="date" class="form-input" required aria-required="true" aria-describedby="f-date-error">
+                <span id="f-date-error" class="form-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="f-boat" class="form-label">Anfrage für</label>
+                <select id="f-boat" name="boat" class="form-input form-select">
+                  <option value="" disabled selected>Bitte wählen …</option>
+                  <option value="ruderboot">Ruderboot</option>
+                  <option value="tretboot">Komfort-Tretboot</option>
+                  <option value="rutsche">Rutschenboot</option>
+                  <option value="sup">Stand-Up Paddle</option>
+                  <option value="biergarten">Biergarten-Tisch</option>
+                  <option value="event">Event / Feier</option>
+                  <option value="mehrere">Mehrere Boote</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-persons" class="form-label">Personen <span aria-hidden="true" class="req">*</span></label>
+                <input type="number" id="f-persons" name="persons" class="form-input" min="1" max="250" required aria-required="true" aria-describedby="f-persons-error" placeholder="Anzahl">
+                <span id="f-persons-error" class="form-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="f-phone" class="form-label">Telefon</label>
+                <input type="tel" id="f-phone" name="phone" class="form-input" autocomplete="tel" placeholder="+49 ...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="f-message" class="form-label">Nachricht</label>
+              <textarea id="f-message" name="message" class="form-input form-textarea" rows="4" placeholder="Ihre Wünsche, Fragen oder Details zur Anfrage …" aria-describedby="f-message-hint"></textarea>
+              <span id="f-message-hint" class="form-hint">Optional</span>
+            </div>
+
+            <div class="visually-hidden" aria-hidden="true">
+              <label for="f-website">Website (nicht ausfüllen)</label>
+              <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn--white btn--lg" id="form-submit-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polygon points="22 2 15 22 11 13 2 9 22 2" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="currentColor" fill-opacity="0.15"/></svg>
+                <span class="btn__text">Anfrage absenden</span>
+              </button>
+              <p class="form-privacy">Design-Beispiel — es wird keine echte Anfrage versendet.</p>
+            </div>
+
+            <div id="form-result" class="form-result" role="alert" aria-live="assertive" hidden></div>
+
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================================
+       FOOTER
+       ================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <p class="footer__tagline" style="font-family:'Lora',serif; font-size:1.2rem; font-weight:700; color:#fff;">Seeblick Waldschänke &amp; Bootsverleih</p>
+        <p class="footer__tagline">Biergarten &amp; Bootsverleih am Silbersee.<br>Seit 1978 in Familienhand.</p>
+        <address class="footer__address">
+          <span>Am Silbersee · Schwäbischer Wald</span><br>
+          <span>kontakt@beispiel.de</span>
+        </address>
+      </div>
+      <nav class="footer__nav" aria-label="Footer-Navigation">
+        <a href="#bootsvermietung">Bootsverleih</a>
+        <a href="#biergarten">Biergarten</a>
+        <a href="#anfahrt">Anfahrt</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      <p class="footer__legal">
+        © <span id="footer-year"></span> Design-Beispiel ·
+        <a href="https://www.webdesign-ehmann.de" target="_blank" rel="noopener">Erstellt von Webdesign Ehmann</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
