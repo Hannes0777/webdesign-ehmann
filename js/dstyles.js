@@ -21,9 +21,12 @@
     const iframe = wrap.querySelector(".dstyles__frame");
     if (!iframe) return;
     const w = wrap.clientWidth;
-    const h = wrap.clientHeight;
-    if (!w || !h) return;
-    const scale = Math.max(w / FRAME_W, h / FRAME_H);
+    if (!w) return;
+    // Immer auf die volle Breite skalieren (nicht "cover" per max(w,h)) -
+    // sonst wird bei einem im Vergleich zu 1440x900 schmalen/hohen
+    // Container seitlich stark zugeschnitten und man sieht nur einen
+    // Ausschnitt der Seite statt der vollen Breite inkl. Navigation.
+    const scale = w / FRAME_W;
     iframe.style.transform = "scale(" + scale + ")";
   }
 
