@@ -852,9 +852,10 @@ button { font: inherit; cursor: pointer; }
 @media (min-width: 1024px) {
   .dstyles__grid {
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 64px;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 48px;
     align-items: start;
+    max-width: 1400px;
   }
 }
 
@@ -920,7 +921,7 @@ button { font: inherit; cursor: pointer; }
 /* --- Mockup-Rahmen (gemeinsam) --- */
 .dstyles__mockup {
   position: relative;
-  height: 640px;
+  height: 760px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -1296,44 +1297,68 @@ button { font: inherit; cursor: pointer; }
   .page-header { padding: 140px 0 56px; }
 }
 
+/* ============================================================
+   SUBNAV — Querverweise zu den Bereichen innerhalb einer langen
+   Unterseite (z.B. leistungen.html: Pakete/CMS/SEO/Marketing)
+   ============================================================ */
+.subnav {
+  position: sticky;
+  top: 76px;
+  z-index: 200;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 16px 24px;
+  background: rgba(20, 23, 26, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.subnav__pill {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--mist);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.subnav__pill:hover,
+.subnav__pill.is-active {
+  color: var(--ink);
+  border-color: var(--gold);
+  background: var(--green-soft);
+}
+
 /* --- Foto-Varianten: echtes (leicht transparentes) Bild statt nur
    Farbverlauf, passend zum jeweiligen Seiteninhalt --- */
 .page-header--leistungen {
   background:
-    linear-gradient(180deg, rgba(18, 10, 6, 0.78) 0%, rgba(20, 23, 26, 0.96) 90%),
-    url('../assets/heroes/leistungen-hero.webp') center 30% / cover no-repeat;
+    linear-gradient(180deg, rgba(18, 10, 6, 0.5) 0%, rgba(20, 23, 26, 0.88) 95%),
+    url('../assets/heroes/leistungen-hero.webp') center 40% / cover no-repeat;
 }
+.page-header--leistungen h1,
+.page-header--leistungen p { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); }
 .page-header--kontakt {
   background:
-    linear-gradient(180deg, rgba(10, 16, 10, 0.78) 0%, rgba(20, 23, 26, 0.96) 90%),
-    url('../assets/heroes/kontakt-hero.webp') center 20% / cover no-repeat;
+    linear-gradient(180deg, rgba(10, 16, 10, 0.5) 0%, rgba(20, 23, 26, 0.88) 95%),
+    url('../assets/heroes/kontakt-hero.webp') center 35% / cover no-repeat;
 }
-
-/* --- Porträt-Variante (Über mich): großes, freigestelltes Foto
-   schwebt leicht transparent im Hintergrund der Kopfzeile --- */
-.page-header--portrait { text-align: center; }
-.page-header__portrait {
-  position: absolute;
-  right: 4%;
-  bottom: -10%;
-  width: min(340px, 34vw);
-  opacity: 0.5;
-  filter: grayscale(0.15) drop-shadow(0 30px 50px rgba(0, 0, 0, 0.5));
-  pointer-events: none;
-}
-@media (max-width: 900px) {
-  .page-header__portrait { display: none; }
-}
+.page-header--kontakt h1,
+.page-header--kontakt p { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); }
 
 /* ============================================================
    INDEX-TEASER — Kurzverweise auf die Unterseiten
    ============================================================ */
 .teasers {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
 }
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .teasers { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
   .teasers { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
 }
 .teaser-card {
