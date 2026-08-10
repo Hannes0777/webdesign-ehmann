@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jetzt unverbindlich anfragen: Webdesign Ehmann baut Ihre individuelle Website in Rudersberg und im Rems-Murr-Kreis. Kontaktformular oder E-Mail.">
+  <title>Kontakt | Webdesign Ehmann</title>
+  <link rel="canonical" href="https://www.webdesign-ehmann.de/kontakt.html">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kontakt | Webdesign Ehmann">
+  <meta property="og:description" content="Erzählen Sie mir von Ihrem Betrieb — unverbindlich und kostenlos.">
+  <meta property="og:url" content="https://www.webdesign-ehmann.de/kontakt.html">
+  <meta property="og:locale" content="de_DE">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header id="main-nav" class="nav" role="banner">
+  <div class="nav__inner container">
+    <a href="index.html" class="nav__logo">
+      Webdesign<span class="nav__logo-dot">.</span>Ehmann
+    </a>
+
+    <button id="nav-toggle" class="nav__toggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="nav-menu" class="nav__menu" aria-label="Hauptnavigation">
+      <ul role="list">
+        <li><a href="index.html#dstyles" class="nav__link">Design-Stile</a></li>
+        <li><a href="leistungen.html" class="nav__link">Leistungen</a></li>
+        <li><a href="ueber-mich.html" class="nav__link">Über mich</a></li>
+        <li><a href="kontakt.html" class="nav__link nav__link--active">Kontakt</a></li>
+        <li><a href="kontakt.html" class="btn btn--nav">Anfrage stellen</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <header class="page-header">
+    <div class="container page-header__inner">
+      <span class="eyebrow">Kontakt</span>
+      <h1>Erzählen Sie mir von Ihrem Betrieb.</h1>
+      <p>Kurze Beschreibung reicht — ich melde mich mit Fragen und einem unverbindlichen Vorschlag zurück.</p>
+    </div>
+  </header>
+
+  <section id="kontakt" class="section" aria-label="Kontaktformular">
+    <div class="container contact">
+      <form id="contact-form" class="contact-form" novalidate>
+        <!-- Honeypot -->
+        <input type="text" name="website" id="f-website" autocomplete="off" tabindex="-1" aria-hidden="true" class="hp-field">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-name">Name</label>
+            <input type="text" id="f-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="f-email">E-Mail</label>
+            <input type="email" id="f-email" name="email" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-phone">Telefon (optional)</label>
+            <input type="tel" id="f-phone" name="phone" autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label for="f-type">Art des Anliegens</label>
+            <select id="f-type" name="type">
+              <option>Neue Website</option>
+              <option>Website überarbeiten</option>
+              <option>Wartung &amp; Support</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-paket">Welches Paket interessiert Sie?</label>
+            <select id="f-paket" name="paket">
+              <option value="">Bin mir noch nicht sicher</option>
+              <option value="Starter">Starter</option>
+              <option value="Business">Business</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-cms">Interessieren Sie sich auch für das CMS?</label>
+            <select id="f-cms" name="cms">
+              <option value="">Bin mir noch nicht sicher</option>
+              <option value="Nein, nur die Website">Nein, nur die Website</option>
+              <option value="Ja, mit CMS-System">Ja, mit CMS-System</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-message">Nachricht</label>
+          <textarea id="f-message" name="message" rows="5" required placeholder="Um was für einen Betrieb geht es, und was soll die Website können?"></textarea>
+        </div>
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="f-consent" name="consent" required>
+          <span class="checkbox-custom"></span>
+          <span>Ich stimme zu, dass meine Angaben zur Bearbeitung meiner Anfrage gespeichert werden. *</span>
+        </label>
+
+        <p id="form-error-general" class="form-error" role="alert" hidden>Die Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie direkt eine E-Mail.</p>
+
+        <button type="submit" class="btn btn--primary btn--block">
+          <span class="btn__text">Anfrage senden</span>
+        </button>
+      </form>
+
+      <div id="form-success" class="form-success" hidden>
+        <p class="form-success__title">Danke für Ihre Anfrage.</p>
+        <p>Ich melde mich in Kürze bei Ihnen.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="footer__logo">Webdesign<span class="nav__logo-dot">.</span>Ehmann</span>
+      <p>Websites für Betriebe im Rems-Murr-Kreis.</p>
+    </div>
+    <div class="footer__contact">
+      <a href="mailto:webdesignehmann@gmail.com">webdesignehmann@gmail.com</a>
+      <div class="footer__legal">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer__copyright">© <span id="year"></span> Webdesign Ehmann</p>
+</footer>
+
+<script src="js/cms-content.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>

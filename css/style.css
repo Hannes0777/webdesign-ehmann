@@ -234,6 +234,8 @@ button { font: inherit; cursor: pointer; }
 }
 .nav__link:hover { color: var(--gold); }
 .nav__link:hover::after { transform: scaleX(1); }
+.nav__link--active { color: var(--gold); }
+.nav__link--active::after { transform: scaleX(1); }
 
 @media (max-width: 1024px) {
   /* Feste Kopfzeile: auf dem Handy voll deckend statt der 80%-Transparenz
@@ -914,7 +916,7 @@ button { font: inherit; cursor: pointer; }
 /* --- Mockup-Rahmen (gemeinsam) --- */
 .dstyles__mockup {
   position: relative;
-  height: 440px;
+  height: 640px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -967,16 +969,31 @@ button { font: inherit; cursor: pointer; }
 .dstyles__chrome--light .dstyles__open:hover { color: #191b18; background: rgba(0, 0, 0, 0.06); }
 
 /* --- Echte Vorschau-Websites: gehostet unter vorschau/*, hier per
-   iframe eingebettet (siehe index.html + vorschau/README). --- */
-.dstyles__frame {
+   iframe eingebettet (siehe index.html + vorschau/README).
+   Das iframe rendert die Zielseite immer bei fester Desktop-Breite
+   (DSTYLES_FRAME_W/H, siehe js/dstyles.js) und wird per JS auf die
+   tatsächliche Containergröße herunterskaliert ("object-fit: cover"-
+   Prinzip) - so zeigt die Vorschau immer einen proportionalen
+   Desktop-Ausschnitt statt einer verzerrten Mobil-Ansicht oder eines
+   willkürlich abgeschnittenen Slivers bei kleiner Containerbreite. */
+.dstyles__frame-wrap {
+  position: relative;
   flex: 1;
-  width: 100%;
-  border: 0;
+  overflow: hidden;
   background: #fff;
+}
+.dstyles__frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1440px;
+  height: 900px;
+  transform-origin: top left;
+  border: 0;
 }
 
 @media (max-width: 640px) {
-  .dstyles__mockup { height: 300px; }
+  .dstyles__mockup { height: 420px; }
 }
 
 /* --- Aktiver Zustand: gepinnte Crossfade-Bühne (nur Desktop-Layout,
@@ -1190,6 +1207,7 @@ button { font: inherit; cursor: pointer; }
   color: var(--mist);
   margin-right: 4px;
 }
+.pricing-card__price--onrequest { font-size: 1.3rem; }
 .pricing-card__tagline { margin-top: 6px; color: var(--mist); font-size: 0.95rem; }
 
 .pricing-card__list { margin-bottom: 8px; }
@@ -1245,22 +1263,111 @@ button { font: inherit; cursor: pointer; }
 }
 
 /* ============================================================
-   CMS-ERKLÄRUNG
+   PAGE-HEADER (Unterseiten: leistungen/ueber-mich/kontakt)
    ============================================================ */
-.cms-showcase {
+.page-header {
+  position: relative;
+  padding: 168px 0 72px;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(217, 174, 92, 0.16), transparent 55%),
+    radial-gradient(circle at 88% 100%, rgba(122, 166, 110, 0.12), transparent 50%),
+    var(--paper);
+  text-align: center;
+  overflow: hidden;
+}
+.page-header__inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+.page-header .eyebrow { display: block; }
+.page-header h1 {
+  margin-top: 14px;
+  font-size: clamp(2.2rem, 1.7rem + 2.2vw, 3.6rem);
+  line-height: 1.1;
+}
+.page-header p {
+  margin-top: 18px;
+  color: var(--mist);
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+@media (max-width: 640px) {
+  .page-header { padding: 140px 0 56px; }
+}
+
+/* ============================================================
+   INDEX-TEASER — Kurzverweise auf die Unterseiten
+   ============================================================ */
+.teasers {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 48px;
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
 }
 @media (max-width: 900px) {
-  .cms-showcase { grid-template-columns: 1fr; }
+  .teasers { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
+}
+.teaser-card {
+  display: block;
+  padding: 40px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.teaser-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-md);
+}
+.teaser-card__icon { font-size: 2rem; display: block; }
+.teaser-card h3 { margin-top: 16px; font-size: 1.25rem; }
+.teaser-card p { margin-top: 10px; color: var(--mist); font-size: 0.95rem; line-height: 1.6; }
+.teaser-card__link {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.teaser-card:hover .teaser-card__link { text-decoration: underline; }
+
+/* ============================================================
+   SONDERANGEBOT-BANNER
+   ============================================================ */
+.offer-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 9px 20px;
+  background: var(--green-soft);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   CMS-ERKLÄRUNG — prominenter Block auf leistungen.html
+   ============================================================ */
+.cms-feature {
+  padding: 56px 0 24px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 24px 0 56px;
+}
+
+.cms-showcase {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
 }
 
 .cms-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
 }
 
 .cms-shot {
@@ -1268,7 +1375,7 @@ button { font: inherit; cursor: pointer; }
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 .cms-shot__chrome {
   display: flex;
