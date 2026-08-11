@@ -15,6 +15,12 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     .demo-badge{position:fixed;top:14px;right:14px;z-index:500;background:rgba(20,10,10,0.82);color:#FFF8E7;font-size:12px;font-weight:600;letter-spacing:.02em;padding:7px 14px;border-radius:999px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.18);}
+    /* Unter 1024px sitzt hier der Hamburger-Toggle (siehe .nav__toggle in
+       style.css) - Badge darunter statt darueber platzieren, sonst
+       ueberlappt der Text das Icon und den Logo-Untertitel. */
+    @media (max-width: 1023px) {
+      .demo-badge{top:80px;right:10px;font-size:10px;padding:5px 10px;}
+    }
   </style>
 </head>
 <body>
