@@ -1,11 +1,11 @@
 {
-  "sonderangebot_hinweis": "🎉 Sonderangebot für die ersten Kunden — befristete Einführungspreise",
-  "preis_hinweis": "Einführungspreis für die ersten Kunden, danach reguläre Preise",
+  "sonderangebot_hinweis": "🎉 Sonderangebot für die ersten Kunden",
+  "preis_hinweis": "Individuelles Angebot je nach Umfang — Preis auf Anfrage",
   "pakete": [
     {
       "name": "Starter",
-      "ab_preis": "200",
-      "preis_text": "",
+      "ab_preis": "",
+      "preis_text": "Preis auf Anfrage",
       "tagline": "Eine Seite, alle wichtigen Infos auf einen Blick.",
       "empfohlen": false,
       "leistungen": [
@@ -19,8 +19,8 @@
     },
     {
       "name": "Business",
-      "ab_preis": "400",
-      "preis_text": "",
+      "ab_preis": "",
+      "preis_text": "Preis auf Anfrage",
       "tagline": "Mehrseitige Website mit klarer Struktur.",
       "empfohlen": false,
       "leistungen": [
