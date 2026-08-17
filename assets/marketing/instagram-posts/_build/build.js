@@ -31,7 +31,10 @@ const THEMES = {
     divider: "#D9AE5C",
     footer: "#8B9389",
     glow: "rgba(255,255,255,0.22)",
-    iconStroke: "#D9AE5C",
+    cardBg: "rgba(217,174,92,0.045)",
+    cardBorder: "rgba(217,174,92,0.35)",
+    muted: "rgba(154,163,156,0.35)",
+    mutedStrong: "rgba(154,163,156,0.55)",
   },
   hell: {
     bg: "#F7F2E7",
@@ -44,38 +47,146 @@ const THEMES = {
     divider: "#B98F3F",
     footer: "#6C6558",
     glow: "rgba(35,31,25,0.18)",
-    iconStroke: "#B98F3F",
+    cardBg: "rgba(185,143,63,0.06)",
+    cardBorder: "rgba(185,143,63,0.4)",
+    muted: "rgba(108,101,88,0.3)",
+    mutedStrong: "rgba(108,101,88,0.5)",
   },
 };
 
-function iconSvg(name, color) {
-  const inner = ICONS[name] || ICONS.spark;
-  return `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+function iconSvg(name, color, size = 30) {
+  const inner = ICONS[name] || ICONS.check;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
 }
 
-function renderSlide({ theme, slideIndex, total, kicker, headline, subtext, icon, isCover }) {
+function lineCount(headline) {
+  if (Array.isArray(headline)) return headline.length;
+  const brCount = (headline.match(/<br\s*\/?>/g) || []).length;
+  return brCount + 1;
+}
+
+function headlineSize(headline) {
+  const n = lineCount(headline);
+  if (n <= 1) return 84;
+  if (n === 2) return 72;
+  return 60;
+}
+
+function browserCard(t, kind) {
+  const messy = kind === "before";
+  const barColor = messy ? t.mutedStrong : t.accent;
+  const lineColor = messy ? t.muted : t.mutedStrong;
+  const imgBlock = messy
+    ? `<div style="position:absolute; top:56px; left:28px; width:120px; height:64px; border:1px solid ${t.muted};"></div>
+       <div style="position:absolute; top:74px; left:96px; width:150px; height:40px; border:1px solid ${t.muted};"></div>`
+    : `<div style="width:100%; height:92px; border:1px solid ${t.cardBorder}; margin-bottom:22px;"></div>`;
+  const lines = messy
+    ? `<div style="position:absolute; top:132px; left:26px; width:210px; height:8px; background:${lineColor};"></div>
+       <div style="position:absolute; top:150px; left:56px; width:150px; height:8px; background:${lineColor};"></div>
+       <div style="position:absolute; top:168px; left:26px; width:190px; height:8px; background:${lineColor};"></div>
+       <div style="position:absolute; top:196px; left:70px; width:120px; height:8px; background:${lineColor};"></div>
+       <div style="position:absolute; top:222px; left:26px; width:230px; height:8px; background:${lineColor};"></div>
+       <div style="position:absolute; top:250px; left:40px; width:170px; height:8px; background:${lineColor};"></div>`
+    : `<div style="width:70%; height:9px; background:${lineColor}; margin-bottom:16px;"></div>
+       <div style="width:90%; height:9px; background:${lineColor}; margin-bottom:16px;"></div>
+       <div style="width:50%; height:9px; background:${lineColor}; margin-bottom:28px;"></div>
+       <div style="width:118px; height:30px; background:${barColor};"></div>`;
+  return `
+  <div style="width:326px; height:352px; border:1px solid ${t.cardBorder}; background:${t.cardBg}; position:relative; padding:22px; box-sizing:border-box;">
+    <div style="display:flex; gap:6px; margin-bottom:${messy ? "0" : "18px"};">
+      <div style="width:7px;height:7px;border-radius:50%;background:${t.muted};"></div>
+      <div style="width:7px;height:7px;border-radius:50%;background:${t.muted};"></div>
+      <div style="width:7px;height:7px;border-radius:50%;background:${t.muted};"></div>
+    </div>
+    ${messy ? `<div style="position:relative; height:270px;">${imgBlock}${lines}</div>` : `${imgBlock}${lines}`}
+  </div>`;
+}
+
+function renderBody(slide, t) {
+  if (slide.kind === "stat") {
+    return `
+    <div class="kicker center">${slide.kicker}</div>
+    <div class="stat-number">${slide.number}</div>
+    <div class="divider"></div>
+    <p class="subtext center">${slide.label}</p>`;
+  }
+
+  if (slide.kind === "mockup-compare") {
+    const size = headlineSize(slide.headline);
+    const headlineHtml = Array.isArray(slide.headline) ? slide.headline.join("<br>") : slide.headline;
+    return `
+    <div class="kicker center">${slide.kicker}</div>
+    <h1 class="headline center" style="font-size:${size}px;">${headlineHtml}</h1>
+    <div class="divider" style="margin-top:30px; margin-bottom:36px;"></div>
+    <div style="display:flex; gap:24px; justify-content:center; align-items:flex-start;">
+      <div>
+        <div style="text-align:center; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.mutedStrong}; margin-bottom:14px;">${slide.beforeLabel}</div>
+        ${browserCard(t, "before")}
+      </div>
+      <div>
+        <div style="text-align:center; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.accent}; margin-bottom:14px;">${slide.afterLabel}</div>
+        ${browserCard(t, "after")}
+      </div>
+    </div>`;
+  }
+
+  if (slide.kind === "mockup-form") {
+    const size = headlineSize(slide.headline);
+    const headlineHtml = Array.isArray(slide.headline) ? slide.headline.join("<br>") : slide.headline;
+    const field = (label, tall) => `
+      <div style="text-align:left; margin-bottom:22px;">
+        <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:2px; color:${t.mutedStrong}; margin-bottom:8px;">${label}</div>
+        <div style="height:${tall ? "84px" : "44px"}; border:1px solid ${t.cardBorder};"></div>
+      </div>`;
+    return `
+    <div class="kicker center">${slide.kicker}</div>
+    <h1 class="headline center" style="font-size:${size}px;">${headlineHtml}</h1>
+    <div class="divider" style="margin-top:30px; margin-bottom:40px;"></div>
+    <div style="width:560px; margin:0 auto; background:${t.cardBg}; border:1px solid ${t.cardBorder}; padding:36px; box-sizing:border-box;">
+      ${field("NAME")}
+      ${field("E-MAIL")}
+      ${field("NACHRICHT", true)}
+      <div style="display:flex; justify-content:flex-end;">
+        <div style="background:${t.accent}; color:${t.bg}; font-family:'Inter',sans-serif; font-weight:600; font-size:15px; letter-spacing:2px; padding:14px 28px;">SENDEN</div>
+      </div>
+    </div>`;
+  }
+
+  if (slide.kind === "checklist") {
+    const size = headlineSize(slide.headline);
+    const headlineHtml = Array.isArray(slide.headline) ? slide.headline.join("<br>") : slide.headline;
+    const rows = slide.items
+      .map(
+        (item) => `
+      <div style="display:flex; align-items:center; gap:18px; margin-bottom:22px;">
+        <div style="width:36px; height:36px; border-radius:50%; border:1px solid ${t.accent}; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          ${iconSvg("check", t.accent, 18)}
+        </div>
+        <div style="font-family:'Inter',sans-serif; font-weight:400; font-size:27px; color:${t.headline};">${item}</div>
+      </div>`
+      )
+      .join("");
+    return `
+    <div class="kicker center">${slide.kicker}</div>
+    <h1 class="headline center" style="font-size:${size}px;">${headlineHtml}</h1>
+    <div class="divider" style="margin-top:30px; margin-bottom:40px;"></div>
+    <div style="width:520px; margin:0 auto;">${rows}</div>`;
+  }
+
+  // default: hero
+  const size = headlineSize(slide.headline);
+  const headlineHtml = Array.isArray(slide.headline) ? slide.headline.join("<br>") : slide.headline;
+  return `
+    <div class="kicker center">${slide.kicker}</div>
+    <h1 class="headline center" style="font-size:${size}px;">${headlineHtml}</h1>
+    <div class="divider"></div>
+    <p class="subtext center">${slide.subtext}</p>`;
+}
+
+function renderSlide({ theme, slideIndex, total, slide }) {
   const t = THEMES[theme];
-  const headlineHtml = Array.isArray(headline)
-    ? headline.join("<br>")
-    : headline;
   const counter = `${String(slideIndex).padStart(2, "0")} · ${String(total).padStart(2, "0")}`;
   const showArrow = slideIndex < total;
-
-  const bodyBlock = isCover
-    ? `
-    <div class="cover">
-      <div class="kicker center">${kicker}</div>
-      <h1 class="headline center">${headlineHtml}</h1>
-      <div class="divider"></div>
-      <p class="subtext center">${subtext}</p>
-    </div>`
-    : `
-    <div class="content">
-      ${icon ? `<div class="icon-badge">${iconSvg(icon, t.iconStroke)}</div>` : ""}
-      <div class="kicker left">${kicker}</div>
-      <h1 class="headline left">${headlineHtml}</h1>
-      <p class="subtext left">${subtext}</p>
-    </div>`;
 
   return `<!DOCTYPE html>
 <html lang="de">
@@ -123,57 +234,53 @@ html, body {
   top: 56px; left: 56px; right: 56px; bottom: 56px;
   border: 1px solid ${t.border};
 }
-.cover {
-  position: absolute;
-  left: 104px; right: 104px; top: 340px;
-  text-align: center;
-}
 .content {
   position: absolute;
-  left: 104px; right: 104px; top: 396px;
+  left: 104px; right: 104px; top: 300px;
+  text-align: center;
 }
 .kicker {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: ${t.kicker};
 }
 .kicker.center { text-align: center; }
-.kicker.left { margin-top: 24px; }
 .headline {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
-  font-size: 60px;
-  line-height: 1.16;
+  line-height: 1.14;
   color: ${t.headline};
   text-shadow: 0 0 34px ${t.glow};
-  margin-top: 18px;
+  margin-top: 22px;
 }
 .headline.center { text-align: center; }
-.headline.left { text-align: left; font-size: 54px; }
 .headline .accent { color: ${t.accent}; }
 .divider {
-  width: 108px;
+  width: 116px;
   height: 2px;
   background: ${t.divider};
-  margin: 38px auto 34px;
+  margin: 40px auto 36px;
 }
 .subtext {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 27px;
+  font-size: 28px;
   line-height: 1.55;
   color: ${t.subtext};
 }
-.subtext.center { text-align: center; max-width: 760px; margin: 0 auto; }
-.subtext.left { text-align: left; max-width: 720px; margin-top: 26px; }
-.icon-badge {
-  width: 84px; height: 84px;
-  border-radius: 50%;
-  border: 1px solid ${t.kicker};
-  display: flex; align-items: center; justify-content: center;
+.subtext.center { text-align: center; max-width: 820px; margin: 0 auto; }
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 180px;
+  line-height: 1;
+  color: ${t.accent};
+  text-align: center;
+  margin-top: 30px;
+  text-shadow: 0 0 44px ${t.glow};
 }
 .arrow {
   position: absolute;
@@ -195,7 +302,7 @@ html, body {
 <body>
   <div class="canvas">
     <div class="frame"></div>
-    ${bodyBlock}
+    <div class="content">${renderBody(slide, t)}</div>
     ${showArrow ? `<div class="arrow">${iconSvg("arrowRight", t.kicker)}</div>` : ""}
     <div class="footer">
       <span>Webdesign Ehmann</span>
@@ -237,21 +344,12 @@ for (const post of POSTS) {
     ensureDir(outDir);
     post.slides.forEach((slide, i) => {
       const slideIndex = i + 1;
-      const html = renderSlide({
-        theme,
-        slideIndex,
-        total,
-        kicker: slide.kicker,
-        headline: slide.headline,
-        subtext: slide.subtext,
-        icon: slide.icon,
-        isCover: i === 0,
-      });
+      const html = renderSlide({ theme, slideIndex, total, slide });
       const htmlPath = path.join(TMP, `slide-${slideIndex}-${theme}.html`);
       fs.writeFileSync(htmlPath, html, "utf8");
       const pngPath = path.join(outDir, `slide-${slideIndex}.png`);
       screenshot(htmlPath, pngPath);
-      console.log("OK", post.folder, theme, slideIndex);
+      console.log("OK", post.folder, theme, slideIndex, slide.kind);
     });
   }
 }
