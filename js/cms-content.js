@@ -205,23 +205,72 @@
     }
   }
 
-  // ── 4d. Rezensionen ────────────────────────────────────────
+  // ── 4d. Rezensionen (auf jeder Seite über dem Footer) ─────
+  // Karten liegen per CSS-Grid-Stacking übereinander (siehe
+  // .review-card in style.css); JS schaltet nur .is-active um
+  // und rotiert bei mehreren Einträgen automatisch weiter.
   if (rezensionen && Array.isArray(rezensionen.eintraege)) {
-    const grid = document.getElementById('reviews-grid');
-    if (grid) {
+    const stage = document.getElementById('reviews-stage');
+    if (stage) {
       const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
       }[c]));
-      grid.innerHTML = rezensionen.eintraege.map((r) => {
-        if (!r || !r.name || !r.text) return '';
+      const eintraege = rezensionen.eintraege.filter((r) => r && r.name && r.text);
+
+      stage.innerHTML = eintraege.map((r, i) => {
         const sterne = Math.min(5, Math.max(1, Number(r.sterne) || 5));
         const stars = '★'.repeat(sterne) + '☆'.repeat(5 - sterne);
-        return '<div class="review-card">'
+        const initiale = r.name.trim().charAt(0).toUpperCase();
+        return '<blockquote class="review-card' + (i === 0 ? ' is-active' : '') + '">'
           + '<div class="review-card__stars" aria-label="' + sterne + ' von 5 Sternen">' + stars + '</div>'
-          + '<p class="review-card__text">„' + escapeHtml(r.text) + '"</p>'
-          + '<p class="review-card__name">' + escapeHtml(r.name) + '</p>'
-          + '</div>';
+          + '<p class="review-card__text">' + escapeHtml(r.text) + '</p>'
+          + '<footer class="review-card__foot">'
+          + '<span class="review-card__avatar review-card__avatar--' + (i % 3) + '" aria-hidden="true">' + initiale + '</span>'
+          + '<span class="review-card__name">' + escapeHtml(r.name) + '</span>'
+          + '</footer>'
+          + '</blockquote>';
       }).join('');
+
+      const dotsWrap = document.getElementById('reviews-dots');
+      if (dotsWrap && eintraege.length > 1) {
+        dotsWrap.innerHTML = eintraege.map((_, i) =>
+          '<button type="button" class="reviews__dot' + (i === 0 ? ' is-active' : '') + '" aria-label="Rezension ' + (i + 1) + ' von ' + eintraege.length + ' anzeigen"></button>'
+        ).join('');
+      }
+
+      if (eintraege.length > 1) {
+        const cards = stage.querySelectorAll('.review-card');
+        const dots = dotsWrap ? dotsWrap.querySelectorAll('.reviews__dot') : [];
+        let active = 0;
+        let timer = null;
+
+        const show = (i) => {
+          cards[active].classList.remove('is-active');
+          if (dots[active]) dots[active].classList.remove('is-active');
+          active = i;
+          cards[active].classList.add('is-active');
+          if (dots[active]) dots[active].classList.add('is-active');
+        };
+
+        const stopTimer = () => { if (timer) clearInterval(timer); };
+        const startTimer = () => {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          timer = setInterval(() => show((active + 1) % cards.length), 7000);
+        };
+
+        dots.forEach((dot, i) => dot.addEventListener('click', () => {
+          show(i);
+          stopTimer();
+          startTimer();
+        }));
+
+        stage.addEventListener('mouseenter', stopTimer);
+        stage.addEventListener('mouseleave', startTimer);
+        stage.addEventListener('focusin', stopTimer);
+        stage.addEventListener('focusout', startTimer);
+
+        startTimer();
+      }
     }
   }
 

@@ -155,6 +155,22 @@
   </div>
   <div style="height: 64px;"></div>
 
+  <!-- =====================================================
+       REZENSIONEN — auf jeder Seite über dem Footer. Wird per
+       CMS (content/rezensionen.json) befüllt und rotiert bei
+       mehreren Einträgen automatisch, siehe js/cms-content.js.
+       ===================================================== -->
+  <section class="reviews reveal" aria-label="Rezensionen">
+    <div class="container reviews__layout">
+      <div class="reviews__intro">
+        <span class="eyebrow">Rezensionen</span>
+        <h2 class="section-title">Was andere zu meiner Arbeit sagen.</h2>
+        <div class="reviews__dots" id="reviews-dots"></div>
+      </div>
+      <div class="reviews__stage" id="reviews-stage"></div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer" role="contentinfo">

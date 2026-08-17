@@ -1348,41 +1348,121 @@ button { font: inherit; cursor: pointer; }
 .page-header--kontakt p { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); }
 
 /* ============================================================
-   REZENSIONEN
+   REZENSIONEN — auf jeder Seite über dem Footer. Karten liegen
+   per CSS-Grid-Stacking übereinander (gleiche grid-area), damit
+   die Bühne sich ohne JS-Höhenmessung an die jeweils sichtbare
+   Karte anpasst; JS schaltet nur .is-active um.
    ============================================================ */
-.reviews-grid {
+.reviews {
+  padding: 88px 0;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  .reviews { padding: 60px 0; }
+}
+
+.reviews__layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 28px;
+  grid-template-columns: minmax(240px, 340px) 1fr;
+  gap: 56px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .reviews__layout { grid-template-columns: 1fr; gap: 32px; }
+}
+
+.reviews__intro .section-title { margin-top: 12px; }
+
+.reviews__dots { display: flex; gap: 10px; margin-top: 32px; }
+.reviews__dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.reviews__dot:hover { background: var(--mist); }
+.reviews__dot.is-active { background: var(--gold); transform: scale(1.3); }
+
+.reviews__stage {
+  position: relative;
+  display: grid;
 }
 
 .review-card {
+  grid-area: 1 / 1;
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px;
   box-shadow: var(--shadow-sm);
+  padding: 44px 40px 32px;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(28px);
+  pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.review-card.is-active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.review-card::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.32em;
+  left: 24px;
+  font-size: 7rem;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--green-soft);
+  pointer-events: none;
 }
 
 .review-card__stars {
+  position: relative;
   color: var(--gold);
-  font-size: 1.1rem;
-  letter-spacing: 2px;
+  font-size: 1.05rem;
+  letter-spacing: 3px;
 }
 
 .review-card__text {
-  margin-top: 16px;
-  font-size: 1.05rem;
-  line-height: 1.6;
+  position: relative;
+  margin: 20px 0 0;
+  font-size: 1.15rem;
+  line-height: 1.55;
   color: var(--ink);
 }
 
-.review-card__name {
-  margin-top: 18px;
-  font-weight: 600;
-  color: var(--mist);
-  font-size: 0.9rem;
+.review-card__foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
 }
+
+.review-card__avatar {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--paper);
+  background: var(--gold);
+}
+.review-card__avatar--1 { background: var(--sky); }
+.review-card__avatar--2 { background: var(--coral); }
+
+.review-card__name { font-weight: 600; font-size: 0.92rem; }
 
 /* ============================================================
    INDEX-TEASER — Kurzverweise auf die Unterseiten
