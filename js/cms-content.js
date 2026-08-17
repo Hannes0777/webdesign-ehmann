@@ -215,18 +215,28 @@
       const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
       }[c]));
+      const starPath = 'M12 2.5l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.8-6.2 3.8 1.6-7L2 9.8l7.1-.7z';
+      const starsHtml = (n) => {
+        let out = '';
+        for (let i = 1; i <= 5; i++) {
+          out += '<svg class="review-card__star' + (i <= n ? ' review-card__star--filled' : '') + '" viewBox="0 0 24 24" aria-hidden="true"><path d="' + starPath + '"/></svg>';
+        }
+        return out;
+      };
       const eintraege = rezensionen.eintraege.filter((r) => r && r.name && r.text);
 
       stage.innerHTML = eintraege.map((r, i) => {
         const sterne = Math.min(5, Math.max(1, Number(r.sterne) || 5));
-        const stars = '★'.repeat(sterne) + '☆'.repeat(5 - sterne);
         const initiale = r.name.trim().charAt(0).toUpperCase();
         return '<blockquote class="review-card' + (i === 0 ? ' is-active' : '') + '">'
-          + '<div class="review-card__stars" aria-label="' + sterne + ' von 5 Sternen">' + stars + '</div>'
+          + '<div class="review-card__stars" role="img" aria-label="' + sterne + ' von 5 Sternen">' + starsHtml(sterne) + '</div>'
           + '<p class="review-card__text">' + escapeHtml(r.text) + '</p>'
           + '<footer class="review-card__foot">'
           + '<span class="review-card__avatar review-card__avatar--' + (i % 3) + '" aria-hidden="true">' + initiale + '</span>'
+          + '<span class="review-card__who">'
           + '<span class="review-card__name">' + escapeHtml(r.name) + '</span>'
+          + (r.rolle ? '<span class="review-card__role">' + escapeHtml(r.rolle) + '</span>' : '')
+          + '</span>'
           + '</footer>'
           + '</blockquote>';
       }).join('');

@@ -157,6 +157,11 @@ collections:
               - name: name
                 label: "Name"
                 widget: string
+              - name: rolle
+                label: "Kurzbeschreibung (z. B. Rolle oder Betrieb, optional)"
+                widget: string
+                required: false
+                hint: "Erscheint klein unter dem Namen, z. B. „Interessent" oder „Inhaberin, Café Sonne"."
               - name: text
                 label: "Text der Rezension"
                 widget: text
