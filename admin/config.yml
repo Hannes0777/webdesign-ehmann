@@ -138,6 +138,37 @@ collections:
                 widget: text
 
   # ----------------------------------------------------------
+  #  REZENSIONEN
+  # ----------------------------------------------------------
+  - name: rezensionen
+    label: "⭐ Rezensionen"
+    description: "Rückmeldungen von Kunden und Interessenten, erscheinen auf der Startseite."
+    files:
+      - name: rezensionen
+        label: "Rezensionen verwalten"
+        file: content/rezensionen.json
+        fields:
+          - name: eintraege
+            label: "Rezensionen"
+            label_singular: "Rezension"
+            widget: list
+            summary: "{{name}} ({{sterne}}★)"
+            fields:
+              - name: name
+                label: "Name"
+                widget: string
+              - name: text
+                label: "Text der Rezension"
+                widget: text
+              - name: sterne
+                label: "Sternebewertung (1–5)"
+                widget: number
+                value_type: int
+                min: 1
+                max: 5
+                default: 5
+
+  # ----------------------------------------------------------
   #  ÜBER MICH
   # ----------------------------------------------------------
   - name: uebermich

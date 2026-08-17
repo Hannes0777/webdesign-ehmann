@@ -1348,6 +1348,43 @@ button { font: inherit; cursor: pointer; }
 .page-header--kontakt p { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); }
 
 /* ============================================================
+   REZENSIONEN
+   ============================================================ */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.review-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.review-card__stars {
+  color: var(--gold);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+.review-card__text {
+  margin-top: 16px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.review-card__name {
+  margin-top: 18px;
+  font-weight: 600;
+  color: var(--mist);
+  font-size: 0.9rem;
+}
+
+/* ============================================================
    INDEX-TEASER — Kurzverweise auf die Unterseiten
    ============================================================ */
 .teasers {

@@ -27,7 +27,7 @@
     }
   }
 
-  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches, cmsErklaerung, marketing] = await Promise.all([
+  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches, cmsErklaerung, marketing, rezensionen] = await Promise.all([
     fetchJSON('content/siteinfo.json'),
     fetchJSON('content/hero.json'),
     fetchJSON('content/pakete.json'),
@@ -36,6 +36,7 @@
     fetchJSON('content/rechtliches.json'),
     fetchJSON('content/cms-erklaerung.json'),
     fetchJSON('content/marketing.json'),
+    fetchJSON('content/rezensionen.json'),
   ]);
 
   // ── 1. Seiteninfos ────────────────────────────────────────
@@ -201,6 +202,26 @@
         if (h3 && l.titel) h3.textContent = l.titel;
         if (p && l.text) p.textContent = l.text;
       });
+    }
+  }
+
+  // ── 4d. Rezensionen ────────────────────────────────────────
+  if (rezensionen && Array.isArray(rezensionen.eintraege)) {
+    const grid = document.getElementById('reviews-grid');
+    if (grid) {
+      const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+      }[c]));
+      grid.innerHTML = rezensionen.eintraege.map((r) => {
+        if (!r || !r.name || !r.text) return '';
+        const sterne = Math.min(5, Math.max(1, Number(r.sterne) || 5));
+        const stars = '★'.repeat(sterne) + '☆'.repeat(5 - sterne);
+        return '<div class="review-card">'
+          + '<div class="review-card__stars" aria-label="' + sterne + ' von 5 Sternen">' + stars + '</div>'
+          + '<p class="review-card__text">„' + escapeHtml(r.text) + '"</p>'
+          + '<p class="review-card__name">' + escapeHtml(r.name) + '</p>'
+          + '</div>';
+      }).join('');
     }
   }
 
