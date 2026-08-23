@@ -29,6 +29,15 @@
         ],
         "createdAt": "2026-08-23T21:03:32.448Z",
         "reason": "L1718 (comment explaining an [hidden] selector rule mentioning <img> in prose) is a false positive text match, not an actual <img> tag with empty/placeholder src"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "Webdesign.Ehmann/webdesign-ehmann/css/style.css"
+        ],
+        "createdAt": "2026-08-23T21:10:14.513Z",
+        "reason": "Homepage flagship cine-hero only: subtle ink-to-green tonal shift on the H1 accent line, and a cream-to-gold-to-deep-gold metallic foil effect on the brand wordmark/kicker inside the showcase card - a deliberate luxury foil-text technique (light-to-dark, single hue family) on the site's one signature hero element, not a scattered rainbow-gradient default. Pre-existing from before this session, reviewed and judged intentional/on-brand for this dark-gold editorial identity."
       }
     ]
   }
