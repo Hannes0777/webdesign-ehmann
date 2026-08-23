@@ -37,6 +37,7 @@ const POSTS = [
     slides: [
       {
         kind: "cover",
+        big: true,
         kicker: "DESIGN-BEISPIEL · FIKTIVER BETRIEB",
         headline: ["Schreinerei", "<span class=\"accent\">Vogt</span>"],
         subtext: "So könnte ein Website-Relaunch aussehen.",
@@ -77,6 +78,7 @@ const POSTS = [
     slides: [
       {
         kind: "cover",
+        big: true,
         kicker: "MOBILE-CHECK",
         headline: ["Über die Hälfte kommt", "vom <span class=\"accent\">Handy</span>"],
         subtext: "Hast du deine eigene Website schon mal selbst auf dem Smartphone getestet?",
@@ -119,6 +121,7 @@ const POSTS = [
     slides: [
       {
         kind: "cover",
+        big: true,
         kicker: "DATENSCHUTZ-MYTHOS · TEIL 2",
         headline: ["Warum ich auf", "Cookie-Banner <span class=\"accent\">verzichte</span>"],
         subtext: "Kein Trick, keine Ausnahme — bei jedem einzelnen Projekt.",
@@ -161,6 +164,7 @@ const POSTS = [
     slides: [
       {
         kind: "cover",
+        big: true,
         kicker: "TIPP",
         headline: ["Warum ein „mailto:“-", "Link <span class=\"accent\">schadet</span>"],
         subtext: "Kleines Detail, großer Unterschied für deine Kunden.",
@@ -199,6 +203,7 @@ const POSTS = [
     slides: [
       {
         kind: "cover",
+        big: true,
         kicker: "WARUM JETZT",
         headline: ["Kein <span class=\"accent\">Nice-to-have</span>", "mehr"],
         subtext: "2026 informieren sich Kunden zuerst online — vor dem ersten Anruf.",
@@ -244,8 +249,9 @@ const POSTS = [
     slides: [
       {
         kind: "cover",
+        big: true,
         kicker: "NACH DEM LIVEGANG",
-        headline: ["Eine Website ist nie", "wirklich <span class=\"accent\">fertig</span>"],
+        headline: ["Eine Website", "ist nie wirklich", "<span class=\"accent\">fertig</span>"],
         subtext: "Und das ist auch gut so.",
       },
       {
