@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-08-23T19:32:21.298Z",
         "reason": "Pre-existing brand typography for this Instagram-post generator (Playfair Display + Inter), established and shipped across 7+ prior carousel posts before this session - not a new choice introduced now"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "assets/marketing/instagram-posts/_build/overview.js"
+        ],
+        "createdAt": "2026-08-23T20:42:02.573Z",
+        "reason": "Same established Playfair Display + Inter brand pairing as build.js for this Instagram-post generator, reused verbatim in the new overview-slide script - not a new font choice"
       }
     ]
   }
