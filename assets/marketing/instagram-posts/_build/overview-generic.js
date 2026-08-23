@@ -36,9 +36,9 @@ function lineCount(headline) {
 }
 function hookSize(headline) {
   const n = lineCount(headline);
-  if (n <= 1) return 54;
-  if (n === 2) return 46;
-  return 38;
+  if (n <= 1) return 66;
+  if (n === 2) return 58;
+  return 48;
 }
 
 function pointsColumns(points) {
@@ -48,21 +48,21 @@ function pointsColumns(points) {
 }
 
 function checkIcon() {
-  return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${t.accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>`;
+  return `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="${t.accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>`;
 }
 
 function pointsList(points) {
   const [colA, colB] = pointsColumns(points);
   const row = (item) => `
-    <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:20px;">
-      <div style="flex-shrink:0; margin-top:3px;">${checkIcon()}</div>
-      <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:20px; line-height:1.3; color:${t.headline};">${item}</div>
+    <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:22px;">
+      <div style="flex-shrink:0; margin-top:2px;">${checkIcon()}</div>
+      <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:24px; line-height:1.3; color:${t.headline};">${item}</div>
     </div>`;
   if (!colB.length) {
-    return `<div style="width:100%; max-width:760px; margin:0 auto;">${colA.map(row).join("")}</div>`;
+    return `<div style="width:100%; max-width:820px; margin:0 auto;">${colA.map(row).join("")}</div>`;
   }
   return `
-  <div style="display:flex; gap:40px; width:100%; max-width:900px; margin:0 auto;">
+  <div style="display:flex; gap:44px; width:100%; max-width:960px; margin:0 auto;">
     <div style="flex:1;">${colA.map(row).join("")}</div>
     <div style="flex:1;">${colB.map(row).join("")}</div>
   </div>`;
@@ -86,24 +86,24 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
   background-size: 54px 54px;
 }
 .frame { position:absolute; top:56px; left:56px; right:56px; bottom:56px; border:1px solid ${t.border}; }
-.col { position:absolute; left:90px; right:90px; top:56px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-.logo-we { font-family:'Playfair Display',serif; font-weight:700; font-size:52px; color:${t.accent}; text-shadow:0 0 26px ${t.glow}; line-height:1; }
-.logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:25px; letter-spacing:4px; color:${t.headline}; margin-top:11px; }
-.logo-tag { font-family:'Playfair Display',serif; font-style:italic; font-size:15px; color:${t.subtext}; margin-top:7px; }
-.rule { width:100%; height:1px; background:${t.border}; margin:22px 0; }
-.kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:15px; letter-spacing:3.5px; text-transform:uppercase; color:${t.kicker}; }
-.headline { font-family:'Playfair Display',serif; font-weight:700; line-height:1.16; color:${t.headline}; text-shadow:0 0 26px ${t.glow}; margin-top:13px; }
+.col { position:absolute; left:90px; right:90px; top:60px; bottom:112px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
+.logo-we { font-family:'Playfair Display',serif; font-weight:700; font-size:60px; color:${t.accent}; text-shadow:0 0 30px ${t.glow}; line-height:1; }
+.logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:29px; letter-spacing:5px; color:${t.headline}; margin-top:14px; }
+.logo-tag { font-family:'Playfair Display',serif; font-style:italic; font-size:18px; color:${t.subtext}; margin-top:9px; }
+.rule { width:100%; height:1px; background:${t.border}; margin:28px 0; flex-shrink:0; }
+.kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:18px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
+.headline { font-family:'Playfair Display',serif; font-weight:700; line-height:1.14; color:${t.headline}; text-shadow:0 0 26px ${t.glow}; margin-top:15px; }
 .headline .accent { color:${t.accent}; }
-.hook-subtext { font-family:'Inter',sans-serif; font-weight:400; font-size:18px; line-height:1.5; color:${t.subtext}; max-width:700px; margin:14px auto 0; }
-.points-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:3px; text-transform:uppercase; color:${t.kicker}; margin-top:6px; }
-.points-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:28px; color:${t.headline}; margin-top:9px; margin-bottom:24px; }
-.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:3.5px; text-transform:uppercase; color:${t.kicker}; }
-.cta-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:30px; line-height:1.2; color:${t.headline}; margin-top:11px; max-width:740px; }
-.contact-box { border:1px solid ${t.border}; padding:15px 30px; margin-top:20px; }
-.contact-box a, .contact-box span { display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:17px; text-align:center; }
-.contact-email { color:${t.accent}; margin-bottom:5px; text-decoration:none; }
+.hook-subtext { font-family:'Inter',sans-serif; font-weight:400; font-size:22px; line-height:1.45; color:${t.subtext}; max-width:760px; margin:16px auto 0; }
+.points-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:3px; text-transform:uppercase; color:${t.kicker}; margin-top:6px; }
+.points-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; color:${t.headline}; margin-top:12px; margin-bottom:26px; }
+.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
+.cta-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; line-height:1.2; color:${t.headline}; margin-top:14px; max-width:800px; }
+.contact-box { border:1px solid ${t.border}; padding:16px 36px; margin-top:22px; flex-shrink:0; }
+.contact-box a, .contact-box span { display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:21px; text-align:center; }
+.contact-email { color:${t.accent}; margin-bottom:6px; text-decoration:none; }
 .contact-web { color:${t.headline}; font-weight:400; }
-.footer { position:absolute; left:104px; right:104px; bottom:76px; display:flex; justify-content:space-between; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:${t.footer}; }
+.footer { position:absolute; left:104px; right:104px; bottom:76px; display:flex; justify-content:space-between; font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:3px; text-transform:uppercase; color:${t.footer}; }
 </style>
 </head>
 <body>
