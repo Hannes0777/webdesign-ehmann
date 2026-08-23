@@ -62,25 +62,25 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
   background-size: 54px 54px;
 }
 .frame { position:absolute; top:56px; left:56px; right:56px; bottom:56px; border:1px solid ${t.border}; }
-.col { position:absolute; left:90px; right:90px; top:80px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-.logo-we { font-family:'Playfair Display',serif; font-weight:700; font-size:74px; color:${t.accent}; text-shadow:0 0 30px ${t.glow}; line-height:1; }
-.logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; letter-spacing:6px; color:${t.headline}; margin-top:14px; }
-.logo-tag { font-family:'Playfair Display',serif; font-style:italic; font-size:19px; color:${t.subtext}; margin-top:10px; }
-.rule { width:100%; height:1px; background:${t.border}; margin:34px 0; }
+.col { position:absolute; left:90px; right:90px; top:64px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.logo-we { font-family:'Playfair Display',serif; font-weight:700; font-size:58px; color:${t.accent}; text-shadow:0 0 30px ${t.glow}; line-height:1; }
+.logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:28px; letter-spacing:5px; color:${t.headline}; margin-top:12px; }
+.logo-tag { font-family:'Playfair Display',serif; font-style:italic; font-size:16px; color:${t.subtext}; margin-top:8px; }
+.rule { width:100%; height:1px; background:${t.border}; margin:22px 0; }
 .kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:16px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
-.headline { font-family:'Playfair Display',serif; font-weight:700; font-size:52px; line-height:1.14; color:${t.headline}; text-shadow:0 0 30px ${t.glow}; margin-top:16px; }
+.headline { font-family:'Playfair Display',serif; font-weight:700; font-size:44px; line-height:1.14; color:${t.headline}; text-shadow:0 0 30px ${t.glow}; margin-top:14px; }
 .headline .accent { color:${t.accent}; }
-.divider { width:100px; height:2px; background:${t.divider}; margin:28px 0; }
-.cards { display:flex; gap:24px; margin-top:8px; }
-.card-label { font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:3px; margin-bottom:12px; }
-.caption { font-family:'Inter',sans-serif; font-weight:400; font-size:21px; line-height:1.5; color:${t.subtext}; max-width:760px; margin-top:30px; }
-.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:15px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
-.cta-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:36px; color:${t.headline}; margin-top:12px; max-width:720px; }
-.contact-box { border:1px solid ${t.border}; padding:20px 34px; margin-top:26px; }
-.contact-box a, .contact-box span { display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:19px; text-align:center; }
-.contact-email { color:${t.accent}; margin-bottom:6px; }
+.divider { width:100px; height:2px; background:${t.divider}; margin:20px 0; }
+.cards { display:flex; gap:20px; margin-top:6px; }
+.card-label { font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; margin-bottom:10px; }
+.caption { font-family:'Inter',sans-serif; font-weight:400; font-size:19px; line-height:1.4; color:${t.subtext}; max-width:760px; margin-top:18px; }
+.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
+.cta-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:30px; color:${t.headline}; margin-top:10px; max-width:720px; }
+.contact-box { border:1px solid ${t.border}; padding:14px 30px; margin-top:18px; }
+.contact-box a, .contact-box span { display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:17px; text-align:center; }
+.contact-email { color:${t.accent}; margin-bottom:5px; }
 .contact-web { color:${t.headline}; font-weight:400; }
-.footer { position:absolute; left:104px; right:104px; bottom:88px; display:flex; justify-content:space-between; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:${t.footer}; }
+.footer { position:absolute; left:104px; right:104px; bottom:76px; display:flex; justify-content:space-between; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:${t.footer}; }
 </style>
 </head>
 <body>
@@ -99,16 +99,16 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
       <div class="cards">
         <div>
           <div class="card-label" style="color:${t.mutedStrong};">ALT</div>
-          ${flyerCard(imgDataUri("compare/alt-flyer.png"), { w: 300, h: 420, borderColor: t.mutedStrong })}
+          ${flyerCard(imgDataUri("compare/alt-flyer.png"), { w: 240, h: 336, borderColor: t.mutedStrong })}
         </div>
         <div>
           <div class="card-label" style="color:${t.accent};">NEU</div>
-          ${flyerCard(imgDataUri("compare/neu-flyer.png"), { w: 300, h: 420, borderColor: t.accent })}
+          ${flyerCard(imgDataUri("compare/neu-flyer.png"), { w: 240, h: 336, borderColor: t.accent })}
         </div>
       </div>
-      <p class="caption">Gleiche Botschaft, anderer Eindruck: Der gleiche KI-Tool-Look, den mittlerweile jeder benutzt — gegen einen Auftritt, den man sich merkt.</p>
+      <p class="caption">Gleiche Botschaft. Anderer Eindruck.</p>
 
-      <div class="rule" style="margin-top:34px;"></div>
+      <div class="rule"></div>
       <div class="cta-kicker">DEIN PROJEKT</div>
       <div class="cta-headline">Bereit für einen Flyer, der wirklich auffällt?</div>
       <div class="contact-box">
