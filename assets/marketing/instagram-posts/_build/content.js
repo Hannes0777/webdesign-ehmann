@@ -6,6 +6,7 @@
 //                      Fließtext, optionale Quellenangabe — linksbündig (Modell: „Tipp Baukasten“)
 //   mockup-compare  – Kicker+Headline links, zwei Browser-Mockups (Vorher/Nachher)
 //   mockup-form     – Kicker+Headline links, Formular-Mockup
+//   flyer-compare   – Kicker+Headline links, zwei Flyer-Mockups (generisch vs. gestaltet)
 //   checklist       – Kicker+Headline links, Liste mit Check-Icons
 //   cta             – Kicker+Headline+Subtext links, umrandeter Button (letzte Slide)
 
@@ -271,6 +272,46 @@ const POSTS = [
         headline: "Ein Begleiter, kein abgeschlossenes Projekt",
         subtext: "Lass uns über deine Website sprechen — auch über den Start hinaus.",
         button: "JETZT SCHREIBEN →",
+      },
+    ],
+  },
+  {
+    folder: "KI Flyer Vergleich",
+    slides: [
+      {
+        kind: "cover",
+        kicker: "MAL EHRLICH",
+        headline: ["Kostenlos erstellt.", "<span class=\"accent\">Nichts gebracht.</span>"],
+        subtext: "Warum so viele KI-Flyer trotzdem nicht funktionieren.",
+      },
+      {
+        kind: "hero-left",
+        icon: "users",
+        kicker: "DAS PROBLEM",
+        headline: "Das macht mittlerweile jeder",
+        subtext: "Gleiche KI-Tools, gleiche Vorlagen, gleicher Look — dein Flyer verschwindet in der Masse, bevor er überhaupt gesehen wird.",
+      },
+      {
+        kind: "flyer-compare",
+        icon: "compass",
+        kicker: "DER BEWEIS",
+        headline: "Gleiche Veranstaltung. Anderer Eindruck.",
+        beforeLabel: "KI VON DER STANGE",
+        afterLabel: "MIT HANDWERK",
+      },
+      {
+        kind: "hero-left",
+        icon: "target",
+        kicker: "WARUM DAS WICHTIG IST",
+        headline: "Auffallen bringt Kunden. Gleich aussehen nicht.",
+        subtext: "Ein Flyer, der aussieht wie hundert andere, bleibt nicht im Kopf — und landet im Papierkorb, egal wie viel „KI“ drinsteckt.",
+      },
+      {
+        kind: "cta",
+        kicker: "MEINE ARBEIT",
+        headline: "Handarbeit statt Vorlage",
+        subtext: "Ich nutze KI auch — aber als Werkzeug, nicht als Autopilot. Für einen Flyer, der wirklich auffällt.",
+        button: "JETZT ANFRAGEN →",
       },
     ],
   },
