@@ -202,7 +202,7 @@ function renderBody(slide, t) {
   if (slide.kind === "cover-photo") {
     const n = lineCount(slide.headline);
     const size = n <= 1 ? 84 : n === 2 ? 70 : 58;
-    const photo = flyerCardImage(imgDataUri(slide.photo), { w: 250, h: 350, borderColor: t.cardBorder, rotate: -3 });
+    const photo = flyerCardImage(imgDataUri(slide.photo), { w: 340, h: 476, borderColor: t.cardBorder, rotate: -3 });
     return `
     <div class="content content-center content-center-photo">
       <div class="kicker center">${slide.kicker}</div>
@@ -250,18 +250,18 @@ function renderBody(slide, t) {
   if (slide.kind === "flyer-compare") {
     const size = headlineSize(slide.headline, false);
     const beforeCard = slide.beforeImage
-      ? flyerCardImage(imgDataUri(slide.beforeImage), { w: 370, h: 490, borderColor: t.mutedStrong })
+      ? flyerCardImage(imgDataUri(slide.beforeImage), { w: 420, h: 580, borderColor: t.mutedStrong })
       : flyerCardBad();
     const afterCard = slide.afterImage
-      ? flyerCardImage(imgDataUri(slide.afterImage), { w: 370, h: 490, borderColor: t.accent })
+      ? flyerCardImage(imgDataUri(slide.afterImage), { w: 420, h: 580, borderColor: t.accent })
       : flyerCardGood(t);
     return `
-    <div class="content content-left">
+    <div class="content content-left" style="top:210px;">
       ${iconBadge(t, slide.icon)}
       <div class="kicker left">${slide.kicker}</div>
       <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
-      <div class="divider" style="margin:32px 0 34px;"></div>
-      <div style="display:flex; gap:24px;">
+      <div class="divider" style="margin:24px 0 26px;"></div>
+      <div style="display:flex; gap:20px;">
         <div>
           <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.mutedStrong}; margin-bottom:14px;">${slide.beforeLabel}</div>
           ${beforeCard}
