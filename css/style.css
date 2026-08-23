@@ -1304,14 +1304,15 @@ button { font: inherit; cursor: pointer; }
   z-index: 200;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  padding: 16px 24px;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 24px;
   background: rgba(20, 23, 26, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 }
 .subnav__pill {
-  padding: 8px 18px;
+  padding: 9px 22px;
   border-radius: 999px;
   border: 1px solid var(--border);
   color: var(--mist);
