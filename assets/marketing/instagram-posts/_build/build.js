@@ -163,11 +163,11 @@ function flyerCardBad() {
   </div>`;
 }
 
-function flyerCardImage(dataUri) {
-  const W = 300;
-  const H = 420;
+function flyerCardImage(dataUri, { w = 300, h = 420, borderColor = null, rotate = 0 } = {}) {
+  const border = borderColor ? `border:2px solid ${borderColor}; box-sizing:border-box;` : "";
+  const transform = rotate ? `transform:rotate(${rotate}deg);` : "";
   return `
-  <div style="width:${W}px; height:${H}px; overflow:hidden; box-shadow:0 8px 26px rgba(0,0,0,0.35);">
+  <div style="width:${w}px; height:${h}px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.4); ${border} ${transform}">
     <img src="${dataUri}" style="width:100%; height:100%; object-fit:cover; object-position:top center; display:block;">
   </div>`;
 }
@@ -193,6 +193,20 @@ function renderBody(slide, t) {
     return `
     <div class="${cls}">
       <div class="kicker center">${slide.kicker}</div>
+      <h1 class="headline center" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
+      <div class="divider"></div>
+      <p class="subtext center">${slide.subtext}</p>
+    </div>`;
+  }
+
+  if (slide.kind === "cover-photo") {
+    const n = lineCount(slide.headline);
+    const size = n <= 1 ? 84 : n === 2 ? 70 : 58;
+    const photo = flyerCardImage(imgDataUri(slide.photo), { w: 250, h: 350, borderColor: t.cardBorder, rotate: -3 });
+    return `
+    <div class="content content-center content-center-photo">
+      <div class="kicker center">${slide.kicker}</div>
+      <div class="photo-prop">${photo}</div>
       <h1 class="headline center" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
       <div class="divider"></div>
       <p class="subtext center">${slide.subtext}</p>
@@ -235,8 +249,12 @@ function renderBody(slide, t) {
 
   if (slide.kind === "flyer-compare") {
     const size = headlineSize(slide.headline, false);
-    const beforeCard = slide.beforeImage ? flyerCardImage(imgDataUri(slide.beforeImage)) : flyerCardBad();
-    const afterCard = slide.afterImage ? flyerCardImage(imgDataUri(slide.afterImage)) : flyerCardGood(t);
+    const beforeCard = slide.beforeImage
+      ? flyerCardImage(imgDataUri(slide.beforeImage), { w: 370, h: 490, borderColor: t.mutedStrong })
+      : flyerCardBad();
+    const afterCard = slide.afterImage
+      ? flyerCardImage(imgDataUri(slide.afterImage), { w: 370, h: 490, borderColor: t.accent })
+      : flyerCardGood(t);
     return `
     <div class="content content-left">
       ${iconBadge(t, slide.icon)}
@@ -399,6 +417,11 @@ html, body {
   top: 150px; bottom: 280px;
   display: flex; flex-direction: column; justify-content: center;
 }
+.content-center-photo {
+  top: 110px; bottom: 210px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.photo-prop { margin: 20px 0 30px; }
 .content-left { top: 340px; text-align: left; }
 .kicker {
   font-family: 'Inter', sans-serif;

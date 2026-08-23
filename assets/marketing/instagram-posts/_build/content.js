@@ -2,6 +2,8 @@
 // Jede Slide hat ein "kind":
 //   cover           – NUR Slide 1: zentriert, große Headline, Divider, Subtext
 //                      (optional: big:true = vertikal mittig, noch größere Headline — Eyecatcher-Variante)
+//   cover-photo     – NUR Slide 1: wie cover, aber mit gekipptem Foto-Beweisstück
+//                      über der Headline (Hook-Bild ganz am Anfang, z.B. echter Screenshot)
 //   hero-left       – Icon-Badge, Kicker, große Headline, Subtext — alles linksbündig
 //   reason          – Icon-Badge, Kicker, Subheadline, große Zahl, fette Kernaussage,
 //                      Fließtext, optionale Quellenangabe — linksbündig (Modell: „Tipp Baukasten“)
@@ -280,11 +282,11 @@ const POSTS = [
     folder: "KI Flyer Vergleich",
     slides: [
       {
-        kind: "cover",
-        big: true,
+        kind: "cover-photo",
         kicker: "MAL EHRLICH",
+        photo: "compare/alt-flyer.png",
         headline: ["Kostenlos erstellt.", "<span class=\"accent\">Nichts gebracht.</span>"],
-        subtext: "Warum so viele KI-Flyer trotzdem nicht funktionieren.",
+        subtext: "Genau so sehen die meisten KI-Flyer aus. Vielleicht auch deiner.",
       },
       {
         kind: "hero-left",
