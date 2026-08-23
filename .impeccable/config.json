@@ -38,6 +38,24 @@
         ],
         "createdAt": "2026-08-23T21:10:14.513Z",
         "reason": "Homepage flagship cine-hero only: subtle ink-to-green tonal shift on the H1 accent line, and a cream-to-gold-to-deep-gold metallic foil effect on the brand wordmark/kicker inside the showcase card - a deliberate luxury foil-text technique (light-to-dark, single hue family) on the site's one signature hero element, not a scattered rainbow-gradient default. Pre-existing from before this session, reviewed and judged intentional/on-brand for this dark-gold editorial identity."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "Webdesign.Ehmann/webdesign-ehmann/css/style.css"
+        ],
+        "createdAt": "2026-08-23T21:18:03.301Z",
+        "reason": "L1714 .about__quote is an editorial pull-quote (border-left accent + radius zeroed on that same left side, so it doesn't clash), not a dashboard feature-card side-tab. Classic print/blog blockquote pattern, reviewed and judged a legitimate exception."
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "Webdesign.Ehmann/webdesign-ehmann/css/style.css"
+        ],
+        "createdAt": "2026-08-23T21:18:12.603Z",
+        "reason": "L329 .cine-hero__grid is the homepage's flagship cinematic hero atmosphere layer: hairline grid at 6% opacity, radial-mask faded toward the edges, paired with a grain texture - part of the site's established blueprint/editorial brand language also used across the marketing/Instagram assets. Reviewed and judged an intentional atmospheric backdrop on the one signature hero, not a generic dashboard grid."
       }
     ]
   }
