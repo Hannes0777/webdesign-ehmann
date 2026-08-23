@@ -15,6 +15,11 @@ function b64(file) {
   return fs.readFileSync(path.join(ROOT, "fonts", file)).toString("base64");
 }
 
+function imgDataUri(relPath) {
+  const b64img = fs.readFileSync(path.join(ROOT, relPath)).toString("base64");
+  return `data:image/png;base64,${b64img}`;
+}
+
 const FONT_PLAYFAIR = b64("playfair-700.woff2");
 const FONT_INTER_400 = b64("inter-400.woff2");
 const FONT_INTER_600 = b64("inter-600.woff2");
@@ -158,6 +163,15 @@ function flyerCardBad() {
   </div>`;
 }
 
+function flyerCardImage(dataUri) {
+  const W = 300;
+  const H = 420;
+  return `
+  <div style="width:${W}px; height:${H}px; overflow:hidden; box-shadow:0 8px 26px rgba(0,0,0,0.35);">
+    <img src="${dataUri}" style="width:100%; height:100%; object-fit:cover; object-position:top center; display:block;">
+  </div>`;
+}
+
 function flyerCardGood(t) {
   const W = 300;
   const H = 420;
@@ -174,9 +188,10 @@ function flyerCardGood(t) {
 
 function renderBody(slide, t) {
   if (slide.kind === "cover") {
-    const size = headlineSize(slide.headline, true);
+    const size = headlineSize(slide.headline, true, slide.big);
+    const cls = slide.big ? "content content-center content-center-hero" : "content content-center";
     return `
-    <div class="content content-center">
+    <div class="${cls}">
       <div class="kicker center">${slide.kicker}</div>
       <h1 class="headline center" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
       <div class="divider"></div>
@@ -220,6 +235,8 @@ function renderBody(slide, t) {
 
   if (slide.kind === "flyer-compare") {
     const size = headlineSize(slide.headline, false);
+    const beforeCard = slide.beforeImage ? flyerCardImage(imgDataUri(slide.beforeImage)) : flyerCardBad();
+    const afterCard = slide.afterImage ? flyerCardImage(imgDataUri(slide.afterImage)) : flyerCardGood(t);
     return `
     <div class="content content-left">
       ${iconBadge(t, slide.icon)}
@@ -229,11 +246,11 @@ function renderBody(slide, t) {
       <div style="display:flex; gap:24px;">
         <div>
           <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.mutedStrong}; margin-bottom:14px;">${slide.beforeLabel}</div>
-          ${flyerCardBad()}
+          ${beforeCard}
         </div>
         <div>
           <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.accent}; margin-bottom:14px;">${slide.afterLabel}</div>
-          ${flyerCardGood(t)}
+          ${afterCard}
         </div>
       </div>
     </div>`;
@@ -308,9 +325,14 @@ function renderBody(slide, t) {
     </div>`;
 }
 
-function headlineSize(headline, isCover) {
+function headlineSize(headline, isCover, big) {
   const n = lineCount(headline);
   if (isCover) {
+    if (big) {
+      if (n <= 1) return 118;
+      if (n === 2) return 98;
+      return 80;
+    }
     if (n <= 1) return 92;
     if (n === 2) return 76;
     return 62;
@@ -373,6 +395,10 @@ html, body {
 }
 .content { position: absolute; left: 104px; right: 104px; }
 .content-center { top: 310px; text-align: center; }
+.content-center-hero {
+  top: 150px; bottom: 280px;
+  display: flex; flex-direction: column; justify-content: center;
+}
 .content-left { top: 340px; text-align: left; }
 .kicker {
   font-family: 'Inter', sans-serif;
@@ -514,7 +540,12 @@ function screenshot(htmlPath, pngPath) {
 
 ensureDir(TMP);
 
-for (const post of POSTS) {
+const filter = process.argv[2];
+const postsToBuild = filter
+  ? POSTS.filter((p) => p.folder.toLowerCase().includes(filter.toLowerCase()))
+  : POSTS;
+
+for (const post of postsToBuild) {
   const total = post.slides.length;
   for (const theme of ["dunkel", "hell"]) {
     const outDir = path.join(OUT_ROOT, post.folder, theme);
