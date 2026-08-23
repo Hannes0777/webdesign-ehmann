@@ -1,6 +1,7 @@
 // Slide-Inhalte für die 6 neuen Instagram-Carousel-Posts.
 // Jede Slide hat ein "kind":
 //   cover           – NUR Slide 1: zentriert, große Headline, Divider, Subtext
+//                      (optional: big:true = vertikal mittig, noch größere Headline — Eyecatcher-Variante)
 //   hero-left       – Icon-Badge, Kicker, große Headline, Subtext — alles linksbündig
 //   reason          – Icon-Badge, Kicker, Subheadline, große Zahl, fette Kernaussage,
 //                      Fließtext, optionale Quellenangabe — linksbündig (Modell: „Tipp Baukasten“)
@@ -280,6 +281,7 @@ const POSTS = [
     slides: [
       {
         kind: "cover",
+        big: true,
         kicker: "MAL EHRLICH",
         headline: ["Kostenlos erstellt.", "<span class=\"accent\">Nichts gebracht.</span>"],
         subtext: "Warum so viele KI-Flyer trotzdem nicht funktionieren.",
@@ -295,9 +297,11 @@ const POSTS = [
         kind: "flyer-compare",
         icon: "compass",
         kicker: "DER BEWEIS",
-        headline: "Gleiche Veranstaltung. Anderer Eindruck.",
-        beforeLabel: "KI VON DER STANGE",
-        afterLabel: "MIT HANDWERK",
+        headline: "Gleiche Botschaft. Anderer Eindruck.",
+        beforeLabel: "ALT",
+        afterLabel: "NEU",
+        beforeImage: "compare/alt-flyer.png",
+        afterImage: "compare/neu-flyer.png",
       },
       {
         kind: "hero-left",
