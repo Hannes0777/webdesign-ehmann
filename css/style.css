@@ -921,7 +921,6 @@ button { font: inherit; cursor: pointer; }
 /* --- Mockup-Rahmen (gemeinsam) --- */
 .dstyles__mockup {
   position: relative;
-  height: 760px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -983,7 +982,7 @@ button { font: inherit; cursor: pointer; }
    willkürlich abgeschnittenen Slivers bei kleiner Containerbreite. */
 .dstyles__frame-wrap {
   position: relative;
-  flex: 1;
+  aspect-ratio: 1440 / 900;
   overflow: hidden;
   background: #fff;
 }
@@ -995,10 +994,6 @@ button { font: inherit; cursor: pointer; }
   height: 900px;
   transform-origin: top left;
   border: 0;
-}
-
-@media (max-width: 640px) {
-  .dstyles__mockup { height: 420px; }
 }
 
 /* --- Aktiver Zustand: gepinnte Crossfade-Bühne (nur Desktop-Layout,
@@ -1066,7 +1061,9 @@ button { font: inherit; cursor: pointer; }
     grid-column: 2;
     grid-row: 1;
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     margin: 0;
     opacity: 0;
     visibility: hidden;
