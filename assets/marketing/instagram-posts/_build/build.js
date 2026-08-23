@@ -106,6 +106,72 @@ function browserCard(t, kind) {
   </div>`;
 }
 
+const BAD_PALETTE = {
+  pink: "#FF3D8F",
+  cyan: "#22D3EE",
+  yellow: "#FFD23D",
+  photoBg: "#3a3226",
+  photoBg2: "#4a3d2c",
+};
+
+function badge(text, color, top, left, rotate) {
+  return `<div style="position:absolute; top:${top}px; left:${left}px; width:52px; height:52px; border-radius:50%; background:${color}; display:flex; align-items:center; justify-content:center; transform:rotate(${rotate}deg); box-shadow:0 3px 10px rgba(0,0,0,0.35);">
+    <span style="font-family:'Inter',sans-serif; font-weight:800; font-size:10px; color:#1a1408; letter-spacing:0.5px;">${text}</span>
+  </div>`;
+}
+
+function bunting(width) {
+  const colors = [BAD_PALETTE.pink, BAD_PALETTE.cyan, BAD_PALETTE.yellow];
+  let out = `<div style="position:absolute; top:0; left:0; width:${width}px; height:0; display:flex;">`;
+  const n = Math.floor(width / 22);
+  for (let i = 0; i < n; i++) {
+    out += `<div style="width:0; height:0; border-left:11px solid transparent; border-right:11px solid transparent; border-top:16px solid ${colors[i % 3]};"></div>`;
+  }
+  out += `</div>`;
+  return out;
+}
+
+function flyerCardBad() {
+  const W = 300;
+  const H = 420;
+  return `
+  <div style="width:${W}px; height:${H}px; position:relative; overflow:hidden; background:linear-gradient(160deg, ${BAD_PALETTE.photoBg}, ${BAD_PALETTE.photoBg2}); box-shadow:0 8px 26px rgba(0,0,0,0.4);">
+    ${bunting(W)}
+    <div style="position:absolute; top:34px; left:18px; width:${W - 36}px;">
+      <div style="font-family:'Inter',sans-serif; font-weight:800; font-size:44px; line-height:0.95; color:#fff; text-shadow:2px 2px 0 #000, -1px -1px 0 #000; transform:rotate(-4deg); letter-spacing:-1px;">SOMMER<br>FEST</div>
+      <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:26px; color:${BAD_PALETTE.pink}; text-shadow:0 0 14px rgba(255,61,143,0.8); transform:rotate(3deg) translateX(10px); margin-top:6px;">Live Musik!</div>
+    </div>
+    <div style="position:absolute; top:170px; left:14px; width:${W - 28}px; height:118px; border:2px dashed rgba(255,255,255,0.35); display:flex; align-items:center; justify-content:center;">
+      <span style="font-family:'Inter',sans-serif; font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.4);">FOTO · FOTO · FOTO</span>
+    </div>
+    ${badge("NEU!", BAD_PALETTE.yellow, 296, 20, -8)}
+    ${badge("TOP", BAD_PALETTE.cyan, 300, 226, 10)}
+    <div style="position:absolute; bottom:0; left:0; width:100%; display:flex;">
+      <div style="flex:1.3; background:${BAD_PALETTE.pink}; padding:12px 10px; box-sizing:border-box;">
+        <div style="font-family:'Inter',sans-serif; font-weight:800; font-size:15px; color:#fff;">14. JUNI</div>
+        <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:9px; color:#fff;">AB 17 UHR!!</div>
+      </div>
+      <div style="flex:1; background:${BAD_PALETTE.cyan}; padding:12px 10px; box-sizing:border-box; display:flex; align-items:center; justify-content:center;">
+        <div style="font-family:'Inter',sans-serif; font-weight:800; font-size:13px; color:#1a1408;">GRATIS!</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function flyerCardGood(t) {
+  const W = 300;
+  const H = 420;
+  return `
+  <div style="width:${W}px; height:${H}px; position:relative; background:${t.cardBg}; border:1px solid ${t.cardBorder}; box-sizing:border-box; padding:26px 24px; display:flex; flex-direction:column;">
+    <div style="height:150px; border:1px solid ${t.cardBorder}; margin-bottom:24px;"></div>
+    <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:12px; letter-spacing:3px; color:${t.kicker};">SOMMERFEST</div>
+    <div style="font-family:'Playfair Display',serif; font-weight:700; font-size:30px; line-height:1.15; color:${t.headline}; margin-top:8px;">Gasthaus<br>Lindenhof</div>
+    <div style="width:44px; height:2px; background:${t.divider}; margin:18px 0;"></div>
+    <div style="font-family:'Inter',sans-serif; font-weight:400; font-size:14px; color:${t.subtext};">14. Juni · Ab 17 Uhr</div>
+    <div style="margin-top:auto; align-self:flex-start; border:1px solid ${t.kicker}; color:${t.kicker}; font-family:'Inter',sans-serif; font-weight:600; font-size:11px; letter-spacing:1.5px; padding:9px 16px;">MEHR ERFAHREN</div>
+  </div>`;
+}
+
 function renderBody(slide, t) {
   if (slide.kind === "cover") {
     const size = headlineSize(slide.headline, true);
@@ -147,6 +213,27 @@ function renderBody(slide, t) {
         <div>
           <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.accent}; margin-bottom:14px;">${slide.afterLabel}</div>
           ${browserCard(t, "after")}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  if (slide.kind === "flyer-compare") {
+    const size = headlineSize(slide.headline, false);
+    return `
+    <div class="content content-left">
+      ${iconBadge(t, slide.icon)}
+      <div class="kicker left">${slide.kicker}</div>
+      <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
+      <div class="divider" style="margin:32px 0 34px;"></div>
+      <div style="display:flex; gap:24px;">
+        <div>
+          <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.mutedStrong}; margin-bottom:14px;">${slide.beforeLabel}</div>
+          ${flyerCardBad()}
+        </div>
+        <div>
+          <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:3px; color:${t.accent}; margin-bottom:14px;">${slide.afterLabel}</div>
+          ${flyerCardGood(t)}
         </div>
       </div>
     </div>`;
