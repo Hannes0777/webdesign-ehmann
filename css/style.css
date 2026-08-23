@@ -120,6 +120,7 @@ button { font: inherit; cursor: pointer; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   gap: 8px;
   padding: 13px 26px;
   border-radius: 999px;
