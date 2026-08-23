@@ -1626,17 +1626,16 @@ button { font: inherit; cursor: pointer; }
   padding: 28px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-top: 3px solid var(--gold);
   border-radius: var(--radius);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-.marketing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.marketing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--gold); }
 /* Abwechselnde Akzentfarbe statt durchgehend Gold - etwas mehr
    Farbvielfalt in den Karten-Rastern (SEO- und Marketing-Karten). */
-.marketing-grid .marketing-card:nth-child(3n+2) { border-top-color: var(--sky); }
 .marketing-grid .marketing-card:nth-child(3n+2) h3 { color: var(--sky); }
-.marketing-grid .marketing-card:nth-child(3n+3) { border-top-color: var(--coral); }
+.marketing-grid .marketing-card:nth-child(3n+2):hover { border-color: var(--sky); }
 .marketing-grid .marketing-card:nth-child(3n+3) h3 { color: var(--coral); }
+.marketing-grid .marketing-card:nth-child(3n+3):hover { border-color: var(--coral); }
 .marketing-card h3 { font-size: 1.1rem; color: var(--green-deep); }
 .marketing-card p { margin-top: 10px; color: var(--mist); font-size: 0.92rem; line-height: 1.6; }
 
