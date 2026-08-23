@@ -1328,23 +1328,6 @@ button { font: inherit; cursor: pointer; }
   background: var(--green-soft);
 }
 
-/* --- Foto-Varianten: echtes (leicht transparentes) Bild statt nur
-   Farbverlauf, passend zum jeweiligen Seiteninhalt --- */
-.page-header--leistungen {
-  background:
-    linear-gradient(180deg, rgba(18, 10, 6, 0.5) 0%, rgba(20, 23, 26, 0.88) 95%),
-    url('../assets/heroes/leistungen-hero.webp') center 40% / cover no-repeat;
-}
-.page-header--leistungen h1,
-.page-header--leistungen p { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); }
-.page-header--kontakt {
-  background:
-    linear-gradient(180deg, rgba(10, 16, 10, 0.5) 0%, rgba(20, 23, 26, 0.88) 95%),
-    url('../assets/heroes/kontakt-hero.webp') center 35% / cover no-repeat;
-}
-.page-header--kontakt h1,
-.page-header--kontakt p { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6); }
-
 /* ============================================================
    REZENSIONEN — auf jeder Seite über dem Footer. Karten liegen
    per CSS-Grid-Stacking übereinander (gleiche grid-area), damit
@@ -1632,6 +1615,12 @@ button { font: inherit; cursor: pointer; }
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 24px;
   margin-bottom: 48px;
+}
+/* SEO-Grid hat 6 Karten (statt 3 wie die Marketing-Leistungen darunter) -
+   feste 3 Spalten statt auto-fit, sonst reißt die letzte Zeile bei genau
+   6 Karten in ein 4+2-Layout mit viel Leerraum rechts. */
+@media (min-width: 760px) {
+  #seo .marketing-grid { grid-template-columns: repeat(3, 1fr); }
 }
 .marketing-card {
   padding: 28px;
