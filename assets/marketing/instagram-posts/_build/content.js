@@ -11,6 +11,16 @@
 //   mockup-form     – Kicker+Headline links, Formular-Mockup
 //   flyer-compare   – Kicker+Headline links, zwei Flyer-Mockups (generisch vs. gestaltet)
 //   checklist       – Kicker+Headline links, Liste mit Check-Icons
+//   showcase-photo  – Icon-Badge, Kicker, Headline, Subtext links + echtes Foto/
+//                      Screenshot (NUR eigenes Material — Flyer/Logo/eigene Posts,
+//                      KEINE fremden/echten Kunden-Websites), groß + mittig, nicht
+//                      gekippt (photo: Pfad relativ zu _build/, photoW/photoH optional,
+//                      caption optional)
+//   mockup-site     – wie showcase-photo, aber ein rein abstrakt/fiktiv gezeichnetes
+//                      Website-Mockup (kein echter Screenshot) — für Fälle, in denen
+//                      keine reale Kunden-Website gezeigt werden soll
+//   mockup-form     – Kicker+Headline links, abstraktes/fiktives Formular-Mockup,
+//                      groß + mittig (subtext optional)
 //   cta             – Kicker+Headline+Subtext links, umrandeter Button (letzte Slide)
 
 const ICONS = {
@@ -188,6 +198,7 @@ const POSTS = [
         icon: "form",
         kicker: "LÖSUNG",
         headline: "Ein echtes Kontaktformular",
+        subtext: "So läuft es bei mir ab: Name, E-Mail, Nachricht — direkt an dich, ohne Umweg über eine Mail-App.",
       },
       {
         kind: "cta",
@@ -269,11 +280,13 @@ const POSTS = [
         items: ["Updates & Sicherheit", "Neue Inhalte & Fotos", "Erweiterungen nach Bedarf"],
       },
       {
-        kind: "hero-left",
+        kind: "mockup-site",
         icon: "users",
         kicker: "ANSPRECHPARTNER",
         headline: "Du erreichst mich auch danach",
-        subtext: "Kein anonymes Ticket-System — du schreibst mir direkt.",
+        subtext: "Kein anonymes Ticket-System — du schreibst mir direkt, und deine Seite wird laufend weiter gepflegt.",
+        photoW: 420,
+        photoH: 540,
       },
       {
         kind: "cta",
@@ -324,6 +337,114 @@ const POSTS = [
         headline: "Handarbeit statt Vorlage",
         subtext: "Ich nutze KI auch — aber als Werkzeug, nicht als Autopilot. Für einen Flyer, der wirklich auffällt.",
         button: "JETZT ANFRAGEN →",
+      },
+    ],
+  },
+  {
+    folder: "Ablauf",
+    slides: [
+      {
+        kind: "cover",
+        big: true,
+        kicker: "ABLAUF",
+        headline: ["So läuft ein", "<span class=\"accent\">Projekt</span> bei mir ab"],
+        subtext: "Vom ersten Gespräch bis zur fertigen Website.",
+      },
+      {
+        kind: "hero-left",
+        icon: "chat",
+        kicker: "SCHRITT 1",
+        headline: "Kennenlernen",
+        subtext: "Kurzes Gespräch, telefonisch oder persönlich — was brauchst du, was soll die Seite können?",
+      },
+      {
+        kind: "mockup-site",
+        icon: "spark",
+        kicker: "SCHRITT 2",
+        headline: "Der erste Entwurf",
+        subtext: "Individuell für deinen Betrieb entworfen — kein Baukasten-Template.",
+        photoW: 420,
+        photoH: 540,
+      },
+      {
+        kind: "checklist",
+        icon: "shield",
+        kicker: "SCHRITT 3",
+        headline: "Immer inklusive",
+        items: ["Feinschliff nach deinem Feedback", "SEO-Grundausstattung", "Echtes Kontaktformular"],
+      },
+      {
+        kind: "hero-left",
+        icon: "compass",
+        kicker: "SCHRITT 4",
+        headline: "Übergabe",
+        subtext: "Kurze Einweisung — danach pflegst du deine Inhalte selbst, ganz ohne Programmierkenntnisse.",
+      },
+      {
+        kind: "cta",
+        kicker: "DEIN PROJEKT",
+        headline: "Bereit für Schritt 1?",
+        subtext: "Schreib mir kurz — unverbindlich und ohne Verkaufsgespräch.",
+        button: "JETZT KONTAKT AUFNEHMEN →",
+      },
+    ],
+  },
+  {
+    folder: "serie-marketing",
+    slides: [
+      {
+        kind: "cover",
+        big: true,
+        kicker: "MARKETING · SERIE TEIL 3",
+        headline: ["Ein Auftritt.", "<span class=\"accent\">Überall.</span>"],
+        subtext: "Social Media, Flyer und Logo — auf Wunsch übernehme ich auch das, im selben Design wie deine Website.",
+      },
+      {
+        kind: "showcase-photo",
+        icon: "chat",
+        kicker: "SOCIAL-MEDIA-BETREUUNG",
+        headline: "Beiträge, die zu dir passen",
+        subtext: "Instagram & Facebook, im gleichen Look wie deine Website — hier ein echter Post aus meiner eigenen Serie.",
+        photo: "real/post-beispiel-serie-seo.png",
+        photoW: 360,
+        photoH: 450,
+        caption: "ECHTER POST · WEBDESIGN EHMANN",
+      },
+      {
+        kind: "showcase-photo",
+        icon: "form",
+        kicker: "FLYER-DESIGN",
+        headline: "Für Aktionen & Veranstaltungen",
+        subtext: "Ein Flyer im selben Design wie deine Website — druckfertig. Das ist mein eigener, kein Mockup.",
+        photo: "compare/neu-flyer.png",
+        photoW: 360,
+        photoH: 450,
+        caption: "ECHTER FLYER · WEBDESIGN EHMANN",
+      },
+      {
+        kind: "showcase-photo",
+        icon: "compass",
+        kicker: "LOGO-DESIGN",
+        headline: "Ein Erkennungszeichen, das bleibt",
+        subtext: "Grundlage für Website, Social Media, Flyer und alles, was noch dazukommt — mein eigenes Logo als Beispiel.",
+        photo: "real/logo-webdesign-ehmann.webp",
+        photoW: 340,
+        photoH: 340,
+        caption: "ECHTES LOGO · WEBDESIGN EHMANN",
+      },
+      {
+        kind: "hero-left",
+        icon: "target",
+        kicker: "ALLES AUS EINER HAND",
+        headline: "Ein einheitlicher Auftritt",
+        subtext: "Website, Social Media und Print im selben Design — Kunden erkennen dich überall wieder.",
+      },
+      {
+        kind: "cta",
+        kicker: "DEIN PROJEKT",
+        headline: "Auch Social Media & Co. aus einer Hand?",
+        subtext: "Schreib mir — wir besprechen gemeinsam, was zu deinem Betrieb passt.",
+        button: "UNVERBINDLICHES ANGEBOT ANFRAGEN →",
       },
     ],
   },

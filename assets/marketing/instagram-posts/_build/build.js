@@ -17,7 +17,9 @@ function b64(file) {
 
 function imgDataUri(relPath) {
   const b64img = fs.readFileSync(path.join(ROOT, relPath)).toString("base64");
-  return `data:image/png;base64,${b64img}`;
+  const ext = path.extname(relPath).slice(1).toLowerCase();
+  const mime = ext === "webp" ? "image/webp" : ext === "jpg" || ext === "jpeg" ? "image/jpeg" : "image/png";
+  return `data:${mime};base64,${b64img}`;
 }
 
 const FONT_PLAYFAIR = b64("playfair-700.woff2");
@@ -277,24 +279,71 @@ function renderBody(slide, t) {
   if (slide.kind === "mockup-form") {
     const size = headlineSize(slide.headline, false);
     const field = (label, tall) => `
-      <div style="margin-bottom:22px;">
-        <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:2px; color:${t.mutedStrong}; margin-bottom:8px;">${label}</div>
-        <div style="height:${tall ? "84px" : "44px"}; border:1px solid ${t.cardBorder};"></div>
+      <div style="margin-bottom:24px;">
+        <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:2px; color:${t.mutedStrong}; margin-bottom:9px;">${label}</div>
+        <div style="height:${tall ? "96px" : "50px"}; border:1px solid ${t.cardBorder}; background:${t.cardBg};"></div>
       </div>`;
     return `
     <div class="content content-left">
       ${iconBadge(t, slide.icon)}
       <div class="kicker left">${slide.kicker}</div>
       <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
-      <div class="divider" style="margin:32px 0 34px;"></div>
-      <div style="width:560px; background:${t.cardBg}; border:1px solid ${t.cardBorder}; padding:32px; box-sizing:border-box;">
-        ${field("NAME")}
-        ${field("E-MAIL")}
-        ${field("NACHRICHT", true)}
-        <div style="display:flex; justify-content:flex-end;">
-          <div style="background:${t.accent}; color:${t.bg}; font-family:'Inter',sans-serif; font-weight:600; font-size:15px; letter-spacing:2px; padding:14px 28px;">SENDEN</div>
+      ${slide.subtext ? `<p class="subtext left">${slide.subtext}</p>` : `<div class="divider" style="margin:32px 0 34px;"></div>`}
+      <div style="display:flex; justify-content:center;">
+        <div style="width:100%; max-width:700px; margin-top:30px; background:${t.cardBg}; border:1px solid ${t.cardBorder}; padding:36px; box-sizing:border-box;">
+          ${field("NAME")}
+          ${field("E-MAIL")}
+          ${field("NACHRICHT", true)}
+          <div style="display:flex; justify-content:flex-end;">
+            <div style="background:${t.accent}; color:${t.bg}; font-family:'Inter',sans-serif; font-weight:600; font-size:15px; letter-spacing:2px; padding:14px 28px;">SENDEN</div>
+          </div>
         </div>
       </div>
+      ${slide.caption ? `<div style="margin-top:16px; text-align:center; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:2px; color:${t.mutedStrong};">${slide.caption}</div>` : ""}
+    </div>`;
+  }
+
+  if (slide.kind === "mockup-site") {
+    const size = headlineSize(slide.headline, false);
+    const barColor = t.mutedStrong;
+    const lineColor = t.mutedStrong;
+    const w = slide.photoW || 460;
+    const h = slide.photoH || 580;
+    const navH = 56;
+    const heroH = Math.round(h * 0.42);
+    const mock = `
+    <div style="width:${w}px; height:${h}px; border:1px solid ${t.cardBorder}; background:${t.cardBg}; box-sizing:border-box; overflow:hidden;">
+      <div style="height:${navH}px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid ${t.cardBorder};">
+        <div style="width:70px; height:12px; background:${t.accent};"></div>
+        <div style="display:flex; gap:14px;">
+          <div style="width:34px; height:8px; background:${lineColor};"></div>
+          <div style="width:34px; height:8px; background:${lineColor};"></div>
+          <div style="width:34px; height:8px; background:${lineColor};"></div>
+        </div>
+      </div>
+      <div style="height:${heroH}px; background:linear-gradient(135deg, ${t.cardBg}, ${t.cardBorder}22); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:0 30px;">
+        <div style="width:${Math.round(w * 0.5)}px; height:14px; background:${t.headline}; opacity:0.85;"></div>
+        <div style="width:${Math.round(w * 0.32)}px; height:14px; background:${t.accent};"></div>
+        <div style="width:130px; height:34px; margin-top:10px; border:1px solid ${t.accent};"></div>
+      </div>
+      <div style="padding:26px 24px;">
+        <div style="width:60%; height:9px; background:${lineColor}; margin-bottom:16px;"></div>
+        <div style="width:85%; height:9px; background:${lineColor}; margin-bottom:16px;"></div>
+        <div style="width:45%; height:9px; background:${lineColor}; margin-bottom:28px;"></div>
+        <div style="display:flex; gap:16px;">
+          <div style="flex:1; height:${Math.round((h - navH - heroH - 130) / 2)}px; border:1px solid ${t.cardBorder};"></div>
+          <div style="flex:1; height:${Math.round((h - navH - heroH - 130) / 2)}px; border:1px solid ${t.cardBorder};"></div>
+        </div>
+      </div>
+    </div>`;
+    return `
+    <div class="content content-left">
+      ${iconBadge(t, slide.icon)}
+      <div class="kicker left">${slide.kicker}</div>
+      <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
+      <p class="subtext left">${slide.subtext}</p>
+      <div style="margin-top:34px; display:flex; justify-content:center;">${mock}</div>
+      ${slide.caption ? `<div style="margin-top:16px; text-align:center; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:2px; color:${t.mutedStrong};">${slide.caption}</div>` : ""}
     </div>`;
   }
 
@@ -318,6 +367,27 @@ function renderBody(slide, t) {
       <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
       <div class="divider" style="margin:32px 0 34px;"></div>
       <div>${rows}</div>
+    </div>`;
+  }
+
+  if (slide.kind === "showcase-photo") {
+    const size = headlineSize(slide.headline, false);
+    const w = slide.photoW || 760;
+    const h = slide.photoH || 480;
+    const photo = flyerCardImage(imgDataUri(slide.photo), {
+      w,
+      h,
+      borderColor: t.cardBorder,
+      rotate: 0,
+    });
+    return `
+    <div class="content content-left">
+      ${iconBadge(t, slide.icon)}
+      <div class="kicker left">${slide.kicker}</div>
+      <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
+      <p class="subtext left">${slide.subtext}</p>
+      <div style="margin-top:34px; display:flex; justify-content:center;">${photo}</div>
+      ${slide.caption ? `<div style="margin-top:16px; text-align:center; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:2px; color:${t.mutedStrong};">${slide.caption}</div>` : ""}
     </div>`;
   }
 
