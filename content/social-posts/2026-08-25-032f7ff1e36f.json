@@ -1,18 +1,10 @@
 {
   "bild_facebook": "",
-  "bilder_instagram": [
-    "/uploads/slide-1.png",
-    "/uploads/slide-2.png",
-    "/uploads/slide-3.png",
-    "/uploads/slide-4.png",
-    "/uploads/slide-5.png",
-    "/uploads/slide-6.png",
-    "/uploads/slide-7.png"
-  ],
+  "bilder_instagram": [],
   "text": "🤔Hat deine Website alles❓",
   "facebook": false,
   "instagram": true,
   "geplant_fuer": "2026-08-25T13:06:00+02:00",
-  "status": "geplant",
+  "status": "veroeffentlicht",
   "fehler_meldung": ""
 }
