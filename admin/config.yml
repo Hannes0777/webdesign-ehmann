@@ -299,6 +299,8 @@ collections:
       - name: geplant_fuer
         label: "Veröffentlichen am"
         widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        hint: "Zeigt und speichert deine lokale Uhrzeit eindeutig mit Zeitzone, damit es keine Verwechslung mit UTC gibt."
       - name: status
         label: "Status"
         widget: select
