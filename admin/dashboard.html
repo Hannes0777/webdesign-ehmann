@@ -91,6 +91,18 @@
   .stat-tile .label { font-size: 0.78rem; color: var(--mist); }
   .stats-updated { font-size: 0.75rem; color: var(--mist); margin-top: 0.25rem; }
   .post-stats { display: flex; gap: 0.9rem; font-size: 0.8rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
+
+  .charts-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .chart-card { background: var(--surface); border-radius: 10px; padding: 1rem; }
+  .chart-card h3 { margin: 0 0 0.5rem; font-size: 0.85rem; color: var(--mist); font-weight: 600; }
+  .chart-empty { color: var(--mist); font-size: 0.82rem; padding: 1.5rem 0; text-align: center; }
+  .chart-legend { display: flex; gap: 0.9rem; font-size: 0.78rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
+  .chart-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
   .toolbar {
     display: flex;
     align-items: center;
@@ -217,6 +229,7 @@
 
   <div id="app">
     <div id="stats-row" class="stats-row"></div>
+    <div id="charts-row" class="charts-row"></div>
 
     <div class="toolbar">
       <div class="month-nav">
@@ -345,6 +358,19 @@
     }
   }
 
+  async function fetchHistory() {
+    try {
+      const res = await fetch(
+        "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/content/social-stats-history.json"
+      );
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
+    } catch {
+      return [];
+    }
+  }
+
   function imageUrl(imgPath) {
     if (!imgPath) return null;
     return "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/" + imgPath.replace(/^\/+/, "");
@@ -358,7 +384,97 @@
 
   let allPosts = [];
   let allStats = null;
+  let allHistory = [];
   let viewYear, viewMonth; // viewMonth: 0-11
+
+  function buildChartSVG(seriesList) {
+    const width = 320;
+    const height = 140;
+    const padding = 8;
+    const allValues = seriesList.flatMap((s) => s.points.map((p) => p.value)).filter((v) => v != null);
+    if (allValues.length === 0) return "";
+
+    const minV = Math.min(...allValues, 0);
+    const maxV = Math.max(...allValues, 1);
+    const times = seriesList[0].points.map((p) => new Date(p.at).getTime());
+    const minT = Math.min(...times);
+    const maxT = Math.max(...times);
+    const xFor = (t) => padding + (maxT === minT ? 0 : ((t - minT) / (maxT - minT)) * (width - padding * 2));
+    const yFor = (v) => height - padding - (maxV === minV ? 0 : ((v - minV) / (maxV - minV)) * (height - padding * 2));
+
+    let svg = '<svg viewBox="0 0 ' + width + " " + height + '" width="100%" height="140" preserveAspectRatio="none">';
+    seriesList.forEach((s) => {
+      const pts = s.points
+        .filter((p) => p.value != null)
+        .map((p) => xFor(new Date(p.at).getTime()) + "," + yFor(p.value))
+        .join(" ");
+      svg += '<polyline points="' + pts + '" fill="none" stroke="' + s.color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />';
+    });
+    svg += "</svg>";
+    return svg;
+  }
+
+  function renderChartCard(title, seriesList) {
+    const card = document.createElement("div");
+    card.className = "chart-card";
+
+    const h = document.createElement("h3");
+    h.textContent = title;
+    card.appendChild(h);
+
+    const svg = buildChartSVG(seriesList);
+    const wrap = document.createElement("div");
+    if (svg) {
+      wrap.innerHTML = svg;
+    } else {
+      wrap.className = "chart-empty";
+      wrap.textContent = "Noch nicht genug Daten – kommt nach ein paar automatischen Läufen.";
+    }
+    card.appendChild(wrap);
+
+    if (svg) {
+      const legend = document.createElement("div");
+      legend.className = "chart-legend";
+      seriesList.forEach((s) => {
+        const last = [...s.points].reverse().find((p) => p.value != null);
+        const span = document.createElement("span");
+        span.innerHTML =
+          '<span class="dot" style="background:' + s.color + '"></span>' + s.label + ": " + (last ? last.value : "–");
+        legend.appendChild(span);
+      });
+      card.appendChild(legend);
+    }
+
+    return card;
+  }
+
+  function renderCharts() {
+    const container = $("charts-row");
+    container.innerHTML = "";
+    if (!allHistory || allHistory.length === 0) return;
+
+    container.appendChild(
+      renderChartCard("Follower", [
+        { label: "Facebook", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.facebook_followers })) },
+        { label: "Instagram", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_followers })) },
+      ])
+    );
+    container.appendChild(
+      renderChartCard("Reichweite (Aufrufe)", [
+        { label: "Reichweite", color: "var(--gold)", points: allHistory.map((h) => ({ at: h.at, value: h.total_reach })) },
+      ])
+    );
+    container.appendChild(
+      renderChartCard("Likes", [
+        { label: "Likes", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.total_likes })) },
+      ])
+    );
+    container.appendChild(
+      renderChartCard("Kommentare", [
+        { label: "Kommentare", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.total_comments })) },
+      ])
+    );
+  }
 
   function renderStats() {
     const row = $("stats-row");
@@ -591,9 +707,11 @@
     try {
       allPosts = await fetchPosts(token);
       allStats = await fetchStats();
+      allHistory = await fetchHistory();
       loading.style.display = "none";
       app.style.display = "block";
       renderStats();
+      renderCharts();
       const now = new Date();
       viewYear = now.getFullYear();
       viewMonth = now.getMonth();

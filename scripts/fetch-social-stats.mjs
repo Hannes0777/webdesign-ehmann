@@ -13,6 +13,7 @@ import path from "node:path";
 
 const POSTS_DIR = path.join(process.cwd(), "content", "social-posts");
 const STATS_FILE = path.join(process.cwd(), "content", "social-stats.json");
+const HISTORY_FILE = path.join(process.cwd(), "content", "social-stats-history.json");
 const GRAPH_API = "https://graph.facebook.com/v21.0";
 const IG_GRAPH_API = "https://graph.instagram.com/v21.0";
 
@@ -184,6 +185,43 @@ async function main() {
   }
 
   await writeFile(STATS_FILE, JSON.stringify(stats, null, 2) + "\n", "utf8");
+
+  // Verlaufs-Historie: bei jedem Lauf einen neuen Datenpunkt anhängen,
+  // damit sich Follower/Reichweite/Likes/Kommentare als Diagramm über die
+  // Zeit darstellen lassen.
+  let totalLikes = 0;
+  let totalComments = 0;
+  let totalReach = 0;
+  for (const key of Object.keys(stats.posts)) {
+    const p = stats.posts[key];
+    if (p.facebook) {
+      totalLikes += p.facebook.likes || 0;
+      totalComments += p.facebook.comments || 0;
+    }
+    if (p.instagram) {
+      totalLikes += p.instagram.likes || 0;
+      totalComments += p.instagram.comments || 0;
+      totalReach += p.instagram.reach || 0;
+    }
+  }
+
+  let history = [];
+  try {
+    history = JSON.parse(await readFile(HISTORY_FILE, "utf8"));
+    if (!Array.isArray(history)) history = [];
+  } catch {
+    history = [];
+  }
+  history.push({
+    at: stats.updated_at,
+    facebook_followers: stats.facebook.fan_count,
+    instagram_followers: stats.instagram?.followers_count ?? null,
+    total_likes: totalLikes,
+    total_comments: totalComments,
+    total_reach: totalReach,
+  });
+  await writeFile(HISTORY_FILE, JSON.stringify(history, null, 2) + "\n", "utf8");
+
   console.log(`Statistiken aktualisiert für ${Object.keys(stats.posts).length} Beitrag(e).`);
 }
 
