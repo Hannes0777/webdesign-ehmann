@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-25T11:55:59.490Z",
+  "updated_at": "2026-08-25T12:00:14.230Z",
   "facebook": {
     "fan_count": 0
   },
@@ -7,5 +7,14 @@
     "followers_count": 20,
     "media_count": 11
   },
-  "posts": {}
+  "posts": {
+    "2026-08-25-032f7ff1e36f.json": {
+      "instagram": {
+        "likes": 0,
+        "comments": 0,
+        "reach": 0,
+        "saved": 0
+      }
+    }
+  }
 }
