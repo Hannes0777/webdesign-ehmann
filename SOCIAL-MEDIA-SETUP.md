@@ -104,7 +104,8 @@ dich selbst nach dem Speichern (nur überschreibbar).
 ## 7. Verwenden
 
 Im CMS unter **„📱 Facebook & Instagram – Beiträge planen"** einen neuen
-Eintrag anlegen: Bild hochladen, Text schreiben, Zeitpunkt wählen,
+Eintrag anlegen: ein oder mehrere Bilder hochladen (mehrere Bilder ergeben
+ein Album/Karussell in einem Beitrag), Text schreiben, Zeitpunkt wählen,
 Plattform(en) auswählen, speichern. Der Workflow läuft automatisch alle
 15 Minuten (Zeitplan nur auf dem `master`-Branch aktiv) und veröffentlicht
 fällige Beiträge. Der Status wechselt danach automatisch auf
