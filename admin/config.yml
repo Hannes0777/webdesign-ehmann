@@ -261,7 +261,7 @@ collections:
   # ----------------------------------------------------------
   - name: social_posts
     label: "📱 Facebook & Instagram – Beiträge planen"
-    description: "Beitrag anlegen, Bild + Text eintragen und Zeitpunkt wählen — er wird automatisch veröffentlicht (Prüfung alle 15 Minuten). Bei einem Fehler erscheint eine Fehlermeldung am Eintrag, Status dann wieder auf „geplant“ setzen, um es erneut zu versuchen."
+    description: "Beitrag anlegen, Bild(er) + Text eintragen und Zeitpunkt wählen — er wird automatisch veröffentlicht (Prüfung alle 15 Minuten). Facebook und Instagram können unterschiedliche Bilder bekommen, Text und Zeitpunkt gelten für beide gemeinsam. Bei einem Fehler erscheint eine Fehlermeldung am Eintrag, Status dann wieder auf „geplant“ setzen, um es erneut zu versuchen."
     folder: content/social-posts
     create: true
     extension: json
@@ -270,12 +270,21 @@ collections:
     summary: "{{geplant_fuer}} – {{status}}"
     sortable_fields: ["geplant_fuer", "status"]
     fields:
-      - name: bild
-        label: "Bild"
+      - name: bild_facebook
+        label: "Bild für Facebook"
         widget: image
+        required: false
         media_folder: "social-media-tmp"
         public_folder: "/social-media-tmp"
-        hint: "Pflicht für Instagram. Landet NICHT im normalen Uploads-Ordner der Homepage, sondern in einer separaten Ablage, und wird nach dem Veröffentlichen automatisch wieder entfernt."
+        hint: "Genau ein Bild, das auf Facebook gepostet wird. Landet NICHT im normalen Uploads-Ordner der Homepage, sondern in einer separaten Ablage, und wird nach dem Veröffentlichen automatisch wieder entfernt."
+      - name: bilder_instagram
+        label: "Bilder für Instagram"
+        widget: image
+        multiple: true
+        required: false
+        media_folder: "social-media-tmp"
+        public_folder: "/social-media-tmp"
+        hint: "Ein oder mehrere Bilder für Instagram — bei mehreren entsteht ein Karussell-Beitrag (max. 10 Bilder). Kann sich von Bild für Facebook unterscheiden."
       - name: text
         label: "Beitragstext"
         widget: text
