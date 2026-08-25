@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Social-Media-Dashboard – Webdesign Ehmann</title>
+<style>
+  :root {
+    --paper: #14171a;
+    --paper-alt: #1a1e1f;
+    --surface: #202425;
+    --ink: #f2f4f1;
+    --mist: #9aa39c;
+    --gold: #d9ae5c;
+    --gold-deep: #b98f3f;
+    --sky: #6fa8d1;
+    --sky-soft: rgba(111, 168, 209, 0.16);
+    --coral: #e2763a;
+    --coral-soft: rgba(226, 118, 58, 0.16);
+    --border: rgba(255, 255, 255, 0.12);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 { margin: 0 0 0.25rem; font-size: 1.4rem; }
+  header p { margin: 0; color: var(--mist); font-size: 0.9rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+
+  #login-screen { text-align: center; padding: 4rem 1rem; }
+  #login-screen p { color: var(--mist); margin-bottom: 1.5rem; }
+  button {
+    background: var(--gold);
+    color: var(--paper);
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--gold-deep); }
+  button.ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    font-weight: 400;
+    padding: 0.4rem 0.9rem;
+  }
+  #error-box {
+    display: none;
+    background: var(--coral-soft);
+    border: 1px solid var(--coral);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  #app { display: none; }
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .month-nav { display: flex; align-items: center; gap: 0.75rem; }
+  .month-nav button { padding: 0.35rem 0.7rem; }
+  #month-label { font-size: 1.15rem; font-weight: 600; min-width: 11ch; text-align: center; }
+  .legend { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--mist); }
+  .legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot--fb { background: var(--sky); }
+  .dot--ig { background: var(--coral); }
+
+  #calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .weekday {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--mist);
+    padding-bottom: 4px;
+  }
+  .day {
+    background: var(--surface);
+    border-radius: 10px;
+    min-height: 84px;
+    padding: 6px;
+    border: 1px solid transparent;
+    cursor: default;
+  }
+  .day.outside { opacity: 0.35; }
+  .day.today { border-color: var(--gold); }
+  .day.has-posts { cursor: pointer; }
+  .day.has-posts:hover { border-color: var(--border); }
+  .day-num { font-size: 0.8rem; color: var(--mist); }
+  .day-dots { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+
+  #day-panel {
+    display: none;
+    margin-top: 1.5rem;
+    background: var(--paper-alt);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+  }
+  #day-panel h2 { margin: 0 0 0.75rem; font-size: 1.05rem; }
+  .post-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    margin-bottom: 0.6rem;
+  }
+  .post-card:last-child { margin-bottom: 0; }
+  .post-meta { display: flex; gap: 0.6rem; align-items: center; font-size: 0.8rem; color: var(--mist); margin-bottom: 0.35rem; flex-wrap: wrap; }
+  .badge { padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+  .badge--geplant { background: var(--sky-soft); color: var(--sky); }
+  .badge--veroeffentlicht { background: rgba(120, 200, 140, 0.16); color: #78c88c; }
+  .badge--fehler { background: var(--coral-soft); color: var(--coral); }
+  .post-text { font-size: 0.92rem; white-space: pre-wrap; }
+
+  #loading { text-align: center; color: var(--mist); padding: 3rem 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📅 Social-Media-Dashboard</h1>
+  <p>Geplante &amp; veröffentlichte Facebook-/Instagram-Beiträge im Überblick.</p>
+</header>
+
+<main>
+  <div id="error-box"></div>
+
+  <div id="login-screen">
+    <p>Melde dich mit deinem GitHub-Zugang an, um die geplanten Beiträge zu sehen.</p>
+    <button id="login-btn">Mit GitHub anmelden</button>
+  </div>
+
+  <div id="loading" style="display:none;">Lade Beiträge…</div>
+
+  <div id="app">
+    <div class="toolbar">
+      <div class="month-nav">
+        <button class="ghost" id="prev-month">←</button>
+        <span id="month-label"></span>
+        <button class="ghost" id="next-month">→</button>
+      </div>
+      <div class="legend">
+        <span><span class="dot dot--fb"></span> Facebook</span>
+        <span><span class="dot dot--ig"></span> Instagram</span>
+      </div>
+      <button class="ghost" id="logout-btn">Abmelden</button>
+    </div>
+
+    <div id="calendar"></div>
+
+    <div id="day-panel">
+      <h2 id="day-panel-title"></h2>
+      <div id="day-panel-content"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  const AUTH_BASE_URL = "https://cms-auth-webdesign-ehmann.ehmann-hannes07.workers.dev";
+  const OWNER = "Hannes0777";
+  const REPO = "webdesign-ehmann";
+  const POSTS_PATH = "content/social-posts";
+  const TOKEN_KEY = "wde_dashboard_gh_token";
+
+  const $ = (id) => document.getElementById(id);
+  const errorBox = $("error-box");
+  const loginScreen = $("login-screen");
+  const loading = $("loading");
+  const app = $("app");
+
+  function showError(message) {
+    errorBox.textContent = message;
+    errorBox.style.display = "block";
+  }
+
+  function getToken() {
+    return sessionStorage.getItem(TOKEN_KEY);
+  }
+
+  function login() {
+    return new Promise((resolve, reject) => {
+      const width = 600, height = 700;
+      const left = window.screenX + (window.outerWidth - width) / 2;
+      const top = window.screenY + (window.outerHeight - height) / 2.5;
+      const popup = window.open(
+        AUTH_BASE_URL + "/auth?provider=github&scope=repo",
+        "github-oauth",
+        "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top
+      );
+      if (!popup) {
+        reject(new Error("Popup wurde blockiert. Bitte Popup-Blocker für diese Seite deaktivieren und erneut versuchen."));
+        return;
+      }
+
+      function handleMessage(e) {
+        if (typeof e.data !== "string") return;
+        if (e.data === "authorizing:github") {
+          popup.postMessage("authorizing:github", e.origin);
+          return;
+        }
+        if (e.data.indexOf("authorization:github:success:") === 0) {
+          window.removeEventListener("message", handleMessage);
+          try {
+            const payload = JSON.parse(e.data.slice("authorization:github:success:".length));
+            resolve(payload.token);
+          } catch (err) {
+            reject(new Error("Antwort der Anmeldung konnte nicht gelesen werden."));
+          }
+        } else if (e.data.indexOf("authorization:github:error:") === 0) {
+          window.removeEventListener("message", handleMessage);
+          reject(new Error("Anmeldung fehlgeschlagen oder abgebrochen."));
+        }
+      }
+      window.addEventListener("message", handleMessage);
+    });
+  }
+
+  async function fetchPosts(token) {
+    const listRes = await fetch(
+      "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + POSTS_PATH,
+      { headers: { Authorization: "token " + token, Accept: "application/vnd.github+json" } }
+    );
+    if (listRes.status === 401) throw new Error("UNAUTHORIZED");
+    if (!listRes.ok) throw new Error("Beitragsliste konnte nicht geladen werden (HTTP " + listRes.status + ").");
+    const files = await listRes.json();
+    const jsonFiles = files.filter((f) => f.name.endsWith(".json"));
+
+    const posts = [];
+    for (const file of jsonFiles) {
+      try {
+        const res = await fetch(file.download_url);
+        const data = await res.json();
+        if (data.geplant_fuer) posts.push(data);
+      } catch (err) {
+        // einzelnen kaputten Beitrag überspringen, Rest trotzdem anzeigen
+      }
+    }
+    return posts;
+  }
+
+  let allPosts = [];
+  let viewYear, viewMonth; // viewMonth: 0-11
+
+  function dateKey(d) {
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function renderCalendar() {
+    const calendar = $("calendar");
+    calendar.innerHTML = "";
+
+    const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+    weekdays.forEach((w) => {
+      const el = document.createElement("div");
+      el.className = "weekday";
+      el.textContent = w;
+      calendar.appendChild(el);
+    });
+
+    $("month-label").textContent = new Date(viewYear, viewMonth, 1).toLocaleDateString("de-DE", {
+      month: "long",
+      year: "numeric",
+    });
+
+    const postsByDay = {};
+    allPosts.forEach((post) => {
+      const d = new Date(post.geplant_fuer);
+      const key = dateKey(d);
+      (postsByDay[key] = postsByDay[key] || []).push(post);
+    });
+
+    const firstOfMonth = new Date(viewYear, viewMonth, 1);
+    const startOffset = (firstOfMonth.getDay() + 6) % 7; // Montag = 0
+    const gridStart = new Date(viewYear, viewMonth, 1 - startOffset);
+    const today = new Date();
+
+    for (let i = 0; i < 42; i++) {
+      const d = new Date(gridStart);
+      d.setDate(gridStart.getDate() + i);
+      const key = dateKey(d);
+      const dayPosts = postsByDay[key] || [];
+
+      const cell = document.createElement("div");
+      cell.className = "day";
+      if (d.getMonth() !== viewMonth) cell.classList.add("outside");
+      if (dateKey(d) === dateKey(today)) cell.classList.add("today");
+      if (dayPosts.length > 0) cell.classList.add("has-posts");
+
+      const num = document.createElement("div");
+      num.className = "day-num";
+      num.textContent = d.getDate();
+      cell.appendChild(num);
+
+      if (dayPosts.length > 0) {
+        const dots = document.createElement("div");
+        dots.className = "day-dots";
+        dayPosts.forEach((post) => {
+          if (post.facebook) {
+            const dot = document.createElement("span");
+            dot.className = "dot dot--fb";
+            dots.appendChild(dot);
+          }
+          if (post.instagram) {
+            const dot = document.createElement("span");
+            dot.className = "dot dot--ig";
+            dots.appendChild(dot);
+          }
+        });
+        cell.appendChild(dots);
+        cell.addEventListener("click", () => showDayPanel(d, dayPosts));
+      }
+
+      calendar.appendChild(cell);
+    }
+
+    if (!allPosts.some((p) => new Date(p.geplant_fuer).getMonth() === viewMonth)) {
+      // kein Panel offen lassen, wenn Monat gewechselt wurde
+    }
+  }
+
+  function statusLabel(status) {
+    if (status === "veroeffentlicht") return "Veröffentlicht";
+    if (status === "fehler") return "Fehler";
+    return "Geplant";
+  }
+
+  function showDayPanel(date, posts) {
+    const panel = $("day-panel");
+    panel.style.display = "block";
+    $("day-panel-title").textContent = date.toLocaleDateString("de-DE", {
+      weekday: "long", day: "2-digit", month: "long", year: "numeric",
+    });
+
+    const content = $("day-panel-content");
+    content.innerHTML = "";
+    posts
+      .slice()
+      .sort((a, b) => new Date(a.geplant_fuer) - new Date(b.geplant_fuer))
+      .forEach((post) => {
+        const card = document.createElement("div");
+        card.className = "post-card";
+
+        const meta = document.createElement("div");
+        meta.className = "post-meta";
+
+        const time = document.createElement("span");
+        time.textContent = new Date(post.geplant_fuer).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+        meta.appendChild(time);
+
+        if (post.facebook) {
+          const b = document.createElement("span");
+          b.innerHTML = '<span class="dot dot--fb"></span> Facebook';
+          b.style.display = "inline-flex";
+          b.style.alignItems = "center";
+          b.style.gap = "0.3rem";
+          meta.appendChild(b);
+        }
+        if (post.instagram) {
+          const b = document.createElement("span");
+          b.innerHTML = '<span class="dot dot--ig"></span> Instagram';
+          b.style.display = "inline-flex";
+          b.style.alignItems = "center";
+          b.style.gap = "0.3rem";
+          meta.appendChild(b);
+        }
+
+        const status = document.createElement("span");
+        status.className = "badge badge--" + (post.status || "geplant");
+        status.textContent = statusLabel(post.status);
+        meta.appendChild(status);
+
+        card.appendChild(meta);
+
+        const text = document.createElement("div");
+        text.className = "post-text";
+        text.textContent = post.text || "(kein Text)";
+        card.appendChild(text);
+
+        if (post.fehler_meldung) {
+          const err = document.createElement("div");
+          err.style.marginTop = "0.4rem";
+          err.style.fontSize = "0.82rem";
+          err.style.color = "var(--coral)";
+          err.textContent = "⚠ " + post.fehler_meldung;
+          card.appendChild(err);
+        }
+
+        content.appendChild(card);
+      });
+  }
+
+  async function boot(token) {
+    loginScreen.style.display = "none";
+    loading.style.display = "block";
+    errorBox.style.display = "none";
+    try {
+      allPosts = await fetchPosts(token);
+      loading.style.display = "none";
+      app.style.display = "block";
+      const now = new Date();
+      viewYear = now.getFullYear();
+      viewMonth = now.getMonth();
+      renderCalendar();
+    } catch (err) {
+      loading.style.display = "none";
+      if (err.message === "UNAUTHORIZED") {
+        sessionStorage.removeItem(TOKEN_KEY);
+        loginScreen.style.display = "block";
+        showError("Anmeldung abgelaufen, bitte erneut anmelden.");
+      } else {
+        loginScreen.style.display = "block";
+        showError(err.message || "Unbekannter Fehler beim Laden.");
+      }
+    }
+  }
+
+  $("login-btn").addEventListener("click", async () => {
+    try {
+      errorBox.style.display = "none";
+      const token = await login();
+      sessionStorage.setItem(TOKEN_KEY, token);
+      boot(token);
+    } catch (err) {
+      showError(err.message || "Anmeldung fehlgeschlagen.");
+    }
+  });
+
+  $("logout-btn").addEventListener("click", () => {
+    sessionStorage.removeItem(TOKEN_KEY);
+    app.style.display = "none";
+    $("day-panel").style.display = "none";
+    loginScreen.style.display = "block";
+  });
+
+  $("prev-month").addEventListener("click", () => {
+    viewMonth -= 1;
+    if (viewMonth < 0) { viewMonth = 11; viewYear -= 1; }
+    $("day-panel").style.display = "none";
+    renderCalendar();
+  });
+
+  $("next-month").addEventListener("click", () => {
+    viewMonth += 1;
+    if (viewMonth > 11) { viewMonth = 0; viewYear += 1; }
+    $("day-panel").style.display = "none";
+    renderCalendar();
+  });
+
+  const existingToken = getToken();
+  if (existingToken) {
+    boot(existingToken);
+  }
+})();
+</script>
+
+</body>
+</html>
