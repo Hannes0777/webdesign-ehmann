@@ -76,6 +76,21 @@
   }
 
   #app { display: none; }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+  }
+  .stat-tile .value { font-size: 1.3rem; font-weight: 700; }
+  .stat-tile .label { font-size: 0.78rem; color: var(--mist); }
+  .stats-updated { font-size: 0.75rem; color: var(--mist); margin-top: 0.25rem; }
+  .post-stats { display: flex; gap: 0.9rem; font-size: 0.8rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
   .toolbar {
     display: flex;
     align-items: center;
@@ -201,6 +216,8 @@
   <div id="loading" style="display:none;">Lade Beiträge…</div>
 
   <div id="app">
+    <div id="stats-row" class="stats-row"></div>
+
     <div class="toolbar">
       <div class="month-nav">
         <button class="ghost" id="prev-month">←</button>
@@ -305,12 +322,27 @@
       try {
         const res = await fetch(file.download_url);
         const data = await res.json();
-        if (data.geplant_fuer) posts.push(data);
+        if (data.geplant_fuer) {
+          data.__file = file.name;
+          posts.push(data);
+        }
       } catch (err) {
         // einzelnen kaputten Beitrag überspringen, Rest trotzdem anzeigen
       }
     }
     return posts;
+  }
+
+  async function fetchStats() {
+    try {
+      const res = await fetch(
+        "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/content/social-stats.json"
+      );
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
   }
 
   function imageUrl(imgPath) {
@@ -325,7 +357,40 @@
   }
 
   let allPosts = [];
+  let allStats = null;
   let viewYear, viewMonth; // viewMonth: 0-11
+
+  function renderStats() {
+    const row = $("stats-row");
+    row.innerHTML = "";
+    if (!allStats) return;
+
+    const tiles = [];
+    if (allStats.facebook && allStats.facebook.fan_count != null) {
+      tiles.push({ label: "Facebook-Follower", value: allStats.facebook.fan_count });
+    }
+    if (allStats.instagram && allStats.instagram.followers_count != null) {
+      tiles.push({ label: "Instagram-Follower", value: allStats.instagram.followers_count });
+    }
+    if (allStats.instagram && allStats.instagram.media_count != null) {
+      tiles.push({ label: "Instagram-Beiträge gesamt", value: allStats.instagram.media_count });
+    }
+
+    tiles.forEach((t) => {
+      const tile = document.createElement("div");
+      tile.className = "stat-tile";
+      tile.innerHTML = '<div class="value">' + t.value + '</div><div class="label">' + t.label + "</div>";
+      row.appendChild(tile);
+    });
+
+    if (allStats.updated_at) {
+      const updated = document.createElement("div");
+      updated.className = "stats-updated";
+      updated.style.gridColumn = "1 / -1";
+      updated.textContent = "Stand: " + new Date(allStats.updated_at).toLocaleString("de-DE");
+      row.appendChild(updated);
+    }
+  }
 
   function dateKey(d) {
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -410,6 +475,12 @@
     return "Geplant";
   }
 
+  function statChip(text) {
+    const span = document.createElement("span");
+    span.textContent = text;
+    return span;
+  }
+
   function openDayPanel() {
     $("day-panel").classList.add("open");
     $("day-panel-overlay").classList.add("open");
@@ -488,6 +559,25 @@
           card.appendChild(err);
         }
 
+        const postStats = allStats && allStats.posts && post.__file ? allStats.posts[post.__file] : null;
+        if (postStats) {
+          const statsRow = document.createElement("div");
+          statsRow.className = "post-stats";
+          if (postStats.facebook) {
+            const f = postStats.facebook;
+            if (f.likes != null) statsRow.appendChild(statChip("👍 " + f.likes + " (Facebook)"));
+            if (f.comments != null) statsRow.appendChild(statChip("💬 " + f.comments));
+            if (f.shares != null) statsRow.appendChild(statChip("↪ " + f.shares));
+          }
+          if (postStats.instagram) {
+            const i = postStats.instagram;
+            if (i.likes != null) statsRow.appendChild(statChip("❤ " + i.likes + " (Instagram)"));
+            if (i.comments != null) statsRow.appendChild(statChip("💬 " + i.comments));
+            if (i.reach != null) statsRow.appendChild(statChip("👁 " + i.reach + " Reichweite"));
+          }
+          if (statsRow.children.length > 0) card.appendChild(statsRow);
+        }
+
         content.appendChild(card);
       });
 
@@ -500,8 +590,10 @@
     errorBox.style.display = "none";
     try {
       allPosts = await fetchPosts(token);
+      allStats = await fetchStats();
       loading.style.display = "none";
       app.style.display = "block";
+      renderStats();
       const now = new Date();
       viewYear = now.getFullYear();
       viewMonth = now.getMonth();
