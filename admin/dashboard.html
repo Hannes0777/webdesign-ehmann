@@ -43,7 +43,7 @@
     font-size: 0.85rem;
   }
   .back-link:hover { text-decoration: underline; }
-  main { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+  main { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
 
   #login-screen { text-align: center; padding: 4rem 1rem; }
   #login-screen p { color: var(--mist); margin-bottom: 1.5rem; }
@@ -87,21 +87,38 @@
     border-radius: 10px;
     padding: 0.75rem 0.9rem;
   }
-  .stat-tile .value { font-size: 1.3rem; font-weight: 700; }
-  .stat-tile .label { font-size: 0.78rem; color: var(--mist); }
-  .stats-updated { font-size: 0.75rem; color: var(--mist); margin-top: 0.25rem; }
-  .post-stats { display: flex; gap: 0.9rem; font-size: 0.8rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
+  .stat-tile .value { font-size: 1.6rem; font-weight: 700; }
+  .stat-tile .label { font-size: 0.85rem; color: var(--mist); }
+  .stats-updated { font-size: 0.78rem; color: var(--mist); margin-top: 0.25rem; }
+  .post-stats { display: flex; gap: 0.9rem; font-size: 0.85rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
 
   .charts-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
     margin-bottom: 1.5rem;
   }
-  .chart-card { background: var(--surface); border-radius: 10px; padding: 1rem; }
-  .chart-card h3 { margin: 0 0 0.5rem; font-size: 0.85rem; color: var(--mist); font-weight: 600; }
-  .chart-empty { color: var(--mist); font-size: 0.82rem; padding: 1.5rem 0; text-align: center; }
-  .chart-legend { display: flex; gap: 0.9rem; font-size: 0.78rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
+  .chart-card { background: var(--surface); border-radius: 10px; padding: 1.1rem; }
+  .chart-card h3 { margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--ink); font-weight: 600; }
+  .chart-empty { color: var(--mist); font-size: 0.85rem; padding: 2rem 0; text-align: center; }
+  .chart-svg-wrap { position: relative; }
+  .chart-svg-wrap svg { display: block; cursor: crosshair; }
+  .chart-x-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--mist); margin-top: 0.35rem; }
+  .chart-tooltip {
+    position: absolute;
+    top: 4px;
+    transform: translateX(-50%);
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+    z-index: 5;
+  }
+  .chart-legend { display: flex; gap: 0.9rem; font-size: 0.82rem; color: var(--mist); margin-top: 0.6rem; flex-wrap: wrap; }
   .chart-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
 
   .best-post-card {
@@ -110,13 +127,41 @@
     align-items: center;
     background: var(--surface);
     border-radius: 10px;
-    padding: 0.9rem 1rem;
+    padding: 1rem 1.1rem;
     margin-bottom: 1.5rem;
   }
-  .best-post-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; flex: none; }
-  .best-post-card .title { font-size: 0.78rem; color: var(--mist); margin-bottom: 0.2rem; }
-  .best-post-card .text { font-size: 0.92rem; margin-bottom: 0.3rem; }
-  .best-post-card .metrics { font-size: 0.8rem; color: var(--mist); display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .best-post-card img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; flex: none; }
+  .best-post-card .title { font-size: 0.82rem; color: var(--mist); margin-bottom: 0.2rem; }
+  .best-post-card .text { font-size: 1rem; margin-bottom: 0.3rem; }
+  .best-post-card .metrics { font-size: 0.85rem; color: var(--mist); display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+  .dashboard-layout { display: grid; grid-template-columns: 1fr 300px; gap: 1.5rem; align-items: start; }
+  @media (max-width: 900px) { .dashboard-layout { grid-template-columns: 1fr; } }
+  .post-sidebar {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1rem;
+    max-height: 720px;
+    overflow-y: auto;
+    position: sticky;
+    top: 1rem;
+  }
+  .post-sidebar h3 { margin: 0 0 0.75rem; font-size: 0.9rem; color: var(--ink); }
+  .post-sidebar-item {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .post-sidebar-item:last-child { border-bottom: none; }
+  .post-sidebar-item:hover { opacity: 0.85; }
+  .post-sidebar-item img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex: none; }
+  .post-sidebar-item .info { min-width: 0; }
+  .post-sidebar-item .date { font-size: 0.72rem; color: var(--mist); }
+  .post-sidebar-item .text { font-size: 0.82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .post-sidebar-item .mini-stats { font-size: 0.72rem; color: var(--mist); margin-top: 0.15rem; }
+  .post-sidebar-empty { color: var(--mist); font-size: 0.82rem; }
   .toolbar {
     display: flex;
     align-items: center;
@@ -246,20 +291,29 @@
     <div id="charts-row" class="charts-row"></div>
     <div id="best-post"></div>
 
-    <div class="toolbar">
-      <div class="month-nav">
-        <button class="ghost" id="prev-month">←</button>
-        <span id="month-label"></span>
-        <button class="ghost" id="next-month">→</button>
-      </div>
-      <div class="legend">
-        <span><span class="dot dot--fb"></span> Facebook</span>
-        <span><span class="dot dot--ig"></span> Instagram</span>
-      </div>
-      <button class="ghost" id="logout-btn">Abmelden</button>
-    </div>
+    <div class="dashboard-layout">
+      <div class="dashboard-main">
+        <div class="toolbar">
+          <div class="month-nav">
+            <button class="ghost" id="prev-month">←</button>
+            <span id="month-label"></span>
+            <button class="ghost" id="next-month">→</button>
+          </div>
+          <div class="legend">
+            <span><span class="dot dot--fb"></span> Facebook</span>
+            <span><span class="dot dot--ig"></span> Instagram</span>
+          </div>
+          <button class="ghost" id="logout-btn">Abmelden</button>
+        </div>
 
-    <div id="calendar"></div>
+        <div id="calendar"></div>
+      </div>
+
+      <aside class="post-sidebar">
+        <h3>Alle Beiträge</h3>
+        <div id="post-sidebar-list"></div>
+      </aside>
+    </div>
   </div>
 
   <div id="day-panel-overlay"></div>
@@ -402,40 +456,13 @@
   let allHistory = [];
   let viewYear, viewMonth; // viewMonth: 0-11
 
-  function buildChartSVG(seriesList) {
-    const width = 320;
-    const height = 140;
-    const padding = 8;
-    const allValues = seriesList.flatMap((s) => s.points.map((p) => p.value)).filter((v) => v != null);
-    if (allValues.length === 0) return "";
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const CHART_W = 520;
+  const CHART_H = 190;
+  const CHART_PAD = 10;
 
-    const minV = Math.min(...allValues, 0);
-    const maxV = Math.max(...allValues, 1);
-    const times = seriesList[0].points.map((p) => new Date(p.at).getTime());
-    const minT = Math.min(...times);
-    const maxT = Math.max(...times);
-    const xFor = (t) => padding + (maxT === minT ? 0 : ((t - minT) / (maxT - minT)) * (width - padding * 2));
-    const yFor = (v) => height - padding - (maxV === minV ? 0 : ((v - minV) / (maxV - minV)) * (height - padding * 2));
-
-    let svg = '<svg viewBox="0 0 ' + width + " " + height + '" width="100%" height="140" preserveAspectRatio="none">';
-    seriesList.forEach((s) => {
-      const validPoints = s.points.filter((p) => p.value != null);
-      const coords = validPoints.map((p) => ({ x: xFor(new Date(p.at).getTime()), y: yFor(p.value) }));
-
-      if (coords.length >= 2) {
-        const pts = coords.map((c) => c.x + "," + c.y).join(" ");
-        svg += '<polyline points="' + pts + '" fill="none" stroke="' + s.color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />';
-      }
-      // Letzten Punkt je Serie immer als Kreis markieren - so ist auch bei
-      // nur einem einzigen Datenpunkt (z.B. direkt nach dem ersten Lauf)
-      // etwas sichtbar statt einer leeren Fläche.
-      const last = coords[coords.length - 1];
-      if (last) {
-        svg += '<circle cx="' + last.x + '" cy="' + last.y + '" r="3" fill="' + s.color + '" />';
-      }
-    });
-    svg += "</svg>";
-    return svg;
+  function fmtDateTime(t) {
+    return new Date(t).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
   }
 
   function renderChartCard(title, seriesList) {
@@ -446,28 +473,155 @@
     h.textContent = title;
     card.appendChild(h);
 
-    const svg = buildChartSVG(seriesList);
-    const wrap = document.createElement("div");
-    if (svg) {
-      wrap.innerHTML = svg;
-    } else {
-      wrap.className = "chart-empty";
-      wrap.textContent = "Noch nicht genug Daten – kommt nach ein paar automatischen Läufen.";
+    const allValues = seriesList.flatMap((s) => s.points.map((p) => p.value)).filter((v) => v != null);
+    const times = seriesList[0].points.map((p) => new Date(p.at).getTime());
+
+    if (allValues.length === 0 || times.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "chart-empty";
+      empty.textContent = "Noch nicht genug Daten – kommt nach ein paar automatischen Läufen.";
+      card.appendChild(empty);
+      return card;
     }
+
+    const minV = Math.min(...allValues, 0);
+    const maxV = Math.max(...allValues, 1);
+    const minT = Math.min(...times);
+    const maxT = Math.max(...times);
+    const xFor = (t) => CHART_PAD + (maxT === minT ? 0 : ((t - minT) / (maxT - minT)) * (CHART_W - CHART_PAD * 2));
+    const yFor = (v) => CHART_H - CHART_PAD - (maxV === minV ? 0 : ((v - minV) / (maxV - minV)) * (CHART_H - CHART_PAD * 2));
+
+    const wrap = document.createElement("div");
+    wrap.className = "chart-svg-wrap";
+
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "0 0 " + CHART_W + " " + CHART_H);
+    svg.setAttribute("width", "100%");
+    svg.setAttribute("height", CHART_H);
+    svg.setAttribute("preserveAspectRatio", "none");
+
+    seriesList.forEach((s) => {
+      const coords = s.points
+        .map((p) => ({ t: new Date(p.at).getTime(), v: p.value }))
+        .filter((p) => p.v != null)
+        .map((p) => ({ x: xFor(p.t), y: yFor(p.v) }));
+
+      if (coords.length >= 2) {
+        const poly = document.createElementNS(SVG_NS, "polyline");
+        poly.setAttribute("points", coords.map((c) => c.x + "," + c.y).join(" "));
+        poly.setAttribute("fill", "none");
+        poly.setAttribute("stroke", s.color);
+        poly.setAttribute("stroke-width", "2");
+        poly.setAttribute("stroke-linejoin", "round");
+        poly.setAttribute("stroke-linecap", "round");
+        svg.appendChild(poly);
+      }
+      // Letzten Punkt je Serie immer als Kreis markieren - so ist auch bei
+      // nur einem einzigen Datenpunkt etwas sichtbar statt einer leeren Fläche.
+      const last = coords[coords.length - 1];
+      if (last) {
+        const circle = document.createElementNS(SVG_NS, "circle");
+        circle.setAttribute("cx", last.x);
+        circle.setAttribute("cy", last.y);
+        circle.setAttribute("r", "3");
+        circle.setAttribute("fill", s.color);
+        svg.appendChild(circle);
+      }
+    });
+
+    // Hover: senkrechte Linie + ein Punkt je Serie, folgt der Maus.
+    const hoverLine = document.createElementNS(SVG_NS, "line");
+    hoverLine.setAttribute("y1", CHART_PAD);
+    hoverLine.setAttribute("y2", CHART_H - CHART_PAD);
+    hoverLine.setAttribute("stroke", "rgba(255,255,255,0.25)");
+    hoverLine.setAttribute("stroke-width", "1");
+    hoverLine.style.display = "none";
+    svg.appendChild(hoverLine);
+
+    const hoverDots = seriesList.map((s) => {
+      const dot = document.createElementNS(SVG_NS, "circle");
+      dot.setAttribute("r", "4");
+      dot.setAttribute("fill", s.color);
+      dot.setAttribute("stroke", "var(--paper-alt)");
+      dot.setAttribute("stroke-width", "1.5");
+      dot.style.display = "none";
+      svg.appendChild(dot);
+      return dot;
+    });
+
+    wrap.appendChild(svg);
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "chart-tooltip";
+    tooltip.style.display = "none";
+    wrap.appendChild(tooltip);
+
+    svg.addEventListener("mousemove", (e) => {
+      const rect = svg.getBoundingClientRect();
+      const relX = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+      const svgX = relX * CHART_W;
+
+      let nearestIdx = 0;
+      let nearestDist = Infinity;
+      times.forEach((t, i) => {
+        const dist = Math.abs(xFor(t) - svgX);
+        if (dist < nearestDist) {
+          nearestDist = dist;
+          nearestIdx = i;
+        }
+      });
+
+      const nearestX = xFor(times[nearestIdx]);
+      hoverLine.setAttribute("x1", nearestX);
+      hoverLine.setAttribute("x2", nearestX);
+      hoverLine.style.display = "block";
+
+      let tooltipHtml = fmtDateTime(times[nearestIdx]);
+      seriesList.forEach((s, i) => {
+        const point = s.points[nearestIdx];
+        const val = point ? point.value : null;
+        if (val != null) {
+          hoverDots[i].setAttribute("cx", nearestX);
+          hoverDots[i].setAttribute("cy", yFor(val));
+          hoverDots[i].style.display = "block";
+          tooltipHtml += '<br><span style="color:' + s.color + '">' + s.label + ": " + val + "</span>";
+        } else {
+          hoverDots[i].style.display = "none";
+        }
+      });
+      tooltip.innerHTML = tooltipHtml;
+      tooltip.style.display = "block";
+      tooltip.style.left = Math.min(Math.max(relX * 100, 8), 92) + "%";
+    });
+
+    svg.addEventListener("mouseleave", () => {
+      hoverLine.style.display = "none";
+      hoverDots.forEach((d) => (d.style.display = "none"));
+      tooltip.style.display = "none";
+    });
+
     card.appendChild(wrap);
 
-    if (svg) {
-      const legend = document.createElement("div");
-      legend.className = "chart-legend";
-      seriesList.forEach((s) => {
-        const last = [...s.points].reverse().find((p) => p.value != null);
-        const span = document.createElement("span");
-        span.innerHTML =
-          '<span class="dot" style="background:' + s.color + '"></span>' + s.label + ": " + (last ? last.value : "–");
-        legend.appendChild(span);
-      });
-      card.appendChild(legend);
-    }
+    const labels = document.createElement("div");
+    labels.className = "chart-x-labels";
+    const startLabel = document.createElement("span");
+    startLabel.textContent = fmtDateTime(minT);
+    const endLabel = document.createElement("span");
+    endLabel.textContent = fmtDateTime(maxT);
+    labels.appendChild(startLabel);
+    labels.appendChild(endLabel);
+    card.appendChild(labels);
+
+    const legend = document.createElement("div");
+    legend.className = "chart-legend";
+    seriesList.forEach((s) => {
+      const last = [...s.points].reverse().find((p) => p.value != null);
+      const span = document.createElement("span");
+      span.innerHTML =
+        '<span class="dot" style="background:' + s.color + '"></span>' + s.label + ": " + (last ? last.value : "–");
+      legend.appendChild(span);
+    });
+    card.appendChild(legend);
 
     return card;
   }
@@ -570,6 +724,69 @@
     card.appendChild(info);
 
     container.appendChild(card);
+  }
+
+  function renderPostSidebar() {
+    const list = $("post-sidebar-list");
+    list.innerHTML = "";
+    if (!allPosts || allPosts.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "post-sidebar-empty";
+      empty.textContent = "Noch keine Beiträge angelegt.";
+      list.appendChild(empty);
+      return;
+    }
+
+    allPosts
+      .slice()
+      .sort((a, b) => new Date(b.geplant_fuer) - new Date(a.geplant_fuer))
+      .forEach((post) => {
+        const item = document.createElement("div");
+        item.className = "post-sidebar-item";
+        item.addEventListener("click", () => showDayPanel(new Date(post.geplant_fuer), [post]));
+
+        const thumbSrc = imageUrl(firstImage(post));
+        if (thumbSrc) {
+          const img = document.createElement("img");
+          img.src = thumbSrc;
+          img.alt = "";
+          item.appendChild(img);
+        }
+
+        const info = document.createElement("div");
+        info.className = "info";
+
+        const date = document.createElement("div");
+        date.className = "date";
+        date.textContent = new Date(post.geplant_fuer).toLocaleString("de-DE", {
+          day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit",
+        });
+        info.appendChild(date);
+
+        const text = document.createElement("div");
+        text.className = "text";
+        text.textContent = post.text || "(kein Text)";
+        info.appendChild(text);
+
+        const postStats = allStats && allStats.posts && post.__file ? allStats.posts[post.__file] : null;
+        const bits = [];
+        if (postStats?.facebook) {
+          if (postStats.facebook.reach != null) bits.push("👁 " + postStats.facebook.reach);
+          if (postStats.facebook.likes != null) bits.push("👍 " + postStats.facebook.likes);
+        }
+        if (postStats?.instagram) {
+          if (postStats.instagram.reach != null) bits.push("👁 " + postStats.instagram.reach);
+          if (postStats.instagram.likes != null) bits.push("❤ " + postStats.instagram.likes);
+        }
+        if (bits.length === 0) bits.push(statusLabel(post.status));
+        const mini = document.createElement("div");
+        mini.className = "mini-stats";
+        mini.textContent = bits.join(" · ");
+        info.appendChild(mini);
+
+        item.appendChild(info);
+        list.appendChild(item);
+      });
   }
 
   function renderStats() {
@@ -810,6 +1027,7 @@
       renderStats();
       renderCharts();
       renderBestPost();
+      renderPostSidebar();
       const now = new Date();
       viewYear = now.getFullYear();
       viewMonth = now.getMonth();
