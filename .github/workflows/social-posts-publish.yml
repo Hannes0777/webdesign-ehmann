@@ -25,14 +25,15 @@ jobs:
           META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
           META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
           META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
-          SITE_BASE_URL: https://www.webdesign-ehmann.de
+          SOCIAL_MEDIA_ASSETS_TOKEN: ${{ secrets.SOCIAL_MEDIA_ASSETS_TOKEN }}
+          SOCIAL_MEDIA_ASSETS_REPO: Hannes0777/social-media-bilder
         run: node scripts/publish-social-posts.mjs
 
       - name: Geänderte Beiträge committen
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/social-posts
+          git add content/social-posts social-media-tmp
           if ! git diff --cached --quiet; then
             git commit -m "Social-Media-Beiträge: Status aktualisiert"
             git push

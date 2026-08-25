@@ -273,7 +273,9 @@ collections:
       - name: bild
         label: "Bild"
         widget: image
-        hint: "Pflicht für Instagram. Bild sollte schon einige Minuten vor dem geplanten Zeitpunkt hochgeladen sein, damit es live sichtbar ist."
+        media_folder: "social-media-tmp"
+        public_folder: "/social-media-tmp"
+        hint: "Pflicht für Instagram. Landet NICHT im normalen Uploads-Ordner der Homepage, sondern in einer separaten Ablage, und wird nach dem Veröffentlichen automatisch wieder entfernt."
       - name: text
         label: "Beitragstext"
         widget: text
