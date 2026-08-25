@@ -159,6 +159,13 @@
   <div id="login-screen">
     <p>Melde dich mit deinem GitHub-Zugang an, um die geplanten Beiträge zu sehen.</p>
     <button id="login-btn">Mit GitHub anmelden</button>
+    <button class="ghost" id="token-toggle-btn" style="display:block; margin: 0.75rem auto 0;">Mit Zugriffstoken anmelden</button>
+    <div id="token-form" style="display:none; max-width: 420px; margin: 1rem auto 0; text-align: left;">
+      <p style="font-size:0.85rem;">Token benötigt Lese-/Schreibzugriff auf das Repository <code>webdesign-ehmann</code>. Erzeugen unter
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a>.</p>
+      <input type="password" id="token-input" placeholder="ghp_… oder github_pat_…" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--border); background: var(--surface); color: var(--ink); box-sizing: border-box;" />
+      <button id="token-submit-btn" style="margin-top:0.6rem; width:100%;">Anmelden</button>
+    </div>
   </div>
 
   <div id="loading" style="display:none;">Lade Beiträge…</div>
@@ -447,6 +454,19 @@
       }
     }
   }
+
+  $("token-toggle-btn").addEventListener("click", () => {
+    const form = $("token-form");
+    form.style.display = form.style.display === "none" ? "block" : "none";
+  });
+
+  $("token-submit-btn").addEventListener("click", async () => {
+    const token = $("token-input").value.trim();
+    if (!token) return;
+    errorBox.style.display = "none";
+    sessionStorage.setItem(TOKEN_KEY, token);
+    boot(token);
+  });
 
   $("login-btn").addEventListener("click", async () => {
     try {
