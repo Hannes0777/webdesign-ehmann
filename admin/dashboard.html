@@ -451,6 +451,38 @@
     return null;
   }
 
+  // Direkt in der App geposteter Beitrag (nicht über unser CMS) - wird zu
+  // einem kompatiblen Beitrags-Objekt, damit Kalender/Liste/Panel ihn wie
+  // jeden anderen Beitrag behandeln können.
+  function externalToPost(ext) {
+    return {
+      text: ext.text || "",
+      geplant_fuer: ext.at,
+      facebook: ext.platform === "facebook",
+      instagram: ext.platform === "instagram",
+      status: "veroeffentlicht",
+      fehler_meldung: "",
+      __external: true,
+      __thumb: ext.thumbnail || null,
+      __permalink: ext.permalink || null,
+      __stats: { likes: ext.likes, comments: ext.comments, reach: ext.reach },
+      __file: null,
+    };
+  }
+
+  function thumbnailFor(post) {
+    if (post.__external) return post.__thumb;
+    return imageUrl(firstImage(post));
+  }
+
+  function getPostStats(post) {
+    if (post.__external) {
+      const key = post.facebook ? "facebook" : "instagram";
+      return { [key]: post.__stats };
+    }
+    return allStats && allStats.posts && post.__file ? allStats.posts[post.__file] : null;
+  }
+
   let allPosts = [];
   let allStats = null;
   let allHistory = [];
@@ -667,27 +699,30 @@
   function renderBestPost() {
     const container = $("best-post");
     container.innerHTML = "";
-    if (!allStats || !allStats.posts) return;
+    if (!allPosts || allPosts.length === 0) return;
 
-    let bestFile = null;
+    let bestPost = null;
+    let bestStats = null;
     let bestScore = -1;
-    Object.keys(allStats.posts).forEach((file) => {
-      const score = engagementScore(allStats.posts[file]);
+    allPosts.forEach((post) => {
+      const postStats = getPostStats(post);
+      if (!postStats) return;
+      const score = engagementScore(postStats);
       if (score > bestScore) {
         bestScore = score;
-        bestFile = file;
+        bestPost = post;
+        bestStats = postStats;
       }
     });
-    if (!bestFile || bestScore <= 0) return;
+    if (!bestPost || bestScore <= 0) return;
 
-    const post = allPosts.find((p) => p.__file === bestFile);
-    if (!post) return;
-    const postStats = allStats.posts[bestFile];
+    const post = bestPost;
+    const postStats = bestStats;
 
     const card = document.createElement("div");
     card.className = "best-post-card";
 
-    const thumbSrc = imageUrl(firstImage(post));
+    const thumbSrc = thumbnailFor(post);
     if (thumbSrc) {
       const img = document.createElement("img");
       img.src = thumbSrc;
@@ -745,7 +780,7 @@
         item.className = "post-sidebar-item";
         item.addEventListener("click", () => showDayPanel(new Date(post.geplant_fuer), [post]));
 
-        const thumbSrc = imageUrl(firstImage(post));
+        const thumbSrc = thumbnailFor(post);
         if (thumbSrc) {
           const img = document.createElement("img");
           img.src = thumbSrc;
@@ -768,7 +803,7 @@
         text.textContent = post.text || "(kein Text)";
         info.appendChild(text);
 
-        const postStats = allStats && allStats.posts && post.__file ? allStats.posts[post.__file] : null;
+        const postStats = getPostStats(post);
         const bits = [];
         if (postStats?.facebook) {
           if (postStats.facebook.reach != null) bits.push("👁 " + postStats.facebook.reach);
@@ -934,7 +969,7 @@
         const card = document.createElement("div");
         card.className = "post-card";
 
-        const thumbSrc = imageUrl(firstImage(post));
+        const thumbSrc = thumbnailFor(post);
         if (thumbSrc) {
           const thumb = document.createElement("img");
           thumb.className = "post-thumb";
@@ -972,6 +1007,18 @@
         status.textContent = statusLabel(post.status);
         meta.appendChild(status);
 
+        if (post.__permalink) {
+          const link = document.createElement("a");
+          link.href = post.__permalink;
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.textContent = "🔗 Ansehen";
+          link.style.color = "var(--gold)";
+          link.style.textDecoration = "none";
+          link.style.fontSize = "0.8rem";
+          meta.appendChild(link);
+        }
+
         card.appendChild(meta);
 
         const text = document.createElement("div");
@@ -988,7 +1035,7 @@
           card.appendChild(err);
         }
 
-        const postStats = allStats && allStats.posts && post.__file ? allStats.posts[post.__file] : null;
+        const postStats = getPostStats(post);
         if (postStats) {
           const statsRow = document.createElement("div");
           statsRow.className = "post-stats";
@@ -1026,9 +1073,9 @@
         fetchStats(),
         fetchHistory(),
       ]);
-      allPosts = posts;
       allStats = stats;
       allHistory = history;
+      allPosts = posts.concat((stats?.other_posts || []).map(externalToPost));
       renderStats();
       renderCharts();
       renderBestPost();
@@ -1045,9 +1092,10 @@
     loading.style.display = "block";
     errorBox.style.display = "none";
     try {
-      allPosts = await fetchPosts(token);
+      const posts = await fetchPosts(token);
       allStats = await fetchStats();
       allHistory = await fetchHistory();
+      allPosts = posts.concat((allStats?.other_posts || []).map(externalToPost));
       loading.style.display = "none";
       app.style.display = "block";
       renderStats();

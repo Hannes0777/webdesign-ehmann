@@ -141,6 +141,64 @@ async function backfillInstagramId(post) {
   });
 }
 
+// Beiträge, die direkt in der Instagram-/Facebook-App gepostet wurden
+// (nicht über unser CMS), damit die Übersicht die komplette Historie
+// zeigt statt nur die selbst geplanten Beiträge.
+async function fetchOtherInstagramPosts(trackedIds) {
+  if (!IG_USER_ID || !IG_TOKEN) return [];
+  const list = await safely("Instagram-Beitragsliste", () =>
+    graphGet(IG_GRAPH_API, `${IG_USER_ID}/media`, {
+      fields: "id,caption,timestamp,media_url,thumbnail_url,permalink",
+      limit: "50",
+      access_token: IG_TOKEN,
+    })
+  );
+  const others = [];
+  for (const item of list?.data || []) {
+    if (trackedIds.has(item.id)) continue;
+    const statsData = await fetchInstagramMediaStats(item.id);
+    others.push({
+      platform: "instagram",
+      id: item.id,
+      text: item.caption || "",
+      at: item.timestamp,
+      permalink: item.permalink || null,
+      thumbnail: item.thumbnail_url || item.media_url || null,
+      likes: statsData?.likes ?? null,
+      comments: statsData?.comments ?? null,
+      reach: statsData?.reach ?? null,
+    });
+  }
+  return others;
+}
+
+async function fetchOtherFacebookPosts(trackedIds) {
+  const list = await safely("Facebook-Beitragsliste", () =>
+    graphGet(GRAPH_API, `${PAGE_ID}/posts`, {
+      fields: "id,message,created_time,full_picture,permalink_url",
+      limit: "50",
+      access_token: PAGE_TOKEN,
+    })
+  );
+  const others = [];
+  for (const item of list?.data || []) {
+    if (trackedIds.has(item.id)) continue;
+    const statsData = await fetchFacebookPostStats(item.id);
+    others.push({
+      platform: "facebook",
+      id: item.id,
+      text: item.message || "",
+      at: item.created_time,
+      permalink: item.permalink_url || null,
+      thumbnail: item.full_picture || null,
+      likes: statsData?.likes ?? null,
+      comments: statsData?.comments ?? null,
+      reach: statsData?.reach ?? null,
+    });
+  }
+  return others;
+}
+
 async function main() {
   const stats = {
     updated_at: new Date().toISOString(),
@@ -155,6 +213,9 @@ async function main() {
   } catch {
     // kein Ordner - einfach ohne Post-Statistiken weitermachen
   }
+
+  const trackedFacebookIds = new Set();
+  const trackedInstagramIds = new Set();
 
   for (const file of files) {
     const filePath = path.join(POSTS_DIR, file);
@@ -183,12 +244,20 @@ async function main() {
     const entry = {};
     if (post.facebook_post_id) {
       entry.facebook = await fetchFacebookPostStats(post.facebook_post_id);
+      trackedFacebookIds.add(post.facebook_post_id);
     }
     if (post.instagram_media_id) {
       entry.instagram = await fetchInstagramMediaStats(post.instagram_media_id);
+      trackedInstagramIds.add(post.instagram_media_id);
     }
     if (Object.keys(entry).length > 0) stats.posts[file] = entry;
   }
+
+  // Beiträge, die direkt in der App gepostet wurden (nicht über unser CMS).
+  stats.other_posts = [
+    ...(await fetchOtherFacebookPosts(trackedFacebookIds)),
+    ...(await fetchOtherInstagramPosts(trackedInstagramIds)),
+  ];
 
   await writeFile(STATS_FILE, JSON.stringify(stats, null, 2) + "\n", "utf8");
 
@@ -208,6 +277,17 @@ async function main() {
       igLikes += p.instagram.likes || 0;
       igComments += p.instagram.comments || 0;
       igReach += p.instagram.reach || 0;
+    }
+  }
+  for (const p of stats.other_posts) {
+    if (p.platform === "facebook") {
+      fbLikes += p.likes || 0;
+      fbComments += p.comments || 0;
+      fbReach += p.reach || 0;
+    } else {
+      igLikes += p.likes || 0;
+      igComments += p.comments || 0;
+      igReach += p.reach || 0;
     }
   }
 
