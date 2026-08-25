@@ -323,6 +323,12 @@ collections:
         label: "Fehlermeldung (wird automatisch befüllt)"
         widget: string
         required: false
+      - name: facebook_post_id
+        widget: hidden
+        required: false
+      - name: instagram_media_id
+        widget: hidden
+        required: false
 
   # ----------------------------------------------------------
   #  CMS-ERKLÄRUNG

@@ -96,6 +96,7 @@ function sleep(ms) {
 }
 
 // --- Facebook: immer genau ein Bild, direkt als Datei hochgeladen ---
+// Gibt die Post-ID zurück (fürs spätere Abrufen von Statistiken).
 async function publishToFacebook(post, image) {
   const form = new FormData();
   form.append("caption", post.text || "");
@@ -107,6 +108,7 @@ async function publishToFacebook(post, image) {
   if (!res.ok || json.error) {
     throw new Error(json.error?.message || `HTTP ${res.status}`);
   }
+  return json.post_id || json.id;
 }
 
 // --- Instagram verlangt zwingend eine öffentliche Bild-URL ---
@@ -158,6 +160,7 @@ async function waitUntilFinished(igMediaId) {
   }
 }
 
+// Gibt die Media-ID zurück (fürs spätere Abrufen von Statistiken).
 async function publishToInstagram(post, images) {
   if (!IG_USER_ID) throw new Error("META_IG_USER_ID ist nicht gesetzt.");
   if (!IG_TOKEN) throw new Error("META_IG_ACCESS_TOKEN ist nicht gesetzt.");
@@ -176,11 +179,11 @@ async function publishToInstagram(post, images) {
         access_token: IG_TOKEN,
       });
       await waitUntilFinished(container.id);
-      await igGraphPost(`${IG_USER_ID}/media_publish`, {
+      const published = await igGraphPost(`${IG_USER_ID}/media_publish`, {
         creation_id: container.id,
         access_token: IG_TOKEN,
       });
-      return;
+      return published.id;
     }
 
     // Mehrere Bilder: als Karussell (Album) in einem Beitrag veröffentlichen.
@@ -201,10 +204,11 @@ async function publishToInstagram(post, images) {
       access_token: IG_TOKEN,
     });
     await waitUntilFinished(carousel.id);
-    await igGraphPost(`${IG_USER_ID}/media_publish`, {
+    const published = await igGraphPost(`${IG_USER_ID}/media_publish`, {
       creation_id: carousel.id,
       access_token: IG_TOKEN,
     });
+    return published.id;
   } finally {
     for (let i = 0; i < assets.length; i++) {
       await deleteAsset(images[i].filename, assets[i].sha).catch(() => {});
@@ -239,7 +243,7 @@ async function main() {
     if (post.facebook) {
       try {
         if (!fbImage) throw new Error("Kein Bild für Facebook hinterlegt.");
-        await publishToFacebook(post, fbImage);
+        post.facebook_post_id = await publishToFacebook(post, fbImage);
       } catch (err) {
         errors.push(`Facebook: ${err.message}`);
       }
@@ -248,7 +252,7 @@ async function main() {
     if (post.instagram) {
       try {
         if (igImages.length === 0) throw new Error("Kein Bild für Instagram hinterlegt.");
-        await publishToInstagram(post, igImages);
+        post.instagram_media_id = await publishToInstagram(post, igImages);
       } catch (err) {
         errors.push(`Instagram: ${err.message}`);
       }
