@@ -103,6 +103,20 @@
   .chart-empty { color: var(--mist); font-size: 0.82rem; padding: 1.5rem 0; text-align: center; }
   .chart-legend { display: flex; gap: 0.9rem; font-size: 0.78rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
   .chart-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+
+  .best-post-card {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .best-post-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; flex: none; }
+  .best-post-card .title { font-size: 0.78rem; color: var(--mist); margin-bottom: 0.2rem; }
+  .best-post-card .text { font-size: 0.92rem; margin-bottom: 0.3rem; }
+  .best-post-card .metrics { font-size: 0.8rem; color: var(--mist); display: flex; gap: 0.8rem; flex-wrap: wrap; }
   .toolbar {
     display: flex;
     align-items: center;
@@ -230,6 +244,7 @@
   <div id="app">
     <div id="stats-row" class="stats-row"></div>
     <div id="charts-row" class="charts-row"></div>
+    <div id="best-post"></div>
 
     <div class="toolbar">
       <div class="month-nav">
@@ -469,20 +484,92 @@
       ])
     );
     container.appendChild(
-      renderChartCard("Reichweite (Aufrufe)", [
-        { label: "Reichweite", color: "var(--gold)", points: allHistory.map((h) => ({ at: h.at, value: h.total_reach })) },
+      renderChartCard("Reichweite / Aufrufe", [
+        { label: "Facebook", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.facebook_reach })) },
+        { label: "Instagram", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_reach })) },
       ])
     );
     container.appendChild(
       renderChartCard("Likes", [
-        { label: "Likes", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.total_likes })) },
+        { label: "Facebook", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.facebook_likes })) },
+        { label: "Instagram", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_likes })) },
       ])
     );
     container.appendChild(
       renderChartCard("Kommentare", [
-        { label: "Kommentare", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.total_comments })) },
+        { label: "Facebook", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.facebook_comments })) },
+        { label: "Instagram", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_comments })) },
       ])
     );
+  }
+
+  function engagementScore(postStats) {
+    let score = 0;
+    if (postStats.facebook) score += (postStats.facebook.likes || 0) + (postStats.facebook.comments || 0);
+    if (postStats.instagram) score += (postStats.instagram.likes || 0) + (postStats.instagram.comments || 0);
+    return score;
+  }
+
+  function renderBestPost() {
+    const container = $("best-post");
+    container.innerHTML = "";
+    if (!allStats || !allStats.posts) return;
+
+    let bestFile = null;
+    let bestScore = -1;
+    Object.keys(allStats.posts).forEach((file) => {
+      const score = engagementScore(allStats.posts[file]);
+      if (score > bestScore) {
+        bestScore = score;
+        bestFile = file;
+      }
+    });
+    if (!bestFile || bestScore <= 0) return;
+
+    const post = allPosts.find((p) => p.__file === bestFile);
+    if (!post) return;
+    const postStats = allStats.posts[bestFile];
+
+    const card = document.createElement("div");
+    card.className = "best-post-card";
+
+    const thumbSrc = imageUrl(firstImage(post));
+    if (thumbSrc) {
+      const img = document.createElement("img");
+      img.src = thumbSrc;
+      img.alt = "";
+      card.appendChild(img);
+    }
+
+    const info = document.createElement("div");
+    const title = document.createElement("div");
+    title.className = "title";
+    title.textContent = "🏆 Bestperformender Beitrag";
+    info.appendChild(title);
+
+    const text = document.createElement("div");
+    text.className = "text";
+    text.textContent = post.text || "(kein Text)";
+    info.appendChild(text);
+
+    const metrics = document.createElement("div");
+    metrics.className = "metrics";
+    if (postStats.facebook) {
+      const f = postStats.facebook;
+      if (f.likes != null) metrics.appendChild(statChip("👍 " + f.likes + " (Facebook)"));
+      if (f.comments != null) metrics.appendChild(statChip("💬 " + f.comments));
+      if (f.reach != null) metrics.appendChild(statChip("👁 " + f.reach));
+    }
+    if (postStats.instagram) {
+      const i = postStats.instagram;
+      if (i.likes != null) metrics.appendChild(statChip("❤ " + i.likes + " (Instagram)"));
+      if (i.comments != null) metrics.appendChild(statChip("💬 " + i.comments));
+      if (i.reach != null) metrics.appendChild(statChip("👁 " + i.reach));
+    }
+    info.appendChild(metrics);
+    card.appendChild(info);
+
+    container.appendChild(card);
   }
 
   function renderStats() {
@@ -693,12 +780,13 @@
             if (f.likes != null) statsRow.appendChild(statChip("👍 " + f.likes + " (Facebook)"));
             if (f.comments != null) statsRow.appendChild(statChip("💬 " + f.comments));
             if (f.shares != null) statsRow.appendChild(statChip("↪ " + f.shares));
+            if (f.reach != null) statsRow.appendChild(statChip("👁 " + f.reach));
           }
           if (postStats.instagram) {
             const i = postStats.instagram;
             if (i.likes != null) statsRow.appendChild(statChip("❤ " + i.likes + " (Instagram)"));
             if (i.comments != null) statsRow.appendChild(statChip("💬 " + i.comments));
-            if (i.reach != null) statsRow.appendChild(statChip("👁 " + i.reach + " Reichweite"));
+            if (i.reach != null) statsRow.appendChild(statChip("👁 " + i.reach));
           }
           if (statsRow.children.length > 0) card.appendChild(statsRow);
         }
@@ -721,6 +809,7 @@
       app.style.display = "block";
       renderStats();
       renderCharts();
+      renderBestPost();
       const now = new Date();
       viewYear = now.getFullYear();
       viewMonth = now.getMonth();
