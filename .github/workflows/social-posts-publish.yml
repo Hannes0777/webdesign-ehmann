@@ -25,6 +25,7 @@ jobs:
           META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
           META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
           META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          META_IG_ACCESS_TOKEN: ${{ secrets.META_IG_ACCESS_TOKEN }}
           SOCIAL_MEDIA_ASSETS_TOKEN: ${{ secrets.SOCIAL_MEDIA_ASSETS_TOKEN }}
           SOCIAL_MEDIA_ASSETS_REPO: Hannes0777/social-media-bilder
         run: node scripts/publish-social-posts.mjs
