@@ -254,10 +254,13 @@ async function main() {
   }
 
   // Beiträge, die direkt in der App gepostet wurden (nicht über unser CMS).
-  stats.other_posts = [
-    ...(await fetchOtherFacebookPosts(trackedFacebookIds)),
-    ...(await fetchOtherInstagramPosts(trackedInstagramIds)),
-  ];
+  // Facebook-Beitragsdetails (Likes/Kommentare/Liste) sind ohne Meta-App-
+  // Review nicht zugänglich ("Page Public Content Access" fehlt) - deshalb
+  // hier bewusst nicht abgefragt, nur die Follower-Zahl (siehe
+  // fetchFacebookAccountStats) funktioniert ohne Review. Sobald ein Review
+  // gemacht wird, hier wieder fetchOtherFacebookPosts(trackedFacebookIds)
+  // mit reinnehmen.
+  stats.other_posts = await fetchOtherInstagramPosts(trackedInstagramIds);
 
   await writeFile(STATS_FILE, JSON.stringify(stats, null, 2) + "\n", "utf8");
 
