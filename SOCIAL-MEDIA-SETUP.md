@@ -5,6 +5,15 @@ veröffentlichen. Ein GitHub-Actions-Workflow prüft alle 15 Minuten
 `content/social-posts/` auf fällige Beiträge und postet sie über die
 Meta Graph API.
 
+**Wichtig zum Verständnis:** Die Bilder werden nicht auf die eigentliche
+Homepage hochgeladen. Facebook bekommt das Bild direkt als Datei-Upload
+(kein Hosting nötig). Instagram verlangt von Meta aus zwingend eine
+öffentlich erreichbare Bild-URL (kein Datei-Upload möglich) – dafür wird
+das Bild kurz in das separate, eigenständige Repo
+[`social-media-bilder`](https://github.com/Hannes0777/social-media-bilder)
+gelegt, von Instagram abgeholt, und direkt danach automatisch wieder
+gelöscht. Auf der Homepage selbst ändert sich dadurch nichts.
+
 Damit das funktioniert, sind einmalig folgende Schritte nötig (nur du kannst
 das tun, da dafür der Login in dein Facebook-Konto nötig ist):
 
@@ -47,21 +56,33 @@ das tun, da dafür der Login in dein Facebook-Konto nötig ist):
 - **Instagram-Business-Account-ID**: Aufruf
   `https://graph.facebook.com/v21.0/{SEITEN_ID}?fields=instagram_business_account&access_token=DEIN_PAGE_TOKEN`
 
-## 5. Secrets in GitHub hinterlegen
+## 5. Zugriffs-Token für das Bilder-Repo erzeugen
 
-Im Repository unter **Settings → Secrets and variables → Actions → New
-repository secret** folgende drei Secrets anlegen:
+Damit der Workflow kurzzeitig ein Bild in `social-media-bilder` ablegen
+(und danach wieder löschen) kann, braucht er ein eigenes GitHub-Token –
+unabhängig vom Facebook/Instagram-Token aus Schritt 3.
 
-| Name                       | Wert                                  |
-|-----------------------------|----------------------------------------|
-| `META_PAGE_ACCESS_TOKEN`    | Page Access Token aus Schritt 3        |
-| `META_PAGE_ID`               | Facebook-Seiten-ID aus Schritt 4       |
-| `META_IG_USER_ID`            | Instagram-Business-Account-ID aus Schritt 4 |
+1. Auf https://github.com/settings/personal-access-tokens/new gehen
+2. **Nur** das Repo `social-media-bilder` auswählen (nicht die Homepage!)
+3. Berechtigung **Contents: Read and write** setzen, sonst nichts
+4. Token erzeugen und kopieren (wird nur einmal angezeigt)
+
+## 6. Secrets in GitHub hinterlegen
+
+Im Repository **webdesign-ehmann** unter **Settings → Secrets and
+variables → Actions → New repository secret** folgende Secrets anlegen:
+
+| Name                        | Wert                                          |
+|------------------------------|-------------------------------------------------|
+| `META_PAGE_ACCESS_TOKEN`     | Page Access Token aus Schritt 3                |
+| `META_PAGE_ID`                | Facebook-Seiten-ID aus Schritt 4               |
+| `META_IG_USER_ID`             | Instagram-Business-Account-ID aus Schritt 4    |
+| `SOCIAL_MEDIA_ASSETS_TOKEN`   | Token aus Schritt 5 (Zugriff auf social-media-bilder) |
 
 Die Secrets sind verschlüsselt und für niemanden einsehbar, auch nicht für
 dich selbst nach dem Speichern (nur überschreibbar).
 
-## 6. Verwenden
+## 7. Verwenden
 
 Im CMS unter **„📱 Facebook & Instagram – Beiträge planen"** einen neuen
 Eintrag anlegen: Bild hochladen, Text schreiben, Zeitpunkt wählen,
