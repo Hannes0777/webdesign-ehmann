@@ -106,6 +106,34 @@ async function fetchInstagramMediaStats(mediaId) {
   };
 }
 
+// Für Beiträge, die vor Einführung der ID-Speicherung veröffentlicht
+// wurden, fehlt facebook_post_id/instagram_media_id. Hier wird einmalig
+// versucht, den passenden Beitrag anhand des Texts in der jeweiligen
+// Beitragsliste zu finden und die ID nachträglich einzutragen.
+async function backfillFacebookId(post) {
+  return safely("Facebook-Beitrag nachträglich zuordnen", async () => {
+    const list = await graphGet(GRAPH_API, `${PAGE_ID}/posts`, {
+      fields: "id,message,created_time",
+      limit: "50",
+      access_token: PAGE_TOKEN,
+    });
+    const match = (list.data || []).find((p) => (p.message || "").trim() === (post.text || "").trim());
+    return match ? match.id : null;
+  });
+}
+
+async function backfillInstagramId(post) {
+  return safely("Instagram-Beitrag nachträglich zuordnen", async () => {
+    const list = await graphGet(IG_GRAPH_API, `${IG_USER_ID}/media`, {
+      fields: "id,caption,timestamp",
+      limit: "50",
+      access_token: IG_TOKEN,
+    });
+    const match = (list.data || []).find((m) => (m.caption || "").trim() === (post.text || "").trim());
+    return match ? match.id : null;
+  });
+}
+
 async function main() {
   const stats = {
     updated_at: new Date().toISOString(),
@@ -122,8 +150,28 @@ async function main() {
   }
 
   for (const file of files) {
-    const post = JSON.parse(await readFile(path.join(POSTS_DIR, file), "utf8"));
+    const filePath = path.join(POSTS_DIR, file);
+    const post = JSON.parse(await readFile(filePath, "utf8"));
     if (post.status !== "veroeffentlicht") continue;
+
+    let idsChanged = false;
+    if (post.facebook && !post.facebook_post_id) {
+      const id = await backfillFacebookId(post);
+      if (id) {
+        post.facebook_post_id = id;
+        idsChanged = true;
+      }
+    }
+    if (post.instagram && !post.instagram_media_id && IG_USER_ID && IG_TOKEN) {
+      const id = await backfillInstagramId(post);
+      if (id) {
+        post.instagram_media_id = id;
+        idsChanged = true;
+      }
+    }
+    if (idsChanged) {
+      await writeFile(filePath, JSON.stringify(post, null, 2) + "\n", "utf8");
+    }
 
     const entry = {};
     if (post.facebook_post_id) {
