@@ -267,7 +267,7 @@ collections:
     extension: json
     format: json
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{geplant_fuer}} – {{status}}"
+    summary: "{{text}} — {{geplant_fuer}}"
     sortable_fields: ["geplant_fuer", "status"]
     view_groups:
       - label: "Status"
@@ -289,7 +289,7 @@ collections:
         required: false
         media_folder: "social-media-tmp"
         public_folder: "/social-media-tmp"
-        hint: "Genau ein Bild, das auf Facebook gepostet wird. Landet NICHT im normalen Uploads-Ordner der Homepage, sondern in einer separaten Ablage, und wird nach dem Veröffentlichen automatisch wieder entfernt."
+        hint: "Genau ein Bild, das auf Facebook gepostet wird. Landet NICHT im normalen Uploads-Ordner der Homepage, sondern in einer separaten Ablage. Bleibt nach dem Veröffentlichen als Referenz im Beitrag sichtbar."
       - name: bilder_instagram
         label: "Bilder für Instagram"
         widget: image
@@ -297,7 +297,7 @@ collections:
         required: false
         media_folder: "social-media-tmp"
         public_folder: "/social-media-tmp"
-        hint: "Ein oder mehrere Bilder für Instagram — bei mehreren entsteht ein Karussell-Beitrag (max. 10 Bilder). Kann sich von Bild für Facebook unterscheiden."
+        hint: "Ein oder mehrere Bilder für Instagram — bei mehreren entsteht ein Karussell-Beitrag (max. 10 Bilder). Kann sich von Bild für Facebook unterscheiden. Nach dem Veröffentlichen bleibt nur das erste Bild als Referenz im Beitrag, weitere werden aufgeräumt."
       - name: text
         label: "Beitragstext"
         widget: text
