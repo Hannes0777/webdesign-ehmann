@@ -269,6 +269,19 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     summary: "{{geplant_fuer}} – {{status}}"
     sortable_fields: ["geplant_fuer", "status"]
+    view_groups:
+      - label: "Status"
+        field: status
+    view_filters:
+      - label: "Nur geplant"
+        field: status
+        pattern: "geplant"
+      - label: "Nur veröffentlicht"
+        field: status
+        pattern: "veroeffentlicht"
+      - label: "Nur Fehler"
+        field: status
+        pattern: "fehler"
     fields:
       - name: bild_facebook
         label: "Bild für Facebook"
