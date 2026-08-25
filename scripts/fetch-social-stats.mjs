@@ -229,6 +229,9 @@ async function main() {
     instagram_comments: igComments,
     instagram_reach: igReach,
   });
+  // Bei 5-Minuten-Takt sonst unbegrenztes Wachstum - 4000 Punkte
+  // entsprechen ca. 2 Wochen Verlauf, das reicht für die Diagramme.
+  if (history.length > 4000) history = history.slice(-4000);
   await writeFile(HISTORY_FILE, JSON.stringify(history, null, 2) + "\n", "utf8");
 
   console.log(`Statistiken aktualisiert für ${Object.keys(stats.posts).length} Beitrag(e).`);
