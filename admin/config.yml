@@ -161,7 +161,7 @@ collections:
                 label: "Kurzbeschreibung (z. B. Rolle oder Betrieb, optional)"
                 widget: string
                 required: false
-                hint: "Erscheint klein unter dem Namen, z. B. „Interessent" oder „Inhaberin, Café Sonne"."
+                hint: "Erscheint klein unter dem Namen, z. B. „Interessent“ oder „Inhaberin, Café Sonne“."
               - name: text
                 label: "Text der Rezension"
                 widget: text
@@ -255,6 +255,48 @@ collections:
               - name: text
                 label: "Kurzbeschreibung"
                 widget: string
+
+  # ----------------------------------------------------------
+  #  FACEBOOK & INSTAGRAM – BEITRÄGE PLANEN
+  # ----------------------------------------------------------
+  - name: social_posts
+    label: "📱 Facebook & Instagram – Beiträge planen"
+    description: "Beitrag anlegen, Bild + Text eintragen und Zeitpunkt wählen — er wird automatisch veröffentlicht (Prüfung alle 15 Minuten). Bei einem Fehler erscheint eine Fehlermeldung am Eintrag, Status dann wieder auf „geplant“ setzen, um es erneut zu versuchen."
+    folder: content/social-posts
+    create: true
+    extension: json
+    format: json
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{geplant_fuer}} – {{status}}"
+    sortable_fields: ["geplant_fuer", "status"]
+    fields:
+      - name: bild
+        label: "Bild"
+        widget: image
+        hint: "Pflicht für Instagram. Bild sollte schon einige Minuten vor dem geplanten Zeitpunkt hochgeladen sein, damit es live sichtbar ist."
+      - name: text
+        label: "Beitragstext"
+        widget: text
+      - name: facebook
+        label: "Auf Facebook veröffentlichen"
+        widget: boolean
+        default: true
+      - name: instagram
+        label: "Auf Instagram veröffentlichen"
+        widget: boolean
+        default: true
+      - name: geplant_fuer
+        label: "Veröffentlichen am"
+        widget: datetime
+      - name: status
+        label: "Status"
+        widget: select
+        options: ["geplant", "veroeffentlicht", "fehler"]
+        default: "geplant"
+      - name: fehler_meldung
+        label: "Fehlermeldung (wird automatisch befüllt)"
+        widget: string
+        required: false
 
   # ----------------------------------------------------------
   #  CMS-ERKLÄRUNG
