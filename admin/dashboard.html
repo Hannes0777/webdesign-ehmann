@@ -35,6 +35,14 @@
   }
   h1 { margin: 0 0 0.25rem; font-size: 1.4rem; }
   header p { margin: 0; color: var(--mist); font-size: 0.9rem; }
+  .back-link {
+    display: inline-block;
+    margin-bottom: 0.6rem;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+  .back-link:hover { text-decoration: underline; }
   main { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
 
   #login-screen { text-align: center; padding: 4rem 1rem; }
@@ -140,6 +148,7 @@
 <body>
 
 <header>
+  <a class="back-link" href="/admin/">← Zurück zum CMS</a>
   <h1>📅 Social-Media-Dashboard</h1>
   <p>Geplante &amp; veröffentlichte Facebook-/Instagram-Beiträge im Überblick.</p>
 </header>
