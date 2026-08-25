@@ -1,7 +1,7 @@
 # Facebook & Instagram automatisch posten – Einrichtung
 
 Diese Website kann geplante Beiträge automatisch auf Facebook und Instagram
-veröffentlichen. Ein GitHub-Actions-Workflow prüft alle 15 Minuten
+veröffentlichen. Ein GitHub-Actions-Workflow prüft alle 5 Minuten
 `content/social-posts/` auf fällige Beiträge und postet sie über die
 Meta Graph API.
 
@@ -108,7 +108,7 @@ Eintrag anlegen: Bild für Facebook (genau eins) und/oder Bilder für
 Instagram (eins oder mehrere, mehrere ergeben ein Karussell) hochladen,
 gemeinsamen Text schreiben, Zeitpunkt wählen, Plattform(en) auswählen,
 speichern. Der Workflow läuft automatisch alle
-15 Minuten (Zeitplan nur auf dem `master`-Branch aktiv) und veröffentlicht
+5 Minuten (Zeitplan nur auf dem `master`-Branch aktiv) und veröffentlicht
 fällige Beiträge. Der Status wechselt danach automatisch auf
 „veroeffentlicht" bzw. bei einem Problem auf „fehler" mit Fehlermeldung.
 
