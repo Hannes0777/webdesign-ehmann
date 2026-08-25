@@ -67,6 +67,17 @@ async function fetchInstagramAccountStats() {
   };
 }
 
+// Einzelne Metriken einzeln abfragen statt in einem Aufruf: Fragt die
+// Insights-API mehrere Metriken auf einmal ab und ist eine davon für den
+// jeweiligen Beitragstyp ungültig, schlägt der GESAMTE Aufruf fehl. So
+// liefert eine ungültige Metrik nur eine fehlende Zahl statt gar keine.
+async function fetchMetric(base, path, metric, token) {
+  const result = await safely(`Metrik ${metric} (${path})`, () =>
+    graphGet(base, `${path}/insights`, { metric, access_token: token })
+  );
+  return result?.data?.[0]?.values?.[0]?.value ?? null;
+}
+
 async function fetchFacebookPostStats(postId) {
   const data = await safely(`Facebook-Post-Statistik (${postId})`, () =>
     graphGet(GRAPH_API, postId, {
@@ -75,10 +86,12 @@ async function fetchFacebookPostStats(postId) {
     })
   );
   if (!data) return null;
+  const reach = await fetchMetric(GRAPH_API, postId, "post_impressions_unique", PAGE_TOKEN);
   return {
     likes: data.likes?.summary?.total_count ?? null,
     comments: data.comments?.summary?.total_count ?? null,
     shares: data.shares?.count ?? 0,
+    reach,
   };
 }
 
@@ -89,21 +102,14 @@ async function fetchInstagramMediaStats(mediaId) {
       access_token: IG_TOKEN,
     })
   );
-  const insights = await safely(`Instagram-Media-Insights (${mediaId})`, () =>
-    graphGet(IG_GRAPH_API, `${mediaId}/insights`, {
-      metric: "reach,saved",
-      access_token: IG_TOKEN,
-    })
-  );
-  const byName = {};
-  (insights?.data || []).forEach((m) => {
-    byName[m.name] = m.values?.[0]?.value ?? null;
-  });
+  const reach = await fetchMetric(IG_GRAPH_API, mediaId, "reach", IG_TOKEN);
+  const views = await fetchMetric(IG_GRAPH_API, mediaId, "views", IG_TOKEN);
+  const saved = await fetchMetric(IG_GRAPH_API, mediaId, "saved", IG_TOKEN);
   return {
     likes: info?.like_count ?? null,
     comments: info?.comments_count ?? null,
-    reach: byName.reach ?? null,
-    saved: byName.saved ?? null,
+    reach: views ?? reach ?? null,
+    saved: saved ?? null,
   };
 }
 
@@ -189,19 +195,19 @@ async function main() {
   // Verlaufs-Historie: bei jedem Lauf einen neuen Datenpunkt anhängen,
   // damit sich Follower/Reichweite/Likes/Kommentare als Diagramm über die
   // Zeit darstellen lassen.
-  let totalLikes = 0;
-  let totalComments = 0;
-  let totalReach = 0;
+  let fbLikes = 0, fbComments = 0, fbReach = 0;
+  let igLikes = 0, igComments = 0, igReach = 0;
   for (const key of Object.keys(stats.posts)) {
     const p = stats.posts[key];
     if (p.facebook) {
-      totalLikes += p.facebook.likes || 0;
-      totalComments += p.facebook.comments || 0;
+      fbLikes += p.facebook.likes || 0;
+      fbComments += p.facebook.comments || 0;
+      fbReach += p.facebook.reach || 0;
     }
     if (p.instagram) {
-      totalLikes += p.instagram.likes || 0;
-      totalComments += p.instagram.comments || 0;
-      totalReach += p.instagram.reach || 0;
+      igLikes += p.instagram.likes || 0;
+      igComments += p.instagram.comments || 0;
+      igReach += p.instagram.reach || 0;
     }
   }
 
@@ -216,9 +222,12 @@ async function main() {
     at: stats.updated_at,
     facebook_followers: stats.facebook.fan_count,
     instagram_followers: stats.instagram?.followers_count ?? null,
-    total_likes: totalLikes,
-    total_comments: totalComments,
-    total_reach: totalReach,
+    facebook_likes: fbLikes,
+    facebook_comments: fbComments,
+    facebook_reach: fbReach,
+    instagram_likes: igLikes,
+    instagram_comments: igComments,
+    instagram_reach: igReach,
   });
   await writeFile(HISTORY_FILE, JSON.stringify(history, null, 2) + "\n", "utf8");
 
