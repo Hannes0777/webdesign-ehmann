@@ -1,0 +1,16 @@
+{
+  "bild_facebook": "",
+  "bilder_instagram": [
+    "/uploads/slide-1-1.png",
+    "/uploads/slide-2-1.png",
+    "/uploads/slide-3-1.png",
+    "/uploads/slide-4-1.png",
+    "/uploads/slide-5-1.png"
+  ],
+  "text": "🍪Sind NERVIG und meistens UNNÖTIG🍪",
+  "facebook": false,
+  "instagram": true,
+  "geplant_fuer": "2026-08-26T06:47:00+02:00",
+  "status": "geplant",
+  "fehler_meldung": ""
+}
