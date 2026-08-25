@@ -3,10 +3,12 @@
 // Wird per GitHub Actions in regelmäßigen Abständen aufgerufen,
 // siehe .github/workflows/social-posts-publish.yml.
 //
+// Facebook und Instagram bekommen eigene Bilder (bild_facebook /
+// bilder_instagram), teilen sich aber Text und Zeitpunkt in einem Beitrag.
 // Bilder liegen NICHT auf der eigentlichen Website, sondern werden nur für
 // Instagram (das zwingend eine öffentliche Bild-URL verlangt) kurz in ein
 // separates Repo (SOCIAL_MEDIA_ASSETS_REPO) hochgeladen und danach wieder
-// gelöscht. Facebook bekommt das Bild direkt als Datei-Upload, ganz ohne
+// gelöscht. Facebook bekommt sein Bild direkt als Datei-Upload, ganz ohne
 // Hosting.
 
 import { readdir, readFile, writeFile, unlink } from "node:fs/promises";
@@ -31,9 +33,29 @@ function requireEnv(name) {
   return value;
 }
 
-function localImagePath(bild) {
-  if (!bild) return null;
-  return path.join(process.cwd(), bild.replace(/^\/+/, ""));
+function localImagePath(bildPfad) {
+  return path.join(process.cwd(), bildPfad.replace(/^\/+/, ""));
+}
+
+async function loadImage(bildPfad) {
+  if (!bildPfad) return null;
+  const filePath = localImagePath(bildPfad);
+  try {
+    const buffer = await readFile(filePath);
+    return { path: filePath, filename: path.basename(filePath), buffer };
+  } catch {
+    return null;
+  }
+}
+
+async function loadImages(bilder) {
+  const list = Array.isArray(bilder) ? bilder : bilder ? [bilder] : [];
+  const images = [];
+  for (const bildPfad of list) {
+    const image = await loadImage(bildPfad);
+    if (image) images.push(image);
+  }
+  return images;
 }
 
 async function graphPost(pathSegment, params) {
@@ -41,15 +63,6 @@ async function graphPost(pathSegment, params) {
     method: "POST",
     body: new URLSearchParams(params),
   });
-  const json = await res.json();
-  if (!res.ok || json.error) {
-    throw new Error(json.error?.message || `HTTP ${res.status}`);
-  }
-  return json;
-}
-
-async function graphGet(pathSegment, params) {
-  const res = await fetch(`${GRAPH_API}/${pathSegment}?${new URLSearchParams(params)}`);
   const json = await res.json();
   if (!res.ok || json.error) {
     throw new Error(json.error?.message || `HTTP ${res.status}`);
@@ -82,12 +95,12 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// --- Facebook: Bild als Datei hochladen, keine öffentliche URL nötig ---
-async function publishToFacebook(post, imageBuffer, filename) {
+// --- Facebook: immer genau ein Bild, direkt als Datei hochgeladen ---
+async function publishToFacebook(post, image) {
   const form = new FormData();
   form.append("caption", post.text || "");
   form.append("access_token", PAGE_TOKEN);
-  form.append("source", new Blob([imageBuffer]), filename);
+  form.append("source", new Blob([image.buffer]), image.filename);
 
   const res = await fetch(`${GRAPH_API}/${PAGE_ID}/photos`, { method: "POST", body: form });
   const json = await res.json();
@@ -97,7 +110,7 @@ async function publishToFacebook(post, imageBuffer, filename) {
 }
 
 // --- Instagram verlangt zwingend eine öffentliche Bild-URL ---
-// Bild wird dafür kurz in ein separates Repo gelegt und danach wieder gelöscht.
+// Bilder werden dafür kurz in ein separates Repo gelegt und danach wieder gelöscht.
 async function uploadAsset(imageBuffer, filename) {
   if (!ASSETS_REPO || !ASSETS_TOKEN) {
     throw new Error("SOCIAL_MEDIA_ASSETS_REPO/SOCIAL_MEDIA_ASSETS_TOKEN nicht gesetzt.");
@@ -133,41 +146,69 @@ async function deleteAsset(filename, sha) {
   });
 }
 
-async function publishToInstagram(post, imageBuffer, filename) {
-  if (!IG_USER_ID) {
-    throw new Error("META_IG_USER_ID ist nicht gesetzt.");
+async function waitUntilFinished(igMediaId) {
+  let status = "IN_PROGRESS";
+  for (let attempt = 0; attempt < 6 && status === "IN_PROGRESS"; attempt++) {
+    if (attempt > 0) await sleep(3000);
+    const check = await igGraphGet(igMediaId, { fields: "status_code", access_token: IG_TOKEN });
+    status = check.status_code;
   }
-  if (!IG_TOKEN) {
-    throw new Error("META_IG_ACCESS_TOKEN ist nicht gesetzt.");
+  if (status !== "FINISHED") {
+    throw new Error(`Instagram-Medium wurde nicht rechtzeitig fertig (Status: ${status}).`);
   }
+}
 
-  const asset = await uploadAsset(imageBuffer, filename);
+async function publishToInstagram(post, images) {
+  if (!IG_USER_ID) throw new Error("META_IG_USER_ID ist nicht gesetzt.");
+  if (!IG_TOKEN) throw new Error("META_IG_ACCESS_TOKEN ist nicht gesetzt.");
+  if (images.length > 10) throw new Error("Instagram erlaubt maximal 10 Bilder pro Beitrag.");
+
+  const assets = [];
   try {
-    const container = await igGraphPost(`${IG_USER_ID}/media`, {
-      image_url: asset.url,
+    for (const image of images) {
+      assets.push(await uploadAsset(image.buffer, image.filename));
+    }
+
+    if (images.length === 1) {
+      const container = await igGraphPost(`${IG_USER_ID}/media`, {
+        image_url: assets[0].url,
+        caption: post.text || "",
+        access_token: IG_TOKEN,
+      });
+      await waitUntilFinished(container.id);
+      await igGraphPost(`${IG_USER_ID}/media_publish`, {
+        creation_id: container.id,
+        access_token: IG_TOKEN,
+      });
+      return;
+    }
+
+    // Mehrere Bilder: als Karussell (Album) in einem Beitrag veröffentlichen.
+    const childIds = [];
+    for (const asset of assets) {
+      const child = await igGraphPost(`${IG_USER_ID}/media`, {
+        image_url: asset.url,
+        is_carousel_item: "true",
+        access_token: IG_TOKEN,
+      });
+      childIds.push(child.id);
+    }
+
+    const carousel = await igGraphPost(`${IG_USER_ID}/media`, {
+      media_type: "CAROUSEL",
+      children: childIds.join(","),
       caption: post.text || "",
       access_token: IG_TOKEN,
     });
-
-    let status = "IN_PROGRESS";
-    for (let attempt = 0; attempt < 6 && status === "IN_PROGRESS"; attempt++) {
-      if (attempt > 0) await sleep(3000);
-      const check = await igGraphGet(container.id, {
-        fields: "status_code",
-        access_token: IG_TOKEN,
-      });
-      status = check.status_code;
-    }
-    if (status !== "FINISHED") {
-      throw new Error(`Instagram-Medium wurde nicht rechtzeitig fertig (Status: ${status}).`);
-    }
-
+    await waitUntilFinished(carousel.id);
     await igGraphPost(`${IG_USER_ID}/media_publish`, {
-      creation_id: container.id,
+      creation_id: carousel.id,
       access_token: IG_TOKEN,
     });
   } finally {
-    await deleteAsset(filename, asset.sha).catch(() => {});
+    for (let i = 0; i < assets.length; i++) {
+      await deleteAsset(images[i].filename, assets[i].sha).catch(() => {});
+    }
   }
 }
 
@@ -191,22 +232,14 @@ async function main() {
     if (!post.geplant_fuer || new Date(post.geplant_fuer) > now) continue;
 
     console.log(`Veröffentliche: ${file}`);
-    const imgPath = localImagePath(post.bild);
-    let imageBuffer = null;
-    if (imgPath) {
-      try {
-        imageBuffer = await readFile(imgPath);
-      } catch {
-        imageBuffer = null;
-      }
-    }
-    const filename = imgPath ? path.basename(imgPath) : null;
+    const fbImage = await loadImage(post.bild_facebook);
+    const igImages = await loadImages(post.bilder_instagram);
     const errors = [];
 
     if (post.facebook) {
       try {
-        if (!imageBuffer) throw new Error("Kein Bild hinterlegt.");
-        await publishToFacebook(post, imageBuffer, filename);
+        if (!fbImage) throw new Error("Kein Bild für Facebook hinterlegt.");
+        await publishToFacebook(post, fbImage);
       } catch (err) {
         errors.push(`Facebook: ${err.message}`);
       }
@@ -214,8 +247,8 @@ async function main() {
 
     if (post.instagram) {
       try {
-        if (!imageBuffer) throw new Error("Kein Bild hinterlegt.");
-        await publishToInstagram(post, imageBuffer, filename);
+        if (igImages.length === 0) throw new Error("Kein Bild für Instagram hinterlegt.");
+        await publishToInstagram(post, igImages);
       } catch (err) {
         errors.push(`Instagram: ${err.message}`);
       }
@@ -224,10 +257,12 @@ async function main() {
     if (errors.length === 0) {
       post.status = "veroeffentlicht";
       post.fehler_meldung = "";
-      if (imgPath) {
-        await unlink(imgPath).catch(() => {});
-        post.bild = "";
+      if (fbImage) await unlink(fbImage.path).catch(() => {});
+      for (const image of igImages) {
+        await unlink(image.path).catch(() => {});
       }
+      post.bild_facebook = "";
+      post.bilder_instagram = [];
     } else {
       post.status = "fehler";
       post.fehler_meldung = errors.join(" | ");
