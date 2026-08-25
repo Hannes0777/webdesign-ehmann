@@ -1014,6 +1014,32 @@
     openDayPanel();
   }
 
+  let currentToken = null;
+  let refreshTimer = null;
+  const REFRESH_INTERVAL_MS = 30000;
+
+  async function refreshData() {
+    if (!currentToken) return;
+    try {
+      const [posts, stats, history] = await Promise.all([
+        fetchPosts(currentToken),
+        fetchStats(),
+        fetchHistory(),
+      ]);
+      allPosts = posts;
+      allStats = stats;
+      allHistory = history;
+      renderStats();
+      renderCharts();
+      renderBestPost();
+      renderPostSidebar();
+      renderCalendar();
+    } catch (err) {
+      // Stiller Fehlschlag - beim nächsten Intervall erneut versuchen,
+      // ohne die offene Seite mit einer Fehlermeldung zu stören.
+    }
+  }
+
   async function boot(token) {
     loginScreen.style.display = "none";
     loading.style.display = "block";
@@ -1032,6 +1058,10 @@
       viewYear = now.getFullYear();
       viewMonth = now.getMonth();
       renderCalendar();
+
+      currentToken = token;
+      if (refreshTimer) clearInterval(refreshTimer);
+      refreshTimer = setInterval(refreshData, REFRESH_INTERVAL_MS);
     } catch (err) {
       loading.style.display = "none";
       if (err.message === "UNAUTHORIZED") {
@@ -1077,6 +1107,8 @@
 
   $("logout-btn").addEventListener("click", () => {
     sessionStorage.removeItem(TOKEN_KEY);
+    currentToken = null;
+    if (refreshTimer) clearInterval(refreshTimer);
     app.style.display = "none";
     closeDayPanel();
     loginScreen.style.display = "block";
