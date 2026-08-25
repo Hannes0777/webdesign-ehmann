@@ -2,7 +2,7 @@ name: Social-Media-Statistiken abrufen
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch: {}
 
 permissions:
