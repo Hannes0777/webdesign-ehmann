@@ -257,12 +257,14 @@ async function main() {
     if (errors.length === 0) {
       post.status = "veroeffentlicht";
       post.fehler_meldung = "";
-      if (fbImage) await unlink(fbImage.path).catch(() => {});
-      for (const image of igImages) {
+      // Erstes Bild je Plattform bleibt als sichtbare Referenz erhalten,
+      // nur zusätzliche Instagram-Bilder (Karussell) werden aufgeräumt.
+      for (const image of igImages.slice(1)) {
         await unlink(image.path).catch(() => {});
       }
-      post.bild_facebook = "";
-      post.bilder_instagram = [];
+      if (Array.isArray(post.bilder_instagram)) {
+        post.bilder_instagram = post.bilder_instagram.slice(0, 1);
+      }
     } else {
       post.status = "fehler";
       post.fehler_meldung = errors.join(" | ");
