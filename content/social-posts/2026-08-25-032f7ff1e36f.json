@@ -13,6 +13,6 @@
   "facebook": false,
   "instagram": true,
   "geplant_fuer": "2026-08-25T13:06:00+02:00",
-  "status": "fehler",
-  "fehler_meldung": "Instagram: is at 436bfadd4453fd3d52245ee4f513f61b16ebdbd2 but expected b15b3835bfa13c37f76239bebdfddc1c14c77a67"
+  "status": "geplant",
+  "fehler_meldung": ""
 }
