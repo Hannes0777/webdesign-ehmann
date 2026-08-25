@@ -1,0 +1,41 @@
+name: Social-Media-Beiträge veröffentlichen
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fällige Beiträge veröffentlichen
+        env:
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          SITE_BASE_URL: https://www.webdesign-ehmann.de
+        run: node scripts/publish-social-posts.mjs
+
+      - name: Geänderte Beiträge committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/social-posts
+          if ! git diff --cached --quiet; then
+            git commit -m "Social-Media-Beiträge: Status aktualisiert"
+            git push
+          else
+            echo "Keine Änderungen."
+          fi
