@@ -3,11 +3,13 @@
 // Wird per GitHub Actions in regelmäßigen Abständen aufgerufen,
 // siehe .github/workflows/social-posts-publish.yml.
 //
+// Facebook und Instagram bekommen eigene Bilder (bild_facebook /
+// bilder_instagram), teilen sich aber Text und Zeitpunkt in einem Beitrag.
 // Bilder liegen NICHT auf der eigentlichen Website, sondern werden nur für
 // Instagram (das zwingend eine öffentliche Bild-URL verlangt) kurz in ein
 // separates Repo (SOCIAL_MEDIA_ASSETS_REPO) hochgeladen und danach wieder
-// gelöscht. Facebook bekommt die Bilder direkt als Datei-Upload, ganz ohne
-// Hosting. Ein Beitrag kann mehrere Bilder haben (Album/Karussell).
+// gelöscht. Facebook bekommt sein Bild direkt als Datei-Upload, ganz ohne
+// Hosting.
 
 import { readdir, readFile, writeFile, unlink } from "node:fs/promises";
 import path from "node:path";
@@ -35,17 +37,23 @@ function localImagePath(bildPfad) {
   return path.join(process.cwd(), bildPfad.replace(/^\/+/, ""));
 }
 
+async function loadImage(bildPfad) {
+  if (!bildPfad) return null;
+  const filePath = localImagePath(bildPfad);
+  try {
+    const buffer = await readFile(filePath);
+    return { path: filePath, filename: path.basename(filePath), buffer };
+  } catch {
+    return null;
+  }
+}
+
 async function loadImages(bilder) {
   const list = Array.isArray(bilder) ? bilder : bilder ? [bilder] : [];
   const images = [];
   for (const bildPfad of list) {
-    const filePath = localImagePath(bildPfad);
-    try {
-      const buffer = await readFile(filePath);
-      images.push({ path: filePath, filename: path.basename(filePath), buffer });
-    } catch {
-      // Datei fehlt (z.B. schon gelöscht) - wird beim Aufrufer als Fehler behandelt.
-    }
+    const image = await loadImage(bildPfad);
+    if (image) images.push(image);
   }
   return images;
 }
@@ -55,15 +63,6 @@ async function graphPost(pathSegment, params) {
     method: "POST",
     body: new URLSearchParams(params),
   });
-  const json = await res.json();
-  if (!res.ok || json.error) {
-    throw new Error(json.error?.message || `HTTP ${res.status}`);
-  }
-  return json;
-}
-
-async function graphGet(pathSegment, params) {
-  const res = await fetch(`${GRAPH_API}/${pathSegment}?${new URLSearchParams(params)}`);
   const json = await res.json();
   if (!res.ok || json.error) {
     throw new Error(json.error?.message || `HTTP ${res.status}`);
@@ -96,39 +95,18 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function uploadFacebookPhoto(imageBuffer, filename, published) {
+// --- Facebook: immer genau ein Bild, direkt als Datei hochgeladen ---
+async function publishToFacebook(post, image) {
   const form = new FormData();
-  form.append("published", String(published));
+  form.append("caption", post.text || "");
   form.append("access_token", PAGE_TOKEN);
-  form.append("source", new Blob([imageBuffer]), filename);
+  form.append("source", new Blob([image.buffer]), image.filename);
 
   const res = await fetch(`${GRAPH_API}/${PAGE_ID}/photos`, { method: "POST", body: form });
   const json = await res.json();
   if (!res.ok || json.error) {
     throw new Error(json.error?.message || `HTTP ${res.status}`);
   }
-  return json.id;
-}
-
-// --- Facebook: Bilder als Datei hochladen, keine öffentliche URL nötig ---
-async function publishToFacebook(post, images) {
-  if (images.length === 1) {
-    await uploadFacebookPhoto(images[0].buffer, images[0].filename, true);
-    return;
-  }
-
-  // Mehrere Bilder: erst unveröffentlicht hochladen, dann als ein
-  // gemeinsamer Beitrag mit mehreren Fotos veröffentlichen.
-  const photoIds = [];
-  for (const image of images) {
-    photoIds.push(await uploadFacebookPhoto(image.buffer, image.filename, false));
-  }
-
-  const params = { message: post.text || "", access_token: PAGE_TOKEN };
-  photoIds.forEach((id, index) => {
-    params[`attached_media[${index}]`] = JSON.stringify({ media_fbid: id });
-  });
-  await graphPost(`${PAGE_ID}/feed`, params);
 }
 
 // --- Instagram verlangt zwingend eine öffentliche Bild-URL ---
@@ -254,13 +232,14 @@ async function main() {
     if (!post.geplant_fuer || new Date(post.geplant_fuer) > now) continue;
 
     console.log(`Veröffentliche: ${file}`);
-    const images = await loadImages(post.bilder);
+    const fbImage = await loadImage(post.bild_facebook);
+    const igImages = await loadImages(post.bilder_instagram);
     const errors = [];
 
     if (post.facebook) {
       try {
-        if (images.length === 0) throw new Error("Kein Bild hinterlegt.");
-        await publishToFacebook(post, images);
+        if (!fbImage) throw new Error("Kein Bild für Facebook hinterlegt.");
+        await publishToFacebook(post, fbImage);
       } catch (err) {
         errors.push(`Facebook: ${err.message}`);
       }
@@ -268,8 +247,8 @@ async function main() {
 
     if (post.instagram) {
       try {
-        if (images.length === 0) throw new Error("Kein Bild hinterlegt.");
-        await publishToInstagram(post, images);
+        if (igImages.length === 0) throw new Error("Kein Bild für Instagram hinterlegt.");
+        await publishToInstagram(post, igImages);
       } catch (err) {
         errors.push(`Instagram: ${err.message}`);
       }
@@ -278,10 +257,12 @@ async function main() {
     if (errors.length === 0) {
       post.status = "veroeffentlicht";
       post.fehler_meldung = "";
-      for (const image of images) {
+      if (fbImage) await unlink(fbImage.path).catch(() => {});
+      for (const image of igImages) {
         await unlink(image.path).catch(() => {});
       }
-      post.bilder = [];
+      post.bild_facebook = "";
+      post.bilder_instagram = [];
     } else {
       post.status = "fehler";
       post.fehler_meldung = errors.join(" | ");
