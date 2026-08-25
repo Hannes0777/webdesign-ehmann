@@ -25,36 +25,54 @@ das tun, da dafür der Login in dein Facebook-Konto nötig ist):
 
 ## 2. Meta-App erstellen
 
-1. Auf https://developers.facebook.com/apps anmelden und **App erstellen**
+1. Auf https://developers.facebook.com/apps anmelden (ggf. erst oben rechts
+   auf „Los geht's" klicken, um dich als Entwickler zu registrieren) und
+   **App erstellen**
 2. App-Typ: **Andere** → **Unternehmen**
-3. Unter **Anwendungsfälle** die Produkte **„Facebook Login"** und
-   **„Instagram Graph API"** hinzufügen (bzw. „Seiten-API")
+3. Unter **Anwendungsfälle** (Filter „Content-Management") ankreuzen:
+   - **„Messaging und Content auf Instagram verwalten"**
+   - **„Alles auf deiner Seite verwalten"**
 
-## 3. Access Token mit den nötigen Rechten erzeugen
+## 3. Facebook-Seiten-Token erzeugen
 
 1. Im [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
-   deine App auswählen
-2. **User Access Token** erzeugen mit den Berechtigungen:
-   - `pages_show_list`
-   - `pages_read_engagement`
-   - `pages_manage_posts`
-   - `instagram_basic`
-   - `instagram_content_publish`
-3. Diesen Token gegen einen **langlebigen Token** tauschen (60 Tage) über
-   den [Access Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/)
-   → „Zugriffstoken erweitern"
-4. Mit dem langlebigen User-Token folgenden Aufruf machen, um den
-   **Page Access Token** zu bekommen (im Browser oder mit curl):
+   deine App auswählen, **„Generate Access Token"** klicken
+2. Auf der App-Dashboard-Seite unter dem Anwendungsfall **„Alles auf deiner
+   Seite verwalten" → Personalisieren** die Berechtigungen `pages_show_list`,
+   `pages_read_engagement`, `pages_manage_posts` hinzufügen
+3. Im Graph API Explorer den generierten **User Token** kopieren, im
+   [Access Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/)
+   einfügen, **„Fehlerbehebung"** und dann **„Zugriffstoken erweitern"**
+   klicken → langlebiger Token (60 Tage)
+4. Mit diesem langlebigen Token im Browser aufrufen:
    `https://graph.facebook.com/v21.0/me/accounts?access_token=DEIN_LANGLEBIGER_TOKEN`
-   → in der Antwort die passende Seite suchen, `access_token` daraus ist der
-   **Page Access Token**. Dieser läuft nicht ab, solange die App aktiv bleibt.
+   → in der Antwort bei deiner Seite: `"id"` = **Facebook-Seiten-ID**,
+   `"access_token"` = **Page Access Token** (läuft praktisch nicht ab,
+   solange die App aktiv bleibt)
 
-## 4. IDs herausfinden
+## 4. Instagram-Zugriff einrichten
 
-- **Facebook-Seiten-ID**: steht in der Antwort aus Schritt 3 (`id`-Feld der
-  Seite), oder auf der Seite selbst unter „Info"
-- **Instagram-Business-Account-ID**: Aufruf
-  `https://graph.facebook.com/v21.0/{SEITEN_ID}?fields=instagram_business_account&access_token=DEIN_PAGE_TOKEN`
+Instagram läuft über einen eigenen Ablauf, getrennt von der Facebook-Seite:
+
+1. App-Dashboard → Anwendungsfall **„Messaging und Content auf Instagram
+   verwalten" → Personalisieren** → im Menü **„API-Einrichtung mit
+   Instagram-Login"**
+2. Unter „1. Erforderliche Messaging-Berechtigungen hinzufügen" auf **„Add
+   all required permissions"** klicken; zusätzlich unter „Berechtigungen
+   und Features" die Berechtigung `instagram_business_content_publish`
+   hinzufügen (wird zum Veröffentlichen gebraucht)
+3. Links im Menü auf **„App-Rollen" → „Rollen"** gehen, dein
+   Instagram-Konto als **Instagram-Tester** hinzufügen
+4. In Instagram (Browser: `instagram.com/accounts/manage_access/`, oder
+   App → Einstellungen → Website-Berechtigungen) die Tester-Einladung
+   annehmen
+5. Zurück zu „API-Einrichtung mit Instagram-Login" → bei „2. Zugriffstokens
+   generieren" → **„Konto hinzufügen"**, mit Instagram bestätigen
+6. Dort erscheint dein Konto mit einer Zahl darunter → das ist die
+   **Instagram-Nutzer-ID** (`META_IG_USER_ID`)
+7. Auf **„Token generieren"** klicken → das ist der **Instagram Access
+   Token** (`META_IG_ACCESS_TOKEN`), komplett getrennt vom Facebook-Token
+   aus Schritt 3
 
 ## 5. Zugriffs-Token für das Bilder-Repo erzeugen
 
@@ -75,8 +93,9 @@ variables → Actions → New repository secret** folgende Secrets anlegen:
 | Name                        | Wert                                          |
 |------------------------------|-------------------------------------------------|
 | `META_PAGE_ACCESS_TOKEN`     | Page Access Token aus Schritt 3                |
-| `META_PAGE_ID`                | Facebook-Seiten-ID aus Schritt 4               |
-| `META_IG_USER_ID`             | Instagram-Business-Account-ID aus Schritt 4    |
+| `META_PAGE_ID`                | Facebook-Seiten-ID aus Schritt 3               |
+| `META_IG_USER_ID`             | Instagram-Nutzer-ID aus Schritt 4              |
+| `META_IG_ACCESS_TOKEN`        | Instagram Access Token aus Schritt 4           |
 | `SOCIAL_MEDIA_ASSETS_TOKEN`   | Token aus Schritt 5 (Zugriff auf social-media-bilder) |
 
 Die Secrets sind verschlüsselt und für niemanden einsehbar, auch nicht für

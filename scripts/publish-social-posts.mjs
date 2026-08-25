@@ -14,10 +14,14 @@ import path from "node:path";
 
 const POSTS_DIR = path.join(process.cwd(), "content", "social-posts");
 const GRAPH_API = "https://graph.facebook.com/v21.0";
+// Instagram läuft über einen eigenen API-Host mit einem eigenen Token
+// (Instagram-Login-Flow), getrennt vom Facebook-Seiten-Token.
+const IG_GRAPH_API = "https://graph.instagram.com/v21.0";
 
 const PAGE_TOKEN = requireEnv("META_PAGE_ACCESS_TOKEN");
 const PAGE_ID = requireEnv("META_PAGE_ID");
 const IG_USER_ID = process.env.META_IG_USER_ID || "";
+const IG_TOKEN = process.env.META_IG_ACCESS_TOKEN || "";
 const ASSETS_REPO = process.env.SOCIAL_MEDIA_ASSETS_REPO || "";
 const ASSETS_TOKEN = process.env.SOCIAL_MEDIA_ASSETS_TOKEN || "";
 
@@ -46,6 +50,27 @@ async function graphPost(pathSegment, params) {
 
 async function graphGet(pathSegment, params) {
   const res = await fetch(`${GRAPH_API}/${pathSegment}?${new URLSearchParams(params)}`);
+  const json = await res.json();
+  if (!res.ok || json.error) {
+    throw new Error(json.error?.message || `HTTP ${res.status}`);
+  }
+  return json;
+}
+
+async function igGraphPost(pathSegment, params) {
+  const res = await fetch(`${IG_GRAPH_API}/${pathSegment}`, {
+    method: "POST",
+    body: new URLSearchParams(params),
+  });
+  const json = await res.json();
+  if (!res.ok || json.error) {
+    throw new Error(json.error?.message || `HTTP ${res.status}`);
+  }
+  return json;
+}
+
+async function igGraphGet(pathSegment, params) {
+  const res = await fetch(`${IG_GRAPH_API}/${pathSegment}?${new URLSearchParams(params)}`);
   const json = await res.json();
   if (!res.ok || json.error) {
     throw new Error(json.error?.message || `HTTP ${res.status}`);
@@ -112,21 +137,24 @@ async function publishToInstagram(post, imageBuffer, filename) {
   if (!IG_USER_ID) {
     throw new Error("META_IG_USER_ID ist nicht gesetzt.");
   }
+  if (!IG_TOKEN) {
+    throw new Error("META_IG_ACCESS_TOKEN ist nicht gesetzt.");
+  }
 
   const asset = await uploadAsset(imageBuffer, filename);
   try {
-    const container = await graphPost(`${IG_USER_ID}/media`, {
+    const container = await igGraphPost(`${IG_USER_ID}/media`, {
       image_url: asset.url,
       caption: post.text || "",
-      access_token: PAGE_TOKEN,
+      access_token: IG_TOKEN,
     });
 
     let status = "IN_PROGRESS";
     for (let attempt = 0; attempt < 6 && status === "IN_PROGRESS"; attempt++) {
       if (attempt > 0) await sleep(3000);
-      const check = await graphGet(container.id, {
+      const check = await igGraphGet(container.id, {
         fields: "status_code",
-        access_token: PAGE_TOKEN,
+        access_token: IG_TOKEN,
       });
       status = check.status_code;
     }
@@ -134,9 +162,9 @@ async function publishToInstagram(post, imageBuffer, filename) {
       throw new Error(`Instagram-Medium wurde nicht rechtzeitig fertig (Status: ${status}).`);
     }
 
-    await graphPost(`${IG_USER_ID}/media_publish`, {
+    await igGraphPost(`${IG_USER_ID}/media_publish`, {
       creation_id: container.id,
-      access_token: PAGE_TOKEN,
+      access_token: IG_TOKEN,
     });
   } finally {
     await deleteAsset(filename, asset.sha).catch(() => {});
