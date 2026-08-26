@@ -331,6 +331,37 @@ collections:
         required: false
 
   # ----------------------------------------------------------
+  #  GEFOLGTE ACCOUNTS PROTOKOLLIEREN
+  # ----------------------------------------------------------
+  - name: follow_log
+    label: "➕ Gefolgte Accounts protokollieren"
+    description: "Trag ein, wann du wie vielen Accounts gefolgt bist (z.B. Firmen, die meistens zurückfolgen). Erscheint im Statistik-Dashboard als Markierung auf dem Follower-Diagramm, damit sichtbar wird, ob der Follower-Zuwachs damit zusammenhängt."
+    folder: content/follow-log
+    create: true
+    extension: json
+    format: json
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{anzahl}} gefolgt am {{datum}}"
+    sortable_fields: ["datum"]
+    fields:
+      - name: datum
+        label: "Datum"
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        date_format: "DD.MM.YYYY"
+        time_format: false
+      - name: anzahl
+        label: "Anzahl gefolgter Accounts"
+        widget: number
+        value_type: int
+        min: 1
+      - name: notiz
+        label: "Notiz (optional)"
+        widget: string
+        required: false
+        hint: "z.B. welche Art von Accounts (Firmen aus der Branche, ...)"
+
+  # ----------------------------------------------------------
   #  CMS-ERKLÄRUNG
   # ----------------------------------------------------------
   - name: cms_erklaerung

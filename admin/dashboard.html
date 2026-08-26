@@ -507,6 +507,35 @@
     }
   }
 
+  // Protokoll "wann wie vielen Accounts gefolgt" (CMS-Sammlung
+  // content/follow-log) - wird als Markierung auf dem Follower-Diagramm
+  // angezeigt, damit sichtbar wird, ob der Follower-Zuwachs damit
+  // zusammenhängt (Taktik: Firmen folgen, die meistens zurückfolgen).
+  async function fetchFollowLog(token) {
+    try {
+      const listRes = await fetch(
+        "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/content/follow-log",
+        { headers: { Authorization: "token " + token, Accept: "application/vnd.github+json" } }
+      );
+      if (!listRes.ok) return [];
+      const files = await listRes.json();
+      if (!Array.isArray(files)) return [];
+      const entries = [];
+      for (const file of files.filter((f) => f.name.endsWith(".json"))) {
+        try {
+          const res = await fetch(file.download_url);
+          const data = await res.json();
+          if (data.datum && data.anzahl != null) entries.push(data);
+        } catch {
+          // einzelnen kaputten Eintrag überspringen
+        }
+      }
+      return entries;
+    } catch {
+      return [];
+    }
+  }
+
   async function fetchPostHistory() {
     try {
       const res = await fetch(
@@ -579,6 +608,7 @@
   let allStats = null;
   let allHistory = [];
   let allPostHistory = {};
+  let allFollowLog = [];
   let viewYear, viewMonth; // viewMonth: 0-11
 
   const SVG_NS = "http://www.w3.org/2000/svg";
@@ -646,7 +676,8 @@
     return d;
   }
 
-  function renderChartCard(title, seriesList) {
+  function renderChartCard(title, seriesList, annotations) {
+    annotations = annotations || [];
     const card = document.createElement("div");
     card.className = "chart-card";
 
@@ -669,43 +700,56 @@
     const maxT = Math.max(...times);
 
     // Echte Prognose je Serie: lineare Regression über die bisherigen
-    // Werte, als gestrichelte Fortsetzung der Linie - keine erfundene
-    // Zahl, sondern eine Trendfortschreibung der tatsächlichen Historie.
-    // Fortgeschrieben wird immer 7 Tage über den letzten echten Datenpunkt
-    // hinaus. forecastT bleibt auch bei nur einem Datenpunkt gesetzt - eine
-    // Serie mit eigener forecastValue-Funktion (z.B. Beitrags-Diagramme mit
-    // gepooltem Modell) braucht dafür keine eigene Zeitspanne, nur die
-    // Standard-Regression über eigene Punkte prüft n>=2 selbst.
+    // Werte liefert den Zielwert in 7 Tagen - keine erfundene Zahl,
+    // sondern eine Trendfortschreibung der tatsächlichen Historie. Der Weg
+    // dorthin wird aber nicht als gerade Linie gezeichnet (das wirkt bei
+    // einer 7-Tage-Prognose unrealistisch steil), sondern als abflachende
+    // Kurve, so wie Wachstum in der Praxis meist verläuft: schnell direkt
+    // danach, dann langsamer werdend. Unsere Kennzahlen sind zudem
+    // praktisch nie rückläufig (Follower/Likes/Kommentare/Aufrufe werden
+    // nicht wieder abgezogen) - daher wird die Wachstumsrate nie negativ
+    // und die Prognose fällt nie unter den letzten echten Wert.
     const FORECAST_SPAN_MS = 7 * 24 * 60 * 60 * 1000;
     const forecastT = maxT + FORECAST_SPAN_MS;
-    const forecasts = seriesList.map((s) => {
+    // Anteil des Gesamt-Zuwachses, der bis "dt" Millisekunden nach dem
+    // letzten echten Punkt bereits erreicht ist - startet steiler, flacht
+    // danach ab, erreicht bei dt=FORECAST_SPAN_MS exakt 1.
+    const DECAY_K = 3 / FORECAST_SPAN_MS;
+    const DECAY_NORM = 1 - Math.exp(-3);
+    function growthFraction(dt) {
+      return (1 - Math.exp(-DECAY_K * dt)) / DECAY_NORM;
+    }
+
+    const forecastInfos = seriesList.map((s) => {
+      const knownValues = s.points.map((p) => p.value).filter((v) => v != null);
+      if (knownValues.length === 0) return null;
+      const lastValue = knownValues[knownValues.length - 1];
       // Eine Serie kann eine eigene Prognose-Funktion mitbringen (z.B. bei
       // Beitrags-Diagrammen: Trend anderer Beiträge statt der eigenen, bei
       // frischen Beiträgen oft zu kurzen Historie) - sonst lineare
       // Regression über die eigenen Werte dieser Serie.
+      let rawEnd;
       if (typeof s.forecastValue === "function") {
-        return s.forecastValue(forecastT);
+        rawEnd = s.forecastValue(forecastT);
+      } else {
+        const pts = s.points
+          .map((p) => ({ t: new Date(p.at).getTime(), v: p.value }))
+          .filter((p) => p.v != null);
+        const reg = linearRegression(pts);
+        if (!reg) return null;
+        rawEnd = reg.intercept + reg.slope * (forecastT - reg.t0);
       }
-      const pts = s.points
-        .map((p) => ({ t: new Date(p.at).getTime(), v: p.value }))
-        .filter((p) => p.v != null);
-      const reg = linearRegression(pts);
-      if (!reg) return null;
-      const lastValue = pts[pts.length - 1].v;
-      const raw = reg.intercept + reg.slope * (forecastT - reg.t0);
-      // Unsere Kennzahlen (Follower, Likes, Kommentare, Reichweite) sind
-      // praktisch nie rückläufig - eine fallende Prognose wäre irreführend,
-      // daher nach unten auf den letzten echten Wert begrenzt.
-      return Math.max(raw, lastValue, 0);
+      const totalGrowth = Math.max(rawEnd - lastValue, 0);
+      return { lastValue, totalGrowth };
     });
-    const forecastValues = forecasts.filter((v) => v != null);
+    const forecastEndValues = forecastInfos.filter((f) => f != null).map((f) => f.lastValue + f.totalGrowth);
 
     // Zeitachse nur verlängern, wenn wirklich eine Prognose gezeichnet wird -
     // sonst würde ein Diagramm ohne jede Prognose (z.B. nur 1 Datenpunkt und
     // kein gepooltes Modell verfügbar) unnötig gestaucht dargestellt.
-    const domainMaxT = forecastValues.length > 0 ? forecastT : maxT;
-    const minV = Math.min(...allValues, ...forecastValues, 0);
-    const maxV = Math.max(...allValues, ...forecastValues, 1);
+    const domainMaxT = forecastEndValues.length > 0 ? forecastT : maxT;
+    const minV = Math.min(...allValues, ...forecastEndValues, 0);
+    const maxV = Math.max(...allValues, ...forecastEndValues, 1);
     const xFor = (t) => CHART_PAD + (domainMaxT === minT ? 0 : ((t - minT) / (domainMaxT - minT)) * (CHART_W - CHART_PAD * 2));
     const yFor = (v) => CHART_H - CHART_PAD - (maxV === minV ? 0 : ((v - minV) / (maxV - minV)) * (CHART_H - CHART_PAD * 2));
     const baselineY = yFor(Math.max(minV, 0));
@@ -747,6 +791,39 @@
       gridLine.setAttribute("stroke", "rgba(255,255,255,0.06)");
       gridLine.setAttribute("stroke-width", "1");
       svg.appendChild(gridLine);
+    });
+
+    // Markierungen für externe Ereignisse (z.B. "X Accounts gefolgt") -
+    // dünne senkrechte Linie + Punkt, Beschriftung als natives Tooltip
+    // beim Drüberfahren.
+    annotations.forEach((ann) => {
+      const t = new Date(ann.at).getTime();
+      if (t < minT || t > domainMaxT) return;
+      const x = xFor(t);
+
+      const line = document.createElementNS(SVG_NS, "line");
+      line.setAttribute("x1", x);
+      line.setAttribute("x2", x);
+      line.setAttribute("y1", CHART_PAD);
+      line.setAttribute("y2", CHART_H - CHART_PAD);
+      line.setAttribute("stroke", "var(--gold)");
+      line.setAttribute("stroke-width", "1");
+      line.setAttribute("stroke-dasharray", "2 3");
+      line.setAttribute("opacity", "0.55");
+      const lineTitle = document.createElementNS(SVG_NS, "title");
+      lineTitle.textContent = ann.label;
+      line.appendChild(lineTitle);
+      svg.appendChild(line);
+
+      const marker = document.createElementNS(SVG_NS, "circle");
+      marker.setAttribute("cx", x);
+      marker.setAttribute("cy", CHART_PAD);
+      marker.setAttribute("r", "3");
+      marker.setAttribute("fill", "var(--gold)");
+      const markerTitle = document.createElementNS(SVG_NS, "title");
+      markerTitle.textContent = ann.label;
+      marker.appendChild(markerTitle);
+      svg.appendChild(marker);
     });
 
     seriesList.forEach((s, seriesIdx) => {
@@ -795,25 +872,35 @@
         circle.setAttribute("fill", s.color);
         svg.appendChild(circle);
 
-        const forecastValue = forecasts[seriesIdx];
-        if (forecastValue != null) {
-          const fx = xFor(forecastT);
-          const fy = yFor(forecastValue);
-          const dashed = document.createElementNS(SVG_NS, "line");
-          dashed.setAttribute("x1", last.x);
-          dashed.setAttribute("y1", last.y);
-          dashed.setAttribute("x2", fx);
-          dashed.setAttribute("y2", fy);
+        const info = forecastInfos[seriesIdx];
+        if (info) {
+          // Abflachende Kurve statt gerader Linie: mehrere Zwischenpunkte
+          // entlang der Wachstumskurve, nicht nur Start- und Endpunkt.
+          const STEPS = 14;
+          const curveCoords = [];
+          for (let i = 0; i <= STEPS; i++) {
+            const dt = (FORECAST_SPAN_MS * i) / STEPS;
+            const value = info.lastValue + info.totalGrowth * growthFraction(dt);
+            curveCoords.push({ x: xFor(maxT + dt), y: yFor(value) });
+          }
+          const dashed = document.createElementNS(SVG_NS, "path");
+          dashed.setAttribute(
+            "d",
+            "M" + curveCoords[0].x + "," + curveCoords[0].y + curveCoords.slice(1).map((c) => " L" + c.x + "," + c.y).join("")
+          );
+          dashed.setAttribute("fill", "none");
           dashed.setAttribute("stroke", s.color);
           dashed.setAttribute("stroke-width", "2");
           dashed.setAttribute("stroke-dasharray", "5 4");
           dashed.setAttribute("stroke-linecap", "round");
+          dashed.setAttribute("stroke-linejoin", "round");
           dashed.setAttribute("opacity", "0.75");
           svg.appendChild(dashed);
 
+          const fend = curveCoords[curveCoords.length - 1];
           const fdot = document.createElementNS(SVG_NS, "circle");
-          fdot.setAttribute("cx", fx);
-          fdot.setAttribute("cy", fy);
+          fdot.setAttribute("cx", fend.x);
+          fdot.setAttribute("cy", fend.y);
           fdot.setAttribute("r", "3");
           fdot.setAttribute("fill", "none");
           fdot.setAttribute("stroke", s.color);
@@ -902,7 +989,7 @@
     const startLabel = document.createElement("span");
     startLabel.textContent = fmtDateTime(minT);
     const endLabel = document.createElement("span");
-    endLabel.textContent = fmtDateTime(maxT) + (forecastValues.length > 0 ? " · Prognose bis " + fmtDateTime(forecastT) : "");
+    endLabel.textContent = fmtDateTime(maxT) + (forecastEndValues.length > 0 ? " · Prognose bis " + fmtDateTime(forecastT) : "");
     labels.appendChild(startLabel);
     labels.appendChild(endLabel);
     card.appendChild(labels);
@@ -914,16 +1001,26 @@
       const span = document.createElement("span");
       let html =
         '<span class="dot" style="background:' + s.color + '"></span>' + s.label + ": " + (last ? last.value : "–");
-      if (forecasts[i] != null) {
-        html += ' <span style="opacity:0.65">(Prognose: ~' + Math.round(forecasts[i]) + ")</span>";
+      const info = forecastInfos[i];
+      if (info != null) {
+        html += ' <span style="opacity:0.65">(Prognose in 7 Tagen: ~' + Math.round(info.lastValue + info.totalGrowth) + ")</span>";
       }
       span.innerHTML = html;
       legend.appendChild(span);
     });
-    if (forecastValues.length > 0) {
+    if (forecastEndValues.length > 0) {
       const note = document.createElement("span");
       note.style.opacity = "0.65";
       note.textContent = "┄ gestrichelt = Prognose (Trend der bisherigen Werte)";
+      legend.appendChild(note);
+    }
+    if (annotations.some((ann) => {
+      const t = new Date(ann.at).getTime();
+      return t >= minT && t <= domainMaxT;
+    })) {
+      const note = document.createElement("span");
+      note.style.opacity = "0.65";
+      note.innerHTML = '<span class="dot" style="background:var(--gold)"></span> Accounts gefolgt (Maus drüber für Details)';
       legend.appendChild(note);
     }
     card.appendChild(legend);
@@ -936,11 +1033,19 @@
     container.innerHTML = "";
     if (!allHistory || allHistory.length === 0) return;
 
+    const followAnnotations = (allFollowLog || []).map((f) => ({
+      at: f.datum,
+      label: f.anzahl + " Account" + (f.anzahl === 1 ? "" : "s") + " gefolgt" + (f.notiz ? " – " + f.notiz : ""),
+    }));
     container.appendChild(
-      renderChartCard("Follower", [
-        { label: "Facebook", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.facebook_followers })) },
-        { label: "Instagram", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_followers })) },
-      ])
+      renderChartCard(
+        "Follower",
+        [
+          { label: "Facebook", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.facebook_followers })) },
+          { label: "Instagram", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_followers })) },
+        ],
+        followAnnotations
+      )
     );
     container.appendChild(
       renderChartCard("Reichweite / Aufrufe", [
@@ -1520,15 +1625,17 @@
   async function refreshData() {
     if (!currentToken) return;
     try {
-      const [posts, stats, history, postHistory] = await Promise.all([
+      const [posts, stats, history, postHistory, followLog] = await Promise.all([
         fetchPosts(currentToken),
         fetchStats(),
         fetchHistory(),
         fetchPostHistory(),
+        fetchFollowLog(currentToken),
       ]);
       allStats = stats;
       allHistory = history;
       allPostHistory = postHistory;
+      allFollowLog = followLog;
       allPosts = posts.concat((stats?.other_posts || []).map(externalToPost));
       renderStats();
       renderCharts();
@@ -1551,6 +1658,7 @@
       allStats = await fetchStats();
       allHistory = await fetchHistory();
       allPostHistory = await fetchPostHistory();
+      allFollowLog = await fetchFollowLog(token);
       allPosts = posts.concat((allStats?.other_posts || []).map(externalToPost));
       loading.style.display = "none";
       app.style.display = "block";
