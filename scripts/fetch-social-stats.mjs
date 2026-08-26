@@ -14,6 +14,7 @@ import path from "node:path";
 const POSTS_DIR = path.join(process.cwd(), "content", "social-posts");
 const STATS_FILE = path.join(process.cwd(), "content", "social-stats.json");
 const HISTORY_FILE = path.join(process.cwd(), "content", "social-stats-history.json");
+const POST_HISTORY_FILE = path.join(process.cwd(), "content", "social-post-stats-history.json");
 const GRAPH_API = "https://graph.facebook.com/v21.0";
 const IG_GRAPH_API = "https://graph.instagram.com/v21.0";
 
@@ -229,6 +230,9 @@ async function main() {
 
   const trackedFacebookIds = new Set();
   const trackedInstagramIds = new Set();
+  // Pro-Beitrag-Zeitverlauf (für Beitrags-Diagramme im Dashboard) - ein
+  // Eintrag je Beitrag und Lauf, unabhängig von der kontoweiten Historie.
+  const postHistoryPoints = {};
 
   for (const file of files) {
     const filePath = path.join(POSTS_DIR, file);
@@ -263,7 +267,18 @@ async function main() {
       entry.instagram = await fetchInstagramMediaStats(post.instagram_media_id);
       trackedInstagramIds.add(post.instagram_media_id);
     }
-    if (Object.keys(entry).length > 0) stats.posts[file] = entry;
+    if (Object.keys(entry).length > 0) {
+      stats.posts[file] = entry;
+      postHistoryPoints[file] = {
+        at: stats.updated_at,
+        facebook_likes: entry.facebook?.likes ?? null,
+        facebook_comments: entry.facebook?.comments ?? null,
+        facebook_reach: entry.facebook?.reach ?? null,
+        instagram_likes: entry.instagram?.likes ?? null,
+        instagram_comments: entry.instagram?.comments ?? null,
+        instagram_reach: entry.instagram?.reach ?? null,
+      };
+    }
   }
 
   // Beiträge, die direkt in der App gepostet wurden (nicht über unser CMS).
@@ -275,7 +290,40 @@ async function main() {
   // mit reinnehmen.
   stats.other_posts = await fetchOtherInstagramPosts(trackedInstagramIds);
 
+  // Auch für direkt in der App geposteten Beiträge einen Verlaufspunkt
+  // anlegen, damit sie im Dashboard genauso ein Beitrags-Diagramm bekommen
+  // wie über das CMS geplante Beiträge. Schlüssel "ext:<plattform>:<id>",
+  // da sie keine CMS-Datei haben.
+  for (const p of stats.other_posts) {
+    postHistoryPoints[`ext:${p.platform}:${p.id}`] = {
+      at: stats.updated_at,
+      facebook_likes: p.platform === "facebook" ? p.likes ?? null : null,
+      facebook_comments: p.platform === "facebook" ? p.comments ?? null : null,
+      facebook_reach: p.platform === "facebook" ? p.reach ?? null : null,
+      instagram_likes: p.platform === "instagram" ? p.likes ?? null : null,
+      instagram_comments: p.platform === "instagram" ? p.comments ?? null : null,
+      instagram_reach: p.platform === "instagram" ? p.reach ?? null : null,
+    };
+  }
+
   await writeFile(STATS_FILE, JSON.stringify(stats, null, 2) + "\n", "utf8");
+
+  // Pro-Beitrag-Historie schreiben (für die Beitrags-Diagramme im
+  // Dashboard) - je Beitrag ein begrenztes Zeitfenster, damit die Datei bei
+  // vielen Beiträgen nicht unbegrenzt wächst.
+  let postHistory = {};
+  try {
+    postHistory = JSON.parse(await readFile(POST_HISTORY_FILE, "utf8"));
+    if (!postHistory || typeof postHistory !== "object") postHistory = {};
+  } catch {
+    postHistory = {};
+  }
+  for (const [key, point] of Object.entries(postHistoryPoints)) {
+    const arr = Array.isArray(postHistory[key]) ? postHistory[key] : [];
+    arr.push(point);
+    postHistory[key] = arr.length > 2000 ? arr.slice(-2000) : arr;
+  }
+  await writeFile(POST_HISTORY_FILE, JSON.stringify(postHistory, null, 2) + "\n", "utf8");
 
   // Verlaufs-Historie: bei jedem Lauf einen neuen Datenpunkt anhängen,
   // damit sich Follower/Reichweite/Likes/Kommentare als Diagramm über die
