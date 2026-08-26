@@ -71,11 +71,23 @@ async function fetchInstagramAccountStats() {
 // Insights-API mehrere Metriken auf einmal ab und ist eine davon für den
 // jeweiligen Beitragstyp ungültig, schlägt der GESAMTE Aufruf fehl. So
 // liefert eine ungültige Metrik nur eine fehlende Zahl statt gar keine.
-async function fetchMetric(base, path, metric, token) {
+async function fetchMetric(base, path, metric, token, extraParams) {
   const result = await safely(`Metrik ${metric} (${path})`, () =>
-    graphGet(base, `${path}/insights`, { metric, access_token: token })
+    graphGet(base, `${path}/insights`, { metric, access_token: token, ...extraParams })
   );
   return result?.data?.[0]?.values?.[0]?.value ?? null;
+}
+
+// Kontoweite Instagram-Aktivität (nicht pro Beitrag). Unsere Beiträge sind
+// reine Bild-/Karussell-Posts ohne Link, daher gibt es keine "Klicks pro
+// Beitrag" - profile_views/website_clicks sind die nächstliegenden
+// verfügbaren Metriken (Aufrufe des Profils bzw. Klicks auf den
+// Website-Link im Profil), kontoweit statt pro Beitrag.
+async function fetchInstagramActivityStats() {
+  if (!IG_USER_ID || !IG_TOKEN) return null;
+  const profileViews = await fetchMetric(IG_GRAPH_API, IG_USER_ID, "profile_views", IG_TOKEN, { period: "day" });
+  const websiteClicks = await fetchMetric(IG_GRAPH_API, IG_USER_ID, "website_clicks", IG_TOKEN, { period: "day" });
+  return { profile_views: profileViews, website_clicks: websiteClicks };
 }
 
 async function fetchFacebookPostStats(postId) {
@@ -204,6 +216,7 @@ async function main() {
     updated_at: new Date().toISOString(),
     facebook: await fetchFacebookAccountStats(),
     instagram: await fetchInstagramAccountStats(),
+    instagram_activity: await fetchInstagramActivityStats(),
     posts: {},
   };
 
@@ -311,6 +324,8 @@ async function main() {
     instagram_likes: igLikes,
     instagram_comments: igComments,
     instagram_reach: igReach,
+    instagram_profile_views: stats.instagram_activity?.profile_views ?? null,
+    instagram_website_clicks: stats.instagram_activity?.website_clicks ?? null,
   });
   // Bei 5-Minuten-Takt sonst unbegrenztes Wachstum - 4000 Punkte
   // entsprechen ca. 2 Wochen Verlauf, das reicht für die Diagramme.

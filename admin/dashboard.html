@@ -18,6 +18,8 @@
     --sky-soft: rgba(111, 168, 209, 0.16);
     --coral: #e2763a;
     --coral-soft: rgba(226, 118, 58, 0.16);
+    --violet: #b565d8;
+    --jade: #33a05c;
     --border: rgba(255, 255, 255, 0.12);
     --radius: 14px;
   }
@@ -76,33 +78,56 @@
   }
 
   #app { display: none; }
+
+  .tab-bar {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    background: transparent;
+    color: var(--mist);
+    border: none;
+    border-radius: 0;
+    font-weight: 600;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { background: transparent; color: var(--ink); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
   .stats-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
   }
   .stat-tile {
     background: var(--surface);
     border-radius: 10px;
-    padding: 0.75rem 0.9rem;
+    padding: 0.65rem 0.8rem;
   }
-  .stat-tile .value { font-size: 1.6rem; font-weight: 700; }
-  .stat-tile .label { font-size: 0.85rem; color: var(--mist); }
+  .stat-tile .value { font-size: 1.4rem; font-weight: 700; }
+  .stat-tile .label { font-size: 0.8rem; color: var(--mist); }
   .stats-updated { font-size: 0.78rem; color: var(--mist); margin-top: 0.25rem; }
   .post-stats { display: flex; gap: 0.9rem; font-size: 0.85rem; color: var(--mist); margin-top: 0.5rem; flex-wrap: wrap; }
 
   .charts-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
   }
-  .chart-card { background: var(--surface); border-radius: 10px; padding: 1.1rem; }
-  .chart-card h3 { margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--ink); font-weight: 600; }
+  .chart-card { background: var(--surface); border-radius: 10px; padding: 0.85rem 0.9rem; }
+  .chart-card h3 { margin: 0 0 0.5rem; font-size: 0.9rem; color: var(--ink); font-weight: 600; }
   .chart-empty { color: var(--mist); font-size: 0.85rem; padding: 2rem 0; text-align: center; }
-  .chart-svg-wrap { position: relative; }
-  .chart-svg-wrap svg { display: block; cursor: crosshair; }
+  .chart-svg-wrap { position: relative; display: flex; }
+  .chart-svg-wrap svg { display: block; cursor: crosshair; flex: 1; min-width: 0; }
+  .chart-y-labels { display: flex; flex-direction: column; justify-content: space-between; font-size: 0.68rem; color: var(--mist); padding-right: 0.4rem; text-align: right; }
   .chart-x-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--mist); margin-top: 0.35rem; }
   .chart-tooltip {
     position: absolute;
@@ -287,32 +312,41 @@
   <div id="loading" style="display:none;">Lade Beiträge…</div>
 
   <div id="app">
-    <div id="stats-row" class="stats-row"></div>
-    <div id="charts-row" class="charts-row"></div>
-    <div id="best-post"></div>
+    <div class="tab-bar">
+      <button class="tab-btn" id="tab-btn-calendar" data-tab="calendar">📅 Kalender</button>
+      <button class="tab-btn" id="tab-btn-stats" data-tab="stats">📊 Statistiken</button>
+    </div>
 
-    <div class="dashboard-layout">
-      <div class="dashboard-main">
-        <div class="toolbar">
-          <div class="month-nav">
-            <button class="ghost" id="prev-month">←</button>
-            <span id="month-label"></span>
-            <button class="ghost" id="next-month">→</button>
+    <div id="tab-calendar" class="tab-panel">
+      <div class="dashboard-layout">
+        <div class="dashboard-main">
+          <div class="toolbar">
+            <div class="month-nav">
+              <button class="ghost" id="prev-month">←</button>
+              <span id="month-label"></span>
+              <button class="ghost" id="next-month">→</button>
+            </div>
+            <div class="legend">
+              <span><span class="dot dot--fb"></span> Facebook</span>
+              <span><span class="dot dot--ig"></span> Instagram</span>
+            </div>
+            <button class="ghost" id="logout-btn">Abmelden</button>
           </div>
-          <div class="legend">
-            <span><span class="dot dot--fb"></span> Facebook</span>
-            <span><span class="dot dot--ig"></span> Instagram</span>
-          </div>
-          <button class="ghost" id="logout-btn">Abmelden</button>
+
+          <div id="calendar"></div>
         </div>
 
-        <div id="calendar"></div>
+        <aside class="post-sidebar">
+          <h3>Alle Beiträge</h3>
+          <div id="post-sidebar-list"></div>
+        </aside>
       </div>
+    </div>
 
-      <aside class="post-sidebar">
-        <h3>Alle Beiträge</h3>
-        <div id="post-sidebar-list"></div>
-      </aside>
+    <div id="tab-stats" class="tab-panel">
+      <div id="stats-row" class="stats-row"></div>
+      <div id="charts-row" class="charts-row"></div>
+      <div id="best-post"></div>
     </div>
   </div>
 
@@ -489,12 +523,45 @@
   let viewYear, viewMonth; // viewMonth: 0-11
 
   const SVG_NS = "http://www.w3.org/2000/svg";
-  const CHART_W = 520;
-  const CHART_H = 190;
+  const CHART_W = 480;
+  const CHART_H = 140;
   const CHART_PAD = 10;
+
+  // "Schöne" Rundungs-Schrittweite für Gitterlinien/Y-Achse (1/2/5 * 10^n),
+  // damit die Beschriftung nie krumme Zahlen wie "37" zeigt.
+  function niceStep(range, steps) {
+    if (range <= 0) return 1;
+    const raw = range / steps;
+    const magnitude = Math.pow(10, Math.floor(Math.log10(raw)));
+    const norm = raw / magnitude;
+    const nice = norm < 1.5 ? 1 : norm < 3.5 ? 2 : norm < 7.5 ? 5 : 10;
+    return nice * magnitude;
+  }
 
   function fmtDateTime(t) {
     return new Date(t).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+  }
+
+  // Weiche Kurve statt eckiger Linienzüge (Catmull-Rom -> kubische Bezier),
+  // ohne die zugrundeliegenden Datenpunkte selbst zu verändern - Hover/
+  // Tooltip docken weiterhin an den echten Werten an, nur die Linie
+  // zwischen ihnen wird gerundet dargestellt.
+  function smoothLinePath(coords) {
+    if (coords.length === 0) return "";
+    if (coords.length === 1) return "M" + coords[0].x + "," + coords[0].y;
+    let d = "M" + coords[0].x + "," + coords[0].y;
+    for (let i = 0; i < coords.length - 1; i++) {
+      const p0 = coords[i - 1] || coords[i];
+      const p1 = coords[i];
+      const p2 = coords[i + 1];
+      const p3 = coords[i + 2] || p2;
+      const cp1x = p1.x + (p2.x - p0.x) / 6;
+      const cp1y = p1.y + (p2.y - p0.y) / 6;
+      const cp2x = p2.x - (p3.x - p1.x) / 6;
+      const cp2y = p2.y - (p3.y - p1.y) / 6;
+      d += " C" + cp1x + "," + cp1y + " " + cp2x + "," + cp2y + " " + p2.x + "," + p2.y;
+    }
+    return d;
   }
 
   function renderChartCard(title, seriesList) {
@@ -522,15 +589,46 @@
     const maxT = Math.max(...times);
     const xFor = (t) => CHART_PAD + (maxT === minT ? 0 : ((t - minT) / (maxT - minT)) * (CHART_W - CHART_PAD * 2));
     const yFor = (v) => CHART_H - CHART_PAD - (maxV === minV ? 0 : ((v - minV) / (maxV - minV)) * (CHART_H - CHART_PAD * 2));
+    const baselineY = yFor(Math.max(minV, 0));
 
     const wrap = document.createElement("div");
     wrap.className = "chart-svg-wrap";
+
+    // Y-Achse: 3 "schöne" Stufen zwischen min und max als Referenz, damit
+    // die Diagramme nicht mehr ganz ohne Skalen-Bezug dastehen.
+    const step = niceStep(maxV - minV, 2);
+    const gridValues = [];
+    for (let v = Math.ceil(minV / step) * step; v <= maxV; v += step) gridValues.push(v);
+    if (gridValues.length === 0) gridValues.push(minV);
+
+    const yLabels = document.createElement("div");
+    yLabels.className = "chart-y-labels";
+    gridValues
+      .slice()
+      .reverse()
+      .forEach((v) => {
+        const label = document.createElement("span");
+        label.textContent = Math.round(v);
+        yLabels.appendChild(label);
+      });
+    wrap.appendChild(yLabels);
 
     const svg = document.createElementNS(SVG_NS, "svg");
     svg.setAttribute("viewBox", "0 0 " + CHART_W + " " + CHART_H);
     svg.setAttribute("width", "100%");
     svg.setAttribute("height", CHART_H);
     svg.setAttribute("preserveAspectRatio", "none");
+
+    gridValues.forEach((v) => {
+      const gridLine = document.createElementNS(SVG_NS, "line");
+      gridLine.setAttribute("x1", CHART_PAD);
+      gridLine.setAttribute("x2", CHART_W - CHART_PAD);
+      gridLine.setAttribute("y1", yFor(v));
+      gridLine.setAttribute("y2", yFor(v));
+      gridLine.setAttribute("stroke", "rgba(255,255,255,0.06)");
+      gridLine.setAttribute("stroke-width", "1");
+      svg.appendChild(gridLine);
+    });
 
     seriesList.forEach((s) => {
       const coords = s.points
@@ -539,19 +637,38 @@
         .map((p) => ({ x: xFor(p.t), y: yFor(p.v) }));
 
       if (coords.length >= 2) {
-        const poly = document.createElementNS(SVG_NS, "polyline");
-        poly.setAttribute("points", coords.map((c) => c.x + "," + c.y).join(" "));
+        const linePath = smoothLinePath(coords);
+
+        const area = document.createElementNS(SVG_NS, "path");
+        area.setAttribute(
+          "d",
+          linePath + " L" + coords[coords.length - 1].x + "," + baselineY + " L" + coords[0].x + "," + baselineY + " Z"
+        );
+        area.setAttribute("fill", s.color);
+        area.setAttribute("fill-opacity", "0.1");
+        area.setAttribute("stroke", "none");
+        svg.appendChild(area);
+
+        const poly = document.createElementNS(SVG_NS, "path");
+        poly.setAttribute("d", linePath);
         poly.setAttribute("fill", "none");
         poly.setAttribute("stroke", s.color);
-        poly.setAttribute("stroke-width", "2");
+        poly.setAttribute("stroke-width", "2.5");
         poly.setAttribute("stroke-linejoin", "round");
         poly.setAttribute("stroke-linecap", "round");
         svg.appendChild(poly);
       }
       // Letzten Punkt je Serie immer als Kreis markieren - so ist auch bei
       // nur einem einzigen Datenpunkt etwas sichtbar statt einer leeren Fläche.
+      // Der Ring in der Kartenfarbe hebt ihn vom Flächen-Fill/Gitter ab.
       const last = coords[coords.length - 1];
       if (last) {
+        const ring = document.createElementNS(SVG_NS, "circle");
+        ring.setAttribute("cx", last.x);
+        ring.setAttribute("cy", last.y);
+        ring.setAttribute("r", "5");
+        ring.setAttribute("fill", "var(--surface)");
+        svg.appendChild(ring);
         const circle = document.createElementNS(SVG_NS, "circle");
         circle.setAttribute("cx", last.x);
         circle.setAttribute("cy", last.y);
@@ -685,6 +802,12 @@
       renderChartCard("Kommentare", [
         { label: "Facebook", color: "var(--sky)", points: allHistory.map((h) => ({ at: h.at, value: h.facebook_comments })) },
         { label: "Instagram", color: "var(--coral)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_comments })) },
+      ])
+    );
+    container.appendChild(
+      renderChartCard("Profilaufrufe & Website-Klicks (Instagram)", [
+        { label: "Profilaufrufe", color: "var(--violet)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_profile_views })) },
+        { label: "Website-Klicks", color: "var(--jade)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_website_clicks })) },
       ])
     );
   }
@@ -838,6 +961,12 @@
     }
     if (allStats.instagram && allStats.instagram.media_count != null) {
       tiles.push({ label: "Instagram-Beiträge gesamt", value: allStats.instagram.media_count });
+    }
+    if (allStats.instagram_activity && allStats.instagram_activity.profile_views != null) {
+      tiles.push({ label: "Profilaufrufe (Instagram)", value: allStats.instagram_activity.profile_views });
+    }
+    if (allStats.instagram_activity && allStats.instagram_activity.website_clicks != null) {
+      tiles.push({ label: "Website-Klicks (Instagram)", value: allStats.instagram_activity.website_clicks });
     }
 
     tiles.forEach((t) => {
@@ -1061,6 +1190,22 @@
     openDayPanel();
   }
 
+  const TAB_KEY = "wde_dashboard_tab";
+
+  function switchTab(tabName) {
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.tab === tabName);
+    });
+    document.querySelectorAll(".tab-panel").forEach((panel) => {
+      panel.classList.toggle("active", panel.id === "tab-" + tabName);
+    });
+    sessionStorage.setItem(TAB_KEY, tabName);
+  }
+
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+  });
+
   let currentToken = null;
   let refreshTimer = null;
   const REFRESH_INTERVAL_MS = 30000;
@@ -1106,6 +1251,7 @@
       viewYear = now.getFullYear();
       viewMonth = now.getMonth();
       renderCalendar();
+      switchTab(sessionStorage.getItem(TAB_KEY) || "calendar");
 
       currentToken = token;
       if (refreshTimer) clearInterval(refreshTimer);
