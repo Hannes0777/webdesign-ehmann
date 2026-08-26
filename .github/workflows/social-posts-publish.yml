@@ -41,7 +41,21 @@ jobs:
           git add content/social-posts social-media-tmp
           if ! git diff --cached --quiet; then
             git commit -m "Social-Media-Beiträge: Status aktualisiert"
-            git push
+            # Push kann fehlschlagen, wenn zeitgleich der Statistik-Workflow
+            # gepusht hat (beide laufen alle 5 Minuten). Ohne Wiederholung
+            # ginge die Status-Änderung sonst verloren und ein bereits
+            # veröffentlichter Beitrag würde erneut gepostet.
+            for i in 1 2 3 4 5; do
+              if git push; then
+                exit 0
+              fi
+              echo "Push fehlgeschlagen (Versuch $i), hole Änderungen und versuche erneut..."
+              git fetch origin master
+              git rebase origin/master
+              sleep 3
+            done
+            echo "Push endgültig fehlgeschlagen nach mehreren Versuchen."
+            exit 1
           else
             echo "Keine Änderungen."
           fi
