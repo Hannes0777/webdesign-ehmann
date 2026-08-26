@@ -671,23 +671,39 @@
     // Echte Prognose je Serie: lineare Regression über die bisherigen
     // Werte, als gestrichelte Fortsetzung der Linie - keine erfundene
     // Zahl, sondern eine Trendfortschreibung der tatsächlichen Historie.
-    // Reichweite proportional zur bisherigen Zeitspanne, mit einer
-    // Mindestweite, damit auch bei kurzer Historie sichtbar etwas
-    // fortgeschrieben wird.
-    const forecastSpan = maxT > minT ? Math.max((maxT - minT) * 0.25, 60 * 60 * 1000) : 0;
-    const forecastT = forecastSpan > 0 ? maxT + forecastSpan : null;
+    // Fortgeschrieben wird immer 7 Tage über den letzten echten Datenpunkt
+    // hinaus. forecastT bleibt auch bei nur einem Datenpunkt gesetzt - eine
+    // Serie mit eigener forecastValue-Funktion (z.B. Beitrags-Diagramme mit
+    // gepooltem Modell) braucht dafür keine eigene Zeitspanne, nur die
+    // Standard-Regression über eigene Punkte prüft n>=2 selbst.
+    const FORECAST_SPAN_MS = 7 * 24 * 60 * 60 * 1000;
+    const forecastT = maxT + FORECAST_SPAN_MS;
     const forecasts = seriesList.map((s) => {
-      if (!forecastT) return null;
+      // Eine Serie kann eine eigene Prognose-Funktion mitbringen (z.B. bei
+      // Beitrags-Diagrammen: Trend anderer Beiträge statt der eigenen, bei
+      // frischen Beiträgen oft zu kurzen Historie) - sonst lineare
+      // Regression über die eigenen Werte dieser Serie.
+      if (typeof s.forecastValue === "function") {
+        return s.forecastValue(forecastT);
+      }
       const pts = s.points
         .map((p) => ({ t: new Date(p.at).getTime(), v: p.value }))
         .filter((p) => p.v != null);
       const reg = linearRegression(pts);
       if (!reg) return null;
-      return Math.max(0, reg.intercept + reg.slope * (forecastT - reg.t0));
+      const lastValue = pts[pts.length - 1].v;
+      const raw = reg.intercept + reg.slope * (forecastT - reg.t0);
+      // Unsere Kennzahlen (Follower, Likes, Kommentare, Reichweite) sind
+      // praktisch nie rückläufig - eine fallende Prognose wäre irreführend,
+      // daher nach unten auf den letzten echten Wert begrenzt.
+      return Math.max(raw, lastValue, 0);
     });
     const forecastValues = forecasts.filter((v) => v != null);
 
-    const domainMaxT = forecastT ?? maxT;
+    // Zeitachse nur verlängern, wenn wirklich eine Prognose gezeichnet wird -
+    // sonst würde ein Diagramm ohne jede Prognose (z.B. nur 1 Datenpunkt und
+    // kein gepooltes Modell verfügbar) unnötig gestaucht dargestellt.
+    const domainMaxT = forecastValues.length > 0 ? forecastT : maxT;
     const minV = Math.min(...allValues, ...forecastValues, 0);
     const maxV = Math.max(...allValues, ...forecastValues, 1);
     const xFor = (t) => CHART_PAD + (domainMaxT === minT ? 0 : ((t - minT) / (domainMaxT - minT)) * (CHART_W - CHART_PAD * 2));
@@ -886,7 +902,7 @@
     const startLabel = document.createElement("span");
     startLabel.textContent = fmtDateTime(minT);
     const endLabel = document.createElement("span");
-    endLabel.textContent = fmtDateTime(maxT) + (forecastT ? " · Prognose bis " + fmtDateTime(forecastT) : "");
+    endLabel.textContent = fmtDateTime(maxT) + (forecastValues.length > 0 ? " · Prognose bis " + fmtDateTime(forecastT) : "");
     labels.appendChild(startLabel);
     labels.appendChild(endLabel);
     card.appendChild(labels);
@@ -1377,10 +1393,58 @@
     openDayPanel();
   }
 
+  // Gepooltes Wachstumsmodell (Wert vs. Stunden seit Veröffentlichung) über
+  // ALLE Beiträge einer Plattform - damit auch ein brandneuer Beitrag mit
+  // kaum eigener Historie eine sinnvolle Prognose bekommt: wie andere
+  // Beiträge nach ähnlicher Zeit seit Veröffentlichung typischerweise
+  // abgeschnitten haben, statt nur die eigenen (oft zu wenigen) Punkte.
+  function buildPostGrowthModel(platform, field) {
+    const points = [];
+    allPosts.forEach((otherPost) => {
+      if (platform === "facebook" && !otherPost.facebook) return;
+      if (platform === "instagram" && !otherPost.instagram) return;
+      const otherKey = postHistoryKey(otherPost);
+      const otherHistory = otherKey ? allPostHistory[otherKey] : null;
+      if (!Array.isArray(otherHistory) || otherHistory.length === 0) return;
+      const publishedAt = new Date(otherPost.geplant_fuer).getTime();
+      otherHistory.forEach((h) => {
+        const v = h[field];
+        if (v == null) return;
+        const hours = (new Date(h.at).getTime() - publishedAt) / 3600000;
+        if (hours < 0) return;
+        points.push({ t: hours, v });
+      });
+    });
+    return linearRegression(points);
+  }
+
+  // Prognose-Funktion für eine einzelne Beitrags-Serie: nutzt das gepoolte
+  // Wachstumsmodell (Zuwachs pro Stunde seit Veröffentlichung über alle
+  // Beiträge), verankert am eigenen letzten echten Wert dieses Beitrags -
+  // eine echte Berechnung aus Vergleichsdaten statt einer erfundenen Zahl.
+  function postForecastValue(post, field, history) {
+    const values = history.map((h) => h[field]).filter((v) => v != null);
+    if (values.length === 0) return null;
+    const lastValue = values[values.length - 1];
+    const platform = field.startsWith("facebook") ? "facebook" : "instagram";
+    const model = buildPostGrowthModel(platform, field);
+    if (!model) return null;
+    const publishedAt = new Date(post.geplant_fuer).getTime();
+    const lastAt = new Date(history[history.length - 1].at).getTime();
+    const nowHours = (lastAt - publishedAt) / 3600000;
+    return (forecastT) => {
+      const forecastHours = (forecastT - publishedAt) / 3600000;
+      const predNow = model.intercept + model.slope * (nowHours - model.t0);
+      const predFuture = model.intercept + model.slope * (forecastHours - model.t0);
+      return Math.max(lastValue + (predFuture - predNow), lastValue, 0);
+    };
+  }
+
   // Beitrags-Detailansicht (Beiträge-Tab): dieselbe Beitragskarte wie im
   // Tages-Panel, plus - sofern schon Verlaufsdaten vorliegen - je ein
-  // Diagramm für Aufrufe und Likes über die Zeit (inkl. Prognose-Linie wie
-  // bei den großen Diagrammen).
+  // Diagramm für Aufrufe und Likes über die Zeit (inkl. Prognose-Linie
+  // basierend darauf, wie andere Beiträge nach ähnlicher Zeit seit
+  // Veröffentlichung performt haben).
   function showPostDetail(post) {
     $("day-panel-title").textContent = post.text
       ? post.text.length > 60
@@ -1398,10 +1462,16 @@
     const buildSeries = (fbField, igField) => {
       const list = [];
       if (post.facebook) {
-        list.push({ label: "Facebook", color: "var(--sky)", points: history.map((h) => ({ at: h.at, value: h[fbField] })) });
+        const series = { label: "Facebook", color: "var(--sky)", points: history.map((h) => ({ at: h.at, value: h[fbField] })) };
+        const forecastFn = postForecastValue(post, fbField, history);
+        if (forecastFn) series.forecastValue = forecastFn;
+        list.push(series);
       }
       if (post.instagram) {
-        list.push({ label: "Instagram", color: "var(--coral)", points: history.map((h) => ({ at: h.at, value: h[igField] })) });
+        const series = { label: "Instagram", color: "var(--coral)", points: history.map((h) => ({ at: h.at, value: h[igField] })) };
+        const forecastFn = postForecastValue(post, igField, history);
+        if (forecastFn) series.forecastValue = forecastFn;
+        list.push(series);
       }
       return list;
     };
