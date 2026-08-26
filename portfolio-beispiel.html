@@ -3,479 +3,344 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Webdesign Ehmann — Moderne Websites für lokale Unternehmen</title>
-<meta name="description" content="Websites für kleine und mittlere Unternehmen im Rems-Murr-Kreis: modern, schnell und persönlich umgesetzt.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23b5652f'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Georgia,serif' fill='%23f7f5f1' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E">
+<title>Webdesign Ehmann — Beispiel-Referenz</title>
+<meta name="description" content="Websites für Handwerk, Gastronomie und Vereine im Rems-Murr-Kreis — individuell gebaut, ohne Baukasten. Beispiel-Referenz von Webdesign Ehmann, Rudersberg.">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAQoSURBVFhH7VdZb1tFGPVTK2hwY/s6Xu6dO15ix47jOosdb2mcxHEayyKN3RYIhLCWJZS0pWKrClEFVRfRIqT2oQtIUAnUqFUpoDYFIYF4qXgFwQMIIqAFEakiv+Cgbxy35lLl2uUheeDh04zPd+8335xzZqxrUBR+P2N8jjHXdUXhIirzejC9vBZTVfccrW1QFHVeVV1gjIKLKP++OdaC6eWrMUVRwbmbxnkDY3yhusBSLy6F6eW12GIDC4YyLeUkdUZRmdeD6eW1GDUiy+z68jdAplg+Cfj/DKwABpa9AT0JpCaGRosCk8RgtTFw7oJTVmGyKDBLDCZJgcNJlJZxy+LzNjsD/y8SyDKDLKso9LfinnxYxHBvEHYHQ6jFg7HCOpSG2nBvPox01A+pSUFrixtbhsOY2BhBT8wvmqAa2to1MaAwLna8eTiMHz4cxTczI8j1BCHZmHjm7BuD+POzTTi4IwV/sweyzGGxKtg+HsUHBwbQ0dYMm0OFvLhY3QzQ6HCq8Hpc+OJkHlfeK6At4BFFGxplvPx4N36/XMIzY11QVY4jz/dg5lAWx3b3IpsOoJhrE7/zmVYho7Z2TSYk+mgH548M4ruzI+hLtAiqjSYZD41G8NulEg7vSsOwyobXtiXx15dbsHtrHKvW2NGw1inmJJVZUv5VW1eC8rxswlPTGfz8cVFoXjHecxMx/HhhFKf39eMOoxN7nozj6mwJU+NR3NXoFO/HO/zIpgKw2W+elLokoHGtWcb+qRSuXiph6+YOrF7jQKLDh0eK7bjybgGzxzYI7V96rBvXLpcwOdYFkyRj8r5OIWF1vboZoNFoVrBzIoprsyW88Gi3YISMSd74/Pgwvj5dgNfjxt7JJOY+KeLVpxIiTk5nxFGtLKat/Q8Glmqg0SJj/O4Ifr1YwuvPJjGQCqJrXbPY9ZmDWXE6Ng2F8c7ePvz00Sh2TsTQHvJi+ukE7I6ykW9Vu2YJzJKMDeuD+P7cRsweHRKupsVNFhnvvbheeIN2T6eCTLn9wShWN9gRi/jg87qRSwfgcJTr3pYETXaG7nYfvp0ZwZlDWThlLm488saeJxL45WIRvfGAMN8fn5aw7YEo7jQ6hTH7kkHsejgGs7V8d9wWA3TzBf1ufPV2XjiaTgDljCanuHTe3z8gjuaJVzLChAd2pODzupDo9OHCmznsm0qKY6utfYMBvQZodHGOTJyoZOLSIYy07Qz7EAl5EQp4UegPIZsOYjAdFFczjcVcGNGIT7CmrV2zBJUXrDYqUJVjXDQh7nuFi9NB3qDnCKNr3GJlYn6r2jVLUCuml9didTFQC6aX12Irh4Flb2AFSKAuVJLaLuvB9PJabJGBBfo2nKduKCo7qczrwfTy1Rj9zbtcHmpmnjxw4/OcNKEgaqrHWjC9fDVGUfk8/xuVFLmO3ZbsEwAAAABJRU5ErkJggg==">
+
 <style>
   :root{
-    --bg:#f7f5f1;
-    --surface:#ffffff;
-    --ink:#20241f;
-    --ink-soft:#5c655d;
-    --ink-faint:#8a938a;
-    --accent:#b5652f;
-    --accent-dark:#8f4e22;
-    --accent-soft:#eee0cd;
-    --line:#e3ddd0;
-    --radius:14px;
-    --shadow: 0 20px 40px -24px rgba(32,36,31,.28);
-    --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
-    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    /* ---- Marken-Tokens, 1:1 aus webdesign-ehmann.de ---- */
+    --paper:#14171a;
+    --paper-alt:#1a1e1f;
+    --surface:#202425;
+    --ink:#f2f4f1;
+    --mist:#9aa39c;
+    --gold:#d9ae5c;
+    --gold-deep:#b98f3f;
+    --gold-soft:rgba(217,174,92,.14);
+    --sky:#6fa8d1;
+    --sky-soft:rgba(111,168,209,.14);
+    --coral:#e2763a;
+    --coral-deep:#c15a22;
+    --coral-soft:rgba(226,118,58,.14);
+    --border:rgba(255,255,255,.12);
+
+    --radius:16px;
+    --radius-sm:10px;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+    --shadow-md:0 16px 40px rgba(0,0,0,.45);
+    --container:1120px;
+
+    --font-body:-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
   *,*::before,*::after{ box-sizing:border-box; }
-  html{
-    scroll-behavior:smooth;
-    scroll-padding-top:88px;
+  html{ scroll-behavior:smooth; scroll-padding-top:88px; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
   }
+
   body{
     margin:0;
-    background:var(--bg);
+    background:var(--paper);
     color:var(--ink);
-    font-family:var(--sans);
+    font-family:var(--font-body);
+    font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
   img,svg{ display:block; max-width:100%; }
-  a{ color:inherit; }
-  h1,h2,h3{
-    font-family:var(--serif);
-    line-height:1.15;
-    margin:0 0 .5em;
-    font-weight:600;
-    letter-spacing:-.01em;
-  }
-  p{ margin:0 0 1em; color:var(--ink-soft); }
-  .container{
-    max-width:1120px;
-    margin:0 auto;
-    padding:0 24px;
-  }
+  a{ color:inherit; text-decoration:none; }
+  ul{ margin:0; padding:0; list-style:none; }
+  h1,h2,h3{ margin:0; font-weight:700; letter-spacing:-0.02em; line-height:1.15; }
+  p{ margin:0; }
+
+  .container{ max-width:var(--container); margin:0 auto; padding:0 24px; }
+
   .eyebrow{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-size:.78rem;
-    letter-spacing:.09em;
+    display:inline-block;
+    font-size:.8rem;
+    font-weight:600;
+    letter-spacing:.14em;
     text-transform:uppercase;
-    color:var(--accent-dark);
-    font-weight:600;
+    color:var(--gold-deep);
   }
-  .eyebrow::before{
-    content:"";
-    width:22px; height:1px;
-    background:var(--accent);
-  }
-  section{ padding:96px 0; }
-  @media (max-width:640px){ section{ padding:64px 0; } }
 
-  /* ---------- Header ---------- */
-  header{
-    position:fixed; top:0; left:0; right:0;
-    z-index:100;
-    background:rgba(247,245,241,.7);
-    backdrop-filter:blur(10px) saturate(140%);
-    -webkit-backdrop-filter:blur(10px) saturate(140%);
-    border-bottom:1px solid transparent;
-    transition:border-color .3s ease, background .3s ease;
+  .section{ padding:96px 0; }
+  .section--alt{ background:var(--paper-alt); }
+  @media (max-width:640px){ .section{ padding:64px 0; } }
+
+  .section-header{ max-width:640px; margin-bottom:56px; }
+  @media (max-width:640px){ .section-header{ margin-bottom:36px; } }
+  .section-title{
+    margin-top:12px;
+    font-size:clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+    line-height:1.15;
   }
-  header.scrolled{
-    border-bottom-color:var(--line);
-    background:rgba(247,245,241,.92);
+  .section-lead{ margin-top:16px; color:var(--mist); font-size:1.05rem; line-height:1.65; }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    gap:8px; padding:13px 26px;
+    border-radius:999px; font-weight:600; font-size:.95rem;
+    border:1px solid transparent;
+    transition:transform .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
   }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn--primary{ background:var(--gold); color:var(--paper); }
+  .btn--primary:hover{ background:var(--gold-deep); }
+  .btn--ghost{ background:transparent; color:var(--ink); border-color:var(--border); }
+  .btn--ghost:hover{ border-color:var(--gold); color:var(--gold); }
+  .btn--nav{ padding:10px 20px; font-size:.95rem; background:var(--gold); color:var(--paper); }
+  .btn--nav:hover{ background:var(--gold-deep); }
+
+  /* ---------- Nav ---------- */
   .nav{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    height:76px;
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    background:rgba(20,23,26,.8);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease, box-shadow .25s ease;
   }
-  .brand{
-    display:flex; align-items:center; gap:10px;
-    font-family:var(--serif);
-    font-size:1.15rem;
-    font-weight:700;
-    letter-spacing:-.01em;
-    text-decoration:none;
-    color:var(--ink);
-  }
-  .brand-mark{
-    width:34px; height:34px;
-    border-radius:9px;
-    background:linear-gradient(150deg,var(--accent),var(--accent-dark));
-    color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    font-family:var(--serif);
-    font-size:1.05rem;
-    flex:none;
-  }
-  .nav-links{
-    display:flex; align-items:center; gap:36px;
-    list-style:none; margin:0; padding:0;
-  }
-  .nav-links a{
-    text-decoration:none;
-    font-size:.94rem;
-    font-weight:500;
-    color:var(--ink-soft);
-    position:relative;
-    padding:6px 0;
-  }
-  .nav-links a:hover{ color:var(--ink); }
-  .nav-cta{
-    display:inline-flex;
-    background:var(--ink);
-    color:#fff !important;
-    padding:10px 20px;
-    border-radius:999px;
-    font-size:.88rem;
-    font-weight:600;
-    text-decoration:none;
-    transition:background .2s ease, transform .2s ease;
-  }
-  .nav-cta:hover{ background:var(--accent-dark); transform:translateY(-1px); }
+  .nav.nav--scrolled{ border-bottom-color:var(--border); box-shadow:0 1px 0 rgba(0,0,0,.2); }
+  .nav__inner{ display:flex; align-items:center; justify-content:space-between; height:76px; }
 
-  .nav-toggle{
-    display:none;
-    background:none; border:none; cursor:pointer;
-    width:40px; height:40px;
-    align-items:center; justify-content:center;
-    color:var(--ink);
+  .nav__logo{ display:flex; align-items:center; gap:10px; }
+  .nav__logo-badge{ width:34px; height:34px; border-radius:9px; flex:none; }
+  .nav__logo-word{ font-weight:700; font-size:1.25rem; letter-spacing:-.02em; color:var(--gold); white-space:nowrap; }
+  .nav__logo-dot{ color:var(--ink); }
+
+  .nav__toggle{
+    display:none; width:44px; height:44px; border:none; background:transparent;
+    align-items:center; justify-content:center; position:relative; cursor:pointer;
   }
-  .nav-toggle svg{ width:22px; height:22px; }
+  .nav__toggle span{
+    position:absolute; left:12px; width:20px; height:2px; background:var(--ink);
+    transition:transform .25s ease, opacity .25s ease;
+  }
+  .nav__toggle span:nth-child(1){ top:16px; }
+  .nav__toggle span:nth-child(2){ top:22px; }
+  .nav__toggle span:nth-child(3){ top:28px; }
+  .nav__toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .nav__toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .nav__toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+  .nav__menu ul{ display:flex; align-items:center; gap:32px; }
+  .nav__link{ position:relative; font-size:1rem; font-weight:600; color:var(--ink); transition:color .2s ease; }
+  .nav__link::after{
+    content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px;
+    background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .25s ease;
+  }
+  .nav__link:hover{ color:var(--gold); }
+  .nav__link:hover::after{ transform:scaleX(1); }
 
   @media (max-width:860px){
-    .nav-links{
-      position:fixed;
-      top:76px; left:0; right:0;
-      background:var(--surface);
-      border-bottom:1px solid var(--line);
-      flex-direction:column;
-      align-items:flex-start;
-      gap:0;
-      padding:8px 24px 20px;
-      transform:translateY(-8px);
-      opacity:0;
-      visibility:hidden;
-      pointer-events:none;
-      transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    .nav__toggle{ display:flex; }
+    .nav__menu{
+      position:fixed; top:76px; left:0; right:0; bottom:0;
+      background:rgba(20,23,26,.96);
+      backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+      display:flex; flex-direction:column; justify-content:flex-start;
+      padding:32px 24px;
+      transform:translateX(100%);
+      transition:transform .3s ease;
     }
-    .nav-links.open{
-      opacity:1; visibility:visible; pointer-events:auto;
-      transform:translateY(0);
-    }
-    .nav-links li{ width:100%; }
-    .nav-links a{ display:block; padding:14px 0; width:100%; border-bottom:1px solid var(--line); }
-    .nav-links li:last-child a{ border-bottom:none; }
-    .nav-cta{ margin-top:10px; text-align:center; justify-content:center; }
-    .nav-toggle{ display:flex; }
+    .nav__menu.is-open{ transform:translateX(0); }
+    .nav__menu ul{ flex-direction:column; align-items:flex-start; gap:26px; }
+    .nav__link{ font-size:1.4rem; }
+    .nav__menu .btn--nav{ margin-top:8px; }
   }
 
   /* ---------- Hero ---------- */
   .hero{
-    padding:168px 0 96px;
     position:relative;
+    padding:168px 24px 96px;
     overflow:hidden;
+    background:var(--paper);
   }
-  .hero::before{
-    content:"";
-    position:absolute;
-    top:-120px; right:-160px;
-    width:520px; height:520px;
-    border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, var(--accent-soft), transparent 70%);
-    z-index:0;
+  .hero__grain, .hero__grid{ position:absolute; inset:0; pointer-events:none; }
+  .hero__grain{
+    z-index:1; opacity:.05; mix-blend-mode:overlay;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>');
   }
-  .hero-grid{
-    position:relative; z-index:1;
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:56px;
-    align-items:center;
+  .hero__grid{
+    z-index:0; background-size:60px 60px;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+    mask-image:radial-gradient(ellipse at center, black 0%, transparent 70%);
+    -webkit-mask-image:radial-gradient(ellipse at center, black 0%, transparent 70%);
   }
-  @media (max-width:900px){
-    .hero-grid{ grid-template-columns:1fr; }
-    .hero{ padding-top:140px; }
-  }
+  .hero__inner{ position:relative; z-index:2; max-width:760px; margin:0 auto; text-align:center; }
   .hero h1{
-    font-size:clamp(2.1rem, 4.4vw, 3.4rem);
-    margin-top:.4em;
+    margin-top:18px;
+    font-size:clamp(2.4rem, 2rem + 3vw, 4.2rem);
   }
-  .hero h1 em{
-    font-style:normal;
-    color:var(--accent-dark);
-    background:linear-gradient(transparent 62%, var(--accent-soft) 0);
+  .hero h1 .accent{ color:var(--gold); text-shadow:0 0 30px rgba(217,174,92,.35); }
+  .hero__lead{
+    margin:24px auto 0; max-width:52ch;
+    color:var(--mist); font-size:1.1rem; line-height:1.65;
   }
-  .hero p.lead{
-    font-size:1.12rem;
-    max-width:46ch;
-    color:var(--ink-soft);
+  .hero__actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:32px; }
+
+  .hero__badges{
+    margin-top:56px;
+    display:flex; flex-wrap:wrap; justify-content:center; gap:12px;
   }
-  .hero-actions{
-    display:flex; gap:14px; flex-wrap:wrap;
-    margin-top:28px;
-  }
-  .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:14px 26px;
+  .hero-badge{
+    display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border);
+    padding:9px 16px;
     border-radius:999px;
-    font-size:.95rem;
-    font-weight:600;
-    text-decoration:none;
-    transition:transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
-    border:1px solid transparent;
-    cursor:pointer;
+    font-size:.85rem; color:var(--mist);
   }
-  .btn-primary{
-    background:var(--accent);
-    color:#fff;
-    box-shadow:0 14px 26px -14px rgba(181,101,47,.65);
-  }
-  .btn-primary:hover{ background:var(--accent-dark); transform:translateY(-2px); }
-  .btn-ghost{
-    background:transparent;
-    border-color:var(--line);
-    color:var(--ink);
-  }
-  .btn-ghost:hover{ border-color:var(--ink); transform:translateY(-2px); }
-
-  .hero-stats{
-    display:flex; gap:32px;
-    margin-top:44px;
-    flex-wrap:wrap;
-  }
-  .hero-stats div strong{
-    display:block;
-    font-family:var(--serif);
-    font-size:1.5rem;
-    color:var(--ink);
-  }
-  .hero-stats div span{
-    font-size:.82rem;
-    color:var(--ink-faint);
-  }
-
-  /* Browser mock graphic */
-  .mock{
-    background:var(--surface);
-    border-radius:18px;
-    box-shadow:var(--shadow);
-    border:1px solid var(--line);
-    overflow:hidden;
-  }
-  .mock-bar{
-    display:flex; align-items:center; gap:6px;
-    padding:12px 16px;
-    border-bottom:1px solid var(--line);
-  }
-  .mock-bar span{
-    width:9px; height:9px; border-radius:50%;
-    background:var(--line);
-  }
-  .mock-bar span:nth-child(1){ background:#e2a2a2; }
-  .mock-bar span:nth-child(2){ background:#e6cf9e; }
-  .mock-bar span:nth-child(3){ background:#a9cbb2; }
-  .mock-body{ padding:26px; }
-  .mock-body .ph-title{
-    height:16px; width:70%;
-    border-radius:6px;
-    background:linear-gradient(90deg,var(--ink) 0%, var(--ink) 100%);
-    opacity:.85;
-    margin-bottom:14px;
-  }
-  .mock-body .ph-line{
-    height:9px; border-radius:5px;
-    background:var(--line);
-    margin-bottom:9px;
-  }
-  .mock-body .ph-line.w80{ width:80%; }
-  .mock-body .ph-line.w60{ width:60%; }
-  .mock-cards{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
-    margin-top:22px;
-  }
-  .mock-cards div{
-    height:64px;
-    border-radius:10px;
-    background:var(--accent-soft);
-  }
-  .mock-cards div:nth-child(2){ background:#dde7e0; }
-  .mock-cards div:nth-child(3){ background:#e7e0dd; }
-
-  /* ---------- Section headings ---------- */
-  .section-head{
-    max-width:640px;
-    margin-bottom:52px;
-  }
-  .section-head h2{ font-size:clamp(1.6rem,3vw,2.2rem); }
+  .hero-badge .ico{ font-size:1rem; line-height:1; }
+  .hero-badge strong{ color:var(--ink); font-weight:600; }
 
   /* ---------- Beispiele ---------- */
   .work-grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:28px;
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:28px;
   }
-  @media (min-width:1000px){
-    .work-grid{ grid-template-columns:repeat(4, 1fr); }
-  }
-  @media (max-width:599px){
-    .work-grid{ grid-template-columns:1fr; }
-  }
+  @media (min-width:1000px){ .work-grid{ grid-template-columns:repeat(4, 1fr); } }
+  @media (max-width:599px){ .work-grid{ grid-template-columns:1fr; } }
+
   .work-card{
     background:var(--surface);
-    border:1px solid var(--line);
+    border:1px solid var(--border);
     border-radius:var(--radius);
     overflow:hidden;
-    transition:transform .25s ease, box-shadow .25s ease;
+    box-shadow:var(--shadow-sm);
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
   }
-  .work-card:hover{
-    transform:translateY(-6px);
-    box-shadow:var(--shadow);
-  }
+  .work-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); }
+  .work-card--gold:hover{ border-color:var(--gold); }
+  .work-card--sky:hover{ border-color:var(--sky); }
+  .work-card--coral:hover{ border-color:var(--coral); }
+
   .work-thumb{
     aspect-ratio:4/3;
-    position:relative;
+    background:var(--paper-alt);
     display:flex; align-items:center; justify-content:center;
-    color:#fff;
+    position:relative;
   }
-  .work-thumb svg{ width:46px; height:46px; position:relative; z-index:1; opacity:.95; }
   .work-thumb::after{
     content:"";
     position:absolute; inset:0;
-    background-image:
-      radial-gradient(circle at 15% 15%, rgba(255,255,255,.22), transparent 45%),
-      radial-gradient(circle at 85% 90%, rgba(0,0,0,.18), transparent 55%);
+    background-image:radial-gradient(circle at 20% 20%, rgba(255,255,255,.05), transparent 55%);
   }
-  .thumb-handwerk{ background:linear-gradient(150deg,#9a5a2c,#5f3719); }
-  .thumb-gastro{ background:linear-gradient(150deg,#8a2f34,#4c181c); }
-  .thumb-retail{ background:linear-gradient(150deg,#2f5d54,#1a3833); }
-  .thumb-dienstleistung{ background:linear-gradient(150deg,#4a5a3a,#2b3722); }
+  .work-thumb svg{ width:40px; height:40px; position:relative; z-index:1; }
+  .work-card--gold .work-thumb svg{ color:var(--gold); }
+  .work-card--sky .work-thumb svg{ color:var(--sky); }
+  .work-card--coral .work-thumb svg{ color:var(--coral); }
 
   .work-body{ padding:22px 22px 24px; }
-  .work-tag{
-    display:inline-block;
-    font-size:.72rem;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    color:var(--accent-dark);
-    background:var(--accent-soft);
-    padding:4px 10px;
-    border-radius:999px;
-    margin-bottom:12px;
-  }
-  .work-body h3{ font-size:1.15rem; margin-bottom:.35em; }
-  .work-body p{ font-size:.94rem; margin-bottom:0; }
+  .work-kind{ font-size:.78rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+  .work-card--gold .work-kind{ color:var(--gold); }
+  .work-card--sky .work-kind{ color:var(--sky); }
+  .work-card--coral .work-kind{ color:var(--coral); }
+  .work-body h3{ margin-top:6px; font-size:1.15rem; }
+  .work-body p{ margin-top:8px; font-size:.92rem; color:var(--mist); line-height:1.6; }
+
+  .work-note{ margin-top:28px; font-size:.85rem; color:var(--mist); font-style:italic; }
 
   /* ---------- Über mich ---------- */
   .about{
-    display:grid;
-    grid-template-columns:.7fr 1.3fr;
-    gap:56px;
-    align-items:center;
+    display:grid; grid-template-columns:.7fr 1.3fr; gap:56px; align-items:start;
   }
   @media (max-width:820px){ .about{ grid-template-columns:1fr; } }
-  .about-photo{
-    width:100%;
-    aspect-ratio:1;
-    max-width:280px;
-    border-radius:20px;
-    background:linear-gradient(150deg,var(--accent-soft),var(--surface));
-    border:1px solid var(--line);
+
+  .about__avatar{
+    width:96px; height:96px; border-radius:50%;
+    background:var(--gold); color:var(--paper);
     display:flex; align-items:center; justify-content:center;
-    box-shadow:var(--shadow);
+    font-weight:700; font-size:1.5rem;
+    flex:none;
   }
-  .about-photo svg{ width:96px; height:96px; color:var(--accent-dark); }
-  .about-features{
-    list-style:none; margin:24px 0 0; padding:0;
-    display:grid; gap:14px;
+
+  .about__lead{ margin-top:16px; font-size:1.1rem; line-height:1.65; }
+  .about__text{ margin-top:16px; color:var(--mist); line-height:1.65; }
+  .about__meta{ margin-top:16px; color:var(--mist); font-size:.92rem; line-height:1.65; }
+
+  .about__quote{
+    margin:28px 0 0; padding:20px 24px;
+    border-left:3px solid var(--gold);
+    background:var(--gold-soft);
+    border-radius:0 var(--radius-sm) var(--radius-sm) 0;
   }
-  .about-features li{
-    display:flex; gap:12px; align-items:flex-start;
-    font-size:.96rem; color:var(--ink-soft);
-  }
-  .about-features svg{
-    width:20px; height:20px; flex:none; margin-top:2px;
-    color:var(--accent);
-  }
+  .about__quote p{ font-style:italic; font-size:1.05rem; color:var(--ink); }
+
+  .steps{ margin-top:48px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:32px; }
+  .steps__number{ color:var(--gold); font-weight:700; font-size:.9rem; }
+  .steps__item:nth-child(2) .steps__number{ color:var(--sky); }
+  .steps__item:nth-child(3) .steps__number{ color:var(--coral); }
+  .steps__item h3{ margin-top:8px; font-size:1.05rem; }
+  .steps__item p{ margin-top:8px; color:var(--mist); font-size:.92rem; line-height:1.6; }
 
   /* ---------- Kontakt ---------- */
-  .contact{
-    background:var(--ink);
-    color:#f1efe9;
+  .contact-panel{
+    background:var(--surface);
+    border:1px solid var(--border);
     border-radius:24px;
     padding:64px;
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:40px;
-    align-items:center;
+    display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center;
+    box-shadow:var(--shadow-md), 0 0 70px 6px rgba(217,174,92,.12);
   }
-  @media (max-width:820px){ .contact{ grid-template-columns:1fr; padding:44px 28px; } }
-  .contact h2{ color:#fff; }
-  .contact p{ color:#c7c4bb; }
-  .contact-card{
-    display:flex; flex-direction:column; gap:16px;
-  }
+  @media (max-width:820px){ .contact-panel{ grid-template-columns:1fr; padding:44px 28px; } }
+  .contact-panel h2{ font-size:clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem); }
+  .contact-panel .section-lead{ margin-top:14px; }
+
+  .contact-links{ display:flex; flex-direction:column; gap:14px; }
   .contact-link{
     display:flex; align-items:center; gap:14px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border);
     padding:16px 18px;
-    border-radius:14px;
-    text-decoration:none;
-    color:#fff;
+    border-radius:var(--radius-sm);
     transition:background .2s ease, border-color .2s ease, transform .2s ease;
   }
-  .contact-link:hover{ background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.3); transform:translateY(-2px); }
-  .contact-link svg{ width:20px; height:20px; color:var(--accent); flex:none; }
-  .contact-link .lbl{ font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:#a9a69e; display:block; }
-  .contact-link .val{ font-weight:600; font-size:.98rem; }
+  .contact-link:hover{ background:rgba(255,255,255,.06); border-color:var(--gold); transform:translateY(-2px); }
+  .contact-link svg{ width:20px; height:20px; color:var(--gold); flex:none; }
+  .contact-link .lbl{ display:block; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--mist); }
+  .contact-link .val{ font-weight:600; font-size:.98rem; color:var(--ink); }
 
   /* ---------- Footer ---------- */
-  footer{
-    padding:32px 0 40px;
-    text-align:center;
-  }
-  footer p{
-    font-size:.82rem;
-    color:var(--ink-faint);
-    margin:0;
-  }
+  .footer{ padding:48px 0 32px; border-top:1px solid var(--border); }
+  .footer__inner{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; }
+  .footer__logo{ font-weight:700; font-size:1.1rem; color:var(--gold); }
+  .footer__brand p{ margin-top:8px; color:var(--mist); font-size:.9rem; max-width:32ch; }
+  .footer__copyright{ margin-top:32px; font-size:.82rem; color:var(--mist); text-align:center; }
 
-  /* ---------- Reveal animation ---------- */
-  .reveal{
-    opacity:0;
-    transform:translateY(18px);
-    transition:opacity .7s ease, transform .7s ease;
-  }
+  /* ---------- Reveal-on-scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in{ opacity:1; transform:none; }
-
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; }
-    .reveal{ opacity:1; transform:none; transition:none; }
-    *{ transition-duration:.001ms !important; }
-  }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
 </style>
 </head>
 <body>
 
-<header id="siteHeader">
-  <div class="container nav">
-    <a href="#top" class="brand">
-      <span class="brand-mark">E</span>
-      Webdesign Ehmann
+<header class="nav" id="siteNav">
+  <div class="container nav__inner">
+    <a href="#top" class="nav__logo">
+      <img class="nav__logo-badge" alt="Webdesign Ehmann Logo" src="data:image/png;base64,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">
+      <span class="nav__logo-word">Webdesign<span class="nav__logo-dot">.</span>Ehmann</span>
     </a>
 
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#beispiele">Beispiele</a></li>
-      <li><a href="#ueber-mich">Über mich</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
-      <li><a href="#kontakt" class="nav-cta">Projekt anfragen</a></li>
-    </ul>
-
-    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navLinks">
-      <svg id="iconMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-      <svg id="iconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    <button id="navToggle" class="nav__toggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="navMenu">
+      <span></span><span></span><span></span>
     </button>
+
+    <nav id="navMenu" class="nav__menu">
+      <ul>
+        <li><a href="#beispiele" class="nav__link">Beispiele</a></li>
+        <li><a href="#ueber-mich" class="nav__link">Über mich</a></li>
+        <li><a href="#kontakt" class="nav__link">Kontakt</a></li>
+        <li><a href="#kontakt" class="btn btn--nav">Anfrage stellen</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
@@ -483,151 +348,156 @@
 
   <!-- ---------- HERO ---------- -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div class="reveal">
-        <span class="eyebrow">Rems&#8209;Murr&#8209;Kreis · Websites für lokale Unternehmen</span>
-        <h1>Moderne Websites für <em>lokale Unternehmen,</em> die überzeugen.</h1>
-        <p class="lead">Ich gestalte und entwickle klare, schnelle und mobilfreundliche Websites für Handwerk, Gastronomie und Einzelhandel – persönlich betreut, ohne Agentur-Umwege.</p>
-        <div class="hero-actions">
-          <a href="#kontakt" class="btn btn-primary">Projekt anfragen</a>
-          <a href="#beispiele" class="btn btn-ghost">Beispiele ansehen</a>
-        </div>
-        <div class="hero-stats">
-          <div><strong>100%</strong><span>Mobile-optimiert</span></div>
-          <div><strong>&lt; 2s</strong><span>Ladezeit im Fokus</span></div>
-          <div><strong>1:1</strong><span>Persönliche Betreuung</span></div>
-        </div>
+    <div class="hero__grain" aria-hidden="true"></div>
+    <div class="hero__grid" aria-hidden="true"></div>
+
+    <div class="hero__inner reveal">
+      <span class="eyebrow">Rudersberg · Rems&#8209;Murr&#8209;Kreis</span>
+      <h1>Ihre Website,<br><span class="accent">fertig gedacht.</span></h1>
+      <p class="hero__lead">Individuelles Design statt Baukasten – für Gastronomie, Handwerk und Vereine, die online genauso überzeugen sollen wie vor Ort.</p>
+      <div class="hero__actions">
+        <a href="#kontakt" class="btn btn--primary">Projekt anfragen</a>
+        <a href="#beispiele" class="btn btn--ghost">Beispiele ansehen</a>
       </div>
 
-      <div class="reveal">
-        <div class="mock">
-          <div class="mock-bar"><span></span><span></span><span></span></div>
-          <div class="mock-body">
-            <div class="ph-title"></div>
-            <div class="ph-line w80"></div>
-            <div class="ph-line w60"></div>
-            <div class="mock-cards"><div></div><div></div><div></div></div>
-          </div>
-        </div>
+      <div class="hero__badges">
+        <span class="hero-badge"><span class="ico">📍</span> <strong>Aus der Region</strong>&nbsp;für die Region</span>
+        <span class="hero-badge"><span class="ico">⚡</span> <strong>Schnell &amp; mobil</strong>&nbsp;für jedes Gerät</span>
+        <span class="hero-badge"><span class="ico">🎨</span> <strong>Eigenes Design</strong>&nbsp;kein Baukasten-Look</span>
+        <span class="hero-badge"><span class="ico">🛠️</span> <strong>Betreuung</strong>&nbsp;nach dem Launch</span>
+        <span class="hero-badge"><span class="ico">🔒</span> <strong>Rechtssicher</strong>&nbsp;Impressum &amp; Datenschutz</span>
       </div>
     </div>
   </section>
 
   <!-- ---------- BEISPIELE ---------- -->
-  <section id="beispiele">
+  <section id="beispiele" class="section section--alt">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Referenzen</span>
-        <h2>Beispielprojekte</h2>
-        <p>Eine Auswahl fiktiver Beispielprojekte, die zeigen, wie eine Website für Ihre Branche aussehen könnte.</p>
+      <div class="section-header reveal">
+        <span class="eyebrow">Beispiele</span>
+        <h2 class="section-title">So könnte Ihre Website aussehen</h2>
+        <p class="section-lead">Design-Beispiele für fiktive Betriebe aus Handwerk, Gastronomie und Vereinsleben – zur Orientierung, wie ein Relaunch für Ihren Betrieb aussehen könnte.</p>
       </div>
 
       <div class="work-grid">
-        <article class="work-card reveal">
-          <div class="work-thumb thumb-handwerk">
+        <article class="work-card work-card--gold reveal">
+          <div class="work-thumb">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14.5 3.5 21 10l-2 2-6.5-6.5 2-2Z"/><path d="M15.5 8.5 4 20l-1.5-1.5L14 7"/><path d="M2.5 21.5 4 20"/>
             </svg>
           </div>
           <div class="work-body">
-            <span class="work-tag">Handwerk</span>
-            <h3>Schreinerei Holzwerk</h3>
-            <p>Moderne Website mit Referenzgalerie, Leistungsübersicht und direkter Terminanfrage per Formular.</p>
+            <span class="work-kind">Handwerk</span>
+            <h3>Landmetzgerei Sonnenhof</h3>
+            <p>Website-Relaunch mit Produktwelt, Öffnungszeiten und direkter Kontaktaufnahme für Stammkundschaft.</p>
           </div>
         </article>
 
-        <article class="work-card reveal">
-          <div class="work-thumb thumb-gastro">
+        <article class="work-card work-card--sky reveal">
+          <div class="work-thumb">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 2v8a2 2 0 0 1-2 2 2 2 0 0 1-2-2V2"/><path d="M5 12v10"/><path d="M17 2c-1.5 0-3 1.8-3 5s1.5 5 3 5v10"/>
             </svg>
           </div>
           <div class="work-body">
-            <span class="work-tag">Gastronomie</span>
-            <h3>Gasthaus Lindenhof</h3>
-            <p>Einseitiges Konzept mit digitaler Speisekarte, Öffnungszeiten und Anfahrt für schnellen Überblick.</p>
+            <span class="work-kind">Gastronomie</span>
+            <h3>Seeblick Waldschänke</h3>
+            <p>Einseitiges Konzept mit digitaler Speisekarte, Anfahrt und Terrassen-Impressionen für den ersten Eindruck.</p>
           </div>
         </article>
 
-        <article class="work-card reveal">
-          <div class="work-thumb thumb-retail">
+        <article class="work-card work-card--coral reveal">
+          <div class="work-thumb">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 2 4 6v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-2-4"/><path d="M4 6h16"/><path d="M9 10a3 3 0 0 0 6 0"/>
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a4 4 0 0 1-5.1 5.1L6.5 20.5a1.5 1.5 0 0 1-2.1-2.1L13.6 9.2a4 4 0 0 1 5.1-5.1l-3.1 3.1Z"/>
             </svg>
           </div>
           <div class="work-body">
-            <span class="work-tag">Einzelhandel</span>
-            <h3>Modehaus Rems</h3>
-            <p>Klares Storefront-Design mit Sortimentsvorschau, Filialfinder und Anbindung an Social Media.</p>
+            <span class="work-kind">Handwerk</span>
+            <h3>Wärmetechnik Talblick</h3>
+            <p>Klar strukturierte Leistungsübersicht mit Notdienst-Hinweis und Anfrageformular für neue Aufträge.</p>
           </div>
         </article>
 
-        <article class="work-card reveal">
-          <div class="work-thumb thumb-dienstleistung">
+        <article class="work-card work-card--gold reveal">
+          <div class="work-thumb">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3c1 3 3 5 6 6-3 1-5 3-6 6-1-3-3-5-6-6 3-1 5-3 6-6Z"/><circle cx="19" cy="18" r="1.6"/>
+              <path d="M9 18V6l7 3-7 3"/><path d="M9 6H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4"/>
             </svg>
           </div>
           <div class="work-body">
-            <span class="work-tag">Dienstleistung</span>
-            <h3>Praxis am Marktplatz</h3>
-            <p>Vertrauensvoller Auftritt mit Terminbuchung, Leistungsspektrum und Anfahrtsbeschreibung.</p>
+            <span class="work-kind">Verein</span>
+            <h3>Musikverein Rudersberg</h3>
+            <p>Vereinsseite mit Terminkalender, Vorstellung der Mitglieder und Anmeldung für neue Interessierte.</p>
           </div>
         </article>
       </div>
+
+      <p class="work-note">Alle gezeigten Projekte sind Design-Beispiele für fiktive Betriebe.</p>
     </div>
   </section>
 
   <!-- ---------- ÜBER MICH ---------- -->
-  <section id="ueber-mich">
+  <section id="ueber-mich" class="section">
     <div class="container about">
       <div class="reveal">
-        <div class="about-photo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/>
-          </svg>
-        </div>
+        <div class="about__avatar">HE</div>
       </div>
       <div class="reveal">
         <span class="eyebrow">Über mich</span>
-        <h2>Webdesign mit persönlichem Anspruch</h2>
-        <p>Ich unterstütze kleine und mittlere Unternehmen im Rems-Murr-Kreis dabei, online professionell aufzutreten – mit Websites, die schnell laden, auf jedem Gerät gut aussehen und Kunden wirklich erreichen. Von der ersten Idee bis zum Livegang begleite ich jedes Projekt persönlich.</p>
-        <ul class="about-features">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
-            <span>Individuelles Design statt Baukasten-Vorlage</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
-            <span>Feste Ansprechperson vom ersten Gespräch bis zum Launch</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
-            <span>Faire, transparente Preise – ideal für kleinere Budgets</span>
-          </li>
-        </ul>
+        <h2 class="section-title">Persönlich betreut, von Anfang an</h2>
+
+        <p class="about__lead">Von Rudersberg aus baue ich Websites für Betriebe im ganzen Rems-Murr-Kreis — für Gastronomie, Handwerk und Vereine aus der Region. Kein Baukasten, kein Vorlagen-Look: jede Website wird für den jeweiligen Betrieb konzipiert und programmiert.</p>
+        <p class="about__text">Dazu gehört für mich mehr als eine hübsche Startseite: schnelle Ladezeiten, ein Kontaktformular, das wirklich ankommt, und eine Seite, die auch in zwei Jahren noch gepflegt werden kann.</p>
+        <p class="about__meta">Hauptberuflich mache ich gerade eine Ausbildung zum Elektroniker. Mit 18 baue ich nebenher Websites für Betriebe aus der Region — aus dem Hobby soll Schritt für Schritt ein zweites berufliches Standbein werden.</p>
+
+        <div class="about__quote">
+          <p>„Das hier ist mein Hobby, aus dem ich Schritt für Schritt einen Beruf mache.“</p>
+        </div>
+
+        <div class="steps">
+          <div class="steps__item">
+            <span class="steps__number">01</span>
+            <h3>Kennenlernen &amp; Konzept</h3>
+            <p>Wir sprechen über Ihren Betrieb und was die Website leisten soll — daraus entsteht ein Konzept, das zu Ihnen passt.</p>
+          </div>
+          <div class="steps__item">
+            <span class="steps__number">02</span>
+            <h3>Umsetzung</h3>
+            <p>Ich baue die Website von Grund auf: Design, Text-Feinschliff und Technik, mobil und schnell.</p>
+          </div>
+          <div class="steps__item">
+            <span class="steps__number">03</span>
+            <h3>Übergabe &amp; Betreuung</h3>
+            <p>Sie erhalten Zugang zu Ihrer Website. Auf Wunsch übernehme ich Hosting, Pflege und spätere Erweiterungen.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ---------- KONTAKT ---------- -->
-  <section id="kontakt">
+  <section id="kontakt" class="section section--alt">
     <div class="container">
-      <div class="contact reveal">
+      <div class="contact-panel reveal">
         <div>
-          <span class="eyebrow" style="color:#e8c9a4">Kontakt</span>
+          <span class="eyebrow">Kontakt</span>
           <h2>Lassen Sie uns über Ihre Website sprechen.</h2>
-          <p>Kostenloses Erstgespräch, unverbindlich und ganz in Ihrer Nähe im Rems-Murr-Kreis.</p>
+          <p class="section-lead">Kostenloses Erstgespräch, unverbindlich und ganz in Ihrer Nähe im Rems-Murr-Kreis.</p>
         </div>
-        <div class="contact-card">
-          <a class="contact-link" href="mailto:kontakt@webdesign-ehmann.de">
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:webdesignehmann@gmail.com">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-            <span><span class="lbl">E-Mail</span><span class="val">kontakt@webdesign-ehmann.de</span></span>
+            <span><span class="lbl">E-Mail</span><span class="val">webdesignehmann@gmail.com</span></span>
           </a>
-          <a class="contact-link" href="tel:+491701234567">
+          <a class="contact-link" href="tel:+4916094811634">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>
-            <span><span class="lbl">Telefon</span><span class="val">0170 123 45 67</span></span>
+            <span><span class="lbl">Telefon</span><span class="val">0160 94 81 634</span></span>
           </a>
+          <div class="contact-link" style="cursor:default;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span><span class="lbl">Standort</span><span class="val">Rudersberg · Rems-Murr-Kreis</span></span>
+          </div>
         </div>
       </div>
     </div>
@@ -635,8 +505,14 @@
 
 </main>
 
-<footer>
-  <p>&copy; <span id="year"></span> Webdesign Ehmann · Rems-Murr-Kreis · Diese Seite dient als Beispiel-Referenz.</p>
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="footer__logo">Webdesign<span class="nav__logo-dot" style="color:var(--ink)">.</span>Ehmann</span>
+      <p>Websites für Betriebe im Rems-Murr-Kreis. Diese Seite ist eine Beispiel-Referenz.</p>
+    </div>
+  </div>
+  <p class="footer__copyright">© <span id="year"></span> Webdesign Ehmann</p>
 </footer>
 
 <script>
@@ -645,36 +521,21 @@
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Header background on scroll
-  var header = document.getElementById('siteHeader');
-  function onScroll(){
-    header.classList.toggle('scrolled', window.scrollY > 8);
-  }
+  var nav = document.getElementById('siteNav');
+  function onScroll(){ nav.classList.toggle('nav--scrolled', window.scrollY > 8); }
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Mobile nav toggle
   var toggle = document.getElementById('navToggle');
-  var links = document.getElementById('navLinks');
-  var iconMenu = document.getElementById('iconMenu');
-  var iconClose = document.getElementById('iconClose');
+  var menu = document.getElementById('navMenu');
 
   function setOpen(open){
-    links.classList.toggle('open', open);
+    menu.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    iconMenu.style.display = open ? 'none' : '';
-    iconClose.style.display = open ? '' : 'none';
   }
+  toggle.addEventListener('click', function(){ setOpen(!menu.classList.contains('is-open')); });
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ setOpen(false); }); });
 
-  toggle.addEventListener('click', function(){
-    setOpen(!links.classList.contains('open'));
-  });
-
-  links.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){ setOpen(false); });
-  });
-
-  // Reveal on scroll
   var reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
