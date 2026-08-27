@@ -95,9 +95,9 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
 .headline { font-family:'Playfair Display',serif; font-weight:700; line-height:1.14; color:${t.headline}; text-shadow:0 0 26px ${t.glow}; margin-top:15px; }
 .headline .accent { color:${t.accent}; }
 .hook-subtext { font-family:'Inter',sans-serif; font-weight:400; font-size:22px; line-height:1.45; color:${t.subtext}; max-width:760px; margin:16px auto 0; }
-.points-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:3px; text-transform:uppercase; color:${t.kicker}; margin-top:6px; }
+.points-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:3px; text-transform:uppercase; color:${t.kicker}; margin-top:68px; }
 .points-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; color:${t.headline}; margin-top:12px; margin-bottom:26px; }
-.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
+.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; margin-top:68px; }
 .cta-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; line-height:1.2; color:${t.headline}; margin-top:14px; max-width:800px; }
 .contact-box { border:1px solid ${t.border}; padding:16px 36px; margin-top:22px; flex-shrink:0; }
 .contact-box a, .contact-box span { display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:21px; text-align:center; }
@@ -119,13 +119,10 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
       <h1 class="headline" style="font-size:${size}px;">${toHtml(p.headline)}</h1>
       <p class="hook-subtext">${p.subtext}</p>
 
-      <div class="rule"></div>
-
       <div class="points-kicker">${p.pointsKicker}</div>
       <div class="points-headline">${p.pointsHeadline}</div>
       ${pointsList(p.points)}
 
-      <div class="rule"></div>
       <div class="cta-kicker">DEIN PROJEKT</div>
       <div class="cta-headline">${p.ctaHeadline}</div>
       <div class="contact-box">
@@ -217,22 +214,6 @@ const OVERVIEWS = [
       "70% nutzen den „Anrufen“-Button direkt in der Google-Suche",
     ],
     ctaHeadline: "Öffne deine Website mal auf dem Handy — oder lass mich das für dich prüfen.",
-  },
-  {
-    slug: "warum-website-2026",
-    folder: "Warum Website 2026",
-    outFile: "warum-website-2026-uebersicht.png",
-    kicker: "WARUM JETZT",
-    headline: ["Kein <span class=\"accent\">Nice-to-have</span>", "mehr"],
-    subtext: "2026 informieren sich Kunden zuerst online — vor dem ersten Anruf.",
-    pointsKicker: "DIE FAKTEN",
-    pointsHeadline: "Warum jetzt zählt",
-    points: [
-      "76% informieren sich online, bevor sie kontaktieren",
-      "Ohne Website fehlst du am ersten Kontaktpunkt",
-      "24/7 erreichbar — auch wenn du geschlossen hast",
-    ],
-    ctaHeadline: "Lieber heute als nächstes Jahr — lass uns unverbindlich über deinen Betrieb sprechen.",
   },
   {
     slug: "nach-dem-livegang",
