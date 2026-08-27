@@ -1,0 +1,16 @@
+{
+  "bild_facebook": "social-media-tmp/tipp-kontaktformular-uebersicht.png",
+  "bilder_instagram": [
+    "social-media-tmp/slide-1-3.png",
+    "social-media-tmp/slide-2-3.png",
+    "social-media-tmp/slide-3-3.png",
+    "social-media-tmp/slide-4-3.png",
+    "social-media-tmp/slide-5-3.png"
+  ],
+  "text": "📧Kontakt ist das Wichtigste📧",
+  "facebook": true,
+  "instagram": true,
+  "geplant_fuer": "2026-09-01T08:22:00+02:00",
+  "status": "geplant",
+  "fehler_meldung": ""
+}
