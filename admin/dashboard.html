@@ -650,6 +650,80 @@
     return { t0, slope, intercept };
   }
 
+  function clamp(v, lo, hi) {
+    return Math.min(Math.max(v, lo), hi);
+  }
+
+  // 7-Tage-Prognosehorizont - auf Datei-Ebene, weil auch das gepoolte
+  // Beitrags-Wachstumsmodell (buildPostGrowthModel) ihn für seine eigene
+  // Vertrauens-Bewertung braucht.
+  const FORECAST_SPAN_MS = 7 * 24 * 60 * 60 * 1000;
+
+  // Vertrauens-Bewertung (0..1) + Streuung einer Regression über ihre eigenen
+  // Punkte - wird sowohl für die kontoweiten Diagramme (eigene Regression je
+  // Serie) als auch für die Beitrags-Diagramme (gepooltes Modell über alle
+  // Beiträge) verwendet, damit beide Prognose-Pfade dieselbe Formel nutzen
+  // statt sie zu duplizieren. "horizon" ist die Prognose-Länge in derselben
+  // Zeiteinheit wie points[].t (Millisekunden bzw. Stunden beim gepoolten
+  // Beitragsmodell).
+  //
+  // Zwei voneinander unabhängige Gründe für niedriges Vertrauen:
+  //  1) fitScore: wie klein die Streuung der echten Werte um die
+  //     Regressionsgerade im Verhältnis zur eigenen Wertespanne ist (viel
+  //     Rauschen -> unsicher).
+  //  2) sizeScore: ob überhaupt genug Historie vorliegt, um so weit in die
+  //     Zukunft zu extrapolieren - die abgedeckte ZEITSPANNE im Verhältnis
+  //     zum Prognosehorizont zählt hier mehr als die reine Punktanzahl
+  //     (unser Polling läuft nicht so dicht wie der Cron-Takt es nahelegt),
+  //     zusätzlich ein reiner Schutz gegen den Sonderfall "2 Punkte ergeben
+  //     immer eine perfekte Gerade" (nie als sicher werten).
+  function computeFitConfidence(points, reg, horizon) {
+    const n = points.length;
+    if (n < 2 || !reg) return { confidence: 0, rmse: 0, range: 0 };
+
+    let sumSq = 0, minV = Infinity, maxV = -Infinity;
+    points.forEach((p) => {
+      const predicted = reg.intercept + reg.slope * (p.t - reg.t0);
+      const err = p.v - predicted;
+      sumSq += err * err;
+      if (p.v < minV) minV = p.v;
+      if (p.v > maxV) maxV = p.v;
+    });
+    const rmse = Math.sqrt(sumSq / n);
+    const range = maxV - minV;
+
+    const fitScore = range > 0 ? clamp(1 - rmse / range, 0, 1) : 1;
+    const spanT = points[n - 1].t - points[0].t;
+    const spanScore = horizon > 0 ? clamp(spanT / horizon, 0, 1) : 1;
+    const countScore = clamp((n - 2) / 8, 0, 1); // erreicht 1 erst ab 10 Punkten
+    const sizeScore = Math.min(spanScore, countScore);
+
+    return { confidence: clamp(fitScore * sizeScore, 0, 1), rmse, range };
+  }
+
+  // Abflach-Geschwindigkeit der Prognosekurve hängt von der
+  // Vertrauens-Bewertung ab statt für jede Serie gleich zu sein: hohes
+  // Vertrauen -> kleines k -> Kurve bleibt näher an einer geraden
+  // Fortschreibung; niedriges Vertrauen -> großes k -> der Zuwachs passiert
+  // größtenteils früh, danach Plateau.
+  const DECAY_K_MIN = 1.5 / FORECAST_SPAN_MS;
+  const DECAY_K_MAX = 8 / FORECAST_SPAN_MS;
+  function decayKFor(confidence) {
+    return DECAY_K_MIN + (DECAY_K_MAX - DECAY_K_MIN) * (1 - confidence);
+  }
+
+  // Basis-Breite des Unsicherheitsbereichs: Streuung geteilt durch Vertrauen
+  // (wenig Vertrauen -> breiter), mit Mindest- und Höchstbreite relativ zur
+  // Wertespanne der Serie, damit das Band bei einer glatten Serie nicht
+  // unsichtbar wird und bei einer unruhigen Serie nicht die halbe Karte
+  // einnimmt.
+  function bandBaseUncertainty(rmse, confidence, scale) {
+    const floor = scale * 0.01;
+    const cap = scale * 0.35;
+    const raw = confidence > 0 ? rmse / confidence : cap;
+    return clamp(raw, floor, cap);
+  }
+
   function fmtDateTime(t) {
     return new Date(t).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
   }
@@ -702,23 +776,18 @@
     // Echte Prognose je Serie: lineare Regression über die bisherigen
     // Werte liefert den Zielwert in 7 Tagen - keine erfundene Zahl,
     // sondern eine Trendfortschreibung der tatsächlichen Historie. Der Weg
-    // dorthin wird aber nicht als gerade Linie gezeichnet (das wirkt bei
-    // einer 7-Tage-Prognose unrealistisch steil), sondern als abflachende
-    // Kurve, so wie Wachstum in der Praxis meist verläuft: schnell direkt
-    // danach, dann langsamer werdend. Unsere Kennzahlen sind zudem
-    // praktisch nie rückläufig (Follower/Likes/Kommentare/Aufrufe werden
-    // nicht wieder abgezogen) - daher wird die Wachstumsrate nie negativ
-    // und die Prognose fällt nie unter den letzten echten Wert.
-    const FORECAST_SPAN_MS = 7 * 24 * 60 * 60 * 1000;
+    // dorthin wird nicht als gerade Linie gezeichnet (das wirkt bei einer
+    // 7-Tage-Prognose unrealistisch steil), sondern als abflachende Kurve,
+    // deren Form (schnell vs. langsam abflachend) UND ein schattierter
+    // Unsicherheitsbereich sich nach der tatsächlichen Streuung/Datenmenge
+    // dieser einen Serie richten (siehe computeFitConfidence/decayKFor) -
+    // ein ruhiger, gut belegter Trend bekommt eine knappere, näher an
+    // linear verlaufende Prognose, wenig/unruhige Daten eine vorsichtigere,
+    // breitere. Unsere Kennzahlen sind zudem praktisch nie rückläufig
+    // (Follower/Likes/Kommentare/Aufrufe werden nicht wieder abgezogen) -
+    // daher wird die Wachstumsrate nie negativ und die Prognose (und ihr
+    // Unsicherheitsband) fällt nie unter den letzten echten Wert.
     const forecastT = maxT + FORECAST_SPAN_MS;
-    // Anteil des Gesamt-Zuwachses, der bis "dt" Millisekunden nach dem
-    // letzten echten Punkt bereits erreicht ist - startet steiler, flacht
-    // danach ab, erreicht bei dt=FORECAST_SPAN_MS exakt 1.
-    const DECAY_K = 3 / FORECAST_SPAN_MS;
-    const DECAY_NORM = 1 - Math.exp(-3);
-    function growthFraction(dt) {
-      return (1 - Math.exp(-DECAY_K * dt)) / DECAY_NORM;
-    }
 
     const forecastInfos = seriesList.map((s) => {
       const knownValues = s.points.map((p) => p.value).filter((v) => v != null);
@@ -728,21 +797,45 @@
       // Beitrags-Diagrammen: Trend anderer Beiträge statt der eigenen, bei
       // frischen Beiträgen oft zu kurzen Historie) - sonst lineare
       // Regression über die eigenen Werte dieser Serie.
-      let rawEnd;
+      const ownPoints = () =>
+        s.points.map((p) => ({ t: new Date(p.at).getTime(), v: p.value })).filter((p) => p.v != null);
+
+      let rawEnd, confidence, rmse, range;
       if (typeof s.forecastValue === "function") {
         rawEnd = s.forecastValue(forecastT);
+        if (s.forecastConfidence) {
+          ({ confidence, rmse, range } = s.forecastConfidence);
+        } else {
+          // Absicherung falls eine mitgebrachte Prognose-Funktion (noch)
+          // keine eigene Einschätzung liefert: eigene Regression nur zur
+          // Vertrauens-Bewertung heranziehen.
+          const pts = ownPoints();
+          const reg = linearRegression(pts);
+          ({ confidence, rmse, range } = computeFitConfidence(pts, reg, FORECAST_SPAN_MS));
+        }
       } else {
-        const pts = s.points
-          .map((p) => ({ t: new Date(p.at).getTime(), v: p.value }))
-          .filter((p) => p.v != null);
+        const pts = ownPoints();
         const reg = linearRegression(pts);
         if (!reg) return null;
         rawEnd = reg.intercept + reg.slope * (forecastT - reg.t0);
+        ({ confidence, rmse, range } = computeFitConfidence(pts, reg, FORECAST_SPAN_MS));
       }
+
       const totalGrowth = Math.max(rawEnd - lastValue, 0);
-      return { lastValue, totalGrowth };
+      // Echte Nullbewegung (z.B. eine Plattform, die noch komplett bei 0
+      // steht) - keine vorgetäuschte "sichere" Flachprognose zeichnen,
+      // sondern die Linie ganz weglassen (siehe noSignal weiter unten).
+      const noSignal = totalGrowth === 0 && rmse === 0;
+      const decayK = decayKFor(confidence);
+      const norm = 1 - Math.exp(-decayK * FORECAST_SPAN_MS);
+      const scale = Math.max(range, lastValue, 1);
+      const bandBase = bandBaseUncertainty(rmse, confidence, scale);
+
+      return { lastValue, totalGrowth, confidence, rmse, decayK, norm, bandBase, noSignal };
     });
-    const forecastEndValues = forecastInfos.filter((f) => f != null).map((f) => f.lastValue + f.totalGrowth);
+    const forecastEndValues = forecastInfos
+      .filter((f) => f != null && !f.noSignal)
+      .map((f) => f.lastValue + f.totalGrowth);
 
     // Zeitachse nur verlängern, wenn wirklich eine Prognose gezeichnet wird -
     // sonst würde ein Diagramm ohne jede Prognose (z.B. nur 1 Datenpunkt und
@@ -873,16 +966,48 @@
         svg.appendChild(circle);
 
         const info = forecastInfos[seriesIdx];
-        if (info) {
+        if (info && !info.noSignal) {
           // Abflachende Kurve statt gerader Linie: mehrere Zwischenpunkte
-          // entlang der Wachstumskurve, nicht nur Start- und Endpunkt.
+          // entlang der Wachstumskurve, nicht nur Start- und Endpunkt. Form
+          // (info.decayK/info.norm) und Unsicherheitsband (info.bandBase)
+          // sind je Serie unterschiedlich, siehe computeFitConfidence weiter
+          // oben.
           const STEPS = 14;
           const curveCoords = [];
+          const bandUpper = [];
+          const bandLower = [];
           for (let i = 0; i <= STEPS; i++) {
             const dt = (FORECAST_SPAN_MS * i) / STEPS;
-            const value = info.lastValue + info.totalGrowth * growthFraction(dt);
-            curveCoords.push({ x: xFor(maxT + dt), y: yFor(value) });
+            const growthFrac = (1 - Math.exp(-info.decayK * dt)) / info.norm;
+            const value = info.lastValue + info.totalGrowth * growthFrac;
+            // Unsicherheit wächst mit der Zeit (Wurzel statt linear - eine
+            // übliche, plausible Wahl für "wie unsicher wird die Prognose
+            // mit der Zeit"), aber nie unter den letzten echten Wert (unsere
+            // Kennzahlen sind nicht rückläufig).
+            const half = info.bandBase * Math.sqrt(dt / FORECAST_SPAN_MS);
+            const x = xFor(maxT + dt);
+            curveCoords.push({ x, y: yFor(value) });
+            bandUpper.push({ x, y: yFor(value + half) });
+            bandLower.push({ x, y: yFor(Math.max(value - half, info.lastValue)) });
           }
+
+          // Unsicherheitsbereich als gefüllte Fläche, vor dem Punkt-Marker
+          // (ring) eingefügt statt angehängt, damit er dahinter liegt und
+          // weder den letzten echten Punkt noch die gestrichelte Linie
+          // verdeckt.
+          const band = document.createElementNS(SVG_NS, "path");
+          band.setAttribute(
+            "d",
+            "M" + bandUpper[0].x + "," + bandUpper[0].y +
+              bandUpper.slice(1).map((c) => " L" + c.x + "," + c.y).join("") +
+              bandLower.slice().reverse().map((c) => " L" + c.x + "," + c.y).join("") +
+              " Z"
+          );
+          band.setAttribute("fill", s.color);
+          band.setAttribute("fill-opacity", "0.12");
+          band.setAttribute("stroke", "none");
+          svg.insertBefore(band, ring);
+
           const dashed = document.createElementNS(SVG_NS, "path");
           dashed.setAttribute(
             "d",
@@ -1003,7 +1128,9 @@
         '<span class="dot" style="background:' + s.color + '"></span>' + s.label + ": " + (last ? last.value : "–");
       const info = forecastInfos[i];
       if (info != null) {
-        html += ' <span style="opacity:0.65">(Prognose in 7 Tagen: ~' + Math.round(info.lastValue + info.totalGrowth) + ")</span>";
+        html += info.noSignal
+          ? ' <span style="opacity:0.65">(noch keine Bewegung)</span>'
+          : ' <span style="opacity:0.65">(Prognose in 7 Tagen: ~' + Math.round(info.lastValue + info.totalGrowth) + ")</span>";
       }
       span.innerHTML = html;
       legend.appendChild(span);
@@ -1011,7 +1138,7 @@
     if (forecastEndValues.length > 0) {
       const note = document.createElement("span");
       note.style.opacity = "0.65";
-      note.textContent = "┄ gestrichelt = Prognose (Trend der bisherigen Werte)";
+      note.textContent = "┄ gestrichelt = Prognose · schattierte Fläche = Unsicherheit (breiter = weniger sichere Daten)";
       legend.appendChild(note);
     }
     if (annotations.some((ann) => {
@@ -1066,9 +1193,9 @@
       ])
     );
     container.appendChild(
-      renderChartCard("Profilaufrufe & Website-Klicks (Instagram)", [
-        { label: "Profilaufrufe", color: "var(--violet)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_profile_views })) },
-        { label: "Website-Klicks", color: "var(--jade)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_website_clicks })) },
+      renderChartCard("Engagement (Instagram, 28 Tage)", [
+        { label: "Konten mit Interaktion", color: "var(--violet)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_accounts_engaged })) },
+        { label: "Interaktionen gesamt", color: "var(--jade)", points: allHistory.map((h) => ({ at: h.at, value: h.instagram_total_interactions })) },
       ])
     );
   }
@@ -1265,11 +1392,11 @@
     if (allStats.instagram && allStats.instagram.media_count != null) {
       tiles.push({ label: "Instagram-Beiträge gesamt", value: allStats.instagram.media_count });
     }
-    if (allStats.instagram_activity && allStats.instagram_activity.profile_views != null) {
-      tiles.push({ label: "Profilaufrufe (Instagram)", value: allStats.instagram_activity.profile_views });
+    if (allStats.instagram_activity && allStats.instagram_activity.accounts_engaged != null) {
+      tiles.push({ label: "Konten mit Interaktion (28 Tage, Instagram)", value: allStats.instagram_activity.accounts_engaged });
     }
-    if (allStats.instagram_activity && allStats.instagram_activity.website_clicks != null) {
-      tiles.push({ label: "Website-Klicks (Instagram)", value: allStats.instagram_activity.website_clicks });
+    if (allStats.instagram_activity && allStats.instagram_activity.total_interactions != null) {
+      tiles.push({ label: "Interaktionen gesamt (28 Tage, Instagram)", value: allStats.instagram_activity.total_interactions });
     }
 
     tiles.forEach((t) => {
@@ -1520,29 +1647,40 @@
         points.push({ t: hours, v });
       });
     });
-    return linearRegression(points);
+    const reg = linearRegression(points);
+    if (!reg) return null;
+    // Horizont in Stunden statt Millisekunden, da dieses Modell mit Stunden
+    // seit Veröffentlichung rechnet - dieselbe computeFitConfidence wie bei
+    // den kontoweiten Diagrammen, nur mit passender Zeiteinheit.
+    const fit = computeFitConfidence(points, reg, FORECAST_SPAN_MS / 3600000);
+    return { reg, confidence: fit.confidence, rmse: fit.rmse, range: fit.range };
   }
 
   // Prognose-Funktion für eine einzelne Beitrags-Serie: nutzt das gepoolte
   // Wachstumsmodell (Zuwachs pro Stunde seit Veröffentlichung über alle
   // Beiträge), verankert am eigenen letzten echten Wert dieses Beitrags -
   // eine echte Berechnung aus Vergleichsdaten statt einer erfundenen Zahl.
+  // Liefert die Prognose-Funktion UND eine Vertrauens-Einschätzung (aus der
+  // Streuung des gepoolten Modells), die renderChartCard für Kurvenform und
+  // Unsicherheitsband dieser Serie nutzt.
   function postForecastValue(post, field, history) {
     const values = history.map((h) => h[field]).filter((v) => v != null);
     if (values.length === 0) return null;
     const lastValue = values[values.length - 1];
     const platform = field.startsWith("facebook") ? "facebook" : "instagram";
-    const model = buildPostGrowthModel(platform, field);
-    if (!model) return null;
+    const growth = buildPostGrowthModel(platform, field);
+    if (!growth) return null;
+    const model = growth.reg;
     const publishedAt = new Date(post.geplant_fuer).getTime();
     const lastAt = new Date(history[history.length - 1].at).getTime();
     const nowHours = (lastAt - publishedAt) / 3600000;
-    return (forecastT) => {
+    const forecastValue = (forecastT) => {
       const forecastHours = (forecastT - publishedAt) / 3600000;
       const predNow = model.intercept + model.slope * (nowHours - model.t0);
       const predFuture = model.intercept + model.slope * (forecastHours - model.t0);
       return Math.max(lastValue + (predFuture - predNow), lastValue, 0);
     };
+    return { forecastValue, forecastConfidence: { confidence: growth.confidence, rmse: growth.rmse, range: growth.range } };
   }
 
   // Beitrags-Detailansicht (Beiträge-Tab): dieselbe Beitragskarte wie im
@@ -1568,14 +1706,20 @@
       const list = [];
       if (post.facebook) {
         const series = { label: "Facebook", color: "var(--sky)", points: history.map((h) => ({ at: h.at, value: h[fbField] })) };
-        const forecastFn = postForecastValue(post, fbField, history);
-        if (forecastFn) series.forecastValue = forecastFn;
+        const forecast = postForecastValue(post, fbField, history);
+        if (forecast) {
+          series.forecastValue = forecast.forecastValue;
+          series.forecastConfidence = forecast.forecastConfidence;
+        }
         list.push(series);
       }
       if (post.instagram) {
         const series = { label: "Instagram", color: "var(--coral)", points: history.map((h) => ({ at: h.at, value: h[igField] })) };
-        const forecastFn = postForecastValue(post, igField, history);
-        if (forecastFn) series.forecastValue = forecastFn;
+        const forecast = postForecastValue(post, igField, history);
+        if (forecast) {
+          series.forecastValue = forecast.forecastValue;
+          series.forecastConfidence = forecast.forecastConfidence;
+        }
         list.push(series);
       }
       return list;
