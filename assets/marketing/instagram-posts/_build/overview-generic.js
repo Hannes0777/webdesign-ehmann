@@ -48,14 +48,16 @@ function pointsColumns(points) {
 }
 
 function checkIcon() {
-  return `<svg width="31" height="31" viewBox="0 0 24 24" fill="none" stroke="${t.accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>`;
+  return `<div style="width:34px; height:34px; border-radius:50%; background:${t.accent}; display:flex; align-items:center; justify-content:center;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${t.bg}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>
+  </div>`;
 }
 
 function pointsList(points) {
   const [colA, colB] = pointsColumns(points);
   const row = (item) => `
-    <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:24px;">
-      <div style="flex-shrink:0; margin-top:1px;">${checkIcon()}</div>
+    <div style="display:flex; align-items:center; gap:16px; margin-bottom:34px;">
+      <div style="flex-shrink:0;">${checkIcon()}</div>
       <div style="font-family:'Inter',sans-serif; font-weight:700; font-size:28px; line-height:1.28; color:${t.headline};">${item}</div>
     </div>`;
   if (!colB.length) {
@@ -95,10 +97,10 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
 .hook-subtext { font-family:'Inter',sans-serif; font-weight:400; font-size:22px; line-height:1.45; color:${t.subtext}; max-width:760px; margin:16px auto 0; }
 .points-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:3px; text-transform:uppercase; color:${t.kicker}; margin-top:68px; }
 .points-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:37px; color:${t.headline}; margin-top:12px; margin-bottom:30px; }
-.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; margin-top:68px; }
+.cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; margin-top:92px; }
 .cta-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; line-height:1.2; color:${t.headline}; margin-top:14px; max-width:800px; }
-.contact-box { border:1px solid ${t.border}; padding:16px 36px; margin-top:22px; flex-shrink:0; }
-.contact-box a, .contact-box span { display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:21px; text-align:center; }
+.contact-box { border:1px solid ${t.border}; padding:14px 32px; margin-top:38px; flex-shrink:0; }
+.contact-box a, .contact-box span { display:block; font-family:'Inter',sans-serif; font-weight:600; font-size:18px; text-align:center; }
 .contact-email { color:${t.accent}; margin-bottom:6px; text-decoration:none; }
 .contact-web { color:${t.headline}; font-weight:400; }
 .footer { position:absolute; left:104px; right:104px; bottom:76px; display:flex; justify-content:space-between; font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:3px; text-transform:uppercase; color:${t.footer}; }
