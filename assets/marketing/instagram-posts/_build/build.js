@@ -61,6 +61,23 @@ const THEMES = {
     muted: "rgba(108,101,88,0.3)",
     mutedStrong: "rgba(108,101,88,0.5)",
   },
+  blau: {
+    bg: "#0D1526",
+    grid: "#16213A",
+    border: "#3D5A85",
+    kicker: "#5B9BFF",
+    headline: "#F4F6FB",
+    accent: "#5B9BFF",
+    subtext: "#A7B3D1",
+    divider: "#5B9BFF",
+    footer: "#8C9AC0",
+    glow: "rgba(91,155,255,0.28)",
+    faded: "rgba(167,179,209,0.55)",
+    cardBg: "rgba(91,155,255,0.045)",
+    cardBorder: "rgba(91,155,255,0.35)",
+    muted: "rgba(167,179,209,0.35)",
+    mutedStrong: "rgba(167,179,209,0.55)",
+  },
 };
 
 function iconSvg(name, color, size = 30) {
@@ -641,7 +658,8 @@ const postsToBuild = filter
 
 for (const post of postsToBuild) {
   const total = post.slides.length;
-  for (const theme of ["dunkel", "hell"]) {
+  const themesForPost = post.themes || ["dunkel", "hell"];
+  for (const theme of themesForPost) {
     const outDir = path.join(OUT_ROOT, post.folder, theme);
     ensureDir(outDir);
     post.slides.forEach((slide, i) => {

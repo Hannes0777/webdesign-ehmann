@@ -464,6 +464,47 @@ const POSTS = [
       },
     ],
   },
+  {
+    folder: "Beispielprojekt Website-Relaunch",
+    themes: ["blau"],
+    slides: [
+      {
+        kind: "cover",
+        big: true,
+        kicker: "DESIGN-BEISPIEL · FIKTIVER BETRIEB",
+        headline: ["Elektro", "<span class=\"accent\">Hoffmann</span>"],
+        subtext: "So könnte ein komplettes Kundenprojekt bei mir ablaufen.",
+      },
+      {
+        kind: "hero-left",
+        icon: "warning",
+        kicker: "SCHRITT 1",
+        headline: "Die alte Website",
+        subtext: "Leistungen nur als Fließtext, keine mobile Ansicht, Telefonnummer irgendwo im Text versteckt — auf dem Handy kaum nutzbar.",
+      },
+      {
+        kind: "hero-left",
+        icon: "compass",
+        kicker: "SCHRITT 2",
+        headline: "Meine Gedanken dazu",
+        subtext: "Bevor ich einen Entwurf zeichne, frage ich: Wie sucht jemand nach einem Elektriker? Meist unterwegs, oft in Eile — genau darauf muss die neue Seite ausgelegt sein.",
+      },
+      {
+        kind: "mockup-site",
+        icon: "target",
+        kicker: "SCHRITT 3",
+        headline: "Die neue Website",
+        subtext: "Klar strukturiert, in Sekunden geladen, mit klickbarer Telefonnummer und echtem Kontaktformular — alles, was auf der alten Seite gefehlt hat.",
+      },
+      {
+        kind: "cta",
+        kicker: "ERWEITERUNGEN",
+        headline: "Noch Luft nach oben",
+        subtext: "Online-Terminbuchung, ein Notdienst-Bereich, mehr Sprachen — wächst mit, sobald du so weit bist. Schreib mir, wir schauen uns dein Beispiel gemeinsam an.",
+        button: "JETZT SCHREIBEN →",
+      },
+    ],
+  },
 ];
 
 module.exports = { POSTS, ICONS };
