@@ -36,9 +36,9 @@ function lineCount(headline) {
 }
 function hookSize(headline) {
   const n = lineCount(headline);
-  if (n <= 1) return 66;
-  if (n === 2) return 58;
-  return 48;
+  if (n <= 1) return 94;
+  if (n === 2) return 82;
+  return 68;
 }
 
 function pointsColumns(points) {
@@ -87,10 +87,8 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
 }
 .frame { position:absolute; top:56px; left:56px; right:56px; bottom:56px; border:1px solid ${t.border}; }
 .col { position:absolute; left:90px; right:90px; top:60px; bottom:112px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
-.logo-we { font-family:'Playfair Display',serif; font-weight:700; font-size:60px; color:${t.accent}; text-shadow:0 0 30px ${t.glow}; line-height:1; }
-.logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:29px; letter-spacing:5px; color:${t.headline}; margin-top:14px; }
-.logo-tag { font-family:'Playfair Display',serif; font-style:italic; font-size:18px; color:${t.subtext}; margin-top:9px; }
-.rule { width:100%; height:1px; background:${t.border}; margin:28px 0; flex-shrink:0; }
+.logo-we { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; color:${t.accent}; text-shadow:0 0 20px ${t.glow}; line-height:1; }
+.rule { width:100%; height:1px; background:${t.border}; margin:22px 0; flex-shrink:0; }
 .kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:18px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
 .headline { font-family:'Playfair Display',serif; font-weight:700; line-height:1.14; color:${t.headline}; text-shadow:0 0 26px ${t.glow}; margin-top:15px; }
 .headline .accent { color:${t.accent}; }
@@ -111,8 +109,6 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
     <div class="frame"></div>
     <div class="col">
       <div class="logo-we">WE</div>
-      <div class="logo-name">WEBDESIGN.EHMANN</div>
-      <div class="logo-tag">Handgebaut. Nicht aus dem Baukasten.</div>
       <div class="rule"></div>
 
       <div class="kicker">${p.kicker}</div>
@@ -230,6 +226,39 @@ const OVERVIEWS = [
       "Erweiterungen nach Bedarf",
     ],
     ctaHeadline: "Ein Begleiter, kein abgeschlossenes Projekt — lass uns über deine Website sprechen.",
+  },
+  {
+    slug: "tipp-kontaktformular",
+    folder: "Tipp Kontaktformular",
+    outFile: "tipp-kontaktformular-uebersicht.png",
+    kicker: "TIPP",
+    headline: ["Warum ein „mailto:“-", "Link <span class=\"accent\">schadet</span>"],
+    subtext: "Kleines Detail, großer Unterschied für deine Kunden.",
+    pointsKicker: "SO LÖSE ICH ES",
+    pointsHeadline: "Ein echtes Kontaktformular",
+    points: [
+      "Keine sichtbare E-Mail-Adresse im Code",
+      "Funktioniert auch ohne Mail-App",
+      "Name, Nachricht, E-Mail — direkt an dich",
+    ],
+    ctaHeadline: "Bei jedem meiner Projekte Standard — schreib mir, wenn du das auch für deine Website willst.",
+  },
+  {
+    slug: "serie-marketing",
+    folder: "serie-marketing",
+    outFile: "serie-marketing-uebersicht.png",
+    kicker: "MARKETING · SERIE TEIL 3",
+    headline: ["Ein Auftritt.", "<span class=\"accent\">Überall.</span>"],
+    subtext: "Social Media, Flyer und Logo — auf Wunsch übernehme ich auch das, im selben Design wie deine Website.",
+    pointsKicker: "AUS EINER HAND",
+    pointsHeadline: "Ein einheitlicher Auftritt",
+    points: [
+      "Social-Media-Beiträge im Website-Design",
+      "Flyer für Aktionen & Veranstaltungen",
+      "Logo als Basis für alles",
+      "Kunden erkennen dich überall wieder",
+    ],
+    ctaHeadline: "Auch Social Media, Flyer oder Logo aus einer Hand? Schreib mir — wir besprechen gemeinsam, was zu deinem Betrieb passt.",
   },
 ];
 
