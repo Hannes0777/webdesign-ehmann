@@ -56,6 +56,12 @@
         ],
         "createdAt": "2026-08-23T21:18:12.603Z",
         "reason": "L329 .cine-hero__grid is the homepage's flagship cinematic hero atmosphere layer: hairline grid at 6% opacity, radial-mask faded toward the edges, paired with a grain texture - part of the site's established blueprint/editorial brand language also used across the marketing/Instagram assets. Reviewed and judged an intentional atmospheric backdrop on the one signature hero, not a generic dashboard grid."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-08-27T21:09:38.936Z",
+        "reason": "Established Webdesign-Ehmann brand pairing (Playfair Display + Inter, gold accent) already used consistently across dozens of prior Instagram marketing assets in this repo; not a fresh AI-default choice, predates this edit."
       }
     ]
   }
