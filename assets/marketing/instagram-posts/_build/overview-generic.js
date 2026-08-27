@@ -36,9 +36,9 @@ function lineCount(headline) {
 }
 function hookSize(headline) {
   const n = lineCount(headline);
-  if (n <= 1) return 94;
-  if (n === 2) return 82;
-  return 68;
+  if (n <= 1) return 84;
+  if (n === 2) return 73;
+  return 60;
 }
 
 function pointsColumns(points) {
@@ -48,15 +48,15 @@ function pointsColumns(points) {
 }
 
 function checkIcon() {
-  return `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="${t.accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>`;
+  return `<svg width="31" height="31" viewBox="0 0 24 24" fill="none" stroke="${t.accent}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>`;
 }
 
 function pointsList(points) {
   const [colA, colB] = pointsColumns(points);
   const row = (item) => `
-    <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:22px;">
-      <div style="flex-shrink:0; margin-top:2px;">${checkIcon()}</div>
-      <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:24px; line-height:1.3; color:${t.headline};">${item}</div>
+    <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:24px;">
+      <div style="flex-shrink:0; margin-top:1px;">${checkIcon()}</div>
+      <div style="font-family:'Inter',sans-serif; font-weight:700; font-size:28px; line-height:1.28; color:${t.headline};">${item}</div>
     </div>`;
   if (!colB.length) {
     return `<div style="width:100%; max-width:820px; margin:0 auto;">${colA.map(row).join("")}</div>`;
@@ -94,7 +94,7 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
 .headline .accent { color:${t.accent}; }
 .hook-subtext { font-family:'Inter',sans-serif; font-weight:400; font-size:22px; line-height:1.45; color:${t.subtext}; max-width:760px; margin:16px auto 0; }
 .points-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:3px; text-transform:uppercase; color:${t.kicker}; margin-top:68px; }
-.points-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; color:${t.headline}; margin-top:12px; margin-bottom:26px; }
+.points-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:37px; color:${t.headline}; margin-top:12px; margin-bottom:30px; }
 .cta-kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:17px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; margin-top:68px; }
 .cta-headline { font-family:'Playfair Display',serif; font-weight:700; font-size:34px; line-height:1.2; color:${t.headline}; margin-top:14px; max-width:800px; }
 .contact-box { border:1px solid ${t.border}; padding:16px 36px; margin-top:22px; flex-shrink:0; }
