@@ -410,6 +410,7 @@ function renderBody(slide, t) {
       <div class="kicker left">${slide.kicker}</div>
       <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
       <p class="subtext left">${slide.subtext}</p>
+      ${slide.visual ? slide.visual(t, iconSvg) : ""}
     </div>`;
 }
 

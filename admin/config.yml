@@ -282,6 +282,9 @@ collections:
       - label: "Nur Fehler"
         field: status
         pattern: "fehler"
+      - label: "Nur unterbrochen (prüfen!)"
+        field: status
+        pattern: "wird_veroeffentlicht"
     fields:
       - name: bild_facebook
         label: "Bild für Facebook"
@@ -317,8 +320,9 @@ collections:
       - name: status
         label: "Status"
         widget: select
-        options: ["geplant", "veroeffentlicht", "fehler"]
+        options: ["geplant", "wird_veroeffentlicht", "veroeffentlicht", "fehler"]
         default: "geplant"
+        hint: "„wird_veroeffentlicht“ setzt der Workflow selbst kurz vor dem Posten. Bleibt ein Beitrag dauerhaft darauf stehen, wurde ein Lauf unterbrochen — erst manuell auf Facebook/Instagram prüfen, ob er schon online ist, dann erst auf „geplant“ zurücksetzen."
       - name: fehler_meldung
         label: "Fehlermeldung (wird automatisch befüllt)"
         widget: string

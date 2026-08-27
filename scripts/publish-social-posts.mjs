@@ -12,6 +12,7 @@
 // Hosting.
 
 import { readdir, readFile, writeFile, unlink } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 
 const POSTS_DIR = path.join(process.cwd(), "content", "social-posts");
@@ -93,6 +94,59 @@ async function igGraphGet(pathSegment, params) {
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// --- Absicherung gegen Doppel-Posting ---
+// Bevor ein Beitrag tatsächlich an Facebook/Instagram geschickt wird, wird
+// der Status zuerst lokal auf "wird_veroeffentlicht" gesetzt und sofort
+// committet + gepusht. Erst wenn dieser Push wirklich sicher im Remote-Repo
+// angekommen ist, wird überhaupt gepostet. Stürzt der Job danach ab oder
+// schlägt der *finale* Push (mit dem Ergebnis "veroeffentlicht"/"fehler")
+// fehl, steht der Beitrag beim nächsten Lauf auf "wird_veroeffentlicht" statt
+// auf "geplant" – und wird dann NICHT automatisch erneut gepostet, sondern
+// nur als Warnung gemeldet, damit ein Mensch erst manuell auf Facebook/
+// Instagram prüft, bevor der Status zurückgesetzt wird.
+function runGit(args) {
+  return execFileSync("git", args, { cwd: process.cwd(), stdio: ["ignore", "pipe", "pipe"] }).toString();
+}
+
+function hasStagedChanges() {
+  try {
+    runGit(["diff", "--cached", "--quiet"]);
+    return false;
+  } catch {
+    return true;
+  }
+}
+
+let gitIdentityEnsured = false;
+function ensureGitIdentity() {
+  if (gitIdentityEnsured) return;
+  runGit(["config", "user.name", "github-actions[bot]"]);
+  runGit(["config", "user.email", "github-actions[bot]@users.noreply.github.com"]);
+  gitIdentityEnsured = true;
+}
+
+async function commitAndPush(message) {
+  ensureGitIdentity();
+  runGit(["add", "content/social-posts"]);
+  if (!hasStagedChanges()) return;
+  runGit(["commit", "-m", message]);
+
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      runGit(["push"]);
+      return;
+    } catch (err) {
+      if (attempt === 5) {
+        throw new Error(`git push endgültig fehlgeschlagen: ${err.message}`);
+      }
+      console.warn(`Push fehlgeschlagen (Versuch ${attempt}), hole Änderungen und versuche erneut...`);
+      runGit(["fetch", "origin", "master"]);
+      runGit(["rebase", "origin/master"]);
+      await sleep(3000);
+    }
+  }
 }
 
 // --- Facebook: immer genau ein Bild, direkt als Datei hochgeladen ---
@@ -232,29 +286,60 @@ async function main() {
     const filePath = path.join(POSTS_DIR, file);
     const post = JSON.parse(await readFile(filePath, "utf8"));
 
+    if (post.status === "wird_veroeffentlicht") {
+      console.error(
+        `WARNUNG: ${file} steht auf "wird_veroeffentlicht" (vermutlich Abbruch bei einem früheren Lauf). ` +
+          `Bitte manuell auf Facebook/Instagram prüfen, ob der Beitrag schon online ist, bevor der Status ` +
+          `zurückgesetzt wird. Wird in diesem Lauf übersprungen, um kein Doppel-Posting zu riskieren.`
+      );
+      continue;
+    }
+
     if (post.status !== "geplant") continue;
     if (!post.geplant_fuer || new Date(post.geplant_fuer) > now) continue;
 
     console.log(`Veröffentliche: ${file}`);
+
+    // Sperre setzen und SOFORT committen/pushen, bevor überhaupt gepostet
+    // wird. Klappt das nicht, wird auch nicht gepostet – lieber ein
+    // verspäteter Beitrag als ein doppelt veröffentlichter.
+    const lockedPost = { ...post, status: "wird_veroeffentlicht" };
+    await writeFile(filePath, JSON.stringify(lockedPost, null, 2) + "\n", "utf8");
+    try {
+      await commitAndPush(`Social-Media-Beitrag ${file}: Sperre vor Veröffentlichung`);
+    } catch (err) {
+      console.error(`Konnte Sperre für ${file} nicht sichern, überspringe (kein Post ohne gesicherte Sperre): ${err.message}`);
+      continue;
+    }
+    post.status = "wird_veroeffentlicht";
+
     const fbImage = await loadImage(post.bild_facebook);
     const igImages = await loadImages(post.bilder_instagram);
     const errors = [];
 
     if (post.facebook) {
-      try {
-        if (!fbImage) throw new Error("Kein Bild für Facebook hinterlegt.");
-        post.facebook_post_id = await publishToFacebook(post, fbImage);
-      } catch (err) {
-        errors.push(`Facebook: ${err.message}`);
+      if (post.facebook_post_id) {
+        console.log(`Facebook für ${file} bereits veröffentlicht (Post-ID vorhanden), überspringe.`);
+      } else {
+        try {
+          if (!fbImage) throw new Error("Kein Bild für Facebook hinterlegt.");
+          post.facebook_post_id = await publishToFacebook(post, fbImage);
+        } catch (err) {
+          errors.push(`Facebook: ${err.message}`);
+        }
       }
     }
 
     if (post.instagram) {
-      try {
-        if (igImages.length === 0) throw new Error("Kein Bild für Instagram hinterlegt.");
-        post.instagram_media_id = await publishToInstagram(post, igImages);
-      } catch (err) {
-        errors.push(`Instagram: ${err.message}`);
+      if (post.instagram_media_id) {
+        console.log(`Instagram für ${file} bereits veröffentlicht (Media-ID vorhanden), überspringe.`);
+      } else {
+        try {
+          if (igImages.length === 0) throw new Error("Kein Bild für Instagram hinterlegt.");
+          post.instagram_media_id = await publishToInstagram(post, igImages);
+        } catch (err) {
+          errors.push(`Instagram: ${err.message}`);
+        }
       }
     }
 

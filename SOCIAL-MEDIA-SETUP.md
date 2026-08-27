@@ -112,5 +112,16 @@ speichern. Der Workflow läuft automatisch alle
 fällige Beiträge. Der Status wechselt danach automatisch auf
 „veroeffentlicht" bzw. bei einem Problem auf „fehler" mit Fehlermeldung.
 
+**Absicherung gegen Doppel-Posting:** Kurz bevor ein Beitrag wirklich an
+Facebook/Instagram geschickt wird, setzt der Workflow den Status zuerst auf
+„wird_veroeffentlicht" und sichert das sofort per Commit. Nur wenn das
+gelingt, wird tatsächlich gepostet – so verhindert ein abgebrochener Lauf
+(z.B. Netzwerkfehler beim finalen Speichern), dass derselbe Beitrag beim
+nächsten Durchlauf einfach nochmal gepostet wird. Bleibt ein Beitrag auf
+„wird_veroeffentlicht" stehen (im CMS sichtbar), heißt das: der letzte Lauf
+wurde unterbrochen. Dann bitte erst manuell auf Facebook/Instagram
+nachschauen, ob er schon online ist, bevor der Status im CMS zurück auf
+„geplant" gesetzt wird.
+
 Manuell testen lässt sich der Workflow über den Reiter **Actions** im
 Repository → „Social-Media-Beiträge veröffentlichen" → **Run workflow**.
