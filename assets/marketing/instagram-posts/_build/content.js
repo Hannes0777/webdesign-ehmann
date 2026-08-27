@@ -212,8 +212,8 @@ const POSTS = [
         headline: "Ein echtes Kontaktformular",
         subtext: "So läuft es bei mir ab: Name, E-Mail, Nachricht — direkt an dich, ohne Umweg über eine Mail-App.",
         photo: "real/kontaktformular-webdesign-ehmann.png",
-        photoW: 460,
-        photoH: 496,
+        photoW: 430,
+        photoH: 457,
         caption: "ECHTES KONTAKTFORMULAR · WEBDESIGN EHMANN",
       },
       {
