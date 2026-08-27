@@ -56,8 +56,8 @@ function checkIcon() {
 function pointsList(points) {
   const [colA, colB] = pointsColumns(points);
   const row = (item) => `
-    <div style="display:flex; align-items:center; gap:16px; margin-bottom:34px;">
-      <div style="flex-shrink:0;">${checkIcon()}</div>
+    <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:34px;">
+      <div style="flex-shrink:0; margin-top:3px;">${checkIcon()}</div>
       <div style="font-family:'Inter',sans-serif; font-weight:700; font-size:28px; line-height:1.28; color:${t.headline};">${item}</div>
     </div>`;
   if (!colB.length) {
