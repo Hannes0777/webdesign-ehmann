@@ -177,7 +177,7 @@ const POSTS = [
         big: true,
         kicker: "TIPP",
         headline: ["Warum ein „mailto:“-", "Link <span class=\"accent\">schadet</span>"],
-        subtext: "Kleines Detail, großer Unterschied für deine Kunden.",
+        subtext: "Der Link, der beim Klick automatisch dein Mailprogramm öffnen soll — mit einem Haken für deine Kunden.",
       },
       {
         kind: "hero-left",
@@ -185,6 +185,11 @@ const POSTS = [
         kicker: "PROBLEM 1",
         headline: "Spam-Bots lesen mit",
         subtext: "Steht deine E-Mail-Adresse im Klartext im Code, sammeln Bots sie automatisch ein.",
+        visual: (t) => `
+          <div style="margin-top:34px; max-width:640px; background:${t.cardBg}; border:1px solid ${t.cardBorder}; padding:28px 32px; box-sizing:border-box;">
+            <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:2px; color:${t.mutedStrong}; margin-bottom:16px;">DEIN QUELLCODE — FÜR JEDEN LESBAR</div>
+            <div style="font-family:'Courier New',monospace; font-size:22px; line-height:1.5; color:${t.headline}; word-break:break-word;">&lt;a href="mailto:<span style="color:${t.accent};">info@deinbetrieb.de</span>"&gt;</div>
+          </div>`,
       },
       {
         kind: "hero-left",
@@ -192,13 +197,24 @@ const POSTS = [
         kicker: "PROBLEM 2",
         headline: "Öffnet oft gar nichts",
         subtext: "Ohne eingerichtetes Mailprogramm passiert beim Klick auf dem Handy — nichts.",
+        visual: (t, iconSvg) => `
+          <div style="margin-top:34px; display:flex;">
+            <div style="width:220px; height:280px; border:2px solid ${t.cardBorder}; border-radius:30px; background:${t.cardBg}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; box-sizing:border-box;">
+              ${iconSvg("warning", t.mutedStrong, 46)}
+              <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:14px; letter-spacing:1px; color:${t.mutedStrong};">Nichts passiert</div>
+            </div>
+          </div>`,
       },
       {
-        kind: "mockup-form",
+        kind: "showcase-photo",
         icon: "form",
         kicker: "LÖSUNG",
         headline: "Ein echtes Kontaktformular",
         subtext: "So läuft es bei mir ab: Name, E-Mail, Nachricht — direkt an dich, ohne Umweg über eine Mail-App.",
+        photo: "real/kontaktformular-webdesign-ehmann.png",
+        photoW: 560,
+        photoH: 410,
+        caption: "ECHTES KONTAKTFORMULAR · WEBDESIGN EHMANN",
       },
       {
         kind: "cta",
