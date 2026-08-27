@@ -62,6 +62,15 @@
         "value": "inter",
         "createdAt": "2026-08-27T21:09:38.936Z",
         "reason": "Established Webdesign-Ehmann brand pairing (Playfair Display + Inter, gold accent) already used consistently across dozens of prior Instagram marketing assets in this repo; not a fresh AI-default choice, predates this edit."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "assets/marketing/instagram-posts/_build/content.js"
+        ],
+        "createdAt": "2026-08-27T22:15:56.660Z",
+        "reason": "Same established Webdesign-Ehmann brand pairing (Playfair Display + Inter) as build.js/overview.js in this same asset pipeline; new visual() snippets added here reuse the existing font-family, not a new choice."
       }
     ]
   }
