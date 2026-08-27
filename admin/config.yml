@@ -354,6 +354,7 @@ collections:
         format: "YYYY-MM-DDTHH:mm:ssZ"
         date_format: "DD.MM.YYYY"
         time_format: false
+        default: '{{now}}'
       - name: anzahl
         label: "Anzahl gefolgter Accounts"
         widget: number

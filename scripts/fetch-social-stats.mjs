@@ -76,19 +76,38 @@ async function fetchMetric(base, path, metric, token, extraParams) {
   const result = await safely(`Metrik ${metric} (${path})`, () =>
     graphGet(base, `${path}/insights`, { metric, access_token: token, ...extraParams })
   );
-  return result?.data?.[0]?.values?.[0]?.value ?? null;
+  const entry = result?.data?.[0];
+  // total_value-Metriken (metric_type=total_value) liefern {total_value:{value}},
+  // time_series-Metriken (klassisch, z.B. reach je Beitrag) liefern {values:[{value}]}.
+  const value = entry?.total_value?.value ?? entry?.values?.[0]?.value ?? null;
+  if (result && value == null) {
+    // Kein Fehler, aber auch kein auswertbarer Wert - genau das Muster, mit
+    // dem Meta abgeschaltete Metriken (z.B. profile_views/website_clicks,
+    // seit 8.1.2025 entfernt) stillschweigend beantwortet: {"data":[]} statt
+    // eines Fehlers. Sichtbar loggen statt wieder stillschweigend zu
+    // verschlucken, damit ein künftiger API-Umbau sofort auffällt.
+    console.log(`⚠ Metrik ${metric} (${path}): kein Wert in der Antwort - ${JSON.stringify(result)}`);
+  }
+  return value;
 }
 
-// Kontoweite Instagram-Aktivität (nicht pro Beitrag). Unsere Beiträge sind
-// reine Bild-/Karussell-Posts ohne Link, daher gibt es keine "Klicks pro
-// Beitrag" - profile_views/website_clicks sind die nächstliegenden
-// verfügbaren Metriken (Aufrufe des Profils bzw. Klicks auf den
-// Website-Link im Profil), kontoweit statt pro Beitrag.
+// Kontoweite Instagram-Aktivität (nicht pro Beitrag). profile_views/
+// website_clicks wurden von Meta am 8.1.2025 ersatzlos aus der Graph API
+// entfernt (liefern seither still {data:[]} statt eines Fehlers) - als
+// inhaltlich nächstliegende noch verfügbare Account-Metriken werden
+// stattdessen accounts_engaged (Konten mit Interaktion) und
+// total_interactions (Interaktionen insgesamt) über 28 Tage abgefragt.
 async function fetchInstagramActivityStats() {
   if (!IG_USER_ID || !IG_TOKEN) return null;
-  const profileViews = await fetchMetric(IG_GRAPH_API, IG_USER_ID, "profile_views", IG_TOKEN, { period: "day" });
-  const websiteClicks = await fetchMetric(IG_GRAPH_API, IG_USER_ID, "website_clicks", IG_TOKEN, { period: "day" });
-  return { profile_views: profileViews, website_clicks: websiteClicks };
+  const accountsEngaged = await fetchMetric(IG_GRAPH_API, IG_USER_ID, "accounts_engaged", IG_TOKEN, {
+    period: "days_28",
+    metric_type: "total_value",
+  });
+  const totalInteractions = await fetchMetric(IG_GRAPH_API, IG_USER_ID, "total_interactions", IG_TOKEN, {
+    period: "days_28",
+    metric_type: "total_value",
+  });
+  return { accounts_engaged: accountsEngaged, total_interactions: totalInteractions };
 }
 
 async function fetchFacebookPostStats(postId) {
@@ -372,8 +391,8 @@ async function main() {
     instagram_likes: igLikes,
     instagram_comments: igComments,
     instagram_reach: igReach,
-    instagram_profile_views: stats.instagram_activity?.profile_views ?? null,
-    instagram_website_clicks: stats.instagram_activity?.website_clicks ?? null,
+    instagram_accounts_engaged: stats.instagram_activity?.accounts_engaged ?? null,
+    instagram_total_interactions: stats.instagram_activity?.total_interactions ?? null,
   });
   // Bei 5-Minuten-Takt sonst unbegrenztes Wachstum - 4000 Punkte
   // entsprechen ca. 2 Wochen Verlauf, das reicht für die Diagramme.
