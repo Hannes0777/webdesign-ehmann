@@ -246,6 +246,22 @@ const OVERVIEWS = [
     ctaHeadline: "Bei jedem meiner Projekte Standard — schreib mir, wenn du das auch für deine Website willst.",
   },
   {
+    slug: "google-business-profil",
+    folder: "Google Business Profil",
+    outFile: "google-business-profil-uebersicht.png",
+    kicker: "HÄUFIGE FRAGE",
+    headline: ["Google Business Profil", "oder eigene Website —", "<span class=\"accent\">brauchst du beides?</span>"],
+    subtext: "Kurze Antwort: ja. Hier warum.",
+    pointsKicker: "DAS ZUSAMMENSPIEL",
+    pointsHeadline: "Zwei Bausteine, ein Auftritt",
+    points: [
+      "Google Profil: Öffnungszeiten, Bewertungen, Route",
+      "Eigene Website: volle Kontrolle über Inhalt & Design",
+      "46% aller Google-Suchen haben einen lokalen Bezug",
+    ],
+    ctaHeadline: "Website und Google Business Profil aus einer Hand — sauber verknüpft, nicht nebeneinander her.",
+  },
+  {
     slug: "serie-marketing",
     folder: "serie-marketing",
     outFile: "serie-marketing-uebersicht.png",
