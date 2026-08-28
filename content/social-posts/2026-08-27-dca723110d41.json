@@ -4,6 +4,6 @@
   "facebook": true,
   "instagram": false,
   "geplant_fuer": "2026-08-28T06:52:00+02:00",
-  "status": "wird_veroeffentlicht",
-  "fehler_meldung": ""
+  "status": "fehler",
+  "fehler_meldung": "Facebook: Kein Bild für Facebook hinterlegt."
 }
