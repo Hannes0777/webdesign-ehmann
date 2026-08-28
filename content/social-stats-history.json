@@ -687,5 +687,18 @@
     "instagram_reach": 266,
     "instagram_profile_views": null,
     "instagram_website_clicks": null
+  },
+  {
+    "at": "2026-08-28T04:28:25.923Z",
+    "facebook_followers": 0,
+    "instagram_followers": 40,
+    "facebook_likes": 0,
+    "facebook_comments": 0,
+    "facebook_reach": 0,
+    "instagram_likes": 32,
+    "instagram_comments": 0,
+    "instagram_reach": 274,
+    "instagram_accounts_engaged": 2,
+    "instagram_total_interactions": 3
   }
 ]
