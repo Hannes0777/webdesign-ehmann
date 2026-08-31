@@ -607,13 +607,15 @@ const POSTS = [
     slides: [
       {
         // Slide 1 wird im fertigen Post durch das echte Scroll-Video ersetzt
-        // (siehe _build/video/dachwerk-video-slide-01.mp4, gebaut per
-        // video-frame.js + compose-video.sh) - dieses PNG dient nur als
-        // Referenz/Fallback-Thumbnail, damit die Zaehlung 01..06 stimmt.
+        // (siehe Dachwerk Lindenhof Showcase/blau/slide-1.mp4, gebaut per
+        // video-frame.js + compose-video.sh aus dem selbst aufgenommenen
+        // Screen-Recording) - dieses PNG dient nur als Referenz/Fallback-
+        // Thumbnail, damit die Zaehlung 01..06 stimmt.
         kind: "cover",
-        kicker: "PROJEKT-EINBLICK",
-        headline: ["Ein Projekt.", "<span class=\"accent\">Viele Kanäle.</span>"],
-        subtext: "Website, Logo, Flyer und Social Media im selben Design — hier am Beispiel Dachwerk Lindenhof.",
+        big: true,
+        kicker: "LIVE-DEMO FÜR KUNDEN · FIKTIVER BETRIEB",
+        headline: ["Dachwerk", "<span class=\"accent\">Lindenhof</span>"],
+        subtext: "Website, Logo, Flyer und Social Media im selben Design.",
       },
       {
         kind: "showcase-photo",
@@ -622,8 +624,9 @@ const POSTS = [
         headline: "Ein Erkennungszeichen für den Betrieb",
         subtext: "Das Dach als Symbol, in den Firmenfarben — Grundlage für Website, Fahrzeugbeschriftung und alles, was noch dazukommt.",
         photo: "../../dachwerk-lindenhof/logo/dachwerk-lindenhof-logo.png",
-        photoW: 420,
-        photoH: 420,
+        photoW: 620,
+        photoH: 620,
+        contentTop: 150,
         caption: "ECHTES LOGO · DACHWERK LINDENHOF",
       },
       {
@@ -631,10 +634,11 @@ const POSTS = [
         icon: "form",
         kicker: "FLYER & PRINT",
         headline: "Für Aushang, Auto und Briefkasten",
-        subtext: "Gleiche Farben, gleiche Schrift, gleicher Auftritt wie auf der Website — druckfertig gestaltet.",
+        subtext: "Druckfertig, im selben Look wie die Website.",
         photo: "../../dachwerk-lindenhof/flyer/dachwerk-lindenhof-flyer.png",
-        photoW: 385,
-        photoH: 680,
+        photoW: 377,
+        photoH: 665,
+        contentTop: 150,
         caption: "ECHTER FLYER · DACHWERK LINDENHOF",
       },
       {
@@ -644,8 +648,9 @@ const POSTS = [
         headline: "Content, der zum Look passt",
         subtext: "Eigene Instagram-Beiträge im selben Design — für Aktionen, Angebote und mehr Reichweite vor Ort.",
         photo: "../../dachwerk-lindenhof/instagram/post-2-dach-check-aktion.png",
-        photoW: 420,
-        photoH: 420,
+        photoW: 620,
+        photoH: 620,
+        contentTop: 150,
         caption: "ECHTER POST · DACHWERK LINDENHOF",
       },
       {

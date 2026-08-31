@@ -397,8 +397,9 @@ function renderBody(slide, t) {
       borderColor: t.cardBorder,
       rotate: 0,
     });
+    const topStyle = slide.contentTop ? ` style="top:${slide.contentTop}px;"` : "";
     return `
-    <div class="content content-left">
+    <div class="content content-left"${topStyle}>
       ${iconBadge(t, slide.icon)}
       <div class="kicker left">${slide.kicker}</div>
       <h1 class="headline left" style="font-size:${size}px;">${toHtml(slide.headline)}</h1>
