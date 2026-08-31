@@ -407,12 +407,15 @@ button { font: inherit; cursor: pointer; }
 }
 
 /* ============================================================
-   GRID-SPOTLIGHT — helle Rasterlinien, die dem Cursor per Masken-
-   Radialverlauf folgen (--mx/--my aus main.js) und so ein dezentes
-   Basis-Raster an einer Stelle "aufleuchten" lassen: erzeugt den
-   Tiefen-/Glaslinsen-Effekt, den auch jahforge.net über seinem
-   Hintergrund-Raster nutzt. Aus, bis die Maus sich das erste Mal
-   bewegt (.is-active), damit vor Interaktion kein Fleck mittig
+   GRID-SPOTLIGHT — goldene Rasterlinien (--gold), die dem Cursor per
+   Masken-Radialverlauf folgen (--mx/--my aus main.js) und so ein
+   dezentes Basis-Raster an einer Stelle "aufleuchten" lassen: erzeugt
+   den Tiefen-/Glaslinsen-Effekt, den auch jahforge.net über seinem
+   Hintergrund-Raster nutzt. Gold statt Weiß, damit die Cinematic-
+   Hero-Sequenz denselben warmen Ton trägt wie der globale
+   .cursor-glow (der wegen z-index:-1 den opaken Hero-Hintergrund
+   nicht mehr durchscheinen kann). Aus, bis die Maus sich das erste
+   Mal bewegt (.is-active), damit vor Interaktion kein Fleck mittig
    sichtbar ist.
    ============================================================ */
 .grid-spotlight {
@@ -423,8 +426,8 @@ button { font: inherit; cursor: pointer; }
   transition: opacity 0.4s ease;
   background-size: 60px 60px;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.55) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.55) 1px, transparent 1px);
+    linear-gradient(to right, rgba(217, 174, 92, 0.7) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217, 174, 92, 0.7) 1px, transparent 1px);
   mask-image: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.35) 55%, transparent 100%);
   -webkit-mask-image: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.35) 55%, transparent 100%);
 }
