@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Dachwerk Lindenhof Logo">
+  <rect x="0" y="0" width="64" height="64" rx="16" fill="#16232e"/>
+  <path d="M12 38 L32 20 L52 38" fill="none" stroke="#c1662e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M18 46 L32 32 L46 46" fill="none" stroke="#eee7da" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

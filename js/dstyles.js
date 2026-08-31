@@ -63,14 +63,17 @@
     const text1 = "#dstyles-text-1";
     const text2 = "#dstyles-text-2";
     const text3 = "#dstyles-text-3";
+    const text4 = "#dstyles-text-4";
     const mockup1 = "#dstyles-mockup-1";
     const mockup2 = "#dstyles-mockup-2";
     const mockup3 = "#dstyles-mockup-3";
+    const mockup4 = "#dstyles-mockup-4";
     const dots = document.querySelectorAll("#dstyles-dots .dstyles__dot");
 
     const COLOR_1 = "#0d1210";
     const COLOR_2 = "#efefef";
     const COLOR_3 = "#f2a668";
+    const COLOR_4 = "#c1662e";
 
     function setActiveDot(index) {
       dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
@@ -85,7 +88,7 @@
         scrub: 0.5,
         onUpdate: (self) => {
           const p = self.progress;
-          setActiveDot(p < 0.4 ? 0 : p < 0.75 ? 1 : 2);
+          setActiveDot(p < 0.3 ? 0 : p < 0.62 ? 1 : p < 0.88 ? 2 : 3);
         },
       },
     });
@@ -99,7 +102,12 @@
       .to(text2, { autoAlpha: 0, duration: 1 }, 7)
       .to(mockup2, { autoAlpha: 0, duration: 1 }, 7)
       .to(text3, { autoAlpha: 1, duration: 1 }, 7)
-      .to(mockup3, { autoAlpha: 1, duration: 1 }, 7);
+      .to(mockup3, { autoAlpha: 1, duration: 1 }, 7)
+      .to(bg, { backgroundColor: COLOR_4, duration: 1, ease: "none" }, 11)
+      .to(text3, { autoAlpha: 0, duration: 1 }, 11)
+      .to(mockup3, { autoAlpha: 0, duration: 1 }, 11)
+      .to(text4, { autoAlpha: 1, duration: 1 }, 11)
+      .to(mockup4, { autoAlpha: 1, duration: 1 }, 11);
 
     section.classList.add("dstyles--active");
     ScrollTrigger.refresh();

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-label="Verrostete, undichte Dachrinne vor der Sanierung">
+  <rect width="400" height="300" fill="#9aa39a"/>
+  <rect x="0" y="60" width="400" height="200" fill="#b7b0a2"/>
+  <rect x="0" y="120" width="400" height="46" fill="#8b7d6a"/>
+  <rect x="0" y="122" width="400" height="6" fill="#6b5f4f"/>
+  <g fill="#7a4a2c" opacity="0.7">
+    <ellipse cx="120" cy="150" rx="30" ry="10"/>
+    <ellipse cx="260" cy="158" rx="40" ry="12"/>
+    <ellipse cx="330" cy="146" rx="18" ry="7"/>
+  </g>
+  <path d="M258 166 L252 240 L266 240 Z" fill="#6b7a97" opacity="0.85"/>
+  <circle cx="259" cy="245" r="5" fill="#5c6a86"/>
+</svg>
