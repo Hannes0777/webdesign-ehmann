@@ -505,6 +505,47 @@ const POSTS = [
       },
     ],
   },
+  {
+    folder: "Neukunden-Aktion",
+    slides: [
+      {
+        kind: "cover",
+        big: true,
+        kicker: "NEUKUNDEN-AKTION",
+        headline: ["Website ab", "<span class=\"accent\">100 €</span>"],
+        subtext: "Für die ersten Neukunden — statt regulär 250 €.",
+      },
+      {
+        kind: "reason",
+        icon: "spark",
+        kicker: "DEIN VORTEIL",
+        subheadline: "Einführungspreis für Neukunden",
+        number: "150 €",
+        bold: "sparst du beim Starter-Paket, wenn du jetzt einsteigst.",
+        regular: "Zeitlich begrenzt — nur für die ersten neuen Kunden.",
+        source: null,
+      },
+      {
+        kind: "checklist",
+        icon: "shield",
+        kicker: "IM STARTER-PAKET ENTHALTEN",
+        headline: "Alles, was eine gute Seite braucht",
+        items: [
+          "One-Pager mit allen wichtigen Infos",
+          "Individuelles Design, kein Baukasten",
+          "Optimiert für Handy, Tablet & Desktop",
+          "Rechtssicher: Impressum & Datenschutz",
+        ],
+      },
+      {
+        kind: "cta",
+        kicker: "NUR FÜR NEUKUNDEN",
+        headline: "Sicher dir den Einführungspreis",
+        subtext: "Website ab 100 € — schreib mir einfach kurz.",
+        button: "JETZT ANFRAGEN →",
+      },
+    ],
+  },
 ];
 
 module.exports = { POSTS, ICONS };
