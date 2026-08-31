@@ -1,11 +1,13 @@
 {
-  "sonderangebot_hinweis": "🎉 Sonderangebot für die ersten Kunden",
-  "preis_hinweis": "Individuelles Angebot je nach Umfang — Preis auf Anfrage",
+  "sonderangebot_hinweis": "🎉 Nur für Neukunden: Website ab 100 €",
+  "preis_hinweis": "Einführungspreis nur für Neukunden — regulär 250 €",
   "pakete": [
     {
       "name": "Starter",
-      "ab_preis": "",
-      "preis_text": "Preis auf Anfrage",
+      "regulaer_preis": "250",
+      "ab_preis": "100",
+      "preis_text": "",
+      "preis_notiz": "Nur für Neukunden",
       "tagline": "Eine Seite, alle wichtigen Infos auf einen Blick.",
       "empfohlen": false,
       "leistungen": [
