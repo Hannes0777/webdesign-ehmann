@@ -12,6 +12,7 @@
   "facebook": true,
   "instagram": true,
   "geplant_fuer": "2026-08-31T07:01:00+02:00",
-  "status": "wird_veroeffentlicht",
-  "fehler_meldung": ""
+  "status": "fehler",
+  "fehler_meldung": "Facebook: (#200) The permission(s) publish_actions are not available. It has been deprecated. If you want to provide a way for your app users to share content to Facebook, we encourage you to use our Sharing products instead.",
+  "instagram_media_id": "18022915886879803"
 }
