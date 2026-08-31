@@ -78,6 +78,24 @@ const THEMES = {
     muted: "rgba(167,179,209,0.35)",
     mutedStrong: "rgba(167,179,209,0.55)",
   },
+  // Navy-Hintergrund wie "blau", aber Gold statt Blau als Akzentfarbe.
+  gold: {
+    bg: "#0D1526",
+    grid: "#16213A",
+    border: "#6D5A37",
+    kicker: "#D9AE5C",
+    headline: "#F4F6FB",
+    accent: "#D9AE5C",
+    subtext: "#A7B3D1",
+    divider: "#D9AE5C",
+    footer: "#8C9AC0",
+    glow: "rgba(217,174,92,0.28)",
+    faded: "rgba(167,179,209,0.55)",
+    cardBg: "rgba(217,174,92,0.045)",
+    cardBorder: "rgba(217,174,92,0.35)",
+    muted: "rgba(167,179,209,0.35)",
+    mutedStrong: "rgba(167,179,209,0.55)",
+  },
 };
 
 function iconSvg(name, color, size = 30) {

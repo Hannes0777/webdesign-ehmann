@@ -548,7 +548,7 @@ const POSTS = [
   },
   {
     folder: "Case Study Dachwerk Lindenhof",
-    themes: ["blau"],
+    themes: ["gold"],
     slides: [
       {
         kind: "cover",
@@ -603,7 +603,7 @@ const POSTS = [
   },
   {
     folder: "Dachwerk Lindenhof Showcase",
-    themes: ["blau"],
+    themes: ["gold"],
     slides: [
       {
         // Slide 1 wird im fertigen Post durch das echte Scroll-Video ersetzt
