@@ -49,6 +49,34 @@ navMenu.querySelectorAll('a').forEach((link) => {
 });
 
 /* ============================================================
+   CURSOR-GLOW — site-weiter Licht-Punkt, folgt der Maus über die
+   ganze Seite (nicht nur die Hero-Karte). Nur auf Geräten mit
+   echtem Maus-Zeiger und ohne prefers-reduced-motion; position:fixed
+   im CSS sorgt dafür, dass er auch während der gepinnten Hero-Scroll-
+   Animation sichtbar bleibt.
+   ============================================================ */
+const cursorGlow = document.getElementById('cursor-glow');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+if (cursorGlow && hasFinePointer && !prefersReducedMotion) {
+  let glowRafId = null;
+  window.addEventListener(
+    'mousemove',
+    (event) => {
+      if (glowRafId) return;
+      glowRafId = requestAnimationFrame(() => {
+        glowRafId = null;
+        document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
+        document.documentElement.style.setProperty('--my', `${event.clientY}px`);
+        cursorGlow.classList.add('is-active');
+      });
+    },
+    { passive: true }
+  );
+}
+
+/* ============================================================
    SCROLL REVEAL
    ============================================================ */
 const revealEls = document.querySelectorAll('.reveal');
