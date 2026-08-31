@@ -77,8 +77,9 @@
 
   // ── 3. Leistungen (3 Pakete + Zusatz-Hinweise) ────────────
   if (pakete) {
-    const offer = document.getElementById('offer-banner');
-    if (offer && pakete.sonderangebot_hinweis) offer.textContent = pakete.sonderangebot_hinweis;
+    document.querySelectorAll('.offer-banner').forEach((offer) => {
+      if (pakete.sonderangebot_hinweis) offer.textContent = pakete.sonderangebot_hinweis;
+    });
     const hint = document.getElementById('pricing-hint');
     if (hint && pakete.preis_hinweis) hint.textContent = pakete.preis_hinweis;
 
@@ -95,10 +96,15 @@
             price.textContent = p.preis_text;
             price.classList.add('pricing-card__price--onrequest');
           } else if (p.ab_preis) {
-            price.innerHTML = '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
+            const old = p.regulaer_preis
+              ? '<span class="pricing-card__price-old">' + p.regulaer_preis + '&nbsp;€</span> '
+              : '';
+            price.innerHTML = old + '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
             price.classList.remove('pricing-card__price--onrequest');
           }
         }
+        const note = card.querySelector('.pricing-card__price-note');
+        if (note) note.textContent = p.preis_notiz || '';
         const tagline = card.querySelector('.pricing-card__tagline');
         if (tagline && p.tagline) tagline.textContent = p.tagline;
         const ul = card.querySelector('.pricing-card__list');

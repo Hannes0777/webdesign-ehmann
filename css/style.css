@@ -1332,6 +1332,20 @@ button { font: inherit; cursor: pointer; }
   color: var(--mist);
   margin-right: 4px;
 }
+.pricing-card__price-old {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--mist);
+  text-decoration: line-through;
+  text-decoration-color: var(--coral);
+}
+.pricing-card__price-note {
+  margin-top: 2px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--coral);
+}
 .pricing-card__price--onrequest { font-size: 1.3rem; }
 .pricing-card__tagline { margin-top: 6px; color: var(--mist); font-size: 0.95rem; }
 
@@ -1659,7 +1673,8 @@ button { font: inherit; cursor: pointer; }
    SONDERANGEBOT-BANNER
    ============================================================ */
 .offer-banner {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: 10px;
   margin-bottom: 24px;
@@ -1670,9 +1685,12 @@ button { font: inherit; cursor: pointer; }
   font-weight: 800;
   font-size: 1rem;
   letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: transform 0.2s ease;
   box-shadow: 0 0 0 0 rgba(226, 118, 58, 0.55);
   animation: offer-pulse 2.4s ease-in-out infinite;
 }
+a.offer-banner:hover { transform: translateY(-2px); }
 @keyframes offer-pulse {
   0%   { box-shadow: 0 0 0 0 rgba(226, 118, 58, 0.45); }
   70%  { box-shadow: 0 0 0 14px rgba(226, 118, 58, 0); }

@@ -102,6 +102,11 @@ collections:
               - name: name
                 label: "Name (z.B. Starter/Business/Premium)"
                 widget: string
+              - name: regulaer_preis
+                label: "Durchgestrichener regulärer Preis in Euro (nur Zahl, optional)"
+                widget: string
+                required: false
+                hint: "Nur bei einem befristeten Einführungspreis ausfüllen, z.B. '250' — erscheint durchgestrichen vor dem Ab-Preis. Leer lassen für normale Preisanzeige ohne Streichpreis."
               - name: ab_preis
                 label: "Ab-Preis in Euro (nur Zahl, ohne €-Zeichen)"
                 widget: string
@@ -111,6 +116,11 @@ collections:
                 label: "Preis-Text (überschreibt Ab-Preis, z.B. 'Preis auf Anfrage')"
                 widget: string
                 required: false
+              - name: preis_notiz
+                label: "Kleiner Hinweis unter dem Preis (optional)"
+                widget: string
+                required: false
+                hint: "Z.B. 'Nur für Neukunden' bei einem Einführungspreis. Leer lassen für keinen Zusatztext."
               - name: tagline
                 label: "Kurzer Slogan"
                 widget: string
