@@ -54,6 +54,11 @@ navMenu.querySelectorAll('a').forEach((link) => {
    echtem Maus-Zeiger und ohne prefers-reduced-motion; position:fixed
    im CSS sorgt dafür, dass er auch während der gepinnten Hero-Scroll-
    Animation sichtbar bleibt.
+
+   Bewegt sich die Maus länger nicht, übernimmt ein sanftes Eigenleben:
+   der Punkt driftet langsam zu wechselnden Zielen über die Fläche,
+   bis die Maus sich wieder bewegt (dann sofort zurück auf direktes
+   Tracking).
    ============================================================ */
 const cursorGlow = document.getElementById('cursor-glow');
 const gridSpotlights = document.querySelectorAll('.grid-spotlight');
@@ -61,21 +66,89 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
 
 if ((cursorGlow || gridSpotlights.length) && hasFinePointer && !prefersReducedMotion) {
-  let glowRafId = null;
+  const IDLE_DELAY_MS = 2500;
+  const DRIFT_RETARGET_MS = 4500;
+  const DRIFT_EASE_PER_MS = 0.0006;
+
+  let currentX = window.innerWidth / 2;
+  let currentY = window.innerHeight / 2;
+  let driftTargetX = currentX;
+  let driftTargetY = currentY;
+  let idleTimeoutId = null;
+  let driftRafId = null;
+  let driftRetargetId = null;
+  let lastDriftFrame = 0;
+
+  function setSpotlightPosition(x, y) {
+    document.documentElement.style.setProperty('--mx', `${x}px`);
+    document.documentElement.style.setProperty('--my', `${y}px`);
+  }
+
+  function activateSpotlights() {
+    if (cursorGlow) cursorGlow.classList.add('is-active');
+    gridSpotlights.forEach((el) => el.classList.add('is-active'));
+  }
+
+  function pickDriftTarget() {
+    const margin = 140;
+    driftTargetX = margin + Math.random() * Math.max(1, window.innerWidth - margin * 2);
+    driftTargetY = margin + Math.random() * Math.max(1, window.innerHeight - margin * 2);
+  }
+
+  function driftFrame(now) {
+    const dt = lastDriftFrame ? now - lastDriftFrame : 16;
+    lastDriftFrame = now;
+    const ease = Math.min(1, DRIFT_EASE_PER_MS * dt);
+    currentX += (driftTargetX - currentX) * ease;
+    currentY += (driftTargetY - currentY) * ease;
+    setSpotlightPosition(currentX, currentY);
+    driftRafId = requestAnimationFrame(driftFrame);
+  }
+
+  function startDrifting() {
+    if (driftRafId) return;
+    pickDriftTarget();
+    lastDriftFrame = 0;
+    activateSpotlights();
+    driftRafId = requestAnimationFrame(driftFrame);
+    driftRetargetId = setInterval(pickDriftTarget, DRIFT_RETARGET_MS);
+  }
+
+  function stopDrifting() {
+    if (driftRafId) {
+      cancelAnimationFrame(driftRafId);
+      driftRafId = null;
+    }
+    if (driftRetargetId) {
+      clearInterval(driftRetargetId);
+      driftRetargetId = null;
+    }
+  }
+
+  function scheduleIdleDrift() {
+    clearTimeout(idleTimeoutId);
+    idleTimeoutId = setTimeout(startDrifting, IDLE_DELAY_MS);
+  }
+
+  let moveRafId = null;
   window.addEventListener(
     'mousemove',
     (event) => {
-      if (glowRafId) return;
-      glowRafId = requestAnimationFrame(() => {
-        glowRafId = null;
-        document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
-        document.documentElement.style.setProperty('--my', `${event.clientY}px`);
-        if (cursorGlow) cursorGlow.classList.add('is-active');
-        gridSpotlights.forEach((el) => el.classList.add('is-active'));
+      stopDrifting();
+      scheduleIdleDrift();
+      if (moveRafId) return;
+      moveRafId = requestAnimationFrame(() => {
+        moveRafId = null;
+        currentX = event.clientX;
+        currentY = event.clientY;
+        setSpotlightPosition(currentX, currentY);
+        activateSpotlights();
       });
     },
     { passive: true }
   );
+
+  scheduleIdleDrift();
 }
 
 /* ============================================================

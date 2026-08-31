@@ -19,9 +19,6 @@
   --coral-soft: rgba(226, 118, 58, 0.14);
   --border: rgba(255, 255, 255, 0.12);
 
-  --gold-glow-strong: rgba(217, 174, 92, 0.16);
-  --gold-glow-soft: rgba(217, 174, 92, 0.08);
-
   --paper-rgb: 10, 11, 13;
   --paper-alt-rgb: 16, 19, 20;
   --surface-rgb: 32, 36, 37;
@@ -140,13 +137,6 @@ button { font: inherit; cursor: pointer; }
 
 .section { padding: 96px 0; }
 .section--alt { background: var(--paper-alt); }
-
-.section--glow {
-  position: relative;
-  background-image:
-    radial-gradient(circle 380px at 15% 0%, var(--gold-glow-strong), transparent),
-    radial-gradient(circle 340px at 90% 100%, var(--gold-glow-soft), transparent);
-}
 
 @media (max-width: 640px) {
   .section { padding: 64px 0; }
@@ -378,10 +368,7 @@ button { font: inherit; cursor: pointer; }
   gap: 48px;
   padding: 140px 24px 80px;
   overflow: hidden;
-  background:
-    radial-gradient(circle 420px at 20% 15%, var(--gold-glow-strong), transparent),
-    radial-gradient(circle 380px at 82% 85%, var(--gold-glow-soft), transparent),
-    var(--paper);
+  background: var(--paper);
 }
 
 .cine-hero__grain,
@@ -531,9 +518,8 @@ button { font: inherit; cursor: pointer; }
   background:
     linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    radial-gradient(circle 480px at 12% 8%, var(--gold-glow-soft), transparent),
     linear-gradient(145deg, var(--cine-1) 0%, var(--cine-2) 100%);
-  background-size: 60px 60px, 60px 60px, auto, auto;
+  background-size: 60px 60px, 60px 60px, auto;
   box-shadow:
     0 40px 100px -20px rgba(8, 17, 9, 0.45),
     0 20px 40px -20px rgba(8, 17, 9, 0.35),
@@ -1394,10 +1380,7 @@ button { font: inherit; cursor: pointer; }
 .page-header {
   position: relative;
   padding: 168px 0 72px;
-  background:
-    radial-gradient(circle 400px at 18% 0%, var(--gold-glow-strong), transparent),
-    radial-gradient(circle 360px at 88% 100%, rgba(122, 166, 110, 0.09), transparent),
-    var(--paper);
+  background: var(--paper);
   text-align: center;
   overflow: hidden;
 }
