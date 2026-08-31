@@ -56,10 +56,11 @@ navMenu.querySelectorAll('a').forEach((link) => {
    Animation sichtbar bleibt.
    ============================================================ */
 const cursorGlow = document.getElementById('cursor-glow');
+const gridSpotlights = document.querySelectorAll('.grid-spotlight');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
 
-if (cursorGlow && hasFinePointer && !prefersReducedMotion) {
+if ((cursorGlow || gridSpotlights.length) && hasFinePointer && !prefersReducedMotion) {
   let glowRafId = null;
   window.addEventListener(
     'mousemove',
@@ -69,7 +70,8 @@ if (cursorGlow && hasFinePointer && !prefersReducedMotion) {
         glowRafId = null;
         document.documentElement.style.setProperty('--mx', `${event.clientX}px`);
         document.documentElement.style.setProperty('--my', `${event.clientY}px`);
-        cursorGlow.classList.add('is-active');
+        if (cursorGlow) cursorGlow.classList.add('is-active');
+        gridSpotlights.forEach((el) => el.classList.add('is-active'));
       });
     },
     { passive: true }
