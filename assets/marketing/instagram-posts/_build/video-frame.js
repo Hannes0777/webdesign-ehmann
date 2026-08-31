@@ -36,10 +36,16 @@ const t = {
   mutedStrong: "rgba(167,179,209,0.55)",
 };
 
-// Video-Fenster-Geometrie - muss exakt zu compose-video.sh passen.
-const CARD = { x: 104, y: 380, w: 872 };
+// Video-Fenster-Geometrie - muss exakt zum ffmpeg-Compose-Befehl passen.
+// Quellvideo (Screen-Recording des Kunden) ist 1902x910 (~2.09:1) - auf
+// 1650 Breite beschnitten (aspect 1.813) fuer die Karte, damit nicht zu
+// stark seitlich beschnitten werden muss.
+const CARD = { x: 104, y: 420, w: 872 };
 const CHROMEBAR_H = 44;
-const VIDEO = { x: CARD.x + 1, y: CARD.y + CHROMEBAR_H + 1, w: CARD.w - 2, h: 742 };
+const VIDEO_ASPECT = 1650 / 910;
+const VIDEO_W = CARD.w - 2;
+const VIDEO_H = Math.round(VIDEO_W / VIDEO_ASPECT);
+const VIDEO = { x: CARD.x + 1, y: CARD.y + CHROMEBAR_H + 1, w: VIDEO_W, h: VIDEO_H };
 const CARD_H = CHROMEBAR_H + VIDEO.h + 2;
 
 const html = `<!DOCTYPE html>
@@ -58,11 +64,12 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
   background-size: 54px 54px;
 }
 .frame { position:absolute; top:56px; left:56px; right:56px; bottom:56px; border:1px solid ${t.border}; }
-.content { position:absolute; left:104px; right:104px; top:118px; }
-.kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:16px; letter-spacing:4px; text-transform:uppercase; color:${t.kicker}; }
-.headline { font-family:'Playfair Display',serif; font-weight:700; font-size:52px; line-height:1.14; color:${t.headline}; text-shadow:0 0 34px ${t.glow}; margin-top:18px; }
+.content { position:absolute; left:104px; right:104px; top:100px; text-align:center; }
+.kicker { font-family:'Inter',sans-serif; font-weight:600; font-size:16px; letter-spacing:3px; text-transform:uppercase; color:${t.kicker}; }
+.headline { font-family:'Playfair Display',serif; font-weight:700; font-size:82px; line-height:1.14; color:${t.headline}; text-shadow:0 0 34px ${t.glow}; margin-top:20px; }
 .headline .accent { color:${t.accent}; }
-.subtext { font-family:'Inter',sans-serif; font-weight:400; font-size:22px; line-height:1.5; color:${t.subtext}; max-width:760px; margin-top:18px; }
+.divider { width:116px; height:2px; background:${t.divider}; margin:32px auto 26px; }
+.subtext { font-family:'Inter',sans-serif; font-weight:400; font-size:22px; line-height:1.5; color:${t.subtext}; max-width:760px; margin:0 auto; }
 .card {
   position:absolute; left:${CARD.x}px; top:${CARD.y}px; width:${CARD.w}px; height:${CARD_H}px;
   border:1px solid ${t.cardBorder}; background:${t.cardBg};
@@ -79,9 +86,10 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
   <div class="canvas">
     <div class="frame"></div>
     <div class="content">
-      <div class="kicker">LIVE-DEMO · DACHWERK LINDENHOF</div>
-      <h1 class="headline">Der Scroll-Effekt<br><span class="accent">in Bewegung</span></h1>
-      <p class="subtext">Hochscrollen zeigt Schritt für Schritt, wie aus dem alten Dach ein neues wird — direkt im Hero der Website.</p>
+      <div class="kicker">LIVE-DEMO FÜR KUNDEN · FIKTIVER BETRIEB</div>
+      <h1 class="headline">Dachwerk<br><span class="accent">Lindenhof</span></h1>
+      <div class="divider"></div>
+      <p class="subtext">Website, Logo, Flyer und Social Media im selben Design.</p>
     </div>
     <div class="card">
       <div class="chromebar">
@@ -90,6 +98,7 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
       </div>
       <div class="chromakey"></div>
     </div>
+    <div style="position:absolute; left:104px; right:104px; top:${CARD.y + CARD_H + 16}px; text-align:center; font-family:'Inter',sans-serif; font-weight:600; font-size:13px; letter-spacing:2px; color:${t.mutedStrong};">ECHTE AUFNAHME · DACHWERK LINDENHOF</div>
     <div class="arrow"></div>
     <div class="footer">
       <span>Webdesign Ehmann</span>
