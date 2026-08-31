@@ -20,7 +20,9 @@ const FONT_PLAYFAIR = b64("playfair-700.woff2");
 const FONT_INTER_400 = b64("inter-400.woff2");
 const FONT_INTER_600 = b64("inter-600.woff2");
 
-const t = {
+const VARIANT = process.argv[2] === "gold" ? "gold" : "blau";
+
+const THEME_BLAU = {
   bg: "#0D1526",
   grid: "#16213A",
   border: "#3D5A85",
@@ -35,18 +37,32 @@ const t = {
   cardBorder: "rgba(91,155,255,0.35)",
   mutedStrong: "rgba(167,179,209,0.55)",
 };
+// Test-Variante: gleicher Navy-Hintergrund, aber Gold statt Blau als
+// Akzentfarbe (Kicker/Headline-Akzent/Divider/Kartenrand) - nur zum
+// Gegenchecken, wie das im Design wirkt.
+const THEME_GOLD = {
+  ...THEME_BLAU,
+  border: "#6D5A37",
+  kicker: "#D9AE5C",
+  accent: "#D9AE5C",
+  divider: "#D9AE5C",
+  glow: "rgba(217,174,92,0.28)",
+  cardBg: "rgba(217,174,92,0.045)",
+  cardBorder: "rgba(217,174,92,0.35)",
+};
+const t = VARIANT === "gold" ? THEME_GOLD : THEME_BLAU;
 
 // Video-Fenster-Geometrie - muss exakt zum ffmpeg-Compose-Befehl passen.
-// Quellvideo (Screen-Recording des Kunden) ist 1902x910 (~2.09:1) - auf
-// 1650 Breite beschnitten (aspect 1.813) fuer die Karte, damit nicht zu
-// stark seitlich beschnitten werden muss.
+// Quellvideo (Screen-Recording des Kunden) ist 1902x910 (~2.09:1). Card
+// nutzt die volle Hoehe bis kurz vor den Footer, damit kein toter Raum
+// unter dem Video bleibt.
 const CARD = { x: 104, y: 420, w: 872 };
 const CHROMEBAR_H = 44;
-const VIDEO_ASPECT = 1650 / 910;
 const VIDEO_W = CARD.w - 2;
-const VIDEO_H = Math.round(VIDEO_W / VIDEO_ASPECT);
+const VIDEO_H = 702;
 const VIDEO = { x: CARD.x + 1, y: CARD.y + CHROMEBAR_H + 1, w: VIDEO_W, h: VIDEO_H };
 const CARD_H = CHROMEBAR_H + VIDEO.h + 2;
+const SOURCE_CROP_W = Math.round(910 * (VIDEO_W / VIDEO_H));
 
 const html = `<!DOCTYPE html>
 <html lang="de">
@@ -110,12 +126,12 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
 
 const tmpDir = path.join(ROOT, "tmp");
 fs.mkdirSync(tmpDir, { recursive: true });
-const htmlPath = path.join(tmpDir, "video-frame.html");
+const htmlPath = path.join(tmpDir, `video-frame-${VARIANT}.html`);
 fs.writeFileSync(htmlPath, html, "utf8");
 
 const outDir = path.join(ROOT, "video");
 fs.mkdirSync(outDir, { recursive: true });
-const pngPath = path.join(outDir, "frame-overlay.png");
+const pngPath = path.join(outDir, VARIANT === "gold" ? "frame-overlay-gold.png" : "frame-overlay.png");
 
 execFileSync(
   CHROME,
@@ -131,4 +147,4 @@ execFileSync(
   { stdio: "ignore" }
 );
 
-console.log("OK", pngPath, JSON.stringify({ CARD, VIDEO, CARD_H }));
+console.log("OK", pngPath, JSON.stringify({ CARD, VIDEO, CARD_H, SOURCE_CROP_W }));
