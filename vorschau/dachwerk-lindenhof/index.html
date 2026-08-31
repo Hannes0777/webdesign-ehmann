@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dachwerk Lindenhof – Design-Beispiel</title>
+<meta name="description" content="Design-Beispiel: Dachwerk Lindenhof – Scroll-Scrubbing-Hero-Stil, fiktiver Betrieb, Design-Referenz von Webdesign Ehmann.">
+<link rel="icon" href="assets/images/logo-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+<span class="demo-badge">Design-Beispiel · fiktiver Betrieb</span>
+
+<header id="main-nav" class="nav" role="banner">
+  <div class="container nav__inner">
+    <a href="#hero-pin" class="nav__logo" aria-label="Dachwerk Lindenhof – Startseite">
+      <img src="assets/images/logo-mark.svg" alt="" width="38" height="38">
+      <span class="nav__logo-text">
+        <span class="nav__logo-name">Dachwerk Lindenhof</span>
+        <span class="nav__logo-sub">Dach &amp; Sanierung</span>
+      </span>
+    </a>
+
+    <div class="nav__desktop">
+      <ul class="nav__links" role="list">
+        <li><a href="#arbeit" class="nav__link">Unsere Arbeit</a></li>
+        <li><a href="#leistungen" class="nav__link">Leistungen</a></li>
+        <li><a href="#ueber-uns" class="nav__link">Über uns</a></li>
+        <li><a href="#kontakt" class="nav__link">Kontakt</a></li>
+      </ul>
+      <a href="#kontakt" class="btn btn--primary btn--sm">Angebot anfragen</a>
+    </div>
+
+    <button id="nav-toggle" class="nav__toggle" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav id="nav-mobile" class="nav__mobile" aria-label="Mobile Navigation">
+    <a href="#arbeit" class="nav__link">Unsere Arbeit</a>
+    <a href="#leistungen" class="nav__link">Leistungen</a>
+    <a href="#ueber-uns" class="nav__link">Über uns</a>
+    <a href="#kontakt" class="nav__link">Kontakt</a>
+    <a href="#kontakt" class="btn btn--primary">Angebot anfragen</a>
+  </nav>
+</header>
+
+<main id="main-content">
+
+  <!-- =====================================================
+       HERO – gepinnte Scroll-Wipe-Buehne. Die "Nachher"-Ebene
+       liegt ueber der "Vorher"-Ebene und wird per clip-path an
+       den Scroll-Fortschritt gebunden freigelegt (js/main.js).
+       ===================================================== -->
+  <section id="hero-pin" class="hero-pin">
+    <div class="hero-stage">
+      <div class="hero-stage__layer hero-stage__layer--before">
+        <img src="assets/images/roof-vorher.svg" alt="Haus mit altem, moosigem Dach vor der Sanierung" width="1200" height="700">
+      </div>
+      <div class="hero-stage__layer hero-stage__layer--after" id="hero-after">
+        <img src="assets/images/roof-nachher.svg" alt="Dasselbe Haus mit frisch saniertem Kupferrot-Dach nach der Sanierung" width="1200" height="700">
+      </div>
+      <div class="hero-stage__scrim" aria-hidden="true"></div>
+      <div class="hero-stage__content">
+        <span class="eyebrow eyebrow--light">Dachdeckerei &amp; Sanierung</span>
+        <h1>Dachwerk Lindenhof</h1>
+        <p class="hero-stage__lead">Von der ersten Bestandsaufnahme bis zum letzten Ziegel — scrollen Sie weiter und sehen Sie zu, wie aus einem müden Dach ein neues wird.</p>
+        <a href="#kontakt" class="btn btn--primary">Kostenlose Begutachtung anfragen</a>
+      </div>
+      <span class="hero-stage__scroll" aria-hidden="true">Scrollen</span>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       UNSERE ARBEIT – Vorher/Nachher-Kacheln, Hover/Focus legt
+       die "Nachher"-Ebene frei.
+       ===================================================== -->
+  <section id="arbeit" class="section section--paper" aria-labelledby="arbeit-title">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Unsere Arbeit</span>
+        <h2 id="arbeit-title">Vorher. Nachher.</h2>
+        <p>Vier typische Ansichten aus unserem Alltag — mit der Maus oder per Tab-Taste über ein Bild gehen und den Unterschied sehen.</p>
+      </div>
+
+      <div class="work-grid">
+        <article class="work-card reveal">
+          <div class="work-card__frame" tabindex="0">
+            <span class="work-card__tag">Vorher</span>
+            <span class="work-card__tag work-card__tag--after">Nachher</span>
+            <img class="before" src="assets/images/roof-vorher.svg" alt="Komplettes Hausdach vor der Sanierung" loading="lazy" width="1200" height="700">
+            <img class="after" src="assets/images/roof-nachher.svg" alt="Komplettes Hausdach nach der Sanierung" loading="lazy" width="1200" height="700">
+            <span class="work-card__divider" aria-hidden="true"></span>
+          </div>
+          <div class="work-card__body">
+            <h3>Komplettsanierung</h3>
+            <p>Kompletter Rückbau und Neueindeckung eines Einfamilienhauses.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <div class="work-card__frame" tabindex="0">
+            <span class="work-card__tag">Vorher</span>
+            <span class="work-card__tag work-card__tag--after">Nachher</span>
+            <img class="before" src="assets/images/detail-ziegel-vorher.svg" alt="Rissige, bemooste Dachziegel vor der Sanierung" loading="lazy" width="400" height="300">
+            <img class="after" src="assets/images/detail-ziegel-nachher.svg" alt="Neue Dachziegel nach der Sanierung" loading="lazy" width="400" height="300">
+            <span class="work-card__divider" aria-hidden="true"></span>
+          </div>
+          <div class="work-card__body">
+            <h3>Ziegel-Austausch</h3>
+            <p>Einzelne beschädigte Bereiche gezielt neu eingedeckt.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <div class="work-card__frame" tabindex="0">
+            <span class="work-card__tag">Vorher</span>
+            <span class="work-card__tag work-card__tag--after">Nachher</span>
+            <img class="before" src="assets/images/detail-rinne-vorher.svg" alt="Verrostete, undichte Dachrinne vor der Sanierung" loading="lazy" width="400" height="300">
+            <img class="after" src="assets/images/detail-rinne-nachher.svg" alt="Neue Dachrinne nach der Sanierung" loading="lazy" width="400" height="300">
+            <span class="work-card__divider" aria-hidden="true"></span>
+          </div>
+          <div class="work-card__body">
+            <h3>Dachrinnen-Erneuerung</h3>
+            <p>Undichte Rinne komplett gegen eine neue Kupferrinne getauscht.</p>
+          </div>
+        </article>
+
+        <article class="work-card reveal">
+          <div class="work-card__frame" tabindex="0">
+            <span class="work-card__tag">Vorher</span>
+            <span class="work-card__tag work-card__tag--after">Nachher</span>
+            <img class="before" src="assets/images/detail-kamin-vorher.svg" alt="Beschädigter Schornstein-Anschluss vor der Sanierung" loading="lazy" width="400" height="300">
+            <img class="after" src="assets/images/detail-kamin-nachher.svg" alt="Neu abgedichteter Schornstein-Anschluss nach der Sanierung" loading="lazy" width="400" height="300">
+            <span class="work-card__divider" aria-hidden="true"></span>
+          </div>
+          <div class="work-card__body">
+            <h3>Schornstein-Abdichtung</h3>
+            <p>Undichte Anschlüsse neu verblecht und abgedichtet.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       LEISTUNGEN
+       ===================================================== -->
+  <section id="leistungen" class="section" aria-labelledby="leistungen-title">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Leistungen</span>
+        <h2 id="leistungen-title">Was wir machen</h2>
+        <p>Von der kleinen Reparatur bis zur kompletten Neueindeckung — alles aus einer Hand.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <h3>Dachsanierung</h3>
+          <p>Komplette Neueindeckung inklusive Dämmung, abgestimmt auf Baujahr und Bausubstanz.</p>
+        </div>
+        <div class="service-card reveal">
+          <h3>Reparatur &amp; Notdienst</h3>
+          <p>Sturmschäden, lose Ziegel oder undichte Stellen — schnell begutachtet und behoben.</p>
+        </div>
+        <div class="service-card reveal">
+          <h3>Dachfenster</h3>
+          <p>Einbau und Austausch von Dachfenstern, fachgerecht abgedichtet.</p>
+        </div>
+        <div class="service-card reveal">
+          <h3>Dachrinnen &amp; Blitzschutz</h3>
+          <p>Neue Rinnen, Fallrohre und Blitzschutzanlagen nach aktueller Norm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       UEBER UNS
+       ===================================================== -->
+  <section id="ueber-uns" class="section section--paper" aria-labelledby="ueber-uns-title">
+    <div class="container about">
+      <span class="eyebrow">Über uns</span>
+      <h2 id="ueber-uns-title">Handwerk, das hält</h2>
+      <p>Dachwerk Lindenhof ist ein kleiner, inhabergeführter Dachdeckerbetrieb. Wir übernehmen Aufträge für Wohnhäuser und kleinere Gewerbebauten in der Region — von der ersten Begutachtung bis zur letzten Dachrinne betreuen wir jedes Projekt persönlich und stimmen uns eng mit den Eigentümerinnen und Eigentümern ab.</p>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       CTA
+       ===================================================== -->
+  <section class="section" aria-labelledby="cta-title">
+    <div class="container">
+      <div class="cta-panel reveal">
+        <span class="eyebrow eyebrow--light">Bereit für ein neues Dach?</span>
+        <h2 id="cta-title">Lassen Sie uns draufschauen.</h2>
+        <p>Kostenlose Begutachtung vor Ort — unverbindlich und ohne versteckte Kosten.</p>
+        <div class="cta-panel__actions">
+          <a href="#kontakt" class="btn btn--primary">Termin anfragen</a>
+          <a href="#kontakt" class="btn btn--outline">Frage stellen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       KONTAKT
+       ===================================================== -->
+  <section id="kontakt" class="section section--paper" aria-labelledby="kontakt-title">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Kontakt</span>
+        <h2 id="kontakt-title">Kostenlose Begutachtung anfragen</h2>
+        <p>Formular ausfüllen — wir melden uns in der Regel innerhalb von 24 Stunden.</p>
+      </div>
+
+      <div class="contact-wrap">
+        <div class="contact-info reveal">
+          <h2 style="font-size:1.3rem;">Dachwerk Lindenhof</h2>
+          <p>Region Rems-Murr · Baden-Württemberg</p>
+          <ul>
+            <li><strong>Telefon</strong> 0000 / 000000</li>
+            <li><strong>Bürozeiten</strong> Mo–Fr 7:00–17:00 Uhr</li>
+            <li><strong>Notdienst</strong> nach Sturm &amp; Unwetter kurzfristig erreichbar</li>
+            <li><strong>Einzugsgebiet</strong> Region Rems-Murr und Umgebung</li>
+          </ul>
+        </div>
+
+        <div class="reveal">
+          <form id="contact-form" class="contact-form" novalidate>
+            <div class="form-row">
+              <label for="cf-name">Name</label>
+              <input type="text" id="cf-name" name="name" autocomplete="name" required>
+              <span class="form-error" data-error-for="name" role="alert"></span>
+            </div>
+            <div class="form-row">
+              <label for="cf-email">E-Mail</label>
+              <input type="email" id="cf-email" name="email" autocomplete="email" required>
+              <span class="form-error" data-error-for="email" role="alert"></span>
+            </div>
+            <div class="form-row">
+              <label for="cf-message">Nachricht</label>
+              <textarea id="cf-message" name="message" rows="4" required></textarea>
+              <span class="form-error" data-error-for="message" role="alert"></span>
+            </div>
+            <button type="submit" class="btn btn--dark">Anfrage senden</button>
+            <p class="form-note">Design-Beispiel — es wird keine echte Anfrage versendet.</p>
+          </form>
+          <div id="cf-success" hidden aria-live="polite">
+            <strong>Vielen Dank für Ihre Anfrage!</strong>
+            <p class="form-note">Wir melden uns schnellstmöglich bei Ihnen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <p><strong>Dachwerk Lindenhof</strong> · Region Rems-Murr &amp; Umgebung</p>
+    <p>© 2026 Dachwerk Lindenhof. Design-Beispiel, keine reale Firma.</p>
+    <p class="footer__credit">Erstellt von <a href="https://www.webdesign-ehmann.de" target="_blank" rel="noopener">Webdesign Ehmann</a></p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
