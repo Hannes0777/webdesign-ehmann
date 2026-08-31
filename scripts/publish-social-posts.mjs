@@ -35,7 +35,11 @@ function requireEnv(name) {
 }
 
 function localImagePath(bildPfad) {
-  return path.join(process.cwd(), bildPfad.replace(/^\/+/, ""));
+  // bild_facebook/bilder_instagram enthalten den public_folder-Pfad, den
+  // Sveltia für die Website-URL benutzt (z.B. "social-media-tmp/x.png").
+  // Physisch liegen die Dateien aber unter media_folder, relativ zum
+  // Collection-Ordner content/social-posts/ — NICHT relativ zum Repo-Root.
+  return path.join(POSTS_DIR, bildPfad.replace(/^\/+/, ""));
 }
 
 async function loadImage(bildPfad) {
