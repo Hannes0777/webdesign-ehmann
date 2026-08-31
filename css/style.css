@@ -56,7 +56,12 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--paper);
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    var(--paper);
+  background-size: 60px 60px;
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
@@ -136,7 +141,7 @@ button { font: inherit; cursor: pointer; }
 }
 
 .section { padding: 96px 0; }
-.section--alt { background: var(--paper-alt); }
+.section--alt { background: rgba(var(--paper-alt-rgb), 0.5); }
 
 @media (max-width: 640px) {
   .section { padding: 64px 0; }
@@ -144,6 +149,11 @@ button { font: inherit; cursor: pointer; }
     --glass-blur: 8px;
     --glass-blur-sm: 4px;
   }
+  /* background-attachment:fixed ist auf iOS Safari ruckelig/teilweise
+     kaputt - auf schmalen Bildschirmen scrollt das Raster stattdessen
+     normal mit (im Body-Fluss startet es dadurch nicht mehr immer bei
+     0,0, sichtbarer Effekt aber vernachlässigbar bei 60px-Raster). */
+  body { background-attachment: scroll; }
 }
 
 .section-header { max-width: 640px; margin-bottom: 56px; }
@@ -1380,7 +1390,6 @@ button { font: inherit; cursor: pointer; }
 .page-header {
   position: relative;
   padding: 168px 0 72px;
-  background: var(--paper);
   text-align: center;
   overflow: hidden;
 }
