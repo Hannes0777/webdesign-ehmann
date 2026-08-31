@@ -59,7 +59,7 @@ p { margin: 0; }
 
 /* ---------- Demo-Badge ---------- */
 .demo-badge {
-  position: fixed; top: 98px; right: 14px; z-index: 1200;
+  position: fixed; top: 90px; right: 14px; z-index: 1200;
   background: rgba(22, 35, 46, 0.85); color: #fff;
   font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
   padding: 7px 14px; border-radius: var(--radius-pill);
@@ -78,9 +78,17 @@ p { margin: 0; }
 .eyebrow::before {
   content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--copper);
   transform: rotate(45deg); flex: none;
+  animation: eyebrow-pulse 2.4s ease-in-out infinite;
 }
 .eyebrow--light { color: #f0c9a8; }
 .eyebrow--light::before { background: #f0c9a8; }
+@keyframes eyebrow-pulse {
+  0%, 100% { transform: rotate(45deg) scale(1); opacity: 1; }
+  50% { transform: rotate(45deg) scale(1.35); opacity: 0.65; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow::before { animation: none; }
+}
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -91,36 +99,71 @@ p { margin: 0; }
   transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn--primary { background: var(--copper); color: #fff; box-shadow: 0 10px 24px rgba(193,102,46,0.35); }
+.btn--primary {
+  position: relative; overflow: hidden;
+  background: var(--copper); color: #fff; box-shadow: 0 10px 24px rgba(193,102,46,0.35);
+}
 .btn--primary:hover { background: var(--copper-deep); }
+.btn--primary::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg); transition: left 0.6s ease;
+}
+.btn--primary:hover::before { left: 130%; }
 .btn--outline { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
 .btn--outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
 .btn--dark { background: var(--ink); color: #fff; }
 .btn--dark:hover { background: var(--ink-soft); }
 .btn--sm { padding: 10px 20px; font-size: 0.88rem; }
 
-/* ---------- Nav ---------- */
+/* ---------- Nav: freischwebende Pill (wie webdesign-ehmann.de) ---------- */
 .nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(22, 35, 46, 0.0);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+  position: fixed; top: 14px; left: 14px; right: 14px; z-index: 1000;
+  max-width: calc(var(--container) + 56px);
+  margin: 0 auto;
+  border-radius: var(--radius-pill);
+  background: rgba(22, 35, 46, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(8, 13, 17, 0.25);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .nav.nav--scrolled {
-  background: rgba(22, 35, 46, 0.88);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+  background: rgba(22, 35, 46, 0.86);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 40px rgba(8, 13, 17, 0.4);
 }
-.nav__inner { display: flex; align-items: center; justify-content: space-between; height: 84px; }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
 .nav__logo { display: flex; align-items: center; gap: 10px; }
-.nav__logo img { width: 38px; height: 38px; }
+.nav__logo img { width: 34px; height: 34px; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.nav__logo:hover img { transform: rotate(-8deg) scale(1.06); }
 .nav__logo-text { display: flex; flex-direction: column; line-height: 1.05; }
-.nav__logo-name { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: #fff; }
-.nav__logo-sub { font-family: var(--font-body); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--copper); font-weight: 600; }
+.nav__logo-name { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; color: #fff; }
+.nav__logo-sub { font-family: var(--font-body); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--copper); font-weight: 600; }
 
-.nav__desktop { display: flex; align-items: center; gap: 34px; }
-.nav__links { display: flex; gap: 30px; }
-.nav__link { color: rgba(255,255,255,0.86); font-weight: 600; font-size: 0.95rem; transition: color 0.2s ease; }
+.nav__desktop { display: flex; align-items: center; gap: 30px; }
+.nav__links { display: flex; gap: 26px; }
+.nav__link { position: relative; color: rgba(255,255,255,0.86); font-weight: 600; font-size: 0.92rem; transition: color 0.2s ease; }
+.nav__link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+  background: var(--copper); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s ease;
+}
 .nav__link:hover { color: #fff; }
+.nav__link:hover::after { transform: scaleX(1); }
+
+@media (max-width: 900px) {
+  /* Auf schmalen Viewports volle Breite statt Pill: backdrop-filter auf
+     einem Element mit position:fixed-Kindern (.nav__mobile) verursacht in
+     iOS Safari sonst Compositing-Artefakte (siehe Haupt-Site-Fix). */
+  .nav {
+    top: 0; left: 0; right: 0; max-width: none; margin: 0;
+    border-radius: 0; border: none; border-bottom: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    background: var(--ink);
+  }
+  .nav.nav--scrolled { background: var(--ink); box-shadow: 0 1px 0 rgba(255,255,255,0.06); }
+}
 
 .nav__toggle {
   display: none; width: 44px; height: 44px; border: none; background: transparent;
@@ -139,7 +182,7 @@ p { margin: 0; }
 
 .nav__mobile {
   display: none;
-  position: fixed; inset: 84px 0 0 0; z-index: 999;
+  position: fixed; inset: 68px 0 0 0; z-index: 999;
   background: rgba(22, 35, 46, 0.97); backdrop-filter: blur(10px);
   flex-direction: column; align-items: center; justify-content: center; gap: 28px;
   transform: translateY(-12px); opacity: 0; pointer-events: none;
@@ -191,6 +234,23 @@ p { margin: 0; }
 .hero-stage__lead {
   margin: 22px 0 34px; max-width: 620px; font-size: 1.1rem; color: rgba(255,255,255,0.88);
 }
+
+/* Eintritts-Animation beim Laden: Eyebrow -> Headline -> Text -> Button
+   nacheinander, gestaffelt per animation-delay. */
+.hero-stage__content > * {
+  opacity: 0; transform: translateY(22px);
+  animation: hero-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-stage__content .eyebrow { animation-delay: 0.1s; }
+.hero-stage__content h1 { animation-delay: 0.22s; }
+.hero-stage__content .hero-stage__lead { animation-delay: 0.36s; }
+.hero-stage__content .btn { animation-delay: 0.5s; }
+@keyframes hero-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-stage__content > * { animation: none; opacity: 1; transform: none; }
+}
 .hero-stage__scroll {
   position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -236,6 +296,16 @@ p { margin: 0; }
   background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-md);
   overflow: hidden; box-shadow: var(--shadow-card);
 }
+/* Zweifach-Klassen-Selektor noetig, damit diese Transition-Liste (mit
+   box-shadow) die von .reveal (nur opacity/transform) nicht per
+   Selektor-Reihenfolge verliert - beide setzen das Shorthand "transition". */
+.work-card.reveal {
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+.work-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 50px rgba(22, 35, 46, 0.14);
+}
 .work-card__frame {
   position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--ink);
 }
@@ -271,6 +341,14 @@ p { margin: 0; }
 .service-card {
   background: var(--paper); border: 1px solid var(--border); border-radius: var(--radius-md);
   padding: 30px 26px; box-shadow: var(--shadow-card);
+}
+.service-card.reveal {
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 50px rgba(22, 35, 46, 0.14);
+  border-color: rgba(193, 102, 46, 0.35);
 }
 .service-card h3 { color: var(--copper-deep); font-size: 1.1rem; margin-bottom: 10px; }
 .service-card p { color: var(--text-mute); font-size: 0.95rem; }
@@ -321,8 +399,24 @@ p { margin: 0; }
 .footer__credit a { color: var(--copper); text-decoration: underline; text-underline-offset: 2px; }
 
 /* ---------- Reveal-on-scroll ---------- */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal--visible { opacity: 1; transform: translateY(0); }
+.reveal {
+  opacity: 0; transform: translateY(28px) scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal--visible { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Gestaffelte Reveal-Verzoegerung fuer Grid-Kacheln (Arbeit/Leistungen) -
+   jede Kachel folgt der vorherigen mit kleinem Versatz statt gleichzeitig
+   aufzupoppen. */
+.work-grid .work-card:nth-child(1),
+.services-grid .service-card:nth-child(1) { transition-delay: 0s; }
+.work-grid .work-card:nth-child(2),
+.services-grid .service-card:nth-child(2) { transition-delay: 0.08s; }
+.work-grid .work-card:nth-child(3),
+.services-grid .service-card:nth-child(3) { transition-delay: 0.16s; }
+.work-grid .work-card:nth-child(4),
+.services-grid .service-card:nth-child(4) { transition-delay: 0.24s; }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; }
 }
