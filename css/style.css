@@ -82,21 +82,24 @@ body.nav-open {
 /* ============================================================
    CURSOR-GLOW — folgt der Maus über die gesamte Website (nicht nur
    die Hero-Karte), site-weit fixiert per --mx/--my aus main.js.
-   mix-blend-mode:screen hellt nur auf statt Inhalt zu verdecken,
-   pointer-events:none damit Klicks durchgehen. Bleibt wegen
-   position:fixed auch während der gepinnten Hero-Scroll-Animation
-   sichtbar. Läuft nicht bei prefers-reduced-motion (main.js) und
-   nicht auf Touch-Geräten ohne echten Mauszeiger.
+   z-index:-1 statt mix-blend-mode-Overlay: liegt damit hinter jedem
+   normal fließenden Inhalt (Text, Bilder, Karten, Mockups) und
+   scheint nur dort durch, wo das Hintergrund-Raster sichtbar bleibt
+   — mix-blend-mode:screen über Bildern/iframes flackerte je nach
+   Compositing-Layer unvorhersehbar. pointer-events:none damit Klicks
+   durchgehen. Bleibt wegen position:fixed auch während der gepinnten
+   Hero-Scroll-Animation sichtbar. Läuft nicht bei
+   prefers-reduced-motion (main.js) und nicht auf Touch-Geräten ohne
+   echten Mauszeiger.
    ============================================================ */
 .cursor-glow {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: -1;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s ease;
   background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(217, 174, 92, 0.16), transparent 70%);
-  mix-blend-mode: screen;
 }
 .cursor-glow.is-active { opacity: 1; }
 
