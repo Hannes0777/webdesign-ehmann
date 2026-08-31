@@ -3,3 +3,4 @@ Thumbs.db
 .DS_Store
 desktop.ini
 assets/marketing/instagram-posts/_build/tmp/
+.playwright-cli/
