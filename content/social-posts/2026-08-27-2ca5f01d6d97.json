@@ -1,14 +1,10 @@
 {
   "bild_facebook": "social-media-tmp/serie-marketing-uebersicht.png",
-  "bilder_instagram": [
-    "social-media-tmp/slide-1-2.png"
-  ],
   "text": "🗝️Wiedererkennungswert ist der Schlüssel zum Erfolg📈",
   "facebook": true,
-  "instagram": true,
+  "instagram": false,
   "geplant_fuer": "2026-08-31T07:01:00+02:00",
-  "status": "veroeffentlicht",
+  "status": "geplant",
   "fehler_meldung": "",
-  "instagram_media_id": "18022915886879803",
-  "facebook_post_id": "1319402587913188_122105357187452798"
+  "instagram_media_id": "18022915886879803"
 }
