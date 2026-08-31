@@ -1,8 +1,8 @@
-// Baut die blaue Rahmen-Grafik (1080x1350) fuer die Video-Slide von
+// Baut die Rahmen-Grafik (1080x1350) fuer die Video-Slide von
 // "Dachwerk Lindenhof Showcase" - identische Optik wie die anderen
-// blauen Carousel-Slides (Frame, Grid, Kicker/Headline, Footer), mit
+// Gold/Navy-Carousel-Slides (Frame, Grid, Kicker/Headline, Footer), mit
 // einem chroma-key-gruenen Fenster an der Stelle, wo das echte
-// Scroll-Video per ffmpeg eingeblendet wird (siehe compose-video.sh).
+// Scroll-Video per ffmpeg eingeblendet wird.
 const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
@@ -20,49 +20,37 @@ const FONT_PLAYFAIR = b64("playfair-700.woff2");
 const FONT_INTER_400 = b64("inter-400.woff2");
 const FONT_INTER_600 = b64("inter-600.woff2");
 
-const VARIANT = process.argv[2] === "gold" ? "gold" : "blau";
-
-const THEME_BLAU = {
+// Navy-Hintergrund mit Gold als Akzentfarbe (Kicker/Headline-Akzent/
+// Divider/Kartenrand) - finale Theme-Wahl fuer dieses Projekt.
+const t = {
   bg: "#0D1526",
   grid: "#16213A",
-  border: "#3D5A85",
-  kicker: "#5B9BFF",
-  headline: "#F4F6FB",
-  accent: "#5B9BFF",
-  subtext: "#A7B3D1",
-  divider: "#5B9BFF",
-  footer: "#8C9AC0",
-  glow: "rgba(91,155,255,0.28)",
-  cardBg: "rgba(91,155,255,0.045)",
-  cardBorder: "rgba(91,155,255,0.35)",
-  mutedStrong: "rgba(167,179,209,0.55)",
-};
-// Test-Variante: gleicher Navy-Hintergrund, aber Gold statt Blau als
-// Akzentfarbe (Kicker/Headline-Akzent/Divider/Kartenrand) - nur zum
-// Gegenchecken, wie das im Design wirkt.
-const THEME_GOLD = {
-  ...THEME_BLAU,
   border: "#6D5A37",
   kicker: "#D9AE5C",
+  headline: "#F4F6FB",
   accent: "#D9AE5C",
+  subtext: "#A7B3D1",
   divider: "#D9AE5C",
+  footer: "#8C9AC0",
   glow: "rgba(217,174,92,0.28)",
   cardBg: "rgba(217,174,92,0.045)",
   cardBorder: "rgba(217,174,92,0.35)",
+  mutedStrong: "rgba(167,179,209,0.55)",
 };
-const t = VARIANT === "gold" ? THEME_GOLD : THEME_BLAU;
 
 // Video-Fenster-Geometrie - muss exakt zum ffmpeg-Compose-Befehl passen.
-// Quellvideo (Screen-Recording des Kunden) ist 1902x910 (~2.09:1). Card
-// nutzt die volle Hoehe bis kurz vor den Footer, damit kein toter Raum
-// unter dem Video bleibt.
+// Quellvideo (Screen-Recording des Kunden) ist 1902x910 (~2.09:1). Die
+// Nav-Leiste ist mit 1236px CSS-Breite (Container 1180 + 56) das
+// breiteste Element der Seite - der Zuschnitt muss diese Breite mit
+// Sicherheitsabstand einschliessen, sonst werden Logo/Buttons an den
+// Raendern abgeschnitten.
 const CARD = { x: 104, y: 420, w: 872 };
 const CHROMEBAR_H = 44;
 const VIDEO_W = CARD.w - 2;
-const VIDEO_H = 702;
+const SOURCE_CROP_W = 1360;
+const VIDEO_H = Math.round(VIDEO_W / (SOURCE_CROP_W / 910));
 const VIDEO = { x: CARD.x + 1, y: CARD.y + CHROMEBAR_H + 1, w: VIDEO_W, h: VIDEO_H };
 const CARD_H = CHROMEBAR_H + VIDEO.h + 2;
-const SOURCE_CROP_W = Math.round(910 * (VIDEO_W / VIDEO_H));
 
 const html = `<!DOCTYPE html>
 <html lang="de">
@@ -126,12 +114,12 @@ html, body { width:${WIDTH}px; height:${HEIGHT}px; overflow:hidden; background:$
 
 const tmpDir = path.join(ROOT, "tmp");
 fs.mkdirSync(tmpDir, { recursive: true });
-const htmlPath = path.join(tmpDir, `video-frame-${VARIANT}.html`);
+const htmlPath = path.join(tmpDir, "video-frame.html");
 fs.writeFileSync(htmlPath, html, "utf8");
 
 const outDir = path.join(ROOT, "video");
 fs.mkdirSync(outDir, { recursive: true });
-const pngPath = path.join(outDir, VARIANT === "gold" ? "frame-overlay-gold.png" : "frame-overlay.png");
+const pngPath = path.join(outDir, "frame-overlay.png");
 
 execFileSync(
   CHROME,
