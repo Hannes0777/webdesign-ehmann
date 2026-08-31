@@ -1930,7 +1930,7 @@ button { font: inherit; cursor: pointer; }
    FOOTER
    ============================================================ */
 .footer {
-  background: var(--paper-alt);
+  background: rgba(var(--paper-alt-rgb), 0.5);
   border-top: 1px solid var(--border);
   padding: 56px 0 24px;
 }
