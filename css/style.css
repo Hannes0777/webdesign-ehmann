@@ -502,7 +502,12 @@ button { font: inherit; cursor: pointer; }
   min-height: 560px;
   border-radius: 32px;
   overflow: hidden;
-  background: linear-gradient(145deg, var(--cine-1) 0%, var(--cine-2) 100%);
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(circle 480px at 12% 8%, var(--gold-glow-soft), transparent),
+    linear-gradient(145deg, var(--cine-1) 0%, var(--cine-2) 100%);
+  background-size: 60px 60px, 60px 60px, auto, auto;
   box-shadow:
     0 40px 100px -20px rgba(8, 17, 9, 0.45),
     0 20px 40px -20px rgba(8, 17, 9, 0.35),
