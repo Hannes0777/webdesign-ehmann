@@ -279,6 +279,23 @@ const OVERVIEWS = [
     ],
     ctaHeadline: "Auch Social Media, Flyer oder Logo aus einer Hand? Schreib mir — wir besprechen gemeinsam, was zu deinem Betrieb passt.",
   },
+  {
+    slug: "dachwerk-lindenhof",
+    folder: "Case Study Dachwerk Lindenhof",
+    outFile: "dachwerk-lindenhof-uebersicht.png",
+    kicker: "DESIGN-BEISPIEL · FIKTIVER BETRIEB",
+    headline: ["Dachwerk", "<span class=\"accent\">Lindenhof</span>"],
+    subtext: "So könnte ein komplettes Kundenprojekt bei mir ablaufen — vom ersten Gespräch bis zur fertigen Website.",
+    pointsKicker: "SCHRITT FÜR SCHRITT",
+    pointsHeadline: "Was die neue Website leistet",
+    points: [
+      "Scroll-gesteuerter Vorher/Nachher-Effekt im Hero",
+      "4 Leistungen klar strukturiert",
+      "Rückmeldung auf jede Anfrage innerhalb von 24 Std.",
+      "Echtes Kontaktformular statt mailto-Link",
+    ],
+    ctaHeadline: "Auch für deinen Betrieb möglich — schreib mir, wir schauen uns dein Beispiel gemeinsam an.",
+  },
 ];
 
 ensureDir(TMP);
