@@ -90,18 +90,20 @@
         if (!card || !p) return;
         const name = card.querySelector('.pricing-card__name');
         if (name && p.name) name.textContent = p.name;
+        const isSale = !!p.regulaer_preis;
         const price = card.querySelector('.pricing-card__price');
         if (price) {
           if (p.preis_text) {
             price.textContent = p.preis_text;
             price.classList.add('pricing-card__price--onrequest');
           } else if (p.ab_preis) {
-            const old = p.regulaer_preis
+            const old = isSale
               ? '<span class="pricing-card__price-old">' + p.regulaer_preis + '&nbsp;€</span> '
               : '';
             price.innerHTML = old + '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
             price.classList.remove('pricing-card__price--onrequest');
           }
+          price.classList.toggle('pricing-card__price--sale', isSale);
         }
         const note = card.querySelector('.pricing-card__price-note');
         if (note) note.textContent = p.preis_notiz || '';
@@ -125,6 +127,30 @@
           card.prepend(badge);
         } else if (!p.empfohlen && badge) {
           badge.remove();
+        }
+
+        card.classList.toggle('pricing-card--sale', isSale);
+        let ribbon = card.querySelector('.pricing-card__ribbon');
+        if (isSale && !ribbon) {
+          ribbon = document.createElement('span');
+          ribbon.className = 'pricing-card__ribbon';
+          card.prepend(ribbon);
+        } else if (!isSale && ribbon) {
+          ribbon.remove();
+        }
+        if (ribbon) ribbon.textContent = '🔥 ' + (p.preis_notiz || 'Sonderpreis');
+
+        let repeat = card.querySelector('.pricing-card__price-repeat');
+        if (isSale && !repeat) {
+          repeat = document.createElement('p');
+          repeat.className = 'pricing-card__price-repeat';
+          const cta2 = card.querySelector('.pricing-card__cta');
+          card.insertBefore(repeat, cta2);
+        } else if (!isSale && repeat) {
+          repeat.remove();
+        }
+        if (repeat) {
+          repeat.innerHTML = (p.preis_notiz || 'Sonderpreis') + ': <strong>ab ' + p.ab_preis + '&nbsp;€</strong> statt ' + p.regulaer_preis + '&nbsp;€';
         }
       });
     }
