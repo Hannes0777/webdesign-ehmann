@@ -669,6 +669,61 @@ const POSTS = [
       },
     ],
   },
+  {
+    folder: "Case Study Landmetzgerei Sonnenhof",
+    themes: ["gold"],
+    slides: [
+      {
+        kind: "cover",
+        big: true,
+        kicker: "DESIGN-BEISPIEL · FIKTIVER BETRIEB",
+        headline: ["Landmetzgerei", "<span class=\"accent\">Sonnenhof</span>"],
+        subtext: "So könnte ein komplettes Kundenprojekt bei mir ablaufen — vom ersten Gespräch bis zur fertigen Website.",
+      },
+      {
+        kind: "hero-left",
+        icon: "warning",
+        kicker: "SCHRITT 1",
+        headline: "Die Ausgangslage",
+        subtext: "Ein Familienbetrieb mit über 150 Jahren Geschichte — aber die alte Website wirkte wie ein Baukasten aus den 2000ern: keine Produktfotos, Öffnungszeiten schwer zu finden, auf dem Handy kaum lesbar.",
+      },
+      {
+        kind: "hero-left",
+        icon: "compass",
+        kicker: "SCHRITT 2",
+        headline: "Meine Idee dazu",
+        subtext: "Bei einer Landmetzgerei zählt das Handwerk: großformatige Produktfotos, eine warme, dunkle Farbwelt und ruhige Scroll-Animationen machen Tradition und Qualität auf den ersten Blick spürbar.",
+      },
+      {
+        kind: "reason",
+        icon: "phone",
+        kicker: "SCHRITT 3 · IN ZAHLEN",
+        subheadline: "Was die neue Website leistet",
+        number: "24 Std",
+        bold: "Rückmeldung auf jede Partyservice-Anfrage über das neue Formular — garantiert, nicht nur versprochen.",
+        regular: "Dazu: 5 Produktkategorien übersichtlich sortiert, Öffnungszeiten auf einen Blick, 1 Klick zum Partyservice-Formular für Feiern und Events.",
+        source: null,
+      },
+      {
+        kind: "showcase-photo",
+        icon: "target",
+        kicker: "SCHRITT 4",
+        headline: "Die neue Website",
+        subtext: "Großformatige Produktbilder, klare Struktur für Sortiment und Partyservice, echtes Anfrageformular — für einen Betrieb mit langer Geschichte, der das online endlich zeigt.",
+        photo: "real/sonnenhof-hero.png",
+        photoW: 760,
+        photoH: 475,
+        caption: "ECHTES DESIGN-BEISPIEL · LANDMETZGEREI SONNENHOF",
+      },
+      {
+        kind: "cta",
+        kicker: "ERGEBNIS",
+        headline: "Aus unsichtbar wird sichtbar",
+        subtext: "Auch für deinen Betrieb möglich — schreib mir, wir schauen uns dein Beispiel gemeinsam an.",
+        button: "JETZT SCHREIBEN →",
+      },
+    ],
+  },
 ];
 
 module.exports = { POSTS, ICONS };

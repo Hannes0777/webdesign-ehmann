@@ -6,7 +6,7 @@ const { POSTS, ICONS } = require("./content.js");
 const ROOT = __dirname;
 const OUT_ROOT = path.join(ROOT, "..");
 const TMP = path.join(ROOT, "tmp");
-const CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const CHROME = process.env.CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
@@ -659,6 +659,7 @@ function screenshot(htmlPath, pngPath) {
       "--headless=new",
       "--disable-gpu",
       "--hide-scrollbars",
+      ...(process.env.CHROME_NO_SANDBOX ? ["--no-sandbox"] : []),
       "--force-device-scale-factor=1",
       `--window-size=${WIDTH},${HEIGHT}`,
       `--screenshot=${pngPath}`,

@@ -9,7 +9,7 @@ const { execFileSync } = require("child_process");
 const ROOT = __dirname;
 const OUT_ROOT = path.join(ROOT, "..");
 const TMP = path.join(ROOT, "tmp");
-const CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const CHROME = process.env.CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
@@ -141,6 +141,7 @@ function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
 function screenshot(htmlPath, pngPath) {
   execFileSync(CHROME, [
     "--headless=new", "--disable-gpu", "--hide-scrollbars",
+    ...(process.env.CHROME_NO_SANDBOX ? ["--no-sandbox"] : []),
     "--force-device-scale-factor=2", `--window-size=${WIDTH},${HEIGHT}`,
     `--screenshot=${pngPath}`, "file:///" + htmlPath.replace(/\\/g, "/"),
   ], { stdio: "ignore" });
@@ -293,6 +294,23 @@ const OVERVIEWS = [
       "4 Leistungen klar strukturiert",
       "Rückmeldung auf jede Anfrage innerhalb von 24 Std.",
       "Echtes Kontaktformular statt mailto-Link",
+    ],
+    ctaHeadline: "Auch für deinen Betrieb möglich — schreib mir, wir schauen uns dein Beispiel gemeinsam an.",
+  },
+  {
+    slug: "landmetzgerei-sonnenhof",
+    folder: "Case Study Landmetzgerei Sonnenhof",
+    outFile: "landmetzgerei-sonnenhof-uebersicht.png",
+    kicker: "DESIGN-BEISPIEL · FIKTIVER BETRIEB",
+    headline: ["Landmetzgerei", "<span class=\"accent\">Sonnenhof</span>"],
+    subtext: "So könnte ein komplettes Kundenprojekt bei mir ablaufen — vom ersten Gespräch bis zur fertigen Website.",
+    pointsKicker: "SCHRITT FÜR SCHRITT",
+    pointsHeadline: "Was die neue Website leistet",
+    points: [
+      "Großformatige Produktfotos statt Baukasten-Optik",
+      "5 Produktkategorien klar strukturiert",
+      "Rückmeldung auf jede Anfrage innerhalb von 24 Std.",
+      "Echtes Partyservice-Formular statt mailto-Link",
     ],
     ctaHeadline: "Auch für deinen Betrieb möglich — schreib mir, wir schauen uns dein Beispiel gemeinsam an.",
   },
