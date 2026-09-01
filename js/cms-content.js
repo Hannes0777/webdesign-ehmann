@@ -97,16 +97,10 @@
             price.textContent = p.preis_text;
             price.classList.add('pricing-card__price--onrequest');
           } else if (p.ab_preis) {
-            const old = isSale
-              ? '<span class="pricing-card__price-old">' + p.regulaer_preis + '&nbsp;€</span> '
-              : '';
-            price.innerHTML = old + '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
+            price.innerHTML = '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
             price.classList.remove('pricing-card__price--onrequest');
           }
-          price.classList.toggle('pricing-card__price--sale', isSale);
         }
-        const note = card.querySelector('.pricing-card__price-note');
-        if (note) note.textContent = p.preis_notiz || '';
         const tagline = card.querySelector('.pricing-card__tagline');
         if (tagline && p.tagline) tagline.textContent = p.tagline;
         const ul = card.querySelector('.pricing-card__list');
@@ -115,8 +109,12 @@
         }
         const cta = card.querySelector('.pricing-card__cta');
         if (cta && p.name) {
-          cta.textContent = p.name + ' anfragen';
+          cta.textContent = isSale && p.ab_preis
+            ? 'Ab ' + p.ab_preis + ' € – Jetzt anfragen'
+            : p.name + ' anfragen';
           cta.dataset.paket = p.name;
+          cta.classList.toggle('btn--sale', isSale);
+          if (isSale) cta.classList.remove('btn--ghost');
         }
         card.classList.toggle('pricing-card--featured', !!p.empfohlen);
         let badge = card.querySelector('.pricing-card__badge');
@@ -139,19 +137,6 @@
           ribbon.remove();
         }
         if (ribbon) ribbon.textContent = '🔥 ' + (p.preis_notiz || 'Sonderpreis');
-
-        let repeat = card.querySelector('.pricing-card__price-repeat');
-        if (isSale && !repeat) {
-          repeat = document.createElement('p');
-          repeat.className = 'pricing-card__price-repeat';
-          const cta2 = card.querySelector('.pricing-card__cta');
-          card.insertBefore(repeat, cta2);
-        } else if (!isSale && repeat) {
-          repeat.remove();
-        }
-        if (repeat) {
-          repeat.innerHTML = (p.preis_notiz || 'Sonderpreis') + ': <strong>ab ' + p.ab_preis + '&nbsp;€</strong> statt ' + p.regulaer_preis + '&nbsp;€';
-        }
       });
     }
 

@@ -211,6 +211,13 @@ button { font: inherit; cursor: pointer; }
 }
 .btn--ghost:hover { border-color: var(--green); color: var(--green-deep); }
 
+.btn--sale {
+  background: var(--sale);
+  color: #fff;
+  border-color: var(--sale);
+}
+.btn--sale:hover { background: var(--sale-deep); border-color: var(--sale-deep); }
+
 .btn--nav {
   padding: 10px 20px;
   font-size: 1.05rem;
@@ -1360,50 +1367,18 @@ button { font: inherit; cursor: pointer; }
   font-weight: 700;
   color: var(--green-deep);
 }
-.pricing-card__price--sale {
-  font-size: 3rem;
-  color: var(--sale);
-  text-shadow: 0 0 28px rgba(255, 71, 71, 0.35);
-}
 .pricing-card__price-prefix {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--mist);
   margin-right: 4px;
 }
-.pricing-card__price-old {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--mist);
-  text-decoration: line-through;
-  text-decoration-color: var(--sale);
-  text-decoration-thickness: 2px;
-}
-.pricing-card__price-note {
-  margin-top: 6px;
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--sale);
-}
 .pricing-card__price--onrequest { font-size: 1.3rem; }
 .pricing-card__tagline { margin-top: 6px; color: var(--mist); font-size: 0.95rem; }
 
 .pricing-card__list { margin-bottom: 8px; }
 
-.pricing-card__price-repeat {
-  margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px dashed var(--glass-border);
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--sale);
-}
-.pricing-card__price-repeat strong { font-size: 1.3rem; }
-
 .pricing-card .btn { margin-top: auto; padding-top: 28px; }
-.pricing-card__price-repeat + .btn { margin-top: 0; padding-top: 16px; }
 
 .pricing-addons {
   margin-top: 40px;
@@ -1765,6 +1740,10 @@ a.promo-marquee {
   display: block;
   width: 100%;
   overflow: hidden;
+  /* 108px = etablierter Sicherheitsabstand zur fixierten Nav-Pille
+     (siehe .subnav top:108px) - Streifen sitzt direkt unter der Nav,
+     statt teilweise dahinter zu verschwinden. */
+  margin-top: 108px;
   background: linear-gradient(120deg, var(--sale) 0%, var(--coral-deep) 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
@@ -1780,12 +1759,12 @@ a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
 .promo-marquee__item {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
+  gap: 14px;
   white-space: nowrap;
-  padding: 22px 28px;
+  padding: 12px 20px;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.15rem, 1rem + 1.2vw, 1.9rem);
+  font-size: clamp(0.85rem, 0.78rem + 0.4vw, 1.05rem);
   text-transform: uppercase;
   letter-spacing: 0.01em;
   color: #2a0808;
