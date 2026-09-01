@@ -1739,12 +1739,15 @@ a.offer-banner:hover { transform: translateY(-2px); }
 a.promo-marquee {
   display: block;
   overflow: hidden;
-  /* Gleiche seitliche Einrückung (16px) und Pillenform wie .nav
-     (border-radius:999px) - wirkt wie eine zweite Pille direkt unter
-     der Navigation, statt wie ein separater, unverbundener Balken.
-     100px Abstand = Nav-Unterkante (top:16px + height:76px ≈ 92px)
-     plus kleiner Luftspalt. */
-  margin: 100px 16px 0;
+  /* Gleiche Breite/Zentrierung wie .nav (width:calc(100% - 32px) +
+     max-width + margin:auto statt nur seitlichem 16px-Rand) - sonst
+     ist die Pille auf breiten Screens die volle Viewport-Breite,
+     während .nav durch max-width schmaler und zentriert bleibt.
+     margin-top 92px = exakte Nav-Unterkante (top:16px + height:76px),
+     Oberkante der Marquee liegt damit direkt an der Nav-Unterkante an. */
+  width: calc(100% - 32px);
+  max-width: calc(var(--container) + 56px);
+  margin: 92px auto 0;
   border-radius: 999px;
   background: linear-gradient(120deg, var(--sale) 0%, var(--coral-deep) 100%);
   border: 1px solid rgba(255, 255, 255, 0.18);
