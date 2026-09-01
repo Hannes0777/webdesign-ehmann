@@ -7941,5 +7941,18 @@
     "instagram_reach": 436,
     "instagram_accounts_engaged": 3,
     "instagram_total_interactions": 7
+  },
+  {
+    "at": "2026-09-01T13:45:31.757Z",
+    "facebook_followers": null,
+    "instagram_followers": 45,
+    "facebook_likes": 0,
+    "facebook_comments": 0,
+    "facebook_reach": 0,
+    "instagram_likes": 40,
+    "instagram_comments": 0,
+    "instagram_reach": 437,
+    "instagram_accounts_engaged": 3,
+    "instagram_total_interactions": 7
   }
 ]
