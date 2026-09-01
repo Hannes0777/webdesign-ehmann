@@ -51,14 +51,23 @@ const t = {
 // SOURCE_CROP_W hier auf 1560 verbreitert (mit Sicherheitsabstand).
 // Karte breiter als der Standard-Content-Rand (872px) gezogen, fast bis
 // an den Rahmen heran (960px von 968px verfuegbarer Innenbreite) - der
-// breitere 1560px-Zuschnitt (s.u.) ergibt ein flacheres Seitenverhaeltnis
+// breitere Quellzuschnitt (s.u.) ergibt ein flacheres Seitenverhaeltnis
 // als Dachwerks 1360px-Zuschnitt, das wuerde die Karte sonst sichtbar
 // kleiner/flacher machen als beim Dachwerk-Showcase. Breitere Karte
 // gleicht das aus.
 const CARD = { x: 60, y: 420, w: 960 };
 const CHROMEBAR_H = 44;
 const VIDEO_W = CARD.w - 2;
-const SOURCE_CROP_W = 1560;
+// Quellvideo ist 1902x910. Ein links (x=0) beginnender Zuschnitt zeigt
+// die Seite nicht zentriert (der Haupt-Content - Nav 400..1513 - liegt
+// nahe der Bildmitte 951, ein Zuschnitt ab x=0 laesst also links viel
+// leeren Hintergrund und schneidet rechts eng ab). Zuschnitt daher um
+// die tatsaechliche Content-Mitte (~956px) zentriert, breit genug um
+// auch die rechts schwebenden Hero-Badges ("Handwerk"/"Regional",
+// CSS right:8%/14%, reichen bis ca. x=1755) mit einzuschliessen -
+// per Test-Frame verifiziert (siehe Session).
+const SOURCE_CROP_X = 140;
+const SOURCE_CROP_W = 1620;
 const VIDEO_H = Math.round(VIDEO_W / (SOURCE_CROP_W / 910) / 2) * 2;
 const VIDEO = { x: CARD.x + 1, y: CARD.y + CHROMEBAR_H + 1, w: VIDEO_W, h: VIDEO_H };
 const CARD_H = CHROMEBAR_H + VIDEO.h + 2;
@@ -146,4 +155,4 @@ execFileSync(
   { stdio: "ignore" }
 );
 
-console.log("OK", pngPath, JSON.stringify({ CARD, VIDEO, CARD_H, SOURCE_CROP_W }));
+console.log("OK", pngPath, JSON.stringify({ CARD, VIDEO, CARD_H, SOURCE_CROP_X, SOURCE_CROP_W }));
