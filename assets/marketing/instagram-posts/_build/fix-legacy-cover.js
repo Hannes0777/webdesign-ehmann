@@ -150,10 +150,6 @@ const SLIDES = [
     kicker: "MARKETING · SERIE TEIL 3", headline: ["Ein Auftritt.", "<span class=\"accent\">Überall.</span>"],
     subtext: "Social Media, Flyer und Logo – auf Wunsch übernehme ich auch das, im selben Design wie deine Website." },
 
-  { out: "Cas-Study-Sonnenhof/case-study-sonnenhof-slide-1.png", theme: "dunkel", total: 5,
-    kicker: "DESIGN-BEISPIEL · FIKTIVER BETRIEB", headline: ["Landmetzgerei", "Sonnenhof"],
-    subtext: "So könnte ein Website-Relaunch aussehen" },
-
   { out: "Philosophie/philosophie.png", theme: "dunkel", total: null, noArrow: true,
     kicker: "PHILOSOPHIE", headline: ["Handgebaut.", "Nicht aus dem", "Baukasten."],
     subtext: "Websites für Handwerksbetriebe und Vereine in der Region — von Hand programmiert, nicht zusammengeklickt. Keine Templates, keine überflüssige Software, die die Seite langsam macht." },
