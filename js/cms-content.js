@@ -97,7 +97,8 @@
             price.textContent = p.preis_text;
             price.classList.add('pricing-card__price--onrequest');
           } else if (p.ab_preis) {
-            price.innerHTML = '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
+            const oldPrice = isSale ? '<span class="pricing-card__price-old">' + p.regulaer_preis + '&nbsp;€</span>' : '';
+            price.innerHTML = oldPrice + '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
             price.classList.remove('pricing-card__price--onrequest');
           }
         }
