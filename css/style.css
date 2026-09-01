@@ -1744,11 +1744,13 @@ a.promo-marquee {
      ist die Pille auf breiten Screens die volle Viewport-Breite,
      während .nav durch max-width schmaler und zentriert bleibt.
      margin-top 92px = exakte Nav-Unterkante (top:16px + height:76px),
-     Oberkante der Marquee liegt damit direkt an der Nav-Unterkante an. */
+     Oberkante der Marquee liegt damit direkt an der Nav-Unterkante an.
+     Obere Ecken eckig (statt rund) - wirkt dadurch wie direkt an die
+     Nav-Pille angesetzt statt wie eine zweite, lose Pille darunter. */
   width: calc(100% - 32px);
   max-width: calc(var(--container) + 56px);
   margin: 92px auto 0;
-  border-radius: 999px;
+  border-radius: 0 0 999px 999px;
   background: linear-gradient(120deg, var(--sale) 0%, var(--coral-deep) 100%);
   border: 1px solid rgba(255, 255, 255, 0.18);
   text-decoration: none;
