@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Landmetzgerei Sonnenhof Logo">
+  <rect x="0" y="0" width="64" height="64" rx="16" fill="#3D1F0D"/>
+  <g stroke="#E8C97A" stroke-width="3.4" stroke-linecap="round">
+    <path d="M32 10 L32 17"/>
+    <path d="M32 47 L32 54"/>
+    <path d="M10 32 L17 32"/>
+    <path d="M47 32 L54 32"/>
+    <path d="M16.7 16.7 L21.6 21.6"/>
+    <path d="M42.4 42.4 L47.3 47.3"/>
+    <path d="M47.3 16.7 L42.4 21.6"/>
+    <path d="M21.6 42.4 L16.7 47.3"/>
+  </g>
+  <circle cx="32" cy="32" r="11" fill="#C9A84C"/>
+</svg>
