@@ -1373,6 +1373,14 @@ button { font: inherit; cursor: pointer; }
   color: var(--mist);
   margin-right: 4px;
 }
+.pricing-card__price-old {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--mist);
+  text-decoration: line-through;
+  text-decoration-color: var(--sale);
+}
 .pricing-card__price--onrequest { font-size: 1.3rem; }
 .pricing-card__tagline { margin-top: 6px; color: var(--mist); font-size: 0.95rem; }
 
