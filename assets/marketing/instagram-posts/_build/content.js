@@ -669,6 +669,74 @@ const POSTS = [
       },
     ],
   },
+  {
+    folder: "Landmetzgerei Sonnenhof Showcase",
+    themes: ["gold"],
+    slides: [
+      {
+        // Slide 1 wird im fertigen Post durch das echte Scroll-Video ersetzt
+        // (siehe Landmetzgerei Sonnenhof Showcase/gold/slide-1.mp4, gebaut per
+        // video-frame-sonnenhof.js aus dem selbst aufgenommenen Screen-Recording)
+        // - dieses PNG dient nur als Referenz/Fallback-Thumbnail, damit die
+        // Zaehlung 01..06 stimmt.
+        kind: "cover",
+        big: true,
+        kicker: "LIVE-DEMO FÜR KUNDEN · FIKTIVER BETRIEB",
+        headline: ["Landmetzgerei", "<span class=\"accent\">Sonnenhof</span>"],
+        subtext: "Website, Logo, Flyer und Social Media im selben Design.",
+      },
+      {
+        kind: "showcase-photo",
+        icon: "compass",
+        kicker: "LOGO-DESIGN",
+        headline: "Ein Erkennungszeichen für den Betrieb",
+        subtext: "Die Sonne als Symbol, in den Firmenfarben — Grundlage für Website, Verpackung und alles, was noch dazukommt.",
+        photo: "../../sonnenhof/logo/landmetzgerei-sonnenhof-logo.png",
+        photoW: 620,
+        photoH: 620,
+        contentTop: 150,
+        caption: "ECHTES LOGO · LANDMETZGEREI SONNENHOF",
+      },
+      {
+        kind: "showcase-photo",
+        icon: "form",
+        kicker: "FLYER & PRINT",
+        headline: "Für Aushang, Laden und Briefkasten",
+        subtext: "Druckfertig, im selben Look wie die Website.",
+        photo: "../../sonnenhof/flyer/landmetzgerei-sonnenhof-flyer.png",
+        photoW: 377,
+        photoH: 665,
+        contentTop: 150,
+        caption: "ECHTER FLYER · LANDMETZGEREI SONNENHOF",
+      },
+      {
+        kind: "showcase-photo",
+        icon: "chat",
+        kicker: "SOCIAL-MEDIA",
+        headline: "Content, der zum Look passt",
+        subtext: "Eigene Instagram-Beiträge im selben Design — für Angebote, Aktionen und den Partyservice.",
+        photo: "../../sonnenhof/instagram/post-1-partyservice.png",
+        photoW: 620,
+        photoH: 620,
+        contentTop: 150,
+        caption: "ECHTER POST · LANDMETZGEREI SONNENHOF",
+      },
+      {
+        kind: "hero-left",
+        icon: "target",
+        kicker: "ALLES AUS EINER HAND",
+        headline: "Ein einheitlicher Auftritt",
+        subtext: "Website, Logo, Flyer und Social Media im selben Design — Kunden erkennen den Betrieb überall wieder.",
+      },
+      {
+        kind: "cta",
+        kicker: "DEIN PROJEKT",
+        headline: "Auch für deinen Betrieb möglich",
+        subtext: "Schreib mir — wir besprechen gemeinsam, was zu deinem Betrieb passt.",
+        button: "UNVERBINDLICHES ANGEBOT ANFRAGEN →",
+      },
+    ],
+  },
 ];
 
 module.exports = { POSTS, ICONS };
