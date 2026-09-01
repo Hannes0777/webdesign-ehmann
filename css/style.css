@@ -245,11 +245,13 @@ button { font: inherit; cursor: pointer; }
   box-shadow: var(--shadow-sm);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
-/* Nur wenn direkt eine Promo-Marquee folgt (aktuell nur index.html):
+/* Nur auf Seiten mit Promo-Marquee direkt darunter (aktuell nur
+   index.html, dort per Klasse markiert statt :has() - :has() wird
+   nicht überall unterstützt und die Ecke muss zuverlässig sitzen):
    untere Ecken eckig statt rund, damit die Kante wirklich nahtlos in
-   die eckige Oberkante der Marquee übergeht - auf Seiten ohne Marquee
-   bleibt .nav eine volle Pille. */
-.nav:has(+ .promo-marquee) {
+   die eckige Oberkante der Marquee übergeht - auf Seiten ohne diese
+   Klasse bleibt .nav eine volle Pille. */
+.nav.nav--marquee-seam {
   border-radius: 999px 999px 0 0;
 }
 .nav.nav--scrolled {
