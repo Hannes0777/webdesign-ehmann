@@ -245,6 +245,13 @@ button { font: inherit; cursor: pointer; }
   box-shadow: var(--shadow-sm);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
+/* Nur wenn direkt eine Promo-Marquee folgt (aktuell nur index.html):
+   untere Ecken eckig statt rund, damit die Kante wirklich nahtlos in
+   die eckige Oberkante der Marquee übergeht - auf Seiten ohne Marquee
+   bleibt .nav eine volle Pille. */
+.nav:has(+ .promo-marquee) {
+  border-radius: 999px 999px 0 0;
+}
 .nav.nav--scrolled {
   border-color: var(--glass-border);
   box-shadow: var(--shadow-md);
@@ -1743,13 +1750,19 @@ a.promo-marquee {
      max-width + margin:auto statt nur seitlichem 16px-Rand) - sonst
      ist die Pille auf breiten Screens die volle Viewport-Breite,
      während .nav durch max-width schmaler und zentriert bleibt.
-     margin-top 92px = exakte Nav-Unterkante (top:16px + height:76px),
-     Oberkante der Marquee liegt damit direkt an der Nav-Unterkante an.
-     Obere Ecken eckig (statt rund) - wirkt dadurch wie direkt an die
-     Nav-Pille angesetzt statt wie eine zweite, lose Pille darunter. */
+     94px = exakte Nav-Unterkante inkl. 1px-Border (top:16px +
+     height:76px + 2px Border = 94px) - vorher 92px, dadurch 2px
+     Lücke/Versatz an der Nahtstelle zur Nav.
+     position:sticky (statt nur margin-top) hält die Marquee beim
+     Scrollen an der Nav-Unterkante fixiert, genau wie .subnav
+     weiter unten im File - bleibt dabei anders als position:fixed
+     im Dokumentfluss, verschiebt also nichts am Hero-Layout. */
+  position: sticky;
+  top: 94px;
+  z-index: 500;
   width: calc(100% - 32px);
   max-width: calc(var(--container) + 56px);
-  margin: 92px auto 0;
+  margin: 94px auto 0;
   border-radius: 0 0 999px 999px;
   background: linear-gradient(120deg, var(--sale) 0%, var(--coral-deep) 100%);
   border: 1px solid rgba(255, 255, 255, 0.18);
