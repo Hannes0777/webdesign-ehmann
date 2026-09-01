@@ -17,6 +17,8 @@
   --coral: #e2763a;
   --coral-deep: #c15a22;
   --coral-soft: rgba(226, 118, 58, 0.14);
+  --sale: #ff4747;
+  --sale-deep: #d92c2c;
   --border: rgba(255, 255, 255, 0.12);
 
   --paper-rgb: 10, 11, 13;
@@ -1307,6 +1309,18 @@ button { font: inherit; cursor: pointer; }
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(217, 174, 92, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+/* Sale-Zustand: aktiviert sich automatisch, sobald ein Paket einen
+   regulaer_preis (Streichpreis) hat - siehe cms-content.js. Rot statt
+   Gold, damit sich das Einführungsangebot klar von der sonstigen
+   Gold-Optik der Seite abhebt und sofort auffällt. */
+.pricing-card--sale {
+  border-color: var(--sale);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(255, 71, 71, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.pricing-card--sale:hover {
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(255, 71, 71, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
 .pricing-card__badge {
   position: absolute;
   top: -13px;
@@ -1318,6 +1332,26 @@ button { font: inherit; cursor: pointer; }
   padding: 4px 12px;
   border-radius: 999px;
 }
+.pricing-card__ribbon {
+  position: absolute;
+  top: -13px;
+  left: 36px;
+  background: var(--sale);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  animation: offer-pulse-sale 2.4s ease-in-out infinite;
+}
+@keyframes offer-pulse-sale {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 71, 71, 0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(255, 71, 71, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 71, 71, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card__ribbon { animation: none; }
+}
 
 .pricing-card__name { font-size: 1.4rem; }
 .pricing-card__price {
@@ -1326,6 +1360,11 @@ button { font: inherit; cursor: pointer; }
   font-weight: 700;
   color: var(--green-deep);
 }
+.pricing-card__price--sale {
+  font-size: 3rem;
+  color: var(--sale);
+  text-shadow: 0 0 28px rgba(255, 71, 71, 0.35);
+}
 .pricing-card__price-prefix {
   font-size: 0.95rem;
   font-weight: 600;
@@ -1333,25 +1372,38 @@ button { font: inherit; cursor: pointer; }
   margin-right: 4px;
 }
 .pricing-card__price-old {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--mist);
   text-decoration: line-through;
-  text-decoration-color: var(--coral);
+  text-decoration-color: var(--sale);
+  text-decoration-thickness: 2px;
 }
 .pricing-card__price-note {
-  margin-top: 2px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--coral);
+  margin-top: 6px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sale);
 }
 .pricing-card__price--onrequest { font-size: 1.3rem; }
 .pricing-card__tagline { margin-top: 6px; color: var(--mist); font-size: 0.95rem; }
 
 .pricing-card__list { margin-bottom: 8px; }
 
+.pricing-card__price-repeat {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px dashed var(--glass-border);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--sale);
+}
+.pricing-card__price-repeat strong { font-size: 1.3rem; }
+
 .pricing-card .btn { margin-top: auto; padding-top: 28px; }
+.pricing-card__price-repeat + .btn { margin-top: 0; padding-top: 16px; }
 
 .pricing-addons {
   margin-top: 40px;
@@ -1698,6 +1750,53 @@ a.offer-banner:hover { transform: translateY(-2px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .offer-banner { animation: none; }
+}
+
+/* ============================================================
+   PROMO-MARQUEE — durchlaufender Angebots-Streifen auf der
+   Startseite, direkt nach dem Hero. Zwei identische Item-Gruppen
+   nebeneinander im Flex-Track, Loop per translateX(-50% → 0%)
+   (= Bewegung von links nach rechts, siehe Kundenwunsch), dadurch
+   nahtlos ohne Sprung. Der Track ist aria-hidden, der Link trägt
+   das eigentliche aria-label - Screenreader bekommen den Text nur
+   einmal statt x-fach wiederholt.
+   ============================================================ */
+a.promo-marquee {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(120deg, var(--sale) 0%, var(--coral-deep) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+}
+.promo-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: promo-marquee-scroll 20s linear infinite;
+}
+a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
+.promo-marquee__group { display: flex; flex-shrink: 0; }
+.promo-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  white-space: nowrap;
+  padding: 22px 28px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.15rem, 1rem + 1.2vw, 1.9rem);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: #2a0808;
+}
+.promo-marquee__item svg { flex-shrink: 0; }
+@keyframes promo-marquee-scroll {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .promo-marquee__track { animation: none; }
 }
 
 /* ============================================================
