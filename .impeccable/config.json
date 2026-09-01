@@ -61,7 +61,7 @@
         "rule": "overused-font",
         "value": "inter",
         "createdAt": "2026-08-27T21:09:38.936Z",
-        "reason": "Established Webdesign-Ehmann brand pairing (Playfair Display + Inter, gold accent) already used consistently across dozens of prior Instagram marketing assets in this repo; not a fresh AI-default choice, predates this edit."
+        "reason": "Inter+Playfair Display is the established font pairing across the entire instagram-posts carousel build system (build.js, content.js, overview-generic.js) used for dozens of already-shipped posts; video-frame.js must match that existing system, not make a fresh font choice"
       },
       {
         "rule": "overused-font",
@@ -71,6 +71,15 @@
         ],
         "createdAt": "2026-08-27T22:15:56.660Z",
         "reason": "Same established Webdesign-Ehmann brand pairing (Playfair Display + Inter) as build.js/overview.js in this same asset pipeline; new visual() snippets added here reuse the existing font-family, not a new choice."
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "ueber-mich.html"
+        ],
+        "createdAt": "2026-09-01T15:13:27.048Z",
+        "reason": "intentional CMS-driven fallback: img has no src and stays [hidden] until content/uebermich.json provides a photo (js/cms-content.js sets src + unhides); initials span shows otherwise"
       }
     ]
   }
