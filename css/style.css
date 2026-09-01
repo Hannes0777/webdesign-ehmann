@@ -245,15 +245,6 @@ button { font: inherit; cursor: pointer; }
   box-shadow: var(--shadow-sm);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
-/* Nur auf Seiten mit Promo-Marquee direkt darunter (aktuell nur
-   index.html, dort per Klasse markiert statt :has() - :has() wird
-   nicht überall unterstützt und die Ecke muss zuverlässig sitzen):
-   untere Ecken eckig statt rund, damit die Kante wirklich nahtlos in
-   die eckige Oberkante der Marquee übergeht - auf Seiten ohne diese
-   Klasse bleibt .nav eine volle Pille. */
-.nav.nav--marquee-seam {
-  border-radius: 999px 999px 0 0;
-}
 .nav.nav--scrolled {
   border-color: var(--glass-border);
   box-shadow: var(--shadow-md);
@@ -1753,22 +1744,19 @@ a.promo-marquee {
      ist die Pille auf breiten Screens die volle Viewport-Breite,
      während .nav durch max-width schmaler und zentriert bleibt.
      94px = exakte Nav-Unterkante inkl. 1px-Border (top:16px +
-     height:76px + 2px Border = 94px) - vorher 92px, dadurch 2px
-     Lücke/Versatz an der Nahtstelle zur Nav.
-     position:sticky (statt nur margin-top) hält die Marquee beim
-     Scrollen an der Nav-Unterkante fixiert, genau wie .subnav
-     weiter unten im File - bleibt dabei anders als position:fixed
-     im Dokumentfluss, verschiebt also nichts am Hero-Layout. */
-  position: sticky;
-  top: 94px;
-  z-index: 500;
+     height:76px + 2px Border = 94px), Oberkante der Marquee liegt
+     damit direkt an der Nav-Unterkante an - eigene, separate Pille. */
   width: calc(100% - 32px);
   max-width: calc(var(--container) + 56px);
   margin: 94px auto 0;
-  border-radius: 0 0 999px 999px;
+  border-radius: 999px;
   background: linear-gradient(120deg, var(--sale) 0%, var(--coral-deep) 100%);
   border: 1px solid rgba(255, 255, 255, 0.18);
   text-decoration: none;
+  /* Laufschrift läuft an den runden Enden nicht hart ab, sondern
+     blendet zu transparent aus. */
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
 }
 .promo-marquee__track {
   display: flex;
