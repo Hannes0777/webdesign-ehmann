@@ -1738,15 +1738,16 @@ a.offer-banner:hover { transform: translateY(-2px); }
    ============================================================ */
 a.promo-marquee {
   display: block;
-  width: 100%;
   overflow: hidden;
-  /* 108px = etablierter Sicherheitsabstand zur fixierten Nav-Pille
-     (siehe .subnav top:108px) - Streifen sitzt direkt unter der Nav,
-     statt teilweise dahinter zu verschwinden. */
-  margin-top: 108px;
+  /* Gleiche seitliche Einrückung (16px) und Pillenform wie .nav
+     (border-radius:999px) - wirkt wie eine zweite Pille direkt unter
+     der Navigation, statt wie ein separater, unverbundener Balken.
+     100px Abstand = Nav-Unterkante (top:16px + height:76px ≈ 92px)
+     plus kleiner Luftspalt. */
+  margin: 100px 16px 0;
+  border-radius: 999px;
   background: linear-gradient(120deg, var(--sale) 0%, var(--coral-deep) 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   text-decoration: none;
 }
 .promo-marquee__track {
