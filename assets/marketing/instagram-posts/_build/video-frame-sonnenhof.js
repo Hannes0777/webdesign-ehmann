@@ -49,11 +49,17 @@ const t = {
 // Zuschnitt von 1360px (Dachwerks Wert) wird der "ANFRAGE STELLEN"-Button
 // mittendurch abgeschnitten (Button-Ende liegt bei ca. x=1500). Deshalb
 // SOURCE_CROP_W hier auf 1560 verbreitert (mit Sicherheitsabstand).
-const CARD = { x: 104, y: 420, w: 872 };
+// Karte breiter als der Standard-Content-Rand (872px) gezogen, fast bis
+// an den Rahmen heran (960px von 968px verfuegbarer Innenbreite) - der
+// breitere 1560px-Zuschnitt (s.u.) ergibt ein flacheres Seitenverhaeltnis
+// als Dachwerks 1360px-Zuschnitt, das wuerde die Karte sonst sichtbar
+// kleiner/flacher machen als beim Dachwerk-Showcase. Breitere Karte
+// gleicht das aus.
+const CARD = { x: 60, y: 420, w: 960 };
 const CHROMEBAR_H = 44;
 const VIDEO_W = CARD.w - 2;
 const SOURCE_CROP_W = 1560;
-const VIDEO_H = Math.round(VIDEO_W / (SOURCE_CROP_W / 910));
+const VIDEO_H = Math.round(VIDEO_W / (SOURCE_CROP_W / 910) / 2) * 2;
 const VIDEO = { x: CARD.x + 1, y: CARD.y + CHROMEBAR_H + 1, w: VIDEO_W, h: VIDEO_H };
 const CARD_H = CHROMEBAR_H + VIDEO.h + 2;
 
