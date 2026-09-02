@@ -4,6 +4,6 @@
   "facebook": true,
   "instagram": false,
   "geplant_fuer": "2026-09-02T06:52:00+02:00",
-  "status": "wird_veroeffentlicht",
-  "fehler_meldung": ""
+  "status": "fehler",
+  "fehler_meldung": "Facebook: Error validating access token: Session has expired on Monday, 31-Aug-26 09:00:00 PDT. The current time is Tuesday, 01-Sep-26 21:55:26 PDT."
 }
