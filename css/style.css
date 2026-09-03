@@ -1927,14 +1927,14 @@ a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
    ============================================================ */
 .about {
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 180px 1fr;
   gap: 48px;
 }
 
 .about__badge {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   overflow: hidden;
   background: var(--green);
@@ -1943,7 +1943,7 @@ a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 2.2rem;
 }
 .about__photo {
   position: absolute;
