@@ -257,6 +257,51 @@ if (form) {
 }
 
 /* ============================================================
+   FOTO-LIGHTBOX (Über mich) — Klick auf das Profilfoto-Badge zeigt
+   es groß in einem Overlay. Nur relevant auf ueber-mich.html, daher
+   komplett hinter der Existenzprüfung der Elemente.
+   ============================================================ */
+const aboutBadge = document.getElementById('about-badge');
+const photoLightbox = document.getElementById('photo-lightbox');
+
+if (aboutBadge && photoLightbox) {
+  const lightboxImg = document.getElementById('photo-lightbox-img');
+  const lightboxClose = document.getElementById('photo-lightbox-close');
+  const aboutPhoto = document.getElementById('about-photo');
+  let lightboxScrollY = 0;
+
+  function openPhotoLightbox() {
+    if (!aboutPhoto || aboutPhoto.hidden || !aboutPhoto.src) return;
+    lightboxImg.src = aboutPhoto.src;
+    lightboxImg.alt = aboutPhoto.alt;
+    lightboxScrollY = window.scrollY;
+    document.body.style.top = `-${lightboxScrollY}px`;
+    document.body.classList.add('nav-open');
+    photoLightbox.hidden = false;
+    requestAnimationFrame(() => photoLightbox.classList.add('is-open'));
+    lightboxClose.focus();
+  }
+
+  function closePhotoLightbox() {
+    photoLightbox.classList.remove('is-open');
+    document.body.classList.remove('nav-open');
+    document.body.style.top = '';
+    window.scrollTo(0, lightboxScrollY);
+    aboutBadge.focus();
+    setTimeout(() => { photoLightbox.hidden = true; }, 250);
+  }
+
+  aboutBadge.addEventListener('click', openPhotoLightbox);
+  lightboxClose.addEventListener('click', closePhotoLightbox);
+  photoLightbox.addEventListener('click', (event) => {
+    if (event.target === photoLightbox) closePhotoLightbox();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && photoLightbox.classList.contains('is-open')) closePhotoLightbox();
+  });
+}
+
+/* ============================================================
    FOOTER YEAR
    ============================================================ */
 const yearEl = document.getElementById('year');
