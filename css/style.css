@@ -71,10 +71,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Sperrt den Hintergrund-Scroll, solange das mobile Menü offen ist.
-   position:fixed statt nur overflow:hidden, weil iOS Safari sonst
-   trotzdem per Touch weiterscrollen lässt (siehe main.js für den
-   scrollY-Ausgleich beim Öffnen/Schließen). */
+/* Sperrt den Hintergrund-Scroll, solange ein Vollbild-Overlay offen ist
+   (mobiles Menü oder Foto-Lightbox, siehe js/main.js). position:fixed
+   statt nur overflow:hidden, weil iOS Safari sonst trotzdem per Touch
+   weiterscrollen lässt (siehe main.js für den scrollY-Ausgleich beim
+   Öffnen/Schließen). */
 body.nav-open {
   position: fixed;
   inset-inline: 0;
@@ -111,6 +112,13 @@ body.nav-open {
    schimmert durch den eigentlich blickdichten Menü-Hintergrund). Der
    Glow bringt hinter einem Vollbild-Menü ohnehin nichts. */
 body.nav-open .cursor-glow { display: none; }
+
+/* Das mobile Vollbild-Menü (.nav__menu, top:100px) deckt die sticky
+   Promo-Marquee darunter (top:94px) nicht ganz ab - der schmale
+   Streifen zwischen Nav-Unterkante und Menü-Oberkante blieb als
+   farbiger Rand sichtbar. Marquee einfach ausblenden, solange das
+   Menü offen ist. */
+body.nav-open .promo-marquee { display: none; }
 
 h1, h2, h3 {
   margin: 0;
@@ -1944,7 +1952,42 @@ a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
   justify-content: center;
   font-weight: 700;
   font-size: 2.2rem;
+  /* .about__badge ist jetzt ein <button> (Klick öffnet die Foto-
+     Lightbox, siehe js/main.js) - Browser-Button-Defaults zurücksetzen,
+     damit es weiter wie die reine Kreis-Kachel von vorher aussieht. */
+  border: 0;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
+.about__badge:hover,
+.about__badge:focus-visible { transform: scale(1.04); }
+.about__badge:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+/* Kleine Lupe unten rechts als stiller Hinweis, dass sich das Foto
+   vergrößern lässt - erst sichtbar, sobald ein echtes Foto geladen ist
+   (siehe js/cms-content.js), nicht auf der Initialen-Kachel. */
+.about__badge::after {
+  content: "";
+  position: absolute;
+  /* .about__badge schneidet per overflow:hidden hart auf einen Kreis
+     zu - bei nur 8px Abstand zur Ecke lag die Lupe außerhalb dieses
+     Kreises und wurde unsichtbar weggeschnitten. 24px Abstand hält
+     sie komfortabel innerhalb des Kreisrands. */
+  right: 24px;
+  bottom: 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(var(--paper-rgb), 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f2f4f1' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.3-4.3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.about__badge.is-clickable::after { opacity: 1; }
 .about__photo {
   position: absolute;
   inset: 0;
@@ -1995,6 +2038,58 @@ a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
 @media (max-width: 700px) {
   .about { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   FOTO-LIGHTBOX — Klick auf .about__badge (js/main.js) zeigt das
+   Profilfoto groß statt nur im 160px-Kreisausschnitt.
+   ============================================================ */
+.photo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: rgba(var(--paper-rgb), 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.photo-lightbox[hidden] { display: none; }
+.photo-lightbox.is-open { opacity: 1; }
+.photo-lightbox__img {
+  max-width: min(90vw, 480px);
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+  object-fit: contain;
+  transform: scale(0.94);
+  transition: transform 0.25s ease;
+}
+.photo-lightbox.is-open .photo-lightbox__img { transform: scale(1); }
+.photo-lightbox__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.photo-lightbox__close:hover { background: var(--surface); transform: scale(1.05); }
+.photo-lightbox__close:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* ============================================================
    CONTACT

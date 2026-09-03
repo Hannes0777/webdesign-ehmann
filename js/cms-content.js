@@ -157,16 +157,20 @@
     if (uebermich.foto) {
       const photo = document.getElementById('about-photo');
       const initials = document.getElementById('about-initials');
+      const badge = document.getElementById('about-badge');
       if (photo) {
         if (uebermich.foto_ausschnitt) photo.style.objectPosition = uebermich.foto_ausschnitt;
         // Falls das Foto nicht lädt (kaputter Pfad, gelöschte Datei),
-        // zurück zur Kürzel-Kachel statt eines kaputten Bild-Icons.
+        // zurück zur Kürzel-Kachel statt eines kaputten Bild-Icons - und
+        // die Lightbox (js/main.js) bleibt für die Initialen-Kachel aus.
         photo.onerror = () => {
           photo.hidden = true;
           if (initials) initials.hidden = false;
+          if (badge) badge.classList.remove('is-clickable');
         };
         photo.src = uebermich.foto;
         photo.hidden = false;
+        if (badge) badge.classList.add('is-clickable');
       }
       if (initials) initials.hidden = true;
     }
