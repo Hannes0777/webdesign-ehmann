@@ -273,6 +273,27 @@ button { font: inherit; cursor: pointer; }
 }
 .nav__logo-dot { color: var(--ink); }
 
+/* Nur auf der Startseite (index.html): alle paar Sekunden ein einzelner
+   heller Lichtstreif, der einmal über den Logo-Schriftzug läuft, statt
+   ihn dauerhaft schimmern zu lassen - .nav__logo-dot bleibt davon
+   unberührt (eigene color-Angabe oben, kein Teil des Gradient-Texts). */
+.nav__logo--shine {
+  background: linear-gradient(100deg, var(--gold) 42%, #fdf3de 50%, var(--gold) 58%);
+  background-size: 220% 100%;
+  background-position: 150% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: logo-shine 5s ease-in-out infinite;
+}
+@keyframes logo-shine {
+  0%, 45% { background-position: 150% 0; }
+  75%, 100% { background-position: -70% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav__logo--shine { animation: none; }
+}
+
 .nav__toggle {
   display: none;
   width: 44px;
