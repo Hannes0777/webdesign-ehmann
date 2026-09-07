@@ -820,14 +820,23 @@
       });
       if (!res.ok) return [];
       const data = await res.json();
-      const items = [];
-      for (const file of data) {
-        if (file.type === "file" && file.name.endsWith(".json")) {
-          const content = JSON.parse(atob(file.content));
-          items.push(content);
-        }
-      }
-      return items;
+      // Die Ordner-Auflistung der GitHub-API liefert pro Datei nur Metadaten
+      // (name, path, sha, download_url, ...) - KEINEN Dateiinhalt. Der
+      // Inhalt muss pro Datei einzeln nachgeladen werden (hier ueber die
+      // rohe download_url, ohne Base64/Auth-Umweg).
+      const files = data.filter(file => file.type === "file" && file.name.endsWith(".json"));
+      const items = await Promise.all(
+        files.map(async file => {
+          try {
+            const fileRes = await fetch(file.download_url);
+            if (!fileRes.ok) return null;
+            return await fileRes.json();
+          } catch {
+            return null;
+          }
+        })
+      );
+      return items.filter(Boolean);
     } catch {
       return [];
     }
