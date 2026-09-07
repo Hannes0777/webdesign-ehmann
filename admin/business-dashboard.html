@@ -161,8 +161,10 @@
     font-weight: 600;
   }
   .status-neu { background: var(--sky-soft); color: var(--sky); }
+  .status-priorisiert { background: rgba(181, 101, 216, 0.16); color: var(--violet); }
+  .status-pitch-demo-gebaut { background: rgba(217, 174, 92, 0.16); color: var(--gold); }
   .status-kontaktiert { background: var(--coral-soft); color: var(--coral); }
-  .status-kunde { background: rgba(51, 160, 92, 0.16); color: var(--jade); }
+  .status-kunde-geworden { background: rgba(51, 160, 92, 0.16); color: var(--jade); }
   .status-verworfen { background: rgba(200, 100, 100, 0.16); color: #c86464; }
 
   .jarvis-widget {
@@ -224,7 +226,7 @@
 <div id="login-screen">
   <h1>Business-Dashboard</h1>
   <p>Bitte melden Sie sich an, um fortzufahren.</p>
-  <button onclick="login()">Mit CMS-Konto anmelden</button>
+  <button onclick="doLogin()">Mit CMS-Konto anmelden</button>
   <div id="error-box"></div>
 </div>
 
@@ -236,11 +238,11 @@
 
   <main>
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('overview')">Übersicht</button>
-      <button class="tab-btn" onclick="switchTab('akquise')">🤝 Akquise</button>
-      <button class="tab-btn" onclick="switchTab('todos')">✅ Todos</button>
-      <button class="tab-btn" onclick="switchTab('website')">🌐 Website & Social</button>
-      <button class="tab-btn" onclick="switchTab('calendar')">📅 Kalender</button>
+      <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview', this)">Übersicht</button>
+      <button class="tab-btn" data-tab="akquise" onclick="switchTab('akquise', this)">🤝 Akquise</button>
+      <button class="tab-btn" data-tab="todos" onclick="switchTab('todos', this)">✅ Todos</button>
+      <button class="tab-btn" data-tab="website" onclick="switchTab('website', this)">🌐 Website & Social</button>
+      <button class="tab-btn" data-tab="calendar" onclick="switchTab('calendar', this)">📅 Kalender</button>
       <button class="tab-btn ghost" onclick="logout()">Abmelden</button>
     </div>
 
@@ -298,6 +300,10 @@
 
     <div id="tab-calendar" class="tab-panel">
       <h2>Kalender</h2>
+      <div style="display:flex; gap:1rem; font-size:0.85rem; color:var(--mist); margin-bottom:0.8rem;">
+        <span><span class="event-dot calendar"></span> Termine</span>
+        <span><span class="event-dot post"></span> Social-Media-Beiträge</span>
+      </div>
       <div class="card">
         <div class="calendar-grid" id="calendar"></div>
       </div>
@@ -323,55 +329,67 @@
   }
 
   function getToken() {
-    const stored = localStorage.getItem(TOKEN_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (new Date(parsed.expires) > new Date()) return parsed.token;
-      } catch (e) {}
-      localStorage.removeItem(TOKEN_KEY);
-    }
-    return null;
+    return sessionStorage.getItem(TOKEN_KEY);
   }
 
-  async function login() {
-    const popupUrl = `${AUTH_BASE_URL}/auth?provider=github&scope=repo`;
-    const popup = window.open(popupUrl, "cms-auth", "width=500,height=600");
+  // Repliziert exakt das Popup/postMessage-Protokoll von sveltia-cms-auth,
+  // das der cms-auth-Worker implementiert (siehe admin/dashboard.html für
+  // die identische Referenzimplementierung). Der Worker antwortet mit rohen
+  // String-Nachrichten, keinen Objekten mit .type/.payload - und erwartet
+  // zusätzlich ein Echo von "authorizing:github" zurück ans Popup, bevor
+  // dieses die eigentliche Erfolgsmeldung schickt.
+  function login() {
+    return new Promise((resolve, reject) => {
+      const width = 500, height = 600;
+      const left = window.screenX + (window.outerWidth - width) / 2;
+      const top = window.screenY + (window.outerHeight - height) / 2.5;
+      const popup = window.open(
+        AUTH_BASE_URL + "/auth?provider=github&scope=repo",
+        "cms-auth",
+        "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top
+      );
+      if (!popup) {
+        reject(new Error("Popup wurde blockiert. Bitte Popup-Blocker für diese Seite deaktivieren und erneut versuchen."));
+        return;
+      }
 
-    const loginPromise = new Promise((resolve) => {
-      const handleMessage = (e) => {
-        if (e.origin !== AUTH_BASE_URL) return;
-        if (e.data.type === "authorization:github:success") {
-          resolve(e.data.payload.token);
-          window.removeEventListener("message", handleMessage);
-          popup?.close();
-        } else if (e.data.type === "authorization:github:error") {
-          showError("Login fehlgeschlagen: " + e.data.payload);
-          window.removeEventListener("message", handleMessage);
-          popup?.close();
+      function handleMessage(e) {
+        if (typeof e.data !== "string") return;
+        if (e.data === "authorizing:github") {
+          popup.postMessage("authorizing:github", e.origin);
+          return;
         }
-      };
+        if (e.data.indexOf("authorization:github:success:") === 0) {
+          window.removeEventListener("message", handleMessage);
+          try {
+            const payload = JSON.parse(e.data.slice("authorization:github:success:".length));
+            resolve(payload.token);
+          } catch (err) {
+            reject(new Error("Antwort der Anmeldung konnte nicht gelesen werden."));
+          }
+        } else if (e.data.indexOf("authorization:github:error:") === 0) {
+          window.removeEventListener("message", handleMessage);
+          reject(new Error("Anmeldung fehlgeschlagen oder abgebrochen."));
+        }
+      }
       window.addEventListener("message", handleMessage);
     });
+  }
 
+  async function doLogin() {
     try {
-      const newToken = await loginPromise;
-      if (!newToken) throw new Error("Kein Token erhalten.");
-
-      localStorage.setItem(TOKEN_KEY, JSON.stringify({
-        token: newToken,
-        expires: new Date(Date.now() + 3600000).toISOString(),
-      }));
+      const newToken = await login();
+      sessionStorage.setItem(TOKEN_KEY, newToken);
       token = newToken;
       currentUser = "GitHub-Nutzer";
       showApp();
     } catch (err) {
-      showError("Login fehlgeschlagen: " + err.message);
+      showError("Login fehlgeschlagen: " + (err.message || "Unbekannter Fehler."));
     }
   }
 
   function logout() {
-    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
     token = null;
     location.reload();
   }
@@ -398,19 +416,20 @@
 
   async function loadData() {
     try {
-      const [akquise, todos, stats, calendar, socialStats] = await Promise.all([
-        loadAkquise(),
-        loadTodos(),
+      const [akquise, todos, stats, calendar, socialStats, posts] = await Promise.all([
+        loadFolder("content/akquise"),
+        loadFolder("content/todos"),
         loadWebsiteStats(),
         loadCalendar(),
         loadSocialStats(),
+        loadFolder("content/social-posts"),
       ]);
 
       renderOverview(todos, calendar);
       renderAkquise(akquise);
       renderTodos(todos);
       renderWebsiteStats(stats);
-      renderCalendar(calendar, socialStats);
+      renderCalendar(calendar, posts);
       renderSocialStats(socialStats);
       updateJarvis();
     } catch (err) {
@@ -418,30 +437,11 @@
     }
   }
 
-  async function loadAkquise() {
+  // Liest alle *.json-Dateien in einem Ordner-Content-Verzeichnis aus
+  // (Akquise, Todos, Social-Posts folgen alle dem gleichen Sveltia-Muster).
+  async function loadFolder(path) {
     try {
-      const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/content/akquise?ref=${BRANCH}`;
-      const res = await fetch(url, {
-        headers: token ? { Authorization: `token ${token}` } : {},
-      });
-      if (!res.ok) return [];
-      const data = await res.json();
-      const items = [];
-      for (const file of data) {
-        if (file.type === "file" && file.name.endsWith(".json")) {
-          const content = JSON.parse(atob(file.content));
-          items.push(content);
-        }
-      }
-      return items;
-    } catch {
-      return [];
-    }
-  }
-
-  async function loadTodos() {
-    try {
-      const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/content/todos?ref=${BRANCH}`;
+      const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
       const res = await fetch(url, {
         headers: token ? { Authorization: `token ${token}` } : {},
       });
@@ -615,25 +615,30 @@
     `;
   }
 
-  function renderCalendar(calData, socialStats) {
+  function renderCalendar(calData, posts) {
     const calendar = document.getElementById("calendar");
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
 
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
     startDate.setDate(startDate.getDate() - firstDay.getDay());
 
     calendar.innerHTML = "<div class='weekday'>So</div><div class='weekday'>Mo</div><div class='weekday'>Di</div><div class='weekday'>Mi</div><div class='weekday'>Do</div><div class='weekday'>Fr</div><div class='weekday'>Sa</div>";
 
-    const events = calData?.events || [];
     const eventsByDate = {};
-    events.forEach(e => {
+    (calData?.events || []).forEach(e => {
+      if (!e.start) return;
       const dateKey = e.start.split("T")[0];
       if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
-      eventsByDate[dateKey].push(e);
+      eventsByDate[dateKey].push({ type: "calendar", label: e.titel });
+    });
+    (posts || []).forEach(p => {
+      if (!p.geplant_fuer) return;
+      const dateKey = p.geplant_fuer.split("T")[0];
+      if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
+      eventsByDate[dateKey].push({ type: "post", label: p.text || "Beitrag" });
     });
 
     let currentDate = new Date(startDate);
@@ -647,7 +652,7 @@
       dayEl.innerHTML = `
         <div class="day-number">${currentDate.getDate()}</div>
         <div class="day-events">
-          ${dayEvents.slice(0, 2).map(e => `<span class="event-dot calendar"></span><span class="event-text">${e.titel.substring(0, 20)}</span>`).join("")}
+          ${dayEvents.slice(0, 3).map(e => `<span class="event-dot ${e.type}"></span><span class="event-text">${(e.label || "").substring(0, 20)}</span>`).join("")}
         </div>
       `;
       calendar.appendChild(dayEl);
@@ -669,11 +674,11 @@
     }
   }
 
-  function switchTab(tabName) {
+  function switchTab(tabName, btn) {
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
     document.getElementById(`tab-${tabName}`).classList.add("active");
-    event.target.classList.add("active");
+    (btn || document.querySelector(`.tab-btn[data-tab="${tabName}"]`))?.classList.add("active");
   }
 
   token = getToken();
