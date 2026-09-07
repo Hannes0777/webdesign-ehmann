@@ -310,10 +310,11 @@
      (conic-/radial-gradient + Radial-Maske), keine Grafik-Library. */
   .jarvis-hud {
     position: relative;
-    width: 160px; height: 160px;
+    width: 208px; height: 208px;
     margin: 0 auto 0.6rem;
     border-radius: 50%;
     overflow: hidden;
+    border: 1px solid var(--border);
     background:
       radial-gradient(1.4px 1.4px at 22% 28%, rgba(255, 255, 255, 0.75), transparent),
       radial-gradient(1px 1px at 72% 18%, rgba(255, 255, 255, 0.5), transparent),
@@ -322,36 +323,55 @@
       radial-gradient(1px 1px at 62% 88%, rgba(255, 255, 255, 0.5), transparent),
       radial-gradient(1.4px 1.4px at 12% 58%, rgba(255, 255, 255, 0.4), transparent),
       radial-gradient(1px 1px at 90% 38%, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1px 1px at 45% 12%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 8% 40%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 55% 92%, rgba(255, 255, 255, 0.4), transparent),
       radial-gradient(circle at 50% 50%, rgba(41, 214, 240, 0.10), transparent 65%),
       var(--surface);
   }
   .jarvis-hud-ring {
-    position: absolute; inset: 4%;
+    position: absolute; inset: 3%;
     border-radius: 50%;
-    background: repeating-conic-gradient(rgba(111, 210, 255, 0.55) 0deg 1.3deg, transparent 1.3deg 6deg);
-    -webkit-mask: radial-gradient(circle, transparent 68%, #000 69%, #000 76%, transparent 77%);
-            mask: radial-gradient(circle, transparent 68%, #000 69%, #000 76%, transparent 77%);
-    animation: jarvis-hud-spin 22s linear infinite;
+    background: repeating-conic-gradient(rgba(111, 210, 255, 0.55) 0deg 1.1deg, transparent 1.1deg 5deg);
+    -webkit-mask: radial-gradient(circle, transparent 73%, #000 74%, #000 80%, transparent 81%);
+            mask: radial-gradient(circle, transparent 73%, #000 74%, #000 80%, transparent 81%);
+    animation: jarvis-hud-spin 26s linear infinite;
+  }
+  .jarvis-hud-ring2 {
+    position: absolute; inset: 11%;
+    border-radius: 50%;
+    background: repeating-conic-gradient(rgba(111, 210, 255, 0.3) 0deg 0.7deg, transparent 0.7deg 3.4deg);
+    -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 65%, transparent 66%);
+            mask: radial-gradient(circle, transparent 60%, #000 61%, #000 65%, transparent 66%);
+    animation: jarvis-hud-spin 18s linear infinite reverse;
   }
   .jarvis-hud-arc {
-    position: absolute; inset: 15%;
+    position: absolute; inset: 18%;
     border-radius: 50%;
     background: conic-gradient(var(--mist) 0deg 70deg, transparent 70deg 360deg);
-    -webkit-mask: radial-gradient(circle, transparent 55%, #000 56%, #000 65%, transparent 66%);
-            mask: radial-gradient(circle, transparent 55%, #000 56%, #000 65%, transparent 66%);
+    -webkit-mask: radial-gradient(circle, transparent 55%, #000 56%, #000 63%, transparent 64%);
+            mask: radial-gradient(circle, transparent 55%, #000 56%, #000 63%, transparent 64%);
     animation: jarvis-hud-spin 9s linear infinite reverse;
   }
-  .jarvis-hud-orbit { position: absolute; inset: 4%; animation: jarvis-hud-spin 12s linear infinite; }
+  .jarvis-hud-arc2 {
+    position: absolute; inset: 25%;
+    border-radius: 50%;
+    background: conic-gradient(rgba(111, 210, 255, 0.35) 0deg 40deg, transparent 40deg 360deg);
+    -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 66%, transparent 67%);
+            mask: radial-gradient(circle, transparent 60%, #000 61%, #000 66%, transparent 67%);
+    animation: jarvis-hud-spin 6s linear infinite;
+  }
+  .jarvis-hud-orbit { position: absolute; inset: 3%; animation: jarvis-hud-spin 12s linear infinite; }
   .jarvis-hud-orbit span {
-    position: absolute; top: 1%; left: 50%; width: 5px; height: 5px; margin-left: -2.5px;
-    border-radius: 50%; background: var(--sky); box-shadow: 0 0 8px 2px var(--sky);
+    position: absolute; top: 0.5%; left: 50%; width: 6px; height: 6px; margin-left: -3px;
+    border-radius: 50%; background: var(--sky); box-shadow: 0 0 9px 2px var(--sky);
   }
   .jarvis-hud-orbit--b { animation-duration: 17s; animation-direction: reverse; }
-  .jarvis-hud-orbit--b span { top: auto; bottom: 3%; background: var(--gold); box-shadow: 0 0 8px 2px var(--gold); }
+  .jarvis-hud-orbit--b span { top: auto; bottom: 2%; background: var(--gold); box-shadow: 0 0 9px 2px var(--gold); }
   .jarvis-hud-glow {
-    position: absolute; inset: 42%;
+    position: absolute; inset: 40%;
     border-radius: 50%;
-    background: radial-gradient(circle, #eaf9ff 0%, var(--sky) 35%, rgba(41, 214, 240, 0.15) 70%, transparent 100%);
+    background: radial-gradient(circle, #dde5ea 0%, var(--mist) 35%, rgba(95, 130, 153, 0.15) 70%, transparent 100%);
     filter: blur(2px);
     animation: jarvis-hud-breathe 3s ease-in-out infinite;
   }
@@ -370,9 +390,12 @@
 
   .jarvis-hud.listening .jarvis-hud-ring,
   .jarvis-hud.listening .jarvis-hud-arc { animation-duration: 12s, 5s; }
-  .jarvis-hud.listening .jarvis-hud-arc { background: conic-gradient(var(--sky) 0deg 95deg, transparent 95deg 360deg); animation-duration: 5s; }
-  .jarvis-hud.listening .jarvis-hud-glow { animation-duration: 1.4s; }
-  .jarvis-hud.listening .jarvis-hud-label .state { color: var(--sky); }
+  .jarvis-hud.listening .jarvis-hud-arc { background: conic-gradient(var(--violet) 0deg 95deg, transparent 95deg 360deg); animation-duration: 5s; }
+  .jarvis-hud.listening .jarvis-hud-glow {
+    background: radial-gradient(circle, #f4ecff 0%, var(--violet) 35%, rgba(167, 139, 250, 0.2) 70%, transparent 100%);
+    animation-duration: 1.4s;
+  }
+  .jarvis-hud.listening .jarvis-hud-label .state { color: var(--violet); }
 
   .jarvis-hud.thinking .jarvis-hud-arc { background: conic-gradient(var(--amber) 0deg 130deg, transparent 130deg 360deg); animation-duration: 2.4s; }
   .jarvis-hud.thinking .jarvis-hud-ring { animation-duration: 6s; }
@@ -391,7 +414,9 @@
   .jarvis-hud.speaking .jarvis-hud-label .state { color: var(--jade); }
 
   .jarvis-hud.offline .jarvis-hud-ring,
+  .jarvis-hud.offline .jarvis-hud-ring2,
   .jarvis-hud.offline .jarvis-hud-arc,
+  .jarvis-hud.offline .jarvis-hud-arc2,
   .jarvis-hud.offline .jarvis-hud-orbit { animation-play-state: paused; opacity: 0.3; }
   .jarvis-hud.offline .jarvis-hud-glow { background: radial-gradient(circle, #cfd8de 0%, var(--mist) 35%, transparent 100%); animation-play-state: paused; opacity: 0.5; }
 
@@ -401,8 +426,12 @@
     50%      { opacity: 1; transform: scale(1.16); }
   }
   @keyframes jarvis-hud-talk {
-    0%, 100% { transform: scale(1) translateY(0); }
-    50%      { transform: scale(1.28) translateY(-2px); }
+    0%   { transform: scale(1) translate(0, 0); }
+    20%  { transform: scale(1.22) translate(3px, -2px); }
+    40%  { transform: scale(0.92) translate(-3px, 2px); }
+    60%  { transform: scale(1.32) translate(2px, 3px); }
+    80%  { transform: scale(1.02) translate(-2px, -3px); }
+    100% { transform: scale(1) translate(0, 0); }
   }
 
   .jarvis-activity { font-size: 0.8rem; color: var(--mist); margin-bottom: 0.8rem; }
@@ -578,9 +607,11 @@
           <div class="card jarvis-widget">
             <div class="jarvis-hud" id="jarvis-hud">
               <div class="jarvis-hud-ring"></div>
+              <div class="jarvis-hud-ring2"></div>
               <div class="jarvis-hud-orbit jarvis-hud-orbit--a"><span></span></div>
               <div class="jarvis-hud-orbit jarvis-hud-orbit--b"><span></span></div>
               <div class="jarvis-hud-arc"></div>
+              <div class="jarvis-hud-arc2"></div>
               <div class="jarvis-hud-glow"></div>
             </div>
             <div class="jarvis-hud-label">
