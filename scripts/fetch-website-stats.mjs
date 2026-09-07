@@ -3,8 +3,12 @@
 // nach content/website-stats.json. Wird per GitHub Actions regelmäßig aufgerufen,
 // siehe .github/workflows/website-stats-fetch.yml.
 //
-// Cloudflare GraphQL Analytics API wird abgefragt für Seiten-Aufrufe (pageviews)
-// und Besucher (unique visits) über die letzten 30 Tage.
+// webdesign-ehmann.de ist keine eigene Cloudflare-DNS-Zone, sondern läuft nur
+// über ein Pages-Projekt. Web Analytics ist deshalb als eigenständige
+// Beacon-Site eingerichtet (JS-Snippet in allen Hauptseiten, siehe
+// data-cf-beacon-Token), nicht zonengebunden. Die GraphQL Analytics API
+// fragt solche Sites über viewer.accounts(...).rumPageloadEventsAdaptiveGroups
+// mit einem siteTag-Filter ab (nicht viewer.zones wie bei einer echten Zone).
 
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -13,7 +17,8 @@ const STATS_FILE = path.join(process.cwd(), "content", "website-stats.json");
 const CLOUDFLARE_API = "https://api.cloudflare.com/client/v4/graphql";
 
 const API_TOKEN = requireEnv("CLOUDFLARE_API_TOKEN");
-const ZONE_ID = requireEnv("CLOUDFLARE_ZONE_ID");
+const ACCOUNT_ID = requireEnv("CLOUDFLARE_ACCOUNT_ID");
+const SITE_TAG = requireEnv("CLOUDFLARE_SITE_TAG");
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -30,21 +35,34 @@ async function safely(label, fn) {
   }
 }
 
+function isoDate(d) {
+  return d.toISOString().split("T")[0];
+}
+
 async function fetchWebsiteStats() {
+  const today = new Date();
+  const start = new Date(today);
+  start.setDate(start.getDate() - 30);
+
   const query = `
     query {
       viewer {
-        zones(filter: { zoneTag: "${ZONE_ID}" }) {
-          httpRequestsAdaptiveGroups(
-            limit: 30
-            filter: { date_geq: "2026-08-08", date_leq: "2026-09-07" }
+        accounts(filter: { accountTag: "${ACCOUNT_ID}" }) {
+          rumPageloadEventsAdaptiveGroups(
+            limit: 31
+            filter: {
+              siteTag: "${SITE_TAG}"
+              date_geq: "${isoDate(start)}"
+              date_leq: "${isoDate(today)}"
+            }
+            orderBy: [date_ASC]
           ) {
+            count
+            sum {
+              visits
+            }
             dimensions {
               date
-            }
-            sum {
-              pageViews
-              visits
             }
           }
         }
@@ -66,14 +84,14 @@ async function fetchWebsiteStats() {
     throw new Error(json.errors?.[0]?.message || `HTTP ${res.status}`);
   }
 
-  const zone = json.data?.viewer?.zones?.[0];
-  if (!zone) throw new Error("Zone nicht in der Antwort.");
+  const account = json.data?.viewer?.accounts?.[0];
+  if (!account) throw new Error("Account nicht in der Antwort.");
 
-  const groups = zone.httpRequestsAdaptiveGroups || [];
+  const groups = account.rumPageloadEventsAdaptiveGroups || [];
   const daily = groups.map((g) => ({
     date: g.dimensions.date,
-    visits: g.sum.visits || 0,
-    pageviews: g.sum.pageViews || 0,
+    visits: g.sum?.visits || 0,
+    pageviews: g.count || 0,
   }));
 
   const totals = daily.reduce(
