@@ -171,11 +171,57 @@
     background: var(--surface);
     border-radius: 10px;
     padding: 1rem;
-    text-align: center;
   }
-  .jarvis-status { font-size: 1.2rem; font-weight: 600; margin: 0.5rem 0; }
-  .jarvis-activity { font-size: 0.85rem; color: var(--mist); }
+  .jarvis-header { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.7rem; }
+  .jarvis-avatar { position: relative; font-size: 2.2rem; line-height: 1; flex-shrink: 0; }
+  .jarvis-state-dot {
+    position: absolute;
+    right: -3px;
+    bottom: -3px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--mist);
+    border: 2px solid var(--surface);
+  }
+  .jarvis-state-dot.listening { background: var(--sky); }
+  .jarvis-state-dot.thinking { background: var(--gold); animation: jarvis-pulse 1s ease-in-out infinite; }
+  .jarvis-state-dot.speaking { background: var(--jade); animation: jarvis-pulse 1s ease-in-out infinite; }
+  @keyframes jarvis-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.35); opacity: 0.65; }
+  }
+  .jarvis-status { font-size: 1.1rem; font-weight: 600; margin: 0 0 0.15rem; }
+  .jarvis-activity { font-size: 0.82rem; color: var(--mist); }
   .jarvis-offline { color: var(--mist); }
+  .jarvis-chat { display: flex; flex-direction: column; gap: 0.5rem; }
+  .jarvis-bubble {
+    max-width: 92%;
+    border-radius: 12px;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  .jarvis-bubble-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.2rem;
+    opacity: 0.65;
+  }
+  .jarvis-bubble--user {
+    align-self: flex-end;
+    background: var(--sky-soft);
+    border-bottom-right-radius: 3px;
+  }
+  .jarvis-bubble--jarvis {
+    align-self: flex-start;
+    background: rgba(217, 174, 92, 0.14);
+    border-bottom-left-radius: 3px;
+  }
+  .jarvis-bubble[hidden] { display: none; }
 
   .calendar-grid {
     display: grid;
@@ -264,9 +310,23 @@
       </div>
 
       <div class="card jarvis-widget">
-        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🤖</div>
-        <div class="jarvis-status" id="jarvis-status">Jarvis</div>
-        <div class="jarvis-activity" id="jarvis-activity">Wird geladen...</div>
+        <div class="jarvis-header">
+          <div class="jarvis-avatar">🤖<span class="jarvis-state-dot" id="jarvis-state-dot"></span></div>
+          <div>
+            <div class="jarvis-status" id="jarvis-status">Jarvis</div>
+            <div class="jarvis-activity" id="jarvis-activity">Wird geladen...</div>
+          </div>
+        </div>
+        <div class="jarvis-chat" id="jarvis-chat">
+          <div class="jarvis-bubble jarvis-bubble--user" id="jarvis-bubble-user" hidden>
+            <span class="jarvis-bubble-label">Du hast gesagt</span>
+            <span id="jarvis-user-text"></span>
+          </div>
+          <div class="jarvis-bubble jarvis-bubble--jarvis" id="jarvis-bubble-jarvis" hidden>
+            <span class="jarvis-bubble-label">Jarvis antwortete</span>
+            <span id="jarvis-jarvis-text"></span>
+          </div>
+        </div>
       </div>
 
       <h2 style="margin-top: 1.5rem;">Nächste Termine</h2>
@@ -668,23 +728,48 @@
   };
 
   async function updateJarvis() {
+    const userBubble = document.getElementById("jarvis-bubble-user");
+    const jarvisBubble = document.getElementById("jarvis-bubble-jarvis");
+    const dot = document.getElementById("jarvis-state-dot");
     try {
       const res = await fetch("http://127.0.0.1:8765/api/status", { signal: AbortSignal.timeout(1500) });
       if (!res.ok) throw new Error("Status-Code: " + res.status);
       const data = await res.json();
       const label = JARVIS_STATE_LABELS[data.state] || data.state || "Unbekannt";
       document.getElementById("jarvis-status").textContent = `🟢 ${label}`;
-      const parts = [];
-      if (data.detail) parts.push(data.detail);
-      if (data.updated) parts.push(new Date(data.updated).toLocaleString("de-DE"));
       document.getElementById("jarvis-activity").classList.remove("jarvis-offline");
-      document.getElementById("jarvis-activity").textContent = parts.join(" · ") || "Keine weiteren Details";
+      document.getElementById("jarvis-activity").textContent = data.updated
+        ? "Zuletzt aktualisiert: " + new Date(data.updated).toLocaleString("de-DE")
+        : "Keine weiteren Details";
+      dot.className = "jarvis-state-dot " + (data.state || "");
+
+      if (data.last_user_text) {
+        document.getElementById("jarvis-user-text").textContent = data.last_user_text;
+        userBubble.hidden = false;
+      } else {
+        userBubble.hidden = true;
+      }
+      if (data.last_jarvis_text) {
+        document.getElementById("jarvis-jarvis-text").textContent = data.last_jarvis_text;
+        jarvisBubble.hidden = false;
+      } else {
+        jarvisBubble.hidden = true;
+      }
     } catch (err) {
       document.getElementById("jarvis-status").textContent = "🔴 Offline";
       document.getElementById("jarvis-activity").classList.add("jarvis-offline");
       document.getElementById("jarvis-activity").textContent = "Nicht erreichbar (nur auf diesem Gerät sichtbar)";
+      dot.className = "jarvis-state-dot";
+      userBubble.hidden = true;
+      jarvisBubble.hidden = true;
     }
   }
+
+  // Eigener, leichtgewichtiger Poll-Takt nur fürs Jarvis-Widget (kein
+  // GitHub-API-Aufruf) - loadData() selbst läuft nur einmal beim Login,
+  // ohne diesen Timer bliebe der Status bis zum manuellen Neuladen der
+  // Seite hängen (z.B. dauerhaft "Denkt nach").
+  setInterval(updateJarvis, 3000);
 
   function switchTab(tabName, btn) {
     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
