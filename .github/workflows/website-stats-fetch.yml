@@ -1,0 +1,55 @@
+name: Website-Statistiken abrufen
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: website-stats-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Website-Statistiken abrufen
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: node scripts/fetch-website-stats.mjs
+
+      - name: Statistik-Datei committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/website-stats.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Website-Statistiken aktualisiert"
+            # Push kann fehlschlagen, wenn zeitgleich der Veröffentlichen-
+            # Workflow gepusht hat (beide laufen alle 30 Minuten).
+            for i in 1 2 3 4 5; do
+              if git push; then
+                exit 0
+              fi
+              echo "Push fehlgeschlagen (Versuch $i), hole Änderungen und versuche erneut..."
+              git fetch origin master
+              git rebase origin/master
+              sleep 3
+            done
+            echo "Push endgültig fehlgeschlagen nach mehreren Versuchen."
+            exit 1
+          else
+            echo "Keine Änderungen."
+          fi

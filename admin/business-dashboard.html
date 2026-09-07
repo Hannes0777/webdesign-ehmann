@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Business-Dashboard – Webdesign Ehmann</title>
+<style>
+  :root {
+    --paper: #14171a;
+    --paper-alt: #1a1e1f;
+    --surface: #202425;
+    --ink: #f2f4f1;
+    --mist: #9aa39c;
+    --gold: #d9ae5c;
+    --gold-deep: #b98f3f;
+    --sky: #6fa8d1;
+    --sky-soft: rgba(111, 168, 209, 0.16);
+    --coral: #e2763a;
+    --coral-soft: rgba(226, 118, 58, 0.16);
+    --violet: #b565d8;
+    --jade: #33a05c;
+    --border: rgba(255, 255, 255, 0.12);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 { margin: 0 0 0.25rem; font-size: 1.4rem; }
+  h2 { margin: 0 0 0.8rem; font-size: 1.1rem; }
+  header p { margin: 0; color: var(--mist); font-size: 0.9rem; }
+  main { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
+
+  #login-screen { text-align: center; padding: 4rem 1rem; }
+  #login-screen p { color: var(--mist); margin-bottom: 1.5rem; }
+  button {
+    background: var(--gold);
+    color: var(--paper);
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--gold-deep); }
+  button.ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    font-weight: 400;
+    padding: 0.4rem 0.9rem;
+  }
+  #error-box {
+    display: none;
+    background: var(--coral-soft);
+    border: 1px solid var(--coral);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  #app { display: none; }
+
+  .tab-bar {
+    display: inline-flex;
+    gap: 2px;
+    margin-bottom: 1.25rem;
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 4px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: transparent;
+    color: var(--mist);
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 0.5rem 1.1rem;
+  }
+  .tab-btn:hover { background: rgba(255, 255, 255, 0.05); color: var(--ink); }
+  .tab-btn.active { background: var(--gold); color: var(--paper); }
+  .tab-btn.active:hover { background: var(--gold); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 0.8rem;
+  }
+  .stat-tile .value { font-size: 1.5rem; font-weight: 700; }
+  .stat-tile .label { font-size: 0.8rem; color: var(--mist); margin-top: 0.2rem; }
+
+  .card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .card h3 { margin: 0 0 0.5rem; font-size: 0.95rem; }
+
+  .todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .todo-item {
+    background: var(--paper-alt);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .todo-check { width: 18px; height: 18px; }
+  .todo-text { flex: 1; font-size: 0.9rem; }
+  .todo-text.done { color: var(--mist); text-decoration: line-through; }
+  .todo-category { font-size: 0.7rem; color: var(--mist); background: rgba(255,255,255,0.08); padding: 0.2rem 0.5rem; border-radius: 3px; }
+
+  .akquise-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .akquise-table th {
+    text-align: left;
+    padding: 0.6rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--mist);
+  }
+  .akquise-table td {
+    padding: 0.7rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .akquise-table tr:hover { background: var(--paper-alt); }
+  .status-badge {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .status-neu { background: var(--sky-soft); color: var(--sky); }
+  .status-kontaktiert { background: var(--coral-soft); color: var(--coral); }
+  .status-kunde { background: rgba(51, 160, 92, 0.16); color: var(--jade); }
+  .status-verworfen { background: rgba(200, 100, 100, 0.16); color: #c86464; }
+
+  .jarvis-widget {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .jarvis-status { font-size: 1.2rem; font-weight: 600; margin: 0.5rem 0; }
+  .jarvis-activity { font-size: 0.85rem; color: var(--mist); }
+  .jarvis-offline { color: var(--mist); }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .weekday {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--mist);
+    padding-bottom: 4px;
+    font-weight: 600;
+  }
+  .day {
+    background: var(--surface);
+    border-radius: 8px;
+    min-height: 90px;
+    padding: 6px;
+    position: relative;
+  }
+  .day.other-month { opacity: 0.5; }
+  .day-number { font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; }
+  .day-events { font-size: 0.65rem; display: flex; flex-direction: column; gap: 2px; }
+  .event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 2px;
+  }
+  .event-dot.post { background: var(--coral); }
+  .event-dot.calendar { background: var(--sky); }
+  .event-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
+
+  .loading { color: var(--mist); text-align: center; padding: 1rem; }
+  .empty { color: var(--mist); text-align: center; padding: 1rem; }
+
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+    .tab-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+    .akquise-table { font-size: 0.8rem; }
+    .akquise-table td, .akquise-table th { padding: 0.4rem 0.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <h1>Business-Dashboard</h1>
+  <p>Bitte melden Sie sich an, um fortzufahren.</p>
+  <button onclick="login()">Mit CMS-Konto anmelden</button>
+  <div id="error-box"></div>
+</div>
+
+<div id="app">
+  <header>
+    <h1>Business-Dashboard</h1>
+    <p id="login-info"></p>
+  </header>
+
+  <main>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('overview')">Übersicht</button>
+      <button class="tab-btn" onclick="switchTab('akquise')">🤝 Akquise</button>
+      <button class="tab-btn" onclick="switchTab('todos')">✅ Todos</button>
+      <button class="tab-btn" onclick="switchTab('website')">🌐 Website & Social</button>
+      <button class="tab-btn" onclick="switchTab('calendar')">📅 Kalender</button>
+      <button class="tab-btn ghost" onclick="logout()">Abmelden</button>
+    </div>
+
+    <div id="tab-overview" class="tab-panel active">
+      <h2>Willkommen</h2>
+      <div class="stats-row">
+        <div class="stat-tile">
+          <div class="value" id="today-todos-count">0</div>
+          <div class="label">Heute fällig</div>
+        </div>
+        <div class="stat-tile">
+          <div class="value" id="open-todos-count">0</div>
+          <div class="label">Offene Todos</div>
+        </div>
+        <div class="stat-tile">
+          <div class="value" id="akquise-count">0</div>
+          <div class="label">Firmen im Tracking</div>
+        </div>
+      </div>
+
+      <div class="card jarvis-widget">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🤖</div>
+        <div class="jarvis-status" id="jarvis-status">Jarvis</div>
+        <div class="jarvis-activity" id="jarvis-activity">Wird geladen...</div>
+      </div>
+
+      <h2 style="margin-top: 1.5rem;">Nächste Termine</h2>
+      <div id="next-events" class="card">
+        <div class="loading">Wird geladen...</div>
+      </div>
+
+      <h2 style="margin-top: 1.5rem;">Heutige Todos</h2>
+      <div id="today-todos-list" class="card">
+        <div class="empty">Keine Todos für heute</div>
+      </div>
+    </div>
+
+    <div id="tab-akquise" class="tab-panel">
+      <h2>Akquise-Tracking</h2>
+      <div id="akquise-container" class="loading">Wird geladen...</div>
+    </div>
+
+    <div id="tab-todos" class="tab-panel">
+      <h2>Todos</h2>
+      <div id="todos-container" class="loading">Wird geladen...</div>
+    </div>
+
+    <div id="tab-website" class="tab-panel">
+      <h2>Website-Besucher</h2>
+      <div id="website-stats" class="card loading">Wird geladen...</div>
+
+      <h2 style="margin-top: 1.5rem;">Instagram vs. Facebook</h2>
+      <div id="social-stats" class="stats-row loading">Wird geladen...</div>
+    </div>
+
+    <div id="tab-calendar" class="tab-panel">
+      <h2>Kalender</h2>
+      <div class="card">
+        <div class="calendar-grid" id="calendar"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  const AUTH_BASE_URL = "https://cms-auth-webdesign-ehmann.ehmann-hannes07.workers.dev";
+  const OWNER = "Hannes0777";
+  const REPO = "webdesign-ehmann";
+  const TOKEN_KEY = "wde_dashboard_gh_token";
+  const BRANCH = "master";
+
+  let token = null;
+  let currentUser = null;
+
+  function showError(msg) {
+    const box = document.getElementById("error-box");
+    box.textContent = msg;
+    box.style.display = "block";
+    setTimeout(() => box.style.display = "none", 5000);
+  }
+
+  function getToken() {
+    const stored = localStorage.getItem(TOKEN_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (new Date(parsed.expires) > new Date()) return parsed.token;
+      } catch (e) {}
+      localStorage.removeItem(TOKEN_KEY);
+    }
+    return null;
+  }
+
+  async function login() {
+    const popupUrl = `${AUTH_BASE_URL}/auth-popup.html`;
+    const popup = window.open(popupUrl, "cms-auth", "width=500,height=600");
+
+    const loginPromise = new Promise((resolve) => {
+      const handleMessage = (e) => {
+        if (e.origin !== AUTH_BASE_URL) return;
+        if (e.data.type === "authorization:github:success") {
+          resolve(e.data.payload.token);
+          window.removeEventListener("message", handleMessage);
+          popup?.close();
+        } else if (e.data.type === "authorization:github:error") {
+          showError("Login fehlgeschlagen: " + e.data.payload);
+          window.removeEventListener("message", handleMessage);
+          popup?.close();
+        }
+      };
+      window.addEventListener("message", handleMessage);
+    });
+
+    try {
+      const newToken = await loginPromise;
+      if (!newToken) throw new Error("Kein Token erhalten.");
+
+      localStorage.setItem(TOKEN_KEY, JSON.stringify({
+        token: newToken,
+        expires: new Date(Date.now() + 3600000).toISOString(),
+      }));
+      token = newToken;
+      currentUser = "GitHub-Nutzer";
+      showApp();
+    } catch (err) {
+      showError("Login fehlgeschlagen: " + err.message);
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem(TOKEN_KEY);
+    token = null;
+    location.reload();
+  }
+
+  function showApp() {
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    document.getElementById("login-info").textContent = `Angemeldet als ${currentUser}`;
+    loadData();
+  }
+
+  async function fetchGitHub(path) {
+    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
+    const res = await fetch(url, {
+      headers: token ? { Authorization: `token ${token}` } : {},
+    });
+    if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+    const data = await res.json();
+    if (data.type === "file") {
+      return JSON.parse(atob(data.content));
+    }
+    return null;
+  }
+
+  async function loadData() {
+    try {
+      const [akquise, todos, stats, calendar, socialStats] = await Promise.all([
+        loadAkquise(),
+        loadTodos(),
+        loadWebsiteStats(),
+        loadCalendar(),
+        loadSocialStats(),
+      ]);
+
+      renderOverview(todos, calendar);
+      renderAkquise(akquise);
+      renderTodos(todos);
+      renderWebsiteStats(stats);
+      renderCalendar(calendar, socialStats);
+      renderSocialStats(socialStats);
+      updateJarvis();
+    } catch (err) {
+      showError("Fehler beim Laden der Daten: " + err.message);
+    }
+  }
+
+  async function loadAkquise() {
+    try {
+      const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/content/akquise?ref=${BRANCH}`;
+      const res = await fetch(url, {
+        headers: token ? { Authorization: `token ${token}` } : {},
+      });
+      if (!res.ok) return [];
+      const data = await res.json();
+      const items = [];
+      for (const file of data) {
+        if (file.type === "file" && file.name.endsWith(".json")) {
+          const content = JSON.parse(atob(file.content));
+          items.push(content);
+        }
+      }
+      return items;
+    } catch {
+      return [];
+    }
+  }
+
+  async function loadTodos() {
+    try {
+      const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/content/todos?ref=${BRANCH}`;
+      const res = await fetch(url, {
+        headers: token ? { Authorization: `token ${token}` } : {},
+      });
+      if (!res.ok) return [];
+      const data = await res.json();
+      const items = [];
+      for (const file of data) {
+        if (file.type === "file" && file.name.endsWith(".json")) {
+          const content = JSON.parse(atob(file.content));
+          items.push(content);
+        }
+      }
+      return items;
+    } catch {
+      return [];
+    }
+  }
+
+  async function loadWebsiteStats() {
+    try {
+      return await fetchGitHub("content/website-stats.json");
+    } catch {
+      return null;
+    }
+  }
+
+  async function loadCalendar() {
+    try {
+      return await fetchGitHub("content/calendar-events.json");
+    } catch {
+      return { events: [] };
+    }
+  }
+
+  async function loadSocialStats() {
+    try {
+      return await fetchGitHub("content/social-stats.json");
+    } catch {
+      return null;
+    }
+  }
+
+  function renderOverview(todos, calendar) {
+    const today = new Date().toISOString().split("T")[0];
+    const todayTodos = todos.filter(t => t.faellig_am?.split("T")[0] === today && !t.erledigt);
+    document.getElementById("today-todos-count").textContent = todayTodos.length;
+
+    const openTodos = todos.filter(t => !t.erledigt);
+    document.getElementById("open-todos-count").textContent = openTodos.length;
+
+    if (todayTodos.length > 0) {
+      const list = todayTodos.map(t => `
+        <div class="todo-item">
+          <input type="checkbox" disabled ${t.erledigt ? "checked" : ""} class="todo-check">
+          <span class="todo-text${t.erledigt ? " done" : ""}">${t.text}</span>
+          <span class="todo-category">${t.kategorie}</span>
+        </div>
+      `).join("");
+      document.getElementById("today-todos-list").innerHTML = list;
+    }
+
+    if (calendar?.events) {
+      const nextEvents = calendar.events.filter(e => new Date(e.start) > new Date()).slice(0, 5);
+      if (nextEvents.length > 0) {
+        const list = nextEvents.map(e => `
+          <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+            <div style="font-weight: 600; font-size: 0.9rem;">${e.titel}</div>
+            <div style="font-size: 0.8rem; color: var(--mist);">${new Date(e.start).toLocaleString("de-DE")}</div>
+          </div>
+        `).join("");
+        document.getElementById("next-events").innerHTML = list;
+      }
+    }
+  }
+
+  function renderAkquise(items) {
+    if (items.length === 0) {
+      document.getElementById("akquise-count").textContent = "0";
+      document.getElementById("akquise-container").innerHTML = "<div class='empty'>Keine Einträge</div>";
+      return;
+    }
+
+    document.getElementById("akquise-count").textContent = items.length;
+
+    const rows = items.map(item => `
+      <tr>
+        <td><strong>${item.firma}</strong></td>
+        <td><span class="status-badge status-${item.status.toLowerCase().replace(/ /g, "-")}">${item.status}</span></td>
+        <td>${item.quelle}</td>
+        <td>${item.angeschrieben_am ? new Date(item.angeschrieben_am).toLocaleDateString("de-DE") : "—"}</td>
+        <td>${item.antwort_status}</td>
+      </tr>
+    `).join("");
+
+    document.getElementById("akquise-container").innerHTML = `
+      <table class="akquise-table">
+        <thead><tr>
+          <th>Firma</th>
+          <th>Status</th>
+          <th>Quelle</th>
+          <th>Angeschrieben</th>
+          <th>Antwort</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  }
+
+  function renderTodos(todos) {
+    if (todos.length === 0) {
+      document.getElementById("todos-container").innerHTML = "<div class='empty'>Keine Todos</div>";
+      return;
+    }
+
+    const byCategory = {};
+    todos.forEach(t => {
+      if (!byCategory[t.kategorie]) byCategory[t.kategorie] = [];
+      byCategory[t.kategorie].push(t);
+    });
+
+    let html = "";
+    for (const [cat, items] of Object.entries(byCategory)) {
+      html += `<h3>${cat}</h3><div class="todo-list">`;
+      html += items.map(t => `
+        <div class="todo-item">
+          <input type="checkbox" disabled ${t.erledigt ? "checked" : ""} class="todo-check">
+          <span class="todo-text${t.erledigt ? " done" : ""}">${t.text}</span>
+        </div>
+      `).join("");
+      html += `</div>`;
+    }
+    document.getElementById("todos-container").innerHTML = html;
+  }
+
+  function renderWebsiteStats(stats) {
+    if (!stats) {
+      document.getElementById("website-stats").textContent = "Keine Daten verfügbar";
+      return;
+    }
+    const { last_30_days } = stats;
+    document.getElementById("website-stats").innerHTML = `
+      <div class="stats-row">
+        <div class="stat-tile">
+          <div class="value">${last_30_days.visits}</div>
+          <div class="label">Besuche (30 Tage)</div>
+        </div>
+        <div class="stat-tile">
+          <div class="value">${last_30_days.pageviews}</div>
+          <div class="label">Seitenaufrufe</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSocialStats(stats) {
+    if (!stats) {
+      document.getElementById("social-stats").textContent = "Keine Daten verfügbar";
+      return;
+    }
+    const ig = stats.instagram || {};
+    const fb = stats.facebook || {};
+    document.getElementById("social-stats").innerHTML = `
+      <div class="stat-tile">
+        <div class="value">📱 ${ig.followers_count || 0}</div>
+        <div class="label">Instagram Follower</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value">👍 ${fb.fan_count || 0}</div>
+        <div class="label">Facebook Fans</div>
+      </div>
+    `;
+  }
+
+  function renderCalendar(calData, socialStats) {
+    const calendar = document.getElementById("calendar");
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+    calendar.innerHTML = "<div class='weekday'>So</div><div class='weekday'>Mo</div><div class='weekday'>Di</div><div class='weekday'>Mi</div><div class='weekday'>Do</div><div class='weekday'>Fr</div><div class='weekday'>Sa</div>";
+
+    const events = calData?.events || [];
+    const eventsByDate = {};
+    events.forEach(e => {
+      const dateKey = e.start.split("T")[0];
+      if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
+      eventsByDate[dateKey].push(e);
+    });
+
+    let currentDate = new Date(startDate);
+    for (let i = 0; i < 42; i++) {
+      const isCurrentMonth = currentDate.getMonth() === month;
+      const dateKey = currentDate.toISOString().split("T")[0];
+      const dayEvents = eventsByDate[dateKey] || [];
+
+      const dayEl = document.createElement("div");
+      dayEl.className = `day${!isCurrentMonth ? " other-month" : ""}`;
+      dayEl.innerHTML = `
+        <div class="day-number">${currentDate.getDate()}</div>
+        <div class="day-events">
+          ${dayEvents.slice(0, 2).map(e => `<span class="event-dot calendar"></span><span class="event-text">${e.titel.substring(0, 20)}</span>`).join("")}
+        </div>
+      `;
+      calendar.appendChild(dayEl);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  }
+
+  async function updateJarvis() {
+    try {
+      const res = await fetch("http://127.0.0.1:8765/status", { signal: AbortSignal.timeout(1500) });
+      if (!res.ok) throw new Error("Status-Code: " + res.status);
+      const data = await res.json();
+      document.getElementById("jarvis-status").textContent = "🟢 Online";
+      document.getElementById("jarvis-activity").textContent = `Letzte Aktivität: ${data.last_activity || "Keine"}`;
+    } catch (err) {
+      document.getElementById("jarvis-status").textContent = "🔴 Offline";
+      document.getElementById("jarvis-activity").classList.add("jarvis-offline");
+      document.getElementById("jarvis-activity").textContent = "Nicht erreichbar (nur auf diesem Gerät sichtbar)";
+    }
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById(`tab-${tabName}`).classList.add("active");
+    event.target.classList.add("active");
+  }
+
+  token = getToken();
+  if (token) {
+    currentUser = "Nutzer";
+    showApp();
+  }
+</script>
+
+</body>
+</html>
