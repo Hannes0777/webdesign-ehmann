@@ -1,0 +1,57 @@
+name: Kalender-Termine abrufen
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: calendar-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: node-ical installieren
+        run: npm install node-ical
+
+      - name: Kalender-Termine abrufen
+        env:
+          ICS_GOOGLE_URL: ${{ secrets.ICS_GOOGLE_URL }}
+          ICS_APPLE_URL: ${{ secrets.ICS_APPLE_URL }}
+        run: node scripts/fetch-calendar.mjs
+
+      - name: Kalender-Datei committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/calendar-events.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Kalender-Termine aktualisiert"
+            # Push kann fehlschlagen, wenn zeitgleich ein anderer Workflow gepusht hat.
+            for i in 1 2 3 4 5; do
+              if git push; then
+                exit 0
+              fi
+              echo "Push fehlgeschlagen (Versuch $i), hole Änderungen und versuche erneut..."
+              git fetch origin master
+              git rebase origin/master
+              sleep 3
+            done
+            echo "Push endgültig fehlgeschlagen nach mehreren Versuchen."
+            exit 1
+          else
+            echo "Keine Änderungen."
+          fi

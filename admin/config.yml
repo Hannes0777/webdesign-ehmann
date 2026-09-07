@@ -437,6 +437,111 @@ collections:
             hint: "Ca. 150 Zeichen – wird von Google in den Suchergebnissen angezeigt."
 
   # ----------------------------------------------------------
+  #  AKQUISE-TRACKING
+  # ----------------------------------------------------------
+  - name: akquise
+    label: "🤝 Akquise-Tracking"
+    description: "Pro Firma ein Eintrag: Status (Neu/Priorisiert/Pitch-Demo gebaut/Kontaktiert/Kunde geworden/Verworfen), Quelle (Auto/Manuell), Daten angeschrieben/Antwort und Notizen."
+    folder: content/akquise
+    create: true
+    extension: json
+    format: json
+    slug: "{{firma}}"
+    summary: "{{firma}} — {{status}}"
+    sortable_fields: ["status", "angeschrieben_am"]
+    view_groups:
+      - label: "Status"
+        field: status
+    fields:
+      - name: firma
+        label: "Firma"
+        widget: string
+      - name: status
+        label: "Status"
+        widget: select
+        options: ["Neu", "Priorisiert", "Pitch-Demo gebaut", "Kontaktiert", "Kunde geworden", "Verworfen"]
+        default: "Neu"
+      - name: quelle
+        label: "Quelle"
+        widget: select
+        options: ["Automatisch vorgeschlagen", "Manuell"]
+        default: "Manuell"
+      - name: demo_gebaut_am
+        label: "Demo gebaut am"
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        required: false
+      - name: angeschrieben_am
+        label: "Angeschrieben am"
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        required: false
+      - name: antwort_am
+        label: "Antwort erhalten am"
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        required: false
+      - name: antwort_status
+        label: "Antwort-Status"
+        widget: select
+        options: ["—", "Positiv", "Absage", "Später"]
+        default: "—"
+        required: false
+      - name: notiz
+        label: "Notiz"
+        widget: text
+        required: false
+      - name: firmenliste_ref
+        label: "Firmenliste.md Referenz (optional)"
+        widget: string
+        required: false
+        hint: "Name des Eintrags aus Firmenliste.md, z.B. ‚Physio Köpple'"
+
+  # ----------------------------------------------------------
+  #  TODOS
+  # ----------------------------------------------------------
+  - name: todos
+    label: "✅ Todos"
+    description: "Aufgabenliste mit Kategorien, Fälligkeitsdatum und Status (offen/erledigt)."
+    folder: content/todos
+    create: true
+    extension: json
+    format: json
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{text}}"
+    sortable_fields: ["erledigt", "faellig_am"]
+    view_filters:
+      - label: "Offen"
+        field: erledigt
+        pattern: false
+      - label: "Erledigt"
+        field: erledigt
+        pattern: true
+    fields:
+      - name: text
+        label: "Aufgabe"
+        widget: string
+      - name: kategorie
+        label: "Kategorie"
+        widget: select
+        options: ["Kunde", "Akquise", "Website", "Jarvis", "Sonstiges"]
+        default: "Sonstiges"
+      - name: erledigt
+        label: "Erledigt"
+        widget: boolean
+        default: false
+      - name: faellig_am
+        label: "Fällig am"
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        required: false
+      - name: erstellt_am
+        label: "Erstellt am"
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        default: '{{now}}'
+
+  # ----------------------------------------------------------
   #  RECHTLICHES  (Angaben fürs Impressum)
   # ----------------------------------------------------------
   - name: rechtliches
