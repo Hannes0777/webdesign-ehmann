@@ -335,7 +335,7 @@
   }
 
   async function login() {
-    const popupUrl = `${AUTH_BASE_URL}/auth-popup.html`;
+    const popupUrl = `${AUTH_BASE_URL}/auth?provider=github&scope=repo`;
     const popup = window.open(popupUrl, "cms-auth", "width=500,height=600");
 
     const loginPromise = new Promise((resolve) => {
