@@ -660,13 +660,25 @@
     }
   }
 
+  const JARVIS_STATE_LABELS = {
+    idle: "Bereit",
+    listening: "Hört zu",
+    thinking: "Denkt nach",
+    speaking: "Spricht",
+  };
+
   async function updateJarvis() {
     try {
-      const res = await fetch("http://127.0.0.1:8765/status", { signal: AbortSignal.timeout(1500) });
+      const res = await fetch("http://127.0.0.1:8765/api/status", { signal: AbortSignal.timeout(1500) });
       if (!res.ok) throw new Error("Status-Code: " + res.status);
       const data = await res.json();
-      document.getElementById("jarvis-status").textContent = "🟢 Online";
-      document.getElementById("jarvis-activity").textContent = `Letzte Aktivität: ${data.last_activity || "Keine"}`;
+      const label = JARVIS_STATE_LABELS[data.state] || data.state || "Unbekannt";
+      document.getElementById("jarvis-status").textContent = `🟢 ${label}`;
+      const parts = [];
+      if (data.detail) parts.push(data.detail);
+      if (data.updated) parts.push(new Date(data.updated).toLocaleString("de-DE"));
+      document.getElementById("jarvis-activity").classList.remove("jarvis-offline");
+      document.getElementById("jarvis-activity").textContent = parts.join(" · ") || "Keine weiteren Details";
     } catch (err) {
       document.getElementById("jarvis-status").textContent = "🔴 Offline";
       document.getElementById("jarvis-activity").classList.add("jarvis-offline");
