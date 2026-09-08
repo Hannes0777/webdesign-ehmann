@@ -1,10 +1,8 @@
-name: Akquise – Gmail-Labels mit Apple Reminders abgleichen
+name: Akquise – Gmail-Labels mit Dashboard abgleichen
 
 on:
-  # Zeitplan vorerst deaktiviert: iCloud liefert für diesen Account über
-  # klassisches CalDAV keine Reminders-Inhalte (0 Objekte trotz vorhandener
-  # Einträge, vermutlich wegen "Erweiterter Datenschutz"). Manuell testbar
-  # über workflow_dispatch, bis eine funktionierende Anbindung gefunden ist.
+  schedule:
+    - cron: "*/15 * * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -27,24 +25,22 @@ jobs:
           node-version: "20"
 
       - name: Abhängigkeiten installieren
-        run: npm install googleapis tsdav node-ical
+        run: npm install googleapis
 
-      - name: Gmail-Labels prüfen und Reminders abgleichen
+      - name: Gmail-Labels prüfen und Akquise-Liste abgleichen
         env:
           GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
           GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
           GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
-          ICLOUD_APPLE_ID: ${{ secrets.ICLOUD_APPLE_ID }}
-          ICLOUD_APP_PASSWORD: ${{ secrets.ICLOUD_APP_PASSWORD }}
         run: node scripts/sync-akquise-gmail.mjs
 
-      - name: Sync-Stand committen
+      - name: Akquise-Liste und Sync-Stand committen
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/akquise-gmail-sync-state.json
+          git add content/akquise content/akquise-gmail-sync-state.json
           if ! git diff --cached --quiet; then
-            git commit -m "Akquise-Gmail-Sync: Stand aktualisiert"
+            git commit -m "Akquise-Gmail-Sync: Liste aktualisiert"
             for i in 1 2 3 4 5; do
               if git push; then
                 exit 0
