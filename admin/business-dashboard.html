@@ -7,560 +7,413 @@
 <title>Business-Dashboard – Webdesign Ehmann</title>
 <style>
   :root {
-    --paper: #050a10;
-    --paper-alt: #0a121b;
-    --surface: #0d1620;
-    --ink: #eaf6fb;
-    --mist: #5f8299;
-    --gold: #29d6f0;
-    --gold-deep: #12a8c2;
+    --bg: #0c0c0e;
+    --panel: #17171b;
+    --tile: rgba(6, 6, 7, 0.6);
+    --tile-strong: rgba(6, 6, 7, 0.75);
+    --ring-panel: rgba(244, 242, 236, 0.08);
+    --divider: rgba(244, 242, 236, 0.07);
+    --edge: rgba(244, 242, 236, 0.10);
+    --text: #f4f2ec;
+    --text-2: rgba(244, 242, 236, 0.55);
+    --text-3: rgba(244, 242, 236, 0.45);
+    --text-4: rgba(244, 242, 236, 0.35);
+    --hover-1: rgba(244, 242, 236, 0.05);
+    --hover-2: rgba(244, 242, 236, 0.06);
+
+    --gold: #c08b2c;
+    --gold-light: #e0b463;
+    --gold-sand: #ecd3a0;
+    --gold-10: rgba(192, 139, 44, 0.10);
+    --gold-14: rgba(192, 139, 44, 0.14);
+    --gold-16: rgba(192, 139, 44, 0.16);
+    --gold-22: rgba(192, 139, 44, 0.22);
+    --gold-ring-28: rgba(192, 139, 44, 0.28);
+    --gold-ring-30: rgba(192, 139, 44, 0.3);
+    --gold-ring-35: rgba(192, 139, 44, 0.35);
+    --gold-ring-45: rgba(192, 139, 44, 0.45);
+    --gold-ring-50: rgba(192, 139, 44, 0.5);
+    --orb-core: #fff4de;
+
     --sky: #6fd2ff;
-    --sky-soft: rgba(41, 214, 240, 0.14);
-    --coral: #f0555f;
-    --coral-soft: rgba(240, 85, 95, 0.14);
     --violet: #a78bfa;
-    --jade: #34d399;
     --amber: #f0b429;
-    --amber-soft: rgba(240, 180, 41, 0.14);
-    --border: rgba(111, 210, 255, 0.16);
-    --radius: 12px;
+    --jade: #34d399;
+    --coral: #f0555f;
+    --neutral-1: #8b857a;
+    --neutral-2: #57534a;
+
     --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
   }
   * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); }
   body {
-    margin: 0;
-    background:
-      radial-gradient(circle at 15% -10%, rgba(41, 214, 240, 0.10), transparent 42%),
-      radial-gradient(circle at 100% 10%, rgba(41, 214, 240, 0.06), transparent 38%),
-      repeating-linear-gradient(0deg, rgba(111, 210, 255, 0.035) 0px, rgba(111, 210, 255, 0.035) 1px, transparent 1px, transparent 40px),
-      repeating-linear-gradient(90deg, rgba(111, 210, 255, 0.035) 0px, rgba(111, 210, 255, 0.035) 1px, transparent 1px, transparent 40px),
-      var(--paper);
-    color: var(--ink);
-    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text);
+    font-family: Inter, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
+    position: relative;
+    isolation: isolate;
   }
-  h1 { margin: 0 0 0.25rem; font-size: 1.4rem; }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { color: var(--gold-light); }
+
+  /* ---------- Nachthimmel-Hintergrund (fest, hinter Login + App) ---------- */
+  @keyframes drift { to { transform: translate3d(-40px, -24px, 0); } }
+  @keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.85; } }
+  .bg-glow, .bg-band, .bg-stars, .bg-dust, .bg-twinkle {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  }
+  .bg-glow {
+    inset: -80px;
+    background:
+      radial-gradient(58% 42% at 74% 8%, rgba(192, 139, 44, 0.11), transparent 72%),
+      radial-gradient(46% 38% at 12% 88%, rgba(140, 130, 180, 0.08), transparent 74%),
+      radial-gradient(70% 55% at 50% 45%, rgba(255, 255, 255, 0.02), transparent 78%);
+  }
+  .bg-band {
+    inset: -35%;
+    transform: rotate(-21deg);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 39%, #000 47%, #000 55%, rgba(0,0,0,0.6) 63%, transparent 72%);
+            mask-image: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.6) 39%, #000 47%, #000 55%, rgba(0,0,0,0.6) 63%, transparent 72%);
+    background-image:
+      radial-gradient(38% 26% at 22% 48%, rgba(236,211,160,0.10), transparent 76%),
+      radial-gradient(30% 22% at 58% 52%, rgba(255,255,255,0.07), transparent 78%),
+      radial-gradient(34% 20% at 84% 46%, rgba(192,139,44,0.09), transparent 76%),
+      radial-gradient(14% 40% at 44% 50%, rgba(8,8,10,0.55), transparent 72%),
+      radial-gradient(rgba(255,255,255,0.5) 0.7px, transparent 0.8px),
+      radial-gradient(rgba(236,211,160,0.4) 0.6px, transparent 0.7px),
+      radial-gradient(rgba(255,255,255,0.28) 0.5px, transparent 0.6px),
+      radial-gradient(rgba(200,215,255,0.22) 0.45px, transparent 0.55px),
+      radial-gradient(rgba(255,255,255,0.16) 0.4px, transparent 0.5px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 74px 62px, 108px 96px, 46px 52px, 31px 27px, 23px 25px;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 26px 34px, 13px 7px, 9px 19px, 5px 3px;
+    animation: drift 320s linear infinite alternate;
+  }
+  .bg-stars {
+    inset: -80px; opacity: 0.9;
+    background-image:
+      radial-gradient(2.2px 2.2px at 18% 22%, rgba(255,255,255,0.95), rgba(255,255,255,0) 100%),
+      radial-gradient(1.9px 1.9px at 63% 13%, rgba(236,211,160,0.9), rgba(236,211,160,0) 100%),
+      radial-gradient(2px 2px at 82% 61%, rgba(255,255,255,0.85), rgba(255,255,255,0) 100%),
+      radial-gradient(1.8px 1.8px at 34% 74%, rgba(255,255,255,0.8), rgba(255,255,255,0) 100%),
+      radial-gradient(1.7px 1.7px at 8% 56%, rgba(236,211,160,0.8), rgba(236,211,160,0) 100%),
+      radial-gradient(1.6px 1.6px at 91% 27%, rgba(255,255,255,0.75), rgba(255,255,255,0) 100%),
+      radial-gradient(1.6px 1.6px at 47% 33%, rgba(255,255,255,0.7), rgba(255,255,255,0) 100%),
+      radial-gradient(1.5px 1.5px at 71% 85%, rgba(236,211,160,0.7), rgba(236,211,160,0) 100%),
+      radial-gradient(1.5px 1.5px at 26% 46%, rgba(255,255,255,0.65), rgba(255,255,255,0) 100%),
+      radial-gradient(1.4px 1.4px at 57% 68%, rgba(255,255,255,0.6), rgba(255,255,255,0) 100%),
+      radial-gradient(rgba(255,255,255,0.5) 0.8px, transparent 0.9px),
+      radial-gradient(rgba(236,211,160,0.38) 0.7px, transparent 0.8px),
+      radial-gradient(rgba(255,255,255,0.3) 0.6px, transparent 0.7px),
+      radial-gradient(rgba(190,205,255,0.26) 0.5px, transparent 0.6px),
+      radial-gradient(rgba(255,255,255,0.2) 0.4px, transparent 0.5px);
+    background-size:
+      100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+      100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+      163px 149px, 121px 137px, 89px 79px, 67px 61px, 43px 47px;
+    background-position:
+      0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0,
+      0 0, 41px 63px, 17px 29px, 53px 11px, 7px 37px;
+    animation: drift 210s linear infinite alternate;
+  }
+  .bg-dust {
+    inset: -20%; opacity: 0.85; filter: blur(6px);
+    background-image:
+      radial-gradient(24% 18% at 12% 18%, rgba(236,211,160,0.09), transparent 72%),
+      radial-gradient(20% 15% at 88% 78%, rgba(150,140,200,0.08), transparent 74%),
+      radial-gradient(16% 22% at 63% 92%, rgba(255,255,255,0.05), transparent 76%),
+      radial-gradient(12% 9% at 31% 61%, rgba(192,139,44,0.10), transparent 70%),
+      radial-gradient(9% 12% at 77% 34%, rgba(255,255,255,0.045), transparent 72%);
+    animation: drift 420s linear infinite alternate-reverse;
+  }
+  .bg-twinkle {
+    background-image:
+      radial-gradient(2.6px 2.6px at 29% 18%, rgba(255,255,255,0.95), rgba(255,255,255,0) 100%),
+      radial-gradient(2.4px 2.4px at 74% 44%, rgba(236,211,160,0.9), rgba(236,211,160,0) 100%),
+      radial-gradient(2.2px 2.2px at 41% 82%, rgba(200,215,255,0.9), rgba(200,215,255,0) 100%),
+      radial-gradient(2.2px 2.2px at 88% 15%, rgba(255,255,255,0.85), rgba(255,255,255,0) 100%);
+    animation: twinkle 7s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bg-band, .bg-stars, .bg-dust, .bg-twinkle { animation: none !important; }
+  }
+
   h2 {
-    margin: 0 0 0.9rem;
-    font-size: 0.78rem;
+    margin: 0;
+    font-size: 0.7rem;
     font-family: var(--mono);
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--mist);
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
-  h2::before { content: "◆ "; color: var(--gold); }
+  h2::before { content: "◆"; color: var(--gold); font-size: 0.8em; }
+  h3 { margin: 0; font-size: 0.85rem; font-weight: 600; }
 
-  .shell { display: flex; min-height: 100vh; }
+  /* ---------- Shell / Sidebar ---------- */
+  .shell {
+    display: grid;
+    grid-template-columns: 216px minmax(0, 1fr);
+    min-height: 100vh;
+    transition: grid-template-columns 180ms ease;
+  }
+  .shell.collapsed { grid-template-columns: 62px minmax(0, 1fr); }
 
   .sidebar {
-    width: 236px;
-    flex-shrink: 0;
-    background: var(--paper-alt);
-    border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    padding: 1.2rem 0.9rem;
+    gap: 22px;
+    padding: 22px 11px;
+    border-right: 1px solid var(--edge);
+    overflow: hidden;
     position: sticky;
     top: 0;
     height: 100vh;
   }
-  .sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.4rem 0.5rem 1.2rem;
-    margin-bottom: 0.6rem;
-    border-bottom: 1px solid var(--border);
-  }
+  .sidebar-brand { display: flex; align-items: center; gap: 8px; min-height: 34px; }
   .sidebar-brand .dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--gold);
-    box-shadow: 0 0 10px 2px rgba(41, 214, 240, 0.6);
+    width: 8px; height: 8px; flex: none; margin-left: 5px; border-radius: 50%;
+    background: var(--gold); box-shadow: 0 0 10px var(--gold);
   }
-  .sidebar-brand-text { font-family: var(--mono); font-weight: 700; letter-spacing: 0.08em; font-size: 0.85rem; }
-  .sidebar-brand-text small { display: block; font-weight: 400; letter-spacing: 0.05em; color: var(--mist); font-size: 0.62rem; margin-top: 1px; }
+  .sidebar-brand-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .sidebar-brand-text span:first-child { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+  .sidebar-brand-text small { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
+  .sidebar-toggle {
+    flex: none; cursor: pointer; width: 30px; height: 30px; display: grid; place-items: center;
+    border-radius: 6px; background: transparent; border: 1px solid var(--edge); color: var(--text-2);
+    font-family: var(--mono); font-size: 0.85rem;
+  }
+  .sidebar-toggle:hover { border-color: var(--gold); color: var(--gold-sand); }
 
-  .sidebar-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
   .nav-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    background: transparent;
-    color: var(--mist);
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-align: left;
-    padding: 0.6rem 0.7rem;
-    width: 100%;
+    display: flex; align-items: center; gap: 11px; padding: 8px 11px; border-radius: 8px;
+    font-size: 0.85rem; text-decoration: none; white-space: nowrap; color: var(--text-2);
+    background: transparent; border: none; width: 100%; text-align: left; cursor: pointer;
     font-family: inherit;
   }
-  .nav-btn .icon { font-size: 1rem; width: 1.2em; text-align: center; }
-  .nav-btn:hover { background: rgba(111, 210, 255, 0.06); color: var(--ink); }
-  .nav-btn.active { background: var(--sky-soft); color: var(--gold); box-shadow: inset 2px 0 0 var(--gold); }
-  .nav-btn.ghost { margin-top: 0.6rem; border-top: 1px solid var(--border); padding-top: 0.8rem; border-radius: 0; }
+  .nav-btn:hover { background: var(--hover-2); color: var(--text); }
+  .nav-btn .icon { font-size: 1rem; width: 1.2em; text-align: center; flex: none; }
+  .nav-btn .label { flex: 1; min-width: 0; overflow: hidden; }
+  .shell.collapsed .nav-btn .label,
+  .shell.collapsed .sidebar-brand-text,
+  .shell.collapsed .sidebar-foot-text { display: none; }
 
-  .sidebar-foot {
-    margin-top: 0.8rem;
-    padding-top: 0.9rem;
-    border-top: 1px solid var(--border);
-    font-size: 0.7rem;
-    color: var(--mist);
-    font-family: var(--mono);
+  .sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: 11px; }
+  .sidebar-foot-text { font-size: 0.68rem; color: var(--text-4); padding-left: 11px; white-space: nowrap; }
+
+  /* ---------- Main / Header ---------- */
+  .main-area { min-width: 0; display: flex; flex-direction: column; gap: 16px; padding: 22px 28px 34px; }
+
+  header.top {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap;
+  }
+  header.top .head-left { display: flex; flex-direction: column; gap: 3px; }
+  header.top .date-line { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-sand); font-family: var(--mono); }
+  header.top h1 { margin: 0; font-size: 1.7rem; font-weight: 500; letter-spacing: -0.015em; }
+  header.top .head-right { display: flex; align-items: center; gap: 8px; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono);
+    font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-sand);
+    border: 1px solid var(--gold-ring-50); border-radius: 999px; padding: 4px 10px;
+  }
+  .status-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--jade); box-shadow: 0 0 6px var(--jade); }
+  .clock { font-variant-numeric: tabular-nums; font-size: 1.1rem; font-weight: 500; letter-spacing: 0.02em; font-family: var(--mono); }
+  #login-info { margin: 0; color: var(--text-3); font-size: 0.78rem; }
+
+  /* ---------- Ring-Layout ---------- */
+  .ring { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+  .ring > .col-jarvis { order: -1; }
+  @media (min-width: 1180px) {
+    .ring { grid-template-columns: minmax(236px, 0.85fr) minmax(400px, 1.5fr) minmax(236px, 0.85fr); }
+    .ring > .col-jarvis { order: 0; }
+  }
+  .col { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+
+  .panel {
+    flex: none; display: flex; flex-direction: column; gap: 12px; padding: 16px;
+    border-radius: 14px; background: var(--panel); box-shadow: 0 0 0 1px var(--ring-panel);
+  }
+  .panel.grow { flex: 1; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .panel-action { font-size: 0.72rem; white-space: nowrap; }
+  .panel-meta { font-size: 0.72rem; color: var(--text-3); white-space: nowrap; }
+  .panel-meta.hot { color: var(--gold-sand); }
+  .empty, .loading { color: var(--text-3); font-size: 0.82rem; padding: 6px 2px; }
+
+  /* ---------- Kalender ---------- */
+  .week-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+  .week-day {
+    display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0;
+    border-radius: 6px; background: var(--hover-1);
+  }
+  .week-day.today { background: var(--gold-16); box-shadow: inset 0 0 0 1px var(--gold-ring-45); }
+  .week-day .dow { font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .week-day .num { font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+  .week-day.today .num { color: var(--gold-sand); }
+  .week-day .dot { width: 4px; height: 4px; border-radius: 50%; background: transparent; }
+  .week-day.has-event .dot { background: var(--gold); }
+
+  .event-groups { display: flex; flex-direction: column; gap: 11px; }
+  .event-group-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
+  .event-group-label.today { color: var(--gold-sand); }
+  .event-row {
+    display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 8px; padding: 6px 0;
+    border-bottom: 1px solid var(--divider);
+  }
+  .event-row .time { font-size: 0.76rem; font-variant-numeric: tabular-nums; color: var(--gold-sand); }
+  .event-row .title { font-size: 0.85rem; font-weight: 500; }
+  .event-row .meta { font-size: 0.72rem; color: var(--text-3); }
+
+  /* ---------- Todos ---------- */
+  .todo-list { display: flex; flex-direction: column; gap: 2px; }
+  .todo-item { display: flex; align-items: center; gap: 8px; padding: 6px 5px; border-radius: 6px; }
+  .todo-item:hover { background: var(--hover-1); }
+  .todo-box {
+    width: 16px; height: 16px; flex: none; border-radius: 4px; display: grid; place-items: center;
+    border: 1.5px solid var(--text-4);
+  }
+  .todo-text { flex: 1; min-width: 0; font-size: 0.82rem; }
+
+  /* ---------- Projekte ---------- */
+  .project-row { display: flex; flex-direction: column; gap: 5px; }
+  .project-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .project-head .name { font-size: 0.82rem; font-weight: 500; }
+  .project-head .stage { font-size: 0.7rem; color: var(--text-3); white-space: nowrap; }
+  .project-bar { height: 4px; border-radius: 2px; background: var(--hover-2); }
+  .project-bar > span { display: block; height: 4px; border-radius: 2px; background: var(--gold); }
+
+  /* ---------- Akquise ---------- */
+  .funnel { display: grid; grid-template-columns: repeat(auto-fit, minmax(56px, 1fr)); gap: 6px; }
+  .funnel-tile { display: flex; flex-direction: column; gap: 3px; padding: 8px; border-radius: 8px; background: var(--tile); }
+  .funnel-tile .value { font-size: 1.05rem; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text); }
+  .funnel-tile.hot .value { color: var(--gold-light); }
+  .funnel-tile .label { font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .lead-list { display: flex; flex-direction: column; gap: 8px; }
+  .lead-row { display: flex; gap: 8px; }
+  .lead-row .dot { width: 6px; height: 6px; margin-top: 6px; border-radius: 50%; flex: none; }
+  .lead-row .name { font-size: 0.8rem; }
+  .lead-row .step { font-size: 0.68rem; color: var(--text-3); }
+
+  /* ---------- Anfragen ---------- */
+  .inbox-row { display: flex; flex-direction: column; gap: 1px; padding-bottom: 8px; border-bottom: 1px solid var(--divider); }
+  .inbox-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .inbox-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .inbox-head .name { font-size: 0.8rem; font-weight: 500; }
+  .inbox-head .name.unread { color: var(--gold-sand); }
+  .inbox-head .when { font-size: 0.66rem; color: var(--text-4); white-space: nowrap; }
+  .inbox-subject { font-size: 0.72rem; color: var(--text-3); }
+
+  /* ---------- Website & Social ---------- */
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; }
+  .metric-tile { display: flex; flex-direction: column; gap: 2px; padding: 11px; border-radius: 8px; background: var(--tile); }
+  .metric-tile .label { font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+  .metric-tile .value { font-size: 1.3rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .metric-tile .sub { font-size: 0.68rem; color: var(--text-3); }
+  .bar-caption { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-4); }
+  .bar-row { display: flex; align-items: flex-end; gap: 4px; height: 44px; margin-top: 4px; }
+  .bar-row > span { flex: 1; border-radius: 2px 2px 0 0; background: var(--gold-22); }
+  .bar-row > span.peak { background: var(--gold-light); }
+
+  /* ---------- Jarvis-Mitte ---------- */
+  .col-jarvis { align-items: center; justify-content: center; gap: 22px; padding: 0 11px; }
+  .jarvis-orb {
+    position: relative; width: clamp(200px, 55%, 320px); aspect-ratio: 1; flex: none;
+  }
+  .jarvis-orb-glow {
+    position: absolute; inset: -14%; border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-22) 0%, rgba(192,139,44,0) 66%);
+  }
+  .jarvis-orb-ring1 { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--gold-ring-28); border-top-color: var(--gold-light); animation: orb-spin 9s linear infinite; }
+  .jarvis-orb-ring2 { position: absolute; inset: 9%; border-radius: 50%; border: 1px dashed rgba(244,242,236,0.16); animation: orb-spin-rev 22s linear infinite; }
+  .jarvis-orb-ring3 { position: absolute; inset: 19%; border-radius: 50%; border: 1px solid var(--gold-ring-30); border-left-color: var(--gold); animation: orb-spin 14s linear infinite; }
+  .jarvis-orb-ring4 { position: absolute; inset: 30%; border-radius: 50%; border: 1px solid var(--ring-panel); animation: orb-spin-rev 32s linear infinite; }
+  .jarvis-orb-core {
+    position: absolute; inset: 34%; border-radius: 50%;
+    background: radial-gradient(circle, var(--orb-core) 0%, var(--gold-light) 40%, rgba(192,139,44,0) 74%);
+    animation: orb-pulse 3.4s ease-in-out infinite;
+  }
+  @keyframes orb-spin { to { transform: rotate(360deg); } }
+  @keyframes orb-spin-rev { to { transform: rotate(-360deg); } }
+  @keyframes orb-pulse { 0%, 100% { opacity: .75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+  @media (prefers-reduced-motion: reduce) {
+    .jarvis-orb-ring1, .jarvis-orb-ring2, .jarvis-orb-ring3, .jarvis-orb-ring4, .jarvis-orb-core { animation: none !important; }
   }
 
-  .main-area { flex: 1; min-width: 0; }
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-    background: rgba(10, 18, 27, 0.6);
-    backdrop-filter: blur(6px);
-    position: sticky;
-    top: 0;
-    z-index: 5;
-  }
-  header .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--jade);
-    background: rgba(52, 211, 153, 0.1);
-    border: 1px solid rgba(52, 211, 153, 0.3);
-    border-radius: 999px;
-    padding: 0.25rem 0.7rem;
-  }
-  header .status-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--jade); box-shadow: 0 0 6px 1px var(--jade); }
-  header .clock { font-family: var(--mono); font-size: 0.95rem; color: var(--ink); letter-spacing: 0.03em; }
-  header .clock .date { display: block; font-size: 0.68rem; color: var(--mist); font-weight: 400; }
-  header p#login-info { margin: 0; color: var(--mist); font-size: 0.82rem; }
-  main { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
+  .jarvis-hud.listening .jarvis-orb-ring3 { border-left-color: var(--violet); }
+  .jarvis-hud.listening .jarvis-orb-core { background: radial-gradient(circle, #f4ecff 0%, var(--violet) 35%, rgba(167,139,250,0.2) 70%, transparent 100%); animation-duration: 1.4s; }
+  .jarvis-hud.thinking .jarvis-orb-ring3 { border-left-color: var(--amber); }
+  .jarvis-hud.thinking .jarvis-orb-core { background: radial-gradient(circle, #fff6e6 0%, var(--amber) 35%, rgba(240,180,41,0.15) 70%, transparent 100%); animation-duration: 0.9s; }
+  .jarvis-hud.speaking .jarvis-orb-ring3 { border-left-color: var(--jade); }
+  .jarvis-hud.speaking .jarvis-orb-core { background: radial-gradient(circle, #eafff5 0%, var(--jade) 35%, rgba(52,211,153,0.2) 70%, transparent 100%); animation-duration: 0.5s; }
+  .jarvis-hud.offline .jarvis-orb-ring1, .jarvis-hud.offline .jarvis-orb-ring2,
+  .jarvis-hud.offline .jarvis-orb-ring3, .jarvis-hud.offline .jarvis-orb-ring4 { animation-play-state: paused; opacity: 0.3; }
+  .jarvis-hud.offline .jarvis-orb-core { background: radial-gradient(circle, #cfd8de 0%, var(--text-3) 35%, transparent 100%); animation-play-state: paused; opacity: 0.5; }
 
-  #login-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
+  .jarvis-label { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+  .jarvis-label .state { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-2); font-family: var(--mono); }
+  .jarvis-label .brand { font-size: 0.58rem; letter-spacing: 0.2em; color: var(--text-4); }
+
+  .jarvis-briefing { width: 100%; max-width: 460px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  .jarvis-briefing .kicker { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+  .jarvis-briefing p { margin: 0; font-size: 1.15rem; line-height: 1.35; font-weight: 500; letter-spacing: -0.01em; }
+  .jarvis-briefing .priority { font-size: 0.78rem; color: var(--text-2); }
+  .jarvis-briefing .priority[hidden] { display: none; }
+
+  .jarvis-activity { font-size: 0.76rem; color: var(--text-3); text-align: center; }
+  .jarvis-activity.offline { color: var(--coral); }
+  .jarvis-chat {
+    width: 100%; max-width: 460px; display: flex; flex-direction: column; justify-content: flex-end;
+    gap: 8px; text-align: left; min-height: 40px; max-height: 168px; overflow-y: auto;
+    padding: 10px; border-radius: 10px; background: var(--tile); box-shadow: 0 0 0 1px var(--ring-panel);
   }
+  @keyframes bubble-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .jarvis-bubble { max-width: 92%; border-radius: 12px; padding: 8px 12px; font-size: 0.8rem; line-height: 1.4; flex-shrink: 0; }
+  .jarvis-bubble--enter { animation: bubble-in 0.35s ease; }
+  .jarvis-bubble-label { display: block; font-size: 0.6rem; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; opacity: 0.65; }
+  .jarvis-bubble--user { align-self: flex-end; background: rgba(111, 210, 255, 0.12); }
+  .jarvis-bubble--jarvis { align-self: flex-start; background: var(--gold-10); }
+  .jarvis-bubble[hidden] { display: none; }
+
+  /* ---------- Login ---------- */
+  #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
   #login-screen .login-card {
-    width: min(360px, 100%);
-    text-align: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 2.2rem 1.8rem;
-    box-shadow: 0 0 0 1px rgba(41, 214, 240, 0.05), 0 20px 60px rgba(0, 0, 0, 0.5);
+    width: min(360px, 100%); text-align: center; background: var(--panel); box-shadow: 0 0 0 1px var(--ring-panel), 0 20px 60px rgba(0,0,0,0.5);
+    border-radius: 14px; padding: 34px 28px;
   }
-  #login-screen .login-dot {
-    width: 12px; height: 12px; border-radius: 50%; margin: 0 auto 1rem;
-    background: var(--gold);
-    box-shadow: 0 0 16px 3px rgba(41, 214, 240, 0.6);
-  }
-  #login-screen h1 { font-family: var(--mono); letter-spacing: 0.08em; font-size: 1.1rem; text-transform: uppercase; }
-  #login-screen p { color: var(--mist); margin: 0.5rem 0 1.6rem; font-size: 0.88rem; }
+  #login-screen .login-dot { width: 12px; height: 12px; border-radius: 50%; margin: 0 auto 16px; background: var(--gold); box-shadow: 0 0 16px var(--gold); }
+  #login-screen h1 { font-family: var(--mono); letter-spacing: 0.08em; font-size: 1rem; text-transform: uppercase; margin: 0; }
+  #login-screen p { color: var(--text-2); margin: 8px 0 26px; font-size: 0.85rem; }
   button {
-    background: var(--gold);
-    color: var(--paper);
-    border: none;
-    border-radius: 10px;
-    padding: 0.7rem 1.4rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
+    background: transparent; color: var(--gold-sand); border: 1px solid var(--gold);
+    border-radius: 8px; padding: 11px 22px; font-size: 0.9rem; font-weight: 500; cursor: pointer;
     font-family: inherit;
-    box-shadow: 0 0 20px -4px rgba(41, 214, 240, 0.7);
   }
-  button:hover { background: var(--gold-deep); }
-  button.ghost {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--ink);
-    font-weight: 400;
-    padding: 0.4rem 0.9rem;
-    box-shadow: none;
-  }
+  button:hover { background: var(--gold-14); }
   #error-box {
-    display: none;
-    background: var(--coral-soft);
-    border: 1px solid var(--coral);
-    border-radius: 10px;
-    padding: 0.8rem 1rem;
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    text-align: left;
+    display: none; background: rgba(240, 85, 95, 0.12); border: 1px solid var(--coral); border-radius: 8px;
+    padding: 12px 14px; margin-top: 16px; font-size: 0.8rem; text-align: left; color: var(--text);
   }
 
   #app { display: none; }
 
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-  }
-  .stat-tile {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.8rem 0.9rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .stat-tile::before {
-    content: "";
-    position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-    background: var(--gold);
-    box-shadow: 0 0 8px 1px rgba(41, 214, 240, 0.6);
-  }
-  .stat-tile .value { font-size: 1.5rem; font-weight: 700; font-family: var(--mono); color: var(--gold); }
-  .stat-tile .label { font-size: 0.72rem; color: var(--mist); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  }
-  .card h3 { margin: 0 0 0.5rem; font-size: 0.95rem; }
-
-  .todo-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .todo-item {
-    background: var(--paper-alt);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.7rem 0.9rem;
-    display: flex;
-    gap: 0.6rem;
-    align-items: center;
-  }
-  .todo-check { width: 18px; height: 18px; accent-color: var(--gold); }
-  .todo-text { flex: 1; font-size: 0.9rem; }
-  .todo-text.done { color: var(--mist); text-decoration: line-through; }
-  .todo-category { font-size: 0.68rem; color: var(--sky); background: var(--sky-soft); padding: 0.2rem 0.5rem; border-radius: 3px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.04em; }
-
-  .akquise-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-  }
-  .akquise-table th {
-    text-align: left;
-    padding: 0.6rem;
-    border-bottom: 1px solid var(--border);
-    font-weight: 700;
-    color: var(--mist);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .akquise-table td {
-    padding: 0.7rem 0.6rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .akquise-table tr:hover { background: var(--paper-alt); }
-  .status-badge {
-    display: inline-block;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    font-family: var(--mono);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .status-neu { background: var(--sky-soft); color: var(--sky); }
-  .status-priorisiert { background: rgba(167, 139, 250, 0.16); color: var(--violet); }
-  .status-pitch-demo-gebaut { background: rgba(41, 214, 240, 0.14); color: var(--gold); }
-  .status-kontaktiert { background: var(--amber-soft); color: var(--amber); }
-  .status-kunde-geworden { background: rgba(52, 211, 153, 0.16); color: var(--jade); }
-  .status-verworfen { background: var(--coral-soft); color: var(--coral); }
-
-  .jarvis-widget {
-    background:
-      radial-gradient(circle at 50% 0%, rgba(41, 214, 240, 0.08), transparent 60%),
-      var(--surface);
-    border-radius: 10px;
-    padding: 1.4rem 1rem 1.2rem;
-    text-align: center;
-  }
-
-  /* HUD-Kreis mit Sternenfeld-Hintergrund, feinem Tick-Ring, rotierendem
-     Statusbogen und einem weichen Glutpunkt in der Mitte (kein massiver
-     Ball) plus zwei kleinen umlaufenden Markern - alles per CSS
-     (conic-/radial-gradient + Radial-Maske), keine Grafik-Library. */
-  .jarvis-hud {
-    position: relative;
-    width: 208px; height: 208px;
-    margin: 0 auto 0.6rem;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background:
-      radial-gradient(1.4px 1.4px at 22% 28%, rgba(255, 255, 255, 0.75), transparent),
-      radial-gradient(1px 1px at 72% 18%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1.4px 1.4px at 85% 62%, rgba(255, 255, 255, 0.6), transparent),
-      radial-gradient(1px 1px at 28% 82%, rgba(255, 255, 255, 0.45), transparent),
-      radial-gradient(1px 1px at 62% 88%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1.4px 1.4px at 12% 58%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(1px 1px at 90% 38%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 45% 12%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(1px 1px at 8% 40%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(1px 1px at 55% 92%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(circle at 50% 50%, rgba(41, 214, 240, 0.10), transparent 65%),
-      var(--surface);
-  }
-  .jarvis-hud-ring {
-    position: absolute; inset: 3%;
-    border-radius: 50%;
-    background: repeating-conic-gradient(rgba(111, 210, 255, 0.55) 0deg 1.1deg, transparent 1.1deg 5deg);
-    -webkit-mask: radial-gradient(circle, transparent 73%, #000 74%, #000 80%, transparent 81%);
-            mask: radial-gradient(circle, transparent 73%, #000 74%, #000 80%, transparent 81%);
-    animation: jarvis-hud-spin 26s linear infinite;
-  }
-  .jarvis-hud-ring2 {
-    position: absolute; inset: 11%;
-    border-radius: 50%;
-    background: repeating-conic-gradient(rgba(111, 210, 255, 0.3) 0deg 0.7deg, transparent 0.7deg 3.4deg);
-    -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 65%, transparent 66%);
-            mask: radial-gradient(circle, transparent 60%, #000 61%, #000 65%, transparent 66%);
-    animation: jarvis-hud-spin 18s linear infinite reverse;
-  }
-  .jarvis-hud-arc {
-    position: absolute; inset: 18%;
-    border-radius: 50%;
-    background: conic-gradient(var(--mist) 0deg 70deg, transparent 70deg 360deg);
-    -webkit-mask: radial-gradient(circle, transparent 55%, #000 56%, #000 63%, transparent 64%);
-            mask: radial-gradient(circle, transparent 55%, #000 56%, #000 63%, transparent 64%);
-    animation: jarvis-hud-spin 9s linear infinite reverse;
-  }
-  .jarvis-hud-arc2 {
-    position: absolute; inset: 25%;
-    border-radius: 50%;
-    background: conic-gradient(rgba(111, 210, 255, 0.35) 0deg 40deg, transparent 40deg 360deg);
-    -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 66%, transparent 67%);
-            mask: radial-gradient(circle, transparent 60%, #000 61%, #000 66%, transparent 67%);
-    animation: jarvis-hud-spin 6s linear infinite;
-  }
-  .jarvis-hud-orbit { position: absolute; inset: 3%; animation: jarvis-hud-spin 12s linear infinite; }
-  .jarvis-hud-orbit span {
-    position: absolute; top: 0.5%; left: 50%; width: 6px; height: 6px; margin-left: -3px;
-    border-radius: 50%; background: var(--sky); box-shadow: 0 0 9px 2px var(--sky);
-  }
-  .jarvis-hud-orbit--b { animation-duration: 17s; animation-direction: reverse; }
-  .jarvis-hud-orbit--b span { top: auto; bottom: 2%; background: var(--gold); box-shadow: 0 0 9px 2px var(--gold); }
-  .jarvis-hud-glow {
-    position: absolute; inset: 40%;
-    border-radius: 46% 54% 62% 38% / 55% 44% 56% 45%;
-    background: radial-gradient(circle, #dde5ea 0%, var(--mist) 35%, rgba(95, 130, 153, 0.15) 70%, transparent 100%);
-    filter: blur(2px);
-    animation: jarvis-hud-glow-morph 6s ease-in-out infinite, jarvis-hud-breathe 3s ease-in-out infinite;
-  }
-  .jarvis-hud-label {
-    margin-top: 0.6rem;
-    font-family: var(--mono);
-  }
-  .jarvis-hud-label .state {
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--mist);
-  }
-  .jarvis-hud-label .brand { font-size: 0.6rem; color: var(--mist); letter-spacing: 0.2em; margin-top: 3px; opacity: 0.6; }
-
-  .jarvis-hud.listening .jarvis-hud-ring,
-  .jarvis-hud.listening .jarvis-hud-arc { animation-duration: 12s, 5s; }
-  .jarvis-hud.listening .jarvis-hud-arc { background: conic-gradient(var(--violet) 0deg 95deg, transparent 95deg 360deg); animation-duration: 5s; }
-  .jarvis-hud.listening .jarvis-hud-glow {
-    background: radial-gradient(circle, #f4ecff 0%, var(--violet) 35%, rgba(167, 139, 250, 0.2) 70%, transparent 100%);
-    animation-duration: 1.4s;
-  }
-  .jarvis-hud.listening .jarvis-hud-label .state { color: var(--violet); }
-
-  .jarvis-hud.thinking .jarvis-hud-arc { background: conic-gradient(var(--amber) 0deg 130deg, transparent 130deg 360deg); animation-duration: 2.4s; }
-  .jarvis-hud.thinking .jarvis-hud-ring { animation-duration: 6s; }
-  .jarvis-hud.thinking .jarvis-hud-glow { background: radial-gradient(circle, #fff6e6 0%, var(--amber) 35%, rgba(240, 180, 41, 0.15) 70%, transparent 100%); animation-duration: 0.9s; }
-  .jarvis-hud.thinking .jarvis-hud-label .state { color: var(--amber); }
-
-  .jarvis-hud.speaking .jarvis-hud-arc { background: conic-gradient(var(--jade) 0deg 110deg, transparent 110deg 360deg); animation-duration: 1.6s; }
-  .jarvis-hud.speaking .jarvis-hud-ring { animation-duration: 4s; }
-  .jarvis-hud.speaking .jarvis-hud-orbit { animation-duration: 3s; }
-  .jarvis-hud.speaking .jarvis-hud-orbit--b { animation-duration: 4s; }
-  .jarvis-hud.speaking .jarvis-hud-glow {
-    background: radial-gradient(circle, #eafff5 0%, var(--jade) 35%, rgba(52, 211, 153, 0.2) 70%, transparent 100%);
-    animation: jarvis-hud-glow-morph 1.1s ease-in-out infinite, jarvis-hud-talk 0.35s ease-in-out infinite;
-  }
-
-  .jarvis-hud.speaking .jarvis-hud-label .state { color: var(--jade); }
-
-  .jarvis-hud.offline .jarvis-hud-ring,
-  .jarvis-hud.offline .jarvis-hud-ring2,
-  .jarvis-hud.offline .jarvis-hud-arc,
-  .jarvis-hud.offline .jarvis-hud-arc2,
-  .jarvis-hud.offline .jarvis-hud-orbit { animation-play-state: paused; opacity: 0.3; }
-  .jarvis-hud.offline .jarvis-hud-glow { background: radial-gradient(circle, #cfd8de 0%, var(--mist) 35%, transparent 100%); animation-play-state: paused; opacity: 0.5; }
-
-  @keyframes jarvis-hud-spin { to { transform: rotate(360deg); } }
-  @keyframes jarvis-hud-breathe {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50%      { opacity: 1; transform: scale(1.16); }
-  }
-  /* Organische Blob-Verformung des Glutpunkts (wie bei der vorherigen
-     Glaskugel-Version) - Ecken wachsen/schrumpfen abwechselnd raus statt
-     eines starren Kreises. */
-  @keyframes jarvis-hud-glow-morph {
-    0%, 100% { border-radius: 46% 54% 62% 38% / 55% 44% 56% 45%; }
-    25%      { border-radius: 58% 42% 44% 56% / 42% 58% 42% 58%; }
-    50%      { border-radius: 62% 38% 55% 45% / 50% 62% 38% 50%; }
-    75%      { border-radius: 40% 60% 50% 50% / 60% 40% 62% 38%; }
-  }
-  @keyframes jarvis-hud-talk {
-    0%   { transform: scale(1) translate(0, 0); }
-    20%  { transform: scale(1.22) translate(3px, -2px); }
-    40%  { transform: scale(0.92) translate(-3px, 2px); }
-    60%  { transform: scale(1.32) translate(2px, 3px); }
-    80%  { transform: scale(1.02) translate(-2px, -3px); }
-    100% { transform: scale(1) translate(0, 0); }
-  }
-
-  .jarvis-activity { font-size: 0.8rem; color: var(--mist); margin-bottom: 0.8rem; }
-  .jarvis-offline { color: var(--mist); }
-  .jarvis-chat {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    text-align: left;
-    height: 168px;
-    overflow-y: auto;
-    padding: 0.7rem;
-    border-radius: 10px;
-    background: var(--paper-alt);
-    border: 1px solid var(--border);
-  }
-  @keyframes jarvis-bubble-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .jarvis-bubble {
-    max-width: 92%;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.55rem 0.8rem;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    flex-shrink: 0;
-  }
-  .jarvis-bubble.jarvis-bubble--enter { animation: jarvis-bubble-in 0.35s ease; }
-  .jarvis-bubble-label {
-    display: block;
-    font-size: 0.65rem;
-    font-family: var(--mono);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 0.2rem;
-    opacity: 0.65;
-  }
-  .jarvis-bubble--user {
-    align-self: flex-end;
-    background: var(--sky-soft);
-    border-bottom-right-radius: 3px;
-  }
-  .jarvis-bubble--jarvis {
-    align-self: flex-start;
-    background: var(--amber-soft);
-    border-bottom-left-radius: 3px;
-  }
-  .jarvis-bubble[hidden] { display: none; }
-
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-  }
-  .weekday {
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--mist);
-    padding-bottom: 4px;
-    font-weight: 600;
-  }
-  .day {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    min-height: 90px;
-    padding: 6px;
-    position: relative;
-  }
-  .day.other-month { opacity: 0.5; }
-  .day-number { font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; font-family: var(--mono); }
-  .day-events { font-size: 0.65rem; display: flex; flex-direction: column; gap: 2px; }
-  .event-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 2px;
-  }
-  .event-dot.post { background: var(--amber); }
-  .event-dot.calendar { background: var(--sky); }
-  .event-dot.calendar-google { background: var(--jade); }
-  .event-dot.calendar-apple { background: var(--violet); }
-  .event-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
-
-  .loading { color: var(--mist); text-align: center; padding: 1rem; }
-  .empty { color: var(--mist); text-align: center; padding: 1rem; }
-
-  @media (max-width: 900px) {
-    .shell { flex-direction: column; }
-    .sidebar {
-      position: static;
-      height: auto;
-      width: 100%;
-      flex-direction: row;
-      align-items: center;
-      padding: 0.7rem 0.9rem;
-      gap: 0.8rem;
-      overflow-x: auto;
-    }
-    .sidebar-brand { border-bottom: none; border-right: 1px solid var(--border); padding: 0 1rem 0 0; margin: 0; flex-shrink: 0; }
-    .sidebar-nav { flex-direction: row; flex: none; }
-    .nav-btn { white-space: nowrap; }
-    .nav-btn.ghost { margin-top: 0; border-top: none; padding-top: 0.6rem; }
-    .sidebar-foot { display: none; }
-    header { flex-wrap: wrap; }
-  }
-
-  @media (max-width: 768px) {
-    .stats-row { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
-    .akquise-table { font-size: 0.8rem; }
-    .akquise-table td, .akquise-table th { padding: 0.4rem 0.3rem; }
+  @media (max-width: 700px) {
+    .shell { grid-template-columns: 62px minmax(0, 1fr); }
+    .shell .sidebar-brand-text, .shell .nav-btn .label, .shell .sidebar-foot-text { display: none; }
+    .main-area { padding: 16px 14px 24px; }
   }
 </style>
 </head>
 <body>
+
+<div class="bg-glow"></div>
+<div class="bg-band"></div>
+<div class="bg-stars"></div>
+<div class="bg-dust"></div>
+<div class="bg-twinkle"></div>
 
 <div id="login-screen">
   <div class="login-card">
@@ -573,83 +426,57 @@
 </div>
 
 <div id="app">
-  <div class="shell">
+  <div class="shell" id="shell">
     <aside class="sidebar">
       <div class="sidebar-brand">
         <span class="dot"></span>
-        <span class="sidebar-brand-text">WEBDESIGN EHMANN<small>Business-Dashboard</small></span>
+        <span class="sidebar-brand-text"><span>WEBDESIGN EHMANN</span><small>Business-Dashboard</small></span>
+        <button class="sidebar-toggle" id="sidebar-toggle" title="Menü ein-/ausklappen">«</button>
       </div>
       <nav class="sidebar-nav">
-        <button class="nav-btn active" data-tab="overview" onclick="switchTab('overview', this)"><span class="icon">◧</span> Übersicht</button>
-        <button class="nav-btn" data-tab="akquise" onclick="switchTab('akquise', this)"><span class="icon">🤝</span> Akquise</button>
-        <button class="nav-btn" data-tab="todos" onclick="switchTab('todos', this)"><span class="icon">✅</span> Todos</button>
-        <button class="nav-btn" data-tab="website" onclick="switchTab('website', this)"><span class="icon">🌐</span> Website &amp; Social</button>
-        <button class="nav-btn" data-tab="calendar" onclick="switchTab('calendar', this)"><span class="icon">📅</span> Kalender</button>
-        <button class="nav-btn ghost" onclick="logout()"><span class="icon">⏻</span> Abmelden</button>
+        <button class="nav-btn" data-target="top"><span class="icon">◧</span><span class="label">Übersicht</span></button>
+        <button class="nav-btn" data-target="panel-akquise"><span class="icon">🤝</span><span class="label">Akquise</span></button>
+        <button class="nav-btn" data-target="panel-todos"><span class="icon">✅</span><span class="label">Todos</span></button>
+        <button class="nav-btn" data-target="panel-website"><span class="icon">🌐</span><span class="label">Website &amp; Social</span></button>
+        <button class="nav-btn" data-target="panel-kalender"><span class="icon">📅</span><span class="label">Kalender</span></button>
+        <button class="nav-btn" data-target="panel-projekte"><span class="icon">📁</span><span class="label">Projekte</span></button>
       </nav>
-      <div class="sidebar-foot">v1.0 · intern</div>
+      <div class="sidebar-foot">
+        <button class="nav-btn" onclick="logout()"><span class="icon">⏻</span><span class="label">Abmelden</span></button>
+        <span class="sidebar-foot-text">v2.0 · intern</span>
+      </div>
     </aside>
 
-    <div class="main-area">
-      <header>
-        <div class="status-pill"><span class="dot"></span> System optimal</div>
-        <div class="clock" id="header-clock">--:--:--<span class="date" id="header-date">–</span></div>
-        <p id="login-info"></p>
+    <div class="main-area" id="top">
+      <header class="top">
+        <div class="head-left">
+          <span class="date-line" id="header-date">–</span>
+          <h1 id="header-greeting">Hallo.</h1>
+        </div>
+        <div class="head-right">
+          <span class="status-pill"><span class="dot"></span>System optimal</span>
+          <span class="clock" id="header-clock">--:--:--</span>
+        </div>
       </header>
+      <p id="login-info" style="display:none;"></p>
 
-      <main>
-        <div id="tab-overview" class="tab-panel active">
-          <h2>Willkommen</h2>
-          <div class="stats-row">
-            <div class="stat-tile">
-              <div class="value" id="today-todos-count">0</div>
-              <div class="label">Heute fällig</div>
-            </div>
-            <div class="stat-tile">
-              <div class="value" id="open-todos-count">0</div>
-              <div class="label">Offene Todos</div>
-            </div>
-            <div class="stat-tile">
-              <div class="value" id="akquise-count">0</div>
-              <div class="label">Firmen im Tracking</div>
-            </div>
+      <section class="ring">
+
+        <div class="col">
+          <div class="panel" id="panel-kalender">
+            <div class="panel-head"><h2>Kalender</h2><span class="panel-meta">7 Tage</span></div>
+            <div class="week-strip" id="week-strip"></div>
+            <div class="event-groups" id="event-groups"><div class="loading">Wird geladen…</div></div>
           </div>
 
-          <div class="card jarvis-widget">
-            <div class="jarvis-hud" id="jarvis-hud">
-              <div class="jarvis-hud-ring"></div>
-              <div class="jarvis-hud-ring2"></div>
-              <div class="jarvis-hud-orbit jarvis-hud-orbit--a"><span></span></div>
-              <div class="jarvis-hud-orbit jarvis-hud-orbit--b"><span></span></div>
-              <div class="jarvis-hud-arc"></div>
-              <div class="jarvis-hud-arc2"></div>
-              <div class="jarvis-hud-glow"></div>
-            </div>
-            <div class="jarvis-hud-label">
-              <span class="state" id="jarvis-hud-state">Lädt…</span>
-              <span class="brand">JARVIS</span>
-            </div>
-            <div class="jarvis-activity" id="jarvis-activity">Wird geladen...</div>
-            <div class="jarvis-chat" id="jarvis-chat">
-              <div class="jarvis-bubble jarvis-bubble--user" id="jarvis-bubble-user" hidden>
-                <span class="jarvis-bubble-label">Du hast gesagt</span>
-                <span id="jarvis-user-text"></span>
-              </div>
-              <div class="jarvis-bubble jarvis-bubble--jarvis" id="jarvis-bubble-jarvis" hidden>
-                <span class="jarvis-bubble-label">Jarvis antwortete</span>
-                <span id="jarvis-jarvis-text"></span>
-              </div>
-            </div>
+          <div class="panel" id="panel-todos">
+            <div class="panel-head"><h2>Todos</h2><span class="panel-meta" id="todos-open-count">– offen</span></div>
+            <div id="todos-groups"><div class="loading">Wird geladen…</div></div>
           </div>
 
-          <h2 style="margin-top: 1.5rem;">Nächste Termine</h2>
-          <div id="next-events" class="card">
-            <div class="loading">Wird geladen...</div>
-          </div>
-
-          <h2 style="margin-top: 1.5rem;">Heutige Todos</h2>
-          <div id="today-todos-list" class="card">
-            <div class="empty">Keine Todos für heute</div>
+          <div class="panel grow" id="panel-projekte">
+            <div class="panel-head"><h2>Projekte</h2><a href="../admin/#/collections/projekte" class="panel-action">CMS</a></div>
+            <div id="projekte-list"><div class="loading">Wird geladen…</div></div>
           </div>
 
           <h2 style="margin-top: 1.5rem;">Neueste Akquise-Kontakte</h2>
@@ -658,36 +485,57 @@
           </div>
         </div>
 
-        <div id="tab-akquise" class="tab-panel">
-          <h2>Akquise-Tracking</h2>
-          <div id="akquise-container" class="loading">Wird geladen...</div>
-        </div>
-
-        <div id="tab-todos" class="tab-panel">
-          <h2>Todos</h2>
-          <div id="todos-container" class="loading">Wird geladen...</div>
-        </div>
-
-        <div id="tab-website" class="tab-panel">
-          <h2>Website-Besucher</h2>
-          <div id="website-stats" class="card loading">Wird geladen...</div>
-
-          <h2 style="margin-top: 1.5rem;">Instagram vs. Facebook</h2>
-          <div id="social-stats" class="stats-row loading">Wird geladen...</div>
-        </div>
-
-        <div id="tab-calendar" class="tab-panel">
-          <h2>Kalender</h2>
-          <div style="display:flex; gap:1rem; font-size:0.85rem; color:var(--mist); margin-bottom:0.8rem; flex-wrap:wrap;">
-            <span><span class="event-dot calendar-google"></span> Google Kalender</span>
-            <span><span class="event-dot calendar-apple"></span> Apple Kalender</span>
-            <span><span class="event-dot post"></span> Social-Media-Beiträge</span>
+        <div class="col col-jarvis">
+          <div class="jarvis-orb jarvis-hud" id="jarvis-hud">
+            <div class="jarvis-orb-glow"></div>
+            <div class="jarvis-orb-ring1"></div>
+            <div class="jarvis-orb-ring2"></div>
+            <div class="jarvis-orb-ring3"></div>
+            <div class="jarvis-orb-ring4"></div>
+            <div class="jarvis-orb-core"></div>
           </div>
-          <div class="card">
-            <div class="calendar-grid" id="calendar"></div>
+          <div class="jarvis-label">
+            <span class="state" id="jarvis-hud-state">Lädt…</span>
+            <span class="brand">JARVIS</span>
+          </div>
+          <div class="jarvis-briefing">
+            <span class="kicker">Briefing</span>
+            <p id="jarvis-briefing-text">Wird geladen…</p>
+            <span class="priority" id="jarvis-priority" hidden></span>
+          </div>
+          <div class="jarvis-activity" id="jarvis-activity">Wird geladen…</div>
+          <div class="jarvis-chat" id="jarvis-chat">
+            <div class="jarvis-bubble jarvis-bubble--user" id="jarvis-bubble-user" hidden>
+              <span class="jarvis-bubble-label">Du hast gesagt</span>
+              <span id="jarvis-user-text"></span>
+            </div>
+            <div class="jarvis-bubble jarvis-bubble--jarvis" id="jarvis-bubble-jarvis" hidden>
+              <span class="jarvis-bubble-label">Jarvis antwortete</span>
+              <span id="jarvis-jarvis-text"></span>
+            </div>
           </div>
         </div>
-      </main>
+
+        <div class="col">
+          <div class="panel" id="panel-akquise">
+            <div class="panel-head"><h2>Akquise</h2><a href="../admin/#/collections/akquise" class="panel-action">CMS</a></div>
+            <div class="funnel" id="akquise-funnel"></div>
+            <div class="lead-list" id="akquise-leads"><div class="loading">Wird geladen…</div></div>
+          </div>
+
+          <div class="panel" id="panel-anfragen">
+            <div class="panel-head"><h2>Anfragen</h2><span class="panel-meta hot" id="anfragen-count">– neu</span></div>
+            <div id="anfragen-list"><div class="loading">Wird geladen…</div></div>
+          </div>
+
+          <div class="panel grow" id="panel-website">
+            <div class="panel-head"><h2>Website &amp; Social</h2><span class="panel-meta">30 Tage</span></div>
+            <div class="metric-grid" id="metric-grid"><div class="loading">Wird geladen…</div></div>
+            <div id="bar-chart-wrap"></div>
+          </div>
+        </div>
+
+      </section>
     </div>
   </div>
 </div>
@@ -697,7 +545,17 @@
   const OWNER = "Hannes0777";
   const REPO = "webdesign-ehmann";
   const TOKEN_KEY = "wde_dashboard_gh_token";
+  const SIDEBAR_KEY = "wde_dashboard_sidebar_open";
   const BRANCH = "master";
+
+  const STATUS_COLORS = {
+    "Neu": "var(--sky)",
+    "Priorisiert": "var(--violet)",
+    "Pitch-Demo gebaut": "var(--gold-light)",
+    "Kontaktiert": "var(--amber)",
+    "Kunde geworden": "var(--jade)",
+    "Verworfen": "var(--coral)",
+  };
 
   let token = null;
   let currentUser = null;
@@ -797,22 +655,24 @@
 
   async function loadData() {
     try {
-      const [akquise, todos, stats, calendar, socialStats, posts] = await Promise.all([
+      const [akquise, todos, stats, calendar, socialStats, posts, projekte, anfragen] = await Promise.all([
         loadFolder("content/akquise"),
         loadFolder("content/todos"),
         loadWebsiteStats(),
         loadCalendar(),
         loadSocialStats(),
         loadFolder("content/social-posts"),
+        loadFolder("content/projekte"),
+        loadFolder("content/anfragen"),
       ]);
 
-      renderOverview(todos, calendar);
-      renderAkquise(akquise);
-      renderLatestAkquise(akquise);
+      renderKalender(calendar, posts);
       renderTodos(todos);
-      renderWebsiteStats(stats);
-      renderCalendar(calendar, posts);
-      renderSocialStats(socialStats);
+      renderProjekte(projekte);
+      renderAkquise(akquise);
+      renderAnfragen(anfragen);
+      renderWebsiteSocial(stats, socialStats, anfragen);
+      updateBriefing(todos, calendar, posts, akquise);
       updateJarvis();
     } catch (err) {
       showError("Fehler beim Laden der Daten: " + err.message);
@@ -820,7 +680,8 @@
   }
 
   // Liest alle *.json-Dateien in einem Ordner-Content-Verzeichnis aus
-  // (Akquise, Todos, Social-Posts folgen alle dem gleichen Sveltia-Muster).
+  // (Akquise, Todos, Social-Posts, Projekte, Anfragen folgen alle dem
+  // gleichen Sveltia-Muster).
   async function loadFolder(path) {
     try {
       const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
@@ -875,166 +736,19 @@
     }
   }
 
-  function renderOverview(todos, calendar) {
-    const today = new Date().toISOString().split("T")[0];
-    const todayTodos = todos.filter(t => t.faellig_am?.split("T")[0] === today && !t.erledigt);
-    document.getElementById("today-todos-count").textContent = todayTodos.length;
-
-    const openTodos = todos.filter(t => !t.erledigt);
-    document.getElementById("open-todos-count").textContent = openTodos.length;
-
-    if (todayTodos.length > 0) {
-      const list = todayTodos.map(t => `
-        <div class="todo-item">
-          <input type="checkbox" disabled ${t.erledigt ? "checked" : ""} class="todo-check">
-          <span class="todo-text${t.erledigt ? " done" : ""}">${t.text}</span>
-          <span class="todo-category">${t.kategorie}</span>
-        </div>
-      `).join("");
-      document.getElementById("today-todos-list").innerHTML = list;
-    }
-
-    if (calendar?.events) {
-      const nextEvents = calendar.events.filter(e => new Date(e.start) > new Date()).slice(0, 5);
-      if (nextEvents.length > 0) {
-        const sourceLabel = { google: "Google", apple: "Apple" };
-        const sourceDot = { google: "calendar-google", apple: "calendar-apple" };
-        const list = nextEvents.map(e => `
-          <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
-            <div style="font-weight: 600; font-size: 0.9rem;">
-              <span class="event-dot ${sourceDot[e.quelle] || "calendar"}"></span>${e.titel}
-            </div>
-            <div style="font-size: 0.8rem; color: var(--mist);">${new Date(e.start).toLocaleString("de-DE")}${sourceLabel[e.quelle] ? " · " + sourceLabel[e.quelle] : ""}</div>
-          </div>
-        `).join("");
-        document.getElementById("next-events").innerHTML = list;
-      }
-    }
+  function isoDateOnly(iso) {
+    return iso ? iso.split("T")[0] : null;
   }
 
-  function renderLatestAkquise(items) {
-    const container = document.getElementById("latest-akquise");
-    if (!items || items.length === 0) {
-      container.innerHTML = "<div class='empty'>Keine Einträge</div>";
-      return;
-    }
-
-    const withDate = items.map(item => ({
-      item,
-      date: item.antwort_am || item.angeschrieben_am || item.demo_gebaut_am || null,
-    })).filter(x => x.date);
-
-    withDate.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    const list = withDate.slice(0, 5).map(({ item, date }) => `
-      <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
-        <div>
-          <div style="font-weight: 600; font-size: 0.9rem;">${item.firma}</div>
-          <div style="font-size: 0.8rem; color: var(--mist);">${new Date(date).toLocaleDateString("de-DE")}${item.quelle === "Automatisch vorgeschlagen" ? " · automatisch" : ""}</div>
-        </div>
-        <span class="status-badge status-${item.status.toLowerCase().replace(/ /g, "-")}">${item.status}</span>
-      </div>
-    `).join("");
-
-    container.innerHTML = list || "<div class='empty'>Keine Einträge</div>";
-  }
-
-  function renderAkquise(items) {
-    if (items.length === 0) {
-      document.getElementById("akquise-count").textContent = "0";
-      document.getElementById("akquise-container").innerHTML = "<div class='empty'>Keine Einträge</div>";
-      return;
-    }
-
-    document.getElementById("akquise-count").textContent = items.length;
-
-    const rows = items.map(item => `
-      <tr>
-        <td><strong>${item.firma}</strong></td>
-        <td><span class="status-badge status-${item.status.toLowerCase().replace(/ /g, "-")}">${item.status}</span></td>
-        <td>${item.quelle}</td>
-        <td>${item.angeschrieben_am ? new Date(item.angeschrieben_am).toLocaleDateString("de-DE") : "—"}</td>
-        <td>${item.antwort_status}</td>
-      </tr>
-    `).join("");
-
-    document.getElementById("akquise-container").innerHTML = `
-      <table class="akquise-table">
-        <thead><tr>
-          <th>Firma</th>
-          <th>Status</th>
-          <th>Quelle</th>
-          <th>Angeschrieben</th>
-          <th>Antwort</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    `;
-  }
-
-  function renderTodos(todos) {
-    if (todos.length === 0) {
-      document.getElementById("todos-container").innerHTML = "<div class='empty'>Keine Todos</div>";
-      return;
-    }
-
-    const byCategory = {};
-    todos.forEach(t => {
-      if (!byCategory[t.kategorie]) byCategory[t.kategorie] = [];
-      byCategory[t.kategorie].push(t);
-    });
-
-    let html = "";
-    for (const [cat, items] of Object.entries(byCategory)) {
-      html += `<h3>${cat}</h3><div class="todo-list">`;
-      html += items.map(t => `
-        <div class="todo-item">
-          <input type="checkbox" disabled ${t.erledigt ? "checked" : ""} class="todo-check">
-          <span class="todo-text${t.erledigt ? " done" : ""}">${t.text}</span>
-        </div>
-      `).join("");
-      html += `</div>`;
-    }
-    document.getElementById("todos-container").innerHTML = html;
-  }
-
-  function renderWebsiteStats(stats) {
-    if (!stats) {
-      document.getElementById("website-stats").textContent = "Keine Daten verfügbar";
-      return;
-    }
-    const { last_30_days } = stats;
-    document.getElementById("website-stats").innerHTML = `
-      <div class="stats-row">
-        <div class="stat-tile">
-          <div class="value">${last_30_days.visits}</div>
-          <div class="label">Besuche (30 Tage)</div>
-        </div>
-        <div class="stat-tile">
-          <div class="value">${last_30_days.pageviews}</div>
-          <div class="label">Seitenaufrufe</div>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderSocialStats(stats) {
-    if (!stats) {
-      document.getElementById("social-stats").textContent = "Keine Daten verfügbar";
-      return;
-    }
-    const ig = stats.instagram || {};
-    const fb = stats.facebook || {};
-    document.getElementById("social-stats").innerHTML = `
-      <div class="stat-tile">
-        <div class="value">📱 ${ig.followers_count || 0}</div>
-        <div class="label">Instagram Follower</div>
-      </div>
-      <div class="stat-tile">
-        <div class="value">👍 ${fb.fan_count || 0}</div>
-        <div class="label">Facebook Fans</div>
-      </div>
-    `;
+  function formatRelative(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    const diffMs = Date.now() - d.getTime();
+    const diffH = diffMs / 3.6e6;
+    if (diffH < 1) return "gerade eben";
+    if (diffH < 24) return "vor " + Math.round(diffH) + " Std.";
+    if (diffH < 48) return "gestern";
+    return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" });
   }
 
   // Liefert den Kalendertag als "YYYY-MM-DD" in der lokalen Zeitzone des
@@ -1048,17 +762,10 @@
     return `${y}-${m}-${d}`;
   }
 
-  function renderCalendar(calData, posts) {
-    const calendar = document.getElementById("calendar");
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-
-    const firstDay = new Date(year, month, 1);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
-
-    calendar.innerHTML = "<div class='weekday'>So</div><div class='weekday'>Mo</div><div class='weekday'>Di</div><div class='weekday'>Mi</div><div class='weekday'>Do</div><div class='weekday'>Fr</div><div class='weekday'>Sa</div>";
+  // ---------- Kalender ----------
+  function renderKalender(calData, posts) {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
 
     // Trägt ein Ereignis in jeden Kalendertag zwischen (inkl.) start und end
     // ein - wichtig für mehrtägige Termine, die sonst nur am Starttag
@@ -1085,32 +792,248 @@
       // exklusiv (Tag nach dem letzten Tag) - einen Tag zurückrechnen.
       if (e.ganztags && e.ende) end = new Date(end.getTime() - 24 * 3600 * 1000);
       if (end < start) end = start;
-      const type = e.quelle === "apple" ? "calendar-apple" : e.quelle === "google" ? "calendar-google" : "calendar";
-      addEventRange(eventsByDate, start, end, { type, label: e.titel });
+      addEventRange(eventsByDate, start, end, {
+        start: e.start,
+        title: e.titel,
+        meta: e.ort || (e.quelle === "apple" ? "Apple Kalender" : e.quelle === "google" ? "Google Kalender" : ""),
+      });
     });
     (posts || []).forEach(p => {
       if (!p.geplant_fuer) return;
       const dateKey = localDateKey(new Date(p.geplant_fuer));
       if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
-      eventsByDate[dateKey].push({ type: "post", label: p.text || "Beitrag" });
+      eventsByDate[dateKey].push({ start: p.geplant_fuer, title: (p.text || "Beitrag").slice(0, 40), meta: "Social-Media-Beitrag" });
     });
 
-    let currentDate = new Date(startDate);
-    for (let i = 0; i < 42; i++) {
-      const isCurrentMonth = currentDate.getMonth() === month;
-      const dateKey = localDateKey(currentDate);
-      const dayEvents = eventsByDate[dateKey] || [];
-
-      const dayEl = document.createElement("div");
-      dayEl.className = `day${!isCurrentMonth ? " other-month" : ""}`;
-      dayEl.innerHTML = `
-        <div class="day-number">${currentDate.getDate()}</div>
-        <div class="day-events">
-          ${dayEvents.slice(0, 3).map(e => `<span class="event-dot ${e.type}"></span><span class="event-text">${(e.label || "").substring(0, 20)}</span>`).join("")}
-        </div>
+    // Wochenstreifen: heute + die nächsten 6 Tage
+    const strip = document.getElementById("week-strip");
+    strip.innerHTML = "";
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(startOfToday);
+      d.setDate(d.getDate() + i);
+      const dateKey = localDateKey(d);
+      const cell = document.createElement("div");
+      cell.className = "week-day" + (i === 0 ? " today" : "") + (eventsByDate[dateKey] ? " has-event" : "");
+      cell.innerHTML = `
+        <span class="dow">${d.toLocaleDateString("de-DE", { weekday: "short" })}</span>
+        <span class="num">${d.getDate()}</span>
+        <span class="dot"></span>
       `;
-      calendar.appendChild(dayEl);
-      currentDate.setDate(currentDate.getDate() + 1);
+      strip.appendChild(cell);
+    }
+
+    // Kommende Termine, gruppiert nach Tag
+    const todayKey = localDateKey(startOfToday);
+    const upcoming = Object.keys(eventsByDate)
+      .filter(k => k >= todayKey)
+      .sort()
+      .slice(0, 4);
+
+    const groupsEl = document.getElementById("event-groups");
+    if (upcoming.length === 0) {
+      groupsEl.innerHTML = `<div class="empty">Keine anstehenden Termine</div>`;
+      return;
+    }
+
+    groupsEl.innerHTML = upcoming.map(dateKey => {
+      const items = eventsByDate[dateKey].sort((a, b) => new Date(a.start) - new Date(b.start)).slice(0, 3);
+      const label = dateKey === todayKey
+        ? "Heute"
+        : new Date(dateKey).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" });
+      const rows = items.map(e => `
+        <div class="event-row">
+          <span class="time">${new Date(e.start).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}</span>
+          <div>
+            <div class="title">${e.title}</div>
+            <div class="meta">${e.meta || ""}</div>
+          </div>
+        </div>
+      `).join("");
+      return `<div><div class="event-group-label${dateKey === todayKey ? " today" : ""}">${label}</div>${rows}</div>`;
+    }).join("");
+  }
+
+  // ---------- Todos ----------
+  function renderTodos(todos) {
+    const today = localDateKey(new Date());
+    const open = todos.filter(t => !t.erledigt);
+    document.getElementById("todos-open-count").textContent = open.length + " offen";
+
+    const heute = open.filter(t => t.faellig_am && isoDateOnly(t.faellig_am) <= today)
+      .sort((a, b) => (a.faellig_am || "").localeCompare(b.faellig_am || ""));
+    const rest = open.filter(t => !heute.includes(t))
+      .sort((a, b) => (a.faellig_am || "9999").localeCompare(b.faellig_am || "9999"))
+      .slice(0, 5);
+
+    const groupsEl = document.getElementById("todos-groups");
+    if (open.length === 0) {
+      groupsEl.innerHTML = `<div class="empty">Keine offenen Todos – alles erledigt!</div>`;
+      return;
+    }
+
+    function renderGroup(label, items) {
+      if (items.length === 0) return "";
+      const rows = items.map(t => `
+        <div class="todo-item">
+          <span class="todo-box"></span>
+          <span class="todo-text">${t.text}</span>
+        </div>
+      `).join("");
+      return `<div><div class="event-group-label${label === "Heute" ? " today" : ""}">${label}</div><div class="todo-list">${rows}</div></div>`;
+    }
+
+    groupsEl.innerHTML = renderGroup("Heute", heute) + renderGroup("Diese Woche", rest);
+  }
+
+  // ---------- Projekte ----------
+  function renderProjekte(items) {
+    const el = document.getElementById("projekte-list");
+    if (!items || items.length === 0) {
+      el.innerHTML = `<div class="empty">Noch keine Projekte hinterlegt</div>`;
+      return;
+    }
+    el.innerHTML = `<div style="display:flex; flex-direction:column; gap:11px;">` + items.map(p => `
+      <div class="project-row">
+        <div class="project-head"><span class="name">${p.name}</span><span class="stage">${p.phase || ""}</span></div>
+        <div class="project-bar"><span style="width:${Math.max(0, Math.min(100, p.fortschritt || 0))}%;"></span></div>
+      </div>
+    `).join("") + `</div>`;
+  }
+
+  // ---------- Akquise ----------
+  function renderAkquise(items) {
+    const funnelEl = document.getElementById("akquise-funnel");
+    const leadsEl = document.getElementById("akquise-leads");
+
+    const counts = { "Priorisiert": 0, "Kontaktiert": 0, "Kunde geworden": 0 };
+    items.forEach(i => { if (counts.hasOwnProperty(i.status)) counts[i.status]++; });
+
+    funnelEl.innerHTML = `
+      <div class="funnel-tile"><span class="value">${items.length}</span><span class="label">Gesamt</span></div>
+      <div class="funnel-tile"><span class="value">${counts["Priorisiert"]}</span><span class="label">Priorisiert</span></div>
+      <div class="funnel-tile hot"><span class="value">${counts["Kontaktiert"]}</span><span class="label">Kontaktiert</span></div>
+      <div class="funnel-tile hot"><span class="value">${counts["Kunde geworden"]}</span><span class="label">Kunde</span></div>
+    `;
+
+    const active = items
+      .filter(i => ["Priorisiert", "Pitch-Demo gebaut", "Kontaktiert"].includes(i.status))
+      .sort((a, b) => (b.angeschrieben_am || "").localeCompare(a.angeschrieben_am || ""))
+      .slice(0, 4);
+
+    if (active.length === 0) {
+      leadsEl.innerHTML = `<div class="empty">Keine aktiven Leads offen</div>`;
+      return;
+    }
+
+    leadsEl.innerHTML = active.map(i => `
+      <div class="lead-row">
+        <span class="dot" style="background:${STATUS_COLORS[i.status] || "var(--neutral-1)"};"></span>
+        <div>
+          <div class="name">${i.firma}</div>
+          <div class="step">${i.status}${i.antwort_status && i.antwort_status !== "—" ? " · " + i.antwort_status : ""}</div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  // ---------- Anfragen ----------
+  function renderAnfragen(items) {
+    const listEl = document.getElementById("anfragen-list");
+    const countEl = document.getElementById("anfragen-count");
+    const unread = items.filter(i => !i.gelesen).length;
+    countEl.textContent = unread + " neu";
+
+    if (items.length === 0) {
+      listEl.innerHTML = `<div class="empty">Noch keine Anfragen erfasst</div>`;
+      return;
+    }
+
+    const sorted = [...items].sort((a, b) => (b.eingegangen_am || "").localeCompare(a.eingegangen_am || "")).slice(0, 5);
+    listEl.innerHTML = sorted.map(i => `
+      <div class="inbox-row">
+        <div class="inbox-head">
+          <span class="name${!i.gelesen ? " unread" : ""}">${i.absender}</span>
+          <span class="when">${formatRelative(i.eingegangen_am)}</span>
+        </div>
+        <div class="inbox-subject">${i.betreff || ""}</div>
+      </div>
+    `).join("");
+  }
+
+  // ---------- Website & Social ----------
+  function renderWebsiteSocial(stats, social, anfragenItems) {
+    const grid = document.getElementById("metric-grid");
+    const daily = stats?.daily || [];
+    const pageviews = stats?.last_30_days?.pageviews ?? 0;
+    const visits = stats?.last_30_days?.visits ?? 0;
+    const unreadAnfragen = (anfragenItems || []).filter(i => !i.gelesen).length;
+    const ig = social?.instagram || {};
+    const fb = social?.facebook || {};
+
+    grid.innerHTML = `
+      <div class="metric-tile">
+        <span class="label">Aufrufe</span>
+        <span class="value">${pageviews}</span>
+        <span class="sub">${visits} Besuche</span>
+      </div>
+      <div class="metric-tile">
+        <span class="label">Anfragen</span>
+        <span class="value">${(anfragenItems || []).length}</span>
+        <span class="sub">${unreadAnfragen} neu</span>
+      </div>
+      <div class="metric-tile">
+        <span class="label">Instagram</span>
+        <span class="value">${ig.followers_count ?? "–"}</span>
+        <span class="sub">${ig.media_count ?? 0} Beiträge</span>
+      </div>
+      <div class="metric-tile">
+        <span class="label">Facebook</span>
+        <span class="value">${fb.fan_count ?? "–"}</span>
+        <span class="sub">${fb.fan_count != null ? "Fans gesamt" : "Keine Daten"}</span>
+      </div>
+    `;
+
+    const wrap = document.getElementById("bar-chart-wrap");
+    const last14 = daily.slice(-14);
+    if (last14.length === 0) {
+      wrap.innerHTML = `<div class="empty" style="margin-top:auto;">Noch keine Tagesdaten</div>`;
+      return;
+    }
+    const max = Math.max(...last14.map(d => d.pageviews || 0), 1);
+    wrap.innerHTML = `
+      <div style="margin-top:auto;">
+        <div class="bar-caption">Aufrufe / Tag</div>
+        <div class="bar-row">
+          ${last14.map(d => {
+            const v = d.pageviews || 0;
+            const h = Math.max(12, Math.round((v / max) * 100));
+            return `<span class="${v === max ? "peak" : ""}" style="height:${h}%;"></span>`;
+          }).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  // ---------- Jarvis-Briefing (aus echten Daten abgeleitet) ----------
+  function updateBriefing(todos, calendar, posts, akquise) {
+    const today = localDateKey(new Date());
+    const openCount = todos.filter(t => !t.erledigt).length;
+    const eventsToday = (calendar?.events || []).filter(e => e.start && localDateKey(new Date(e.start)) === today).length
+      + (posts || []).filter(p => p.geplant_fuer && localDateKey(new Date(p.geplant_fuer)) === today).length;
+    const activeLeads = akquise.filter(i => ["Priorisiert", "Pitch-Demo gebaut", "Kontaktiert"].includes(i.status)).length;
+
+    document.getElementById("jarvis-briefing-text").textContent =
+      `${eventsToday} Termin${eventsToday === 1 ? "" : "e"} heute, ${openCount} offene Todo${openCount === 1 ? "" : "s"}, ${activeLeads} Lead${activeLeads === 1 ? "" : "s"} in der Pipeline.`;
+
+    const nextDue = todos
+      .filter(t => !t.erledigt && t.faellig_am)
+      .sort((a, b) => a.faellig_am.localeCompare(b.faellig_am))[0];
+    const priorityEl = document.getElementById("jarvis-priority");
+    if (nextDue) {
+      priorityEl.hidden = false;
+      priorityEl.textContent = "Nächste Fälligkeit: " + nextDue.text;
+    } else {
+      priorityEl.hidden = true;
     }
   }
 
@@ -1147,15 +1070,16 @@
     const hudState = document.getElementById("jarvis-hud-state");
     const userBubble = document.getElementById("jarvis-bubble-user");
     const jarvisBubble = document.getElementById("jarvis-bubble-jarvis");
+    const activityEl = document.getElementById("jarvis-activity");
     try {
       const res = await fetch("http://127.0.0.1:8765/api/status", { signal: AbortSignal.timeout(1500) });
       if (!res.ok) throw new Error("Status-Code: " + res.status);
       const data = await res.json();
       const label = JARVIS_STATE_LABELS[data.state] || data.state || "Unbekannt";
-      hud.className = "jarvis-hud " + (data.state || "");
+      hud.className = "jarvis-orb jarvis-hud " + (data.state || "");
       hudState.textContent = label;
-      document.getElementById("jarvis-activity").classList.remove("jarvis-offline");
-      document.getElementById("jarvis-activity").textContent = data.updated
+      activityEl.classList.remove("offline");
+      activityEl.textContent = data.updated
         ? "Zuletzt aktualisiert: " + new Date(data.updated).toLocaleString("de-DE")
         : "Keine weiteren Details";
 
@@ -1166,10 +1090,10 @@
         jarvisBubble, document.getElementById("jarvis-jarvis-text"), data.last_jarvis_text, jarvisLastJarvisText
       );
     } catch (err) {
-      hud.className = "jarvis-hud offline";
+      hud.className = "jarvis-orb jarvis-hud offline";
       hudState.textContent = "Offline";
-      document.getElementById("jarvis-activity").classList.add("jarvis-offline");
-      document.getElementById("jarvis-activity").textContent = "Nicht erreichbar (nur auf diesem Gerät sichtbar)";
+      activityEl.classList.add("offline");
+      activityEl.textContent = "Nicht erreichbar (nur auf diesem Gerät sichtbar)";
       userBubble.hidden = true;
       jarvisBubble.hidden = true;
     }
@@ -1181,19 +1105,40 @@
   // Seite hängen (z.B. dauerhaft "Denkt nach").
   setInterval(updateJarvis, 3000);
 
-  function switchTab(tabName, btn) {
-    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-    document.getElementById(`tab-${tabName}`).classList.add("active");
-    (btn || document.querySelector(`.nav-btn[data-tab="${tabName}"]`))?.classList.add("active");
+  // ---------- Sidebar-Toggle + Nav-Scroll ----------
+  const shellEl = document.getElementById("shell");
+  const sidebarToggle = document.getElementById("sidebar-toggle");
+  function setSidebarOpen(open) {
+    shellEl.classList.toggle("collapsed", !open);
+    sidebarToggle.textContent = open ? "«" : "»";
+    try { localStorage.setItem(SIDEBAR_KEY, open ? "1" : "0"); } catch {}
   }
+  sidebarToggle.addEventListener("click", () => {
+    setSidebarOpen(shellEl.classList.contains("collapsed"));
+  });
+  let initialSidebarOpen = window.innerWidth >= 700;
+  try {
+    const stored = localStorage.getItem(SIDEBAR_KEY);
+    if (stored !== null) initialSidebarOpen = stored === "1";
+  } catch {}
+  setSidebarOpen(initialSidebarOpen);
+
+  document.querySelectorAll(".nav-btn[data-target]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-target");
+      const el = document.getElementById(target);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 
   function updateClock() {
     const now = new Date();
-    document.getElementById("header-clock").firstChild.textContent =
-      now.toLocaleTimeString("de-DE");
+    document.getElementById("header-clock").textContent = now.toLocaleTimeString("de-DE");
     document.getElementById("header-date").textContent =
       now.toLocaleDateString("de-DE", { weekday: "long", day: "2-digit", month: "long" });
+    const h = now.getHours();
+    const greeting = (h < 11 ? "Guten Morgen, " : h < 18 ? "Hallo, " : "Guten Abend, ") + "Hannes.";
+    document.getElementById("header-greeting").textContent = greeting;
   }
   updateClock();
   setInterval(updateClock, 1000);
