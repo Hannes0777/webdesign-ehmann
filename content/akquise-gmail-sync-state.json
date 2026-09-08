@@ -1,3 +1,139 @@
 {
-  "message_actions": {}
+  "message_actions": {
+    "1a07dd9113c9475f": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07dd27d7c1539c": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07b18646ec0d53": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07b185b94d0d3b": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07b1851195873b": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07b1846257dbc3": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07b1840f5caefd": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07b18363659139": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a061c043120ed95": {
+      "anfrage": false,
+      "in_kontakt": true,
+      "abgelehnt": false
+    },
+    "1a05ee90830ff8f8": {
+      "anfrage": false,
+      "in_kontakt": true,
+      "abgelehnt": false
+    },
+    "1a03dfedce03609d": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfed435d2398": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfecd33bf39c": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfec595b9bd6": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfebc74f5250": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfeb13ea5f06": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfea8832e961": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfe9f6b889d7": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03dfe99afe0e12": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a03df737399b49a": {
+      "anfrage": false,
+      "in_kontakt": true,
+      "abgelehnt": false
+    },
+    "19ff687fbe4f2790": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "19fec7d17fa66b97": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "19fe86c18f1d18b0": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "19fe7dbdbd7dc5ec": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "19fc9b6da6e3da73": {
+      "anfrage": true,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "19fc98229a22e12f": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "19fc80ac1f7c4dec": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    }
+  }
 }
