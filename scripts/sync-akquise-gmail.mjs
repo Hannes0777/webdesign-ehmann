@@ -80,15 +80,33 @@ function getHeader(headers, name) {
 }
 
 // Extrahiert Name+Adresse aus einem "To"-Header wie
-// '"Firma Mustermann" <kontakt@firma.de>, andere@firma2.de'.
+// '"Firma Mustermann" <kontakt@firma.de>, andere@firma2.de'. Eine einzige
+// "alles frisst"-RegEx für beide Fälle (mit/ohne Anzeigename) ist hier
+// bewusst vermieden: bei einer nackten Adresse ohne "<...>" führt ein
+// gieriges Namens-Capture-Group sonst dazu, dass fast der komplette
+// Adress-Anfang fälschlich als "Name" verschluckt wird und nur noch das
+// letzte Zeichen vor dem "@" als E-Mail übrig bleibt.
 function parseRecipients(headerValue) {
   const parts = headerValue.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
   const recipients = [];
-  for (const part of parts) {
-    const match = part.match(/^\s*"?([^"<]*)"?\s*<?([^\s<>]+@[^\s<>]+?)>?\s*$/);
-    if (!match) continue;
-    const [, name, email] = match;
-    recipients.push({ name: name.trim(), email: email.trim().toLowerCase() });
+  for (const raw of parts) {
+    const part = raw.trim();
+    if (!part) continue;
+
+    const withName = part.match(/^"?([^"<]*)"?\s*<([^<>]+)>$/);
+    if (withName) {
+      const [, name, email] = withName;
+      if (email.includes("@")) {
+        recipients.push({ name: name.trim(), email: email.trim().toLowerCase() });
+      }
+      continue;
+    }
+
+    // Keine spitzen Klammern -> nackte Adresse ohne Anzeigename.
+    const bare = part.replace(/^"|"$/g, "").trim();
+    if (bare.includes("@")) {
+      recipients.push({ name: "", email: bare.toLowerCase() });
+    }
   }
   return recipients;
 }
