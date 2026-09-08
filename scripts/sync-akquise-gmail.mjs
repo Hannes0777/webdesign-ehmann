@@ -143,9 +143,14 @@ async function getDAVClient() {
 
 async function findList(client, displayName) {
   const calendars = await client.fetchCalendars();
-  const list = calendars.find((c) => c.displayName === displayName);
+  const list = calendars.find((c) => (c.displayName || "").trim() === displayName.trim());
   if (!list) {
-    throw new Error(`Reminders-Liste "${displayName}" wurde in iCloud nicht gefunden.`);
+    const available = calendars
+      .map((c) => `"${c.displayName}" (components: ${JSON.stringify(c.components)})`)
+      .join(", ");
+    throw new Error(
+      `Reminders-Liste "${displayName}" wurde in iCloud nicht gefunden. Verfügbare Listen: ${available || "(keine)"}`
+    );
   }
   return list;
 }
