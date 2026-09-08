@@ -96,7 +96,7 @@
       "abgelehnt": false
     },
     "1a03df737399b49a": {
-      "anfrage": false,
+      "anfrage": true,
       "in_kontakt": true,
       "abgelehnt": false
     },
@@ -131,6 +131,21 @@
       "abgelehnt": false
     },
     "19fc80ac1f7c4dec": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a062b89e891209f": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a0627d99467aeda": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a05eeb014f164f1": {
       "anfrage": false,
       "in_kontakt": false,
       "abgelehnt": false
