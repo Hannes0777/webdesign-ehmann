@@ -239,6 +239,26 @@ async function main() {
   }
 
   const davClient = await getDAVClient();
+
+  if (process.env.DEBUG_DUMP_REMINDERS === "1") {
+    const calendars = await davClient.fetchCalendars();
+    for (const cal of calendars) {
+      if (!(cal.components || []).includes("VTODO")) continue;
+      console.log(`--- Liste "${cal.displayName}" ---`);
+      const objects = await davClient.fetchCalendarObjects({ calendar: cal });
+      console.log(`  ${objects.length} Objekt(e)`);
+      for (const obj of objects.slice(0, 8)) {
+        const parsed = ical.parseICS(obj.data);
+        for (const key in parsed) {
+          const c = parsed[key];
+          if (c.type !== "VTODO") continue;
+          console.log(`  SUMMARY=${JSON.stringify(c.summary)} CATEGORIES=${JSON.stringify(c.categories)} RAW_SNIPPET=${obj.data.replace(/\r?\n/g, " | ").slice(0, 300)}`);
+        }
+      }
+    }
+    return;
+  }
+
   const anfrageList = await findList(davClient, LIST_ANFRAGE);
   const inKontaktList = await findList(davClient, LIST_IN_KONTAKT);
   const emailIndex = await buildEmailIndex(davClient, [anfrageList, inKontaktList]);
