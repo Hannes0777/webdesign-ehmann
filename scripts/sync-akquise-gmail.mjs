@@ -1,41 +1,40 @@
 #!/usr/bin/env node
 // Prüft gesendete Gmail-Mails auf die Labels "Firmen-Anfragen" und
-// "In_Kontakt" und gleicht das mit den Apple/iCloud-Reminders-Listen für die
-// Akquise ab (per CalDAV):
+// "Firmen-Anfragen/In_Kontakt" und pflegt daraus automatisch Einträge in
+// content/akquise/ (dieselbe Sammlung, die im CMS unter "🤝
+// Akquise-Tracking" und im Business-Dashboard unter "Akquise" angezeigt
+// wird, siehe admin/config.yml).
 //
-//  - Mail trägt "Firmen-Anfragen" (Erstkontakt) -> neue Erinnerung in der
-//    Liste "Anfrage" anlegen, falls die Firma noch nicht bekannt ist.
-//  - Mail trägt zusätzlich "In_Kontakt" -> die Erinnerung von "Anfrage" nach
-//    "In Kontakt" verschieben (bzw. direkt dort anlegen, falls noch nicht
-//    bekannt).
+// Ursprünglich sollte das direkt in Apple/iCloud Reminders schreiben (per
+// CalDAV) - iCloud liefert für den genutzten Account darüber aber keine
+// Reminders-Inhalte zurück (0 Objekte trotz vorhandener Einträge, vermutlich
+// wegen "Erweiterter Datenschutz"), daher dieser Weg über das ohnehin
+// vorhandene Akquise-Tracking im Dashboard.
 //
-// "Kunden Ablehnung" bleibt bewusst manuell, dafür gibt es kein Gmail-Label -
-// eine Absage lässt sich aus einer E-Mail nicht zuverlässig automatisch
-// erkennen. Wird per GitHub Actions regelmäßig aufgerufen, siehe
-// .github/workflows/akquise-gmail-sync.yml.
+//  - Mail mit Label "Firmen-Anfragen" gesendet, Firma noch nicht erfasst
+//    -> neuer Akquise-Eintrag mit Status "Kontaktiert"
+//  - Mail zusätzlich mit Label "Firmen-Anfragen/In_Kontakt" gesendet
+//    -> bestehender Eintrag bekommt "antwort_am" gesetzt + Notiz-Zeile
+//       (bzw. wird neu angelegt, falls noch nicht erfasst)
+//
+// "Verworfen" (Absage) bleibt bewusst manuell - dafür gibt es kein
+// Gmail-Label, und ob eine Antwort eine Absage ist, lässt sich aus dem
+// Mailtext nicht zuverlässig automatisch entscheiden. Wird per GitHub
+// Actions regelmäßig aufgerufen, siehe .github/workflows/akquise-gmail-sync.yml.
 
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
-import crypto from "node:crypto";
 import { google } from "googleapis";
-import { createDAVClient } from "tsdav";
-import ical from "node-ical";
 
 const STATE_FILE = path.join(process.cwd(), "content", "akquise-gmail-sync-state.json");
+const AKQUISE_DIR = path.join(process.cwd(), "content", "akquise");
 
 const GMAIL_CLIENT_ID = requireEnv("GMAIL_CLIENT_ID");
 const GMAIL_CLIENT_SECRET = requireEnv("GMAIL_CLIENT_SECRET");
 const GMAIL_REFRESH_TOKEN = requireEnv("GMAIL_REFRESH_TOKEN");
 
-const ICLOUD_APPLE_ID = requireEnv("ICLOUD_APPLE_ID");
-const ICLOUD_APP_PASSWORD = requireEnv("ICLOUD_APP_PASSWORD");
-
-const LIST_ANFRAGE = process.env.ICLOUD_LIST_ANFRAGE || "Anfrage";
-const LIST_IN_KONTAKT = process.env.ICLOUD_LIST_IN_KONTAKT || "In Kontakt";
-
 const GMAIL_LABEL_ANFRAGE = process.env.GMAIL_LABEL_ANFRAGE || "Firmen-Anfragen";
-// Gmail benennt ein Unterlabel intern als "Elternlabel/Kindlabel" - "In_Kontakt"
-// hängt in Gmail unter "Firmen-Anfragen", heißt über die API also so.
+// Gmail benennt ein Unterlabel intern als "Elternlabel/Kindlabel".
 const GMAIL_LABEL_IN_KONTAKT = process.env.GMAIL_LABEL_IN_KONTAKT || "Firmen-Anfragen/In_Kontakt";
 
 // Private/Freemail-Domains, die nicht als "Firma" gezählt werden sollen
@@ -101,103 +100,37 @@ function companyNameFor({ name, email }) {
   return base.charAt(0).toUpperCase() + base.slice(1);
 }
 
-function icsEscape(text) {
-  return String(text || "")
-    .replace(/\\/g, "\\\\")
-    .replace(/;/g, "\\;")
-    .replace(/,/g, "\\,")
-    .replace(/\n/g, "\\n");
+// Entspricht dem Standard-Slugify von Sveltia CMS für das Feld "firma"
+// (slug: "{{firma}}" in admin/config.yml), damit Dateinamen zusammenpassen.
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "") // Umlaute/Akzente entfernen
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "firma";
 }
 
-function formatICSDate(date) {
-  return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-}
-
-function buildReminderICS({ uid, summary, description }) {
-  const now = formatICSDate(new Date());
-  return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Webdesign Ehmann//Akquise Gmail Sync//DE",
-    "BEGIN:VTODO",
-    `UID:${uid}`,
-    `DTSTAMP:${now}`,
-    `CREATED:${now}`,
-    `SUMMARY:${icsEscape(summary)}`,
-    `DESCRIPTION:${icsEscape(description)}`,
-    "STATUS:NEEDS-ACTION",
-    "END:VTODO",
-    "END:VCALENDAR",
-    "",
-  ].join("\r\n");
-}
-
-async function getDAVClient() {
-  return createDAVClient({
-    serverUrl: "https://caldav.icloud.com",
-    credentials: { username: ICLOUD_APPLE_ID, password: ICLOUD_APP_PASSWORD },
-    authMethod: "Basic",
-    defaultAccountType: "caldav",
-  });
-}
-
-async function findList(client, displayName) {
-  const calendars = await client.fetchCalendars();
-  const list = calendars.find((c) => (c.displayName || "").trim() === displayName.trim());
-  if (!list) {
-    const available = calendars
-      .map((c) => `"${c.displayName}" (components: ${JSON.stringify(c.components)})`)
-      .join(", ");
-    throw new Error(
-      `Reminders-Liste "${displayName}" wurde in iCloud nicht gefunden. Verfügbare Listen: ${available || "(keine)"}`
-    );
-  }
-  return list;
-}
-
-function extractEmail(description) {
-  const match = (description || "").match(/E-Mail:\s*([^\s\\]+@[^\s\\]+)/i);
-  return match ? match[1].toLowerCase() : null;
-}
-
-// Baut einen Index E-Mail-Adresse -> { list, url, etag, summary, description }
-// über alle übergebenen Reminders-Listen, um Duplikate zu vermeiden und beim
-// Verschieben das richtige Objekt zu finden.
-async function buildEmailIndex(client, lists) {
-  const index = new Map();
-  for (const list of lists) {
-    const objects = await client.fetchCalendarObjects({ calendar: list });
-    for (const obj of objects) {
-      try {
-        const parsed = ical.parseICS(obj.data);
-        for (const key in parsed) {
-          const component = parsed[key];
-          if (component.type !== "VTODO") continue;
-          const email = extractEmail(component.description);
-          if (!email) continue;
-          index.set(email, {
-            list,
-            url: obj.url,
-            etag: obj.etag,
-            summary: component.summary,
-            description: component.description,
-          });
-        }
-      } catch (err) {
-        console.log(`⚠ Konnte Erinnerung nicht parsen: ${err.message}`);
-      }
+async function loadAkquiseEntries() {
+  await mkdir(AKQUISE_DIR, { recursive: true });
+  const files = (await readdir(AKQUISE_DIR)).filter((f) => f.endsWith(".json"));
+  const entries = new Map();
+  for (const file of files) {
+    try {
+      const data = JSON.parse(await readFile(path.join(AKQUISE_DIR, file), "utf8"));
+      entries.set(file.replace(/\.json$/, ""), data);
+    } catch (err) {
+      console.log(`⚠ Konnte ${file} nicht lesen: ${err.message}`);
     }
   }
-  return index;
+  return entries;
 }
 
-async function createReminder(client, list, { summary, description }) {
-  const uid = crypto.randomUUID();
-  await client.createCalendarObject({
-    calendar: list,
-    filename: `${uid}.ics`,
-    iCalString: buildReminderICS({ uid, summary, description }),
-  });
+async function writeAkquiseEntry(slug, data) {
+  await writeFile(path.join(AKQUISE_DIR, `${slug}.json`), JSON.stringify(data, null, 2) + "\n");
+}
+
+function isoDate(date) {
+  return date.toISOString().split(".")[0] + "Z";
 }
 
 async function getLabelIdMap(gmail) {
@@ -238,33 +171,9 @@ async function main() {
     return;
   }
 
-  const davClient = await getDAVClient();
-
-  if (process.env.DEBUG_DUMP_REMINDERS === "1") {
-    const calendars = await davClient.fetchCalendars();
-    for (const cal of calendars) {
-      if (!(cal.components || []).includes("VTODO")) continue;
-      console.log(`--- Liste "${cal.displayName}" ---`);
-      const objects = await davClient.fetchCalendarObjects({ calendar: cal });
-      console.log(`  ${objects.length} Objekt(e)`);
-      for (const obj of objects.slice(0, 8)) {
-        const parsed = ical.parseICS(obj.data);
-        for (const key in parsed) {
-          const c = parsed[key];
-          if (c.type !== "VTODO") continue;
-          console.log(`  SUMMARY=${JSON.stringify(c.summary)} CATEGORIES=${JSON.stringify(c.categories)} RAW_SNIPPET=${obj.data.replace(/\r?\n/g, " | ").slice(0, 300)}`);
-        }
-      }
-    }
-    return;
-  }
-
-  const anfrageList = await findList(davClient, LIST_ANFRAGE);
-  const inKontaktList = await findList(davClient, LIST_IN_KONTAKT);
-  const emailIndex = await buildEmailIndex(davClient, [anfrageList, inKontaktList]);
-
+  const entries = await loadAkquiseEntries();
   let created = 0;
-  let moved = 0;
+  let updated = 0;
 
   for (const m of newMessages) {
     processedIds.add(m.id);
@@ -291,42 +200,43 @@ async function main() {
       if (!domain || FREEMAIL_DOMAINS.has(domain)) continue;
       if (recipient.email === ownEmail) continue;
 
-      const existing = emailIndex.get(recipient.email);
+      const company = companyNameFor(recipient);
+      const slug = slugify(company);
+      const existing = entries.get(slug);
 
       if (hasInKontaktLabel) {
-        if (existing && existing.list.displayName === LIST_IN_KONTAKT) continue; // schon dort
-
-        const company = existing ? existing.summary : companyNameFor(recipient);
-        const description = [
-          `E-Mail: ${recipient.email}`,
-          existing ? existing.description.replace(/\\n/g, "\n") : `Zuerst kontaktiert am ${eventDate.toLocaleDateString("de-DE")}`,
-          `In Kontakt seit ${eventDate.toLocaleDateString("de-DE")} (automatisch per Gmail-Label "${GMAIL_LABEL_IN_KONTAKT}").`,
-        ].join("\n");
-
-        if (existing) {
-          await davClient.deleteCalendarObject({ calendarObject: { url: existing.url, etag: existing.etag } });
-        }
-        await createReminder(davClient, inKontaktList, { summary: company, description });
-        emailIndex.set(recipient.email, { list: inKontaktList, summary: company, description });
-        moved++;
-        console.log(`✓ Nach "${LIST_IN_KONTAKT}" verschoben: ${company} (${recipient.email})`);
+        const entry = existing || {
+          firma: company,
+          status: "Kontaktiert",
+          quelle: "Automatisch vorgeschlagen",
+          angeschrieben_am: isoDate(eventDate),
+          antwort_status: "—",
+          notiz: `Automatisch angelegt aus gesendeter Gmail-Mail. E-Mail: ${recipient.email}`,
+        };
+        entry.antwort_am = isoDate(eventDate);
+        entry.notiz = `${entry.notiz}\nIm Kontakt seit ${eventDate.toLocaleDateString("de-DE")} (automatisch per Gmail-Label "${GMAIL_LABEL_IN_KONTAKT}").`;
+        await writeAkquiseEntry(slug, entry);
+        entries.set(slug, entry);
+        if (existing) updated++; else created++;
+        console.log(`✓ In Kontakt: ${company} (${recipient.email})`);
         continue;
       }
 
       if (hasAnfrageLabel) {
-        if (existing) continue; // schon irgendwo erfasst
+        if (existing) continue; // schon erfasst
 
-        const company = companyNameFor(recipient);
-        const description = [
-          `E-Mail: ${recipient.email}`,
-          `Zuerst kontaktiert am ${eventDate.toLocaleDateString("de-DE")}`,
-          `Automatisch angelegt aus gesendeter Gmail-Mail (Label "${GMAIL_LABEL_ANFRAGE}").`,
-        ].join("\n");
-
-        await createReminder(davClient, anfrageList, { summary: company, description });
-        emailIndex.set(recipient.email, { list: anfrageList, summary: company, description });
+        const entry = {
+          firma: company,
+          status: "Kontaktiert",
+          quelle: "Automatisch vorgeschlagen",
+          angeschrieben_am: isoDate(eventDate),
+          antwort_status: "—",
+          notiz: `Automatisch angelegt aus gesendeter Gmail-Mail (Label "${GMAIL_LABEL_ANFRAGE}"). E-Mail: ${recipient.email}`,
+        };
+        await writeAkquiseEntry(slug, entry);
+        entries.set(slug, entry);
         created++;
-        console.log(`✓ Neue Erinnerung angelegt: ${company} (${recipient.email})`);
+        console.log(`✓ Neuer Akquise-Eintrag: ${company} (${recipient.email})`);
       }
     }
   }
@@ -334,7 +244,7 @@ async function main() {
   state.processed_message_ids = Array.from(processedIds);
   await saveState(state);
 
-  console.log(`Fertig. ${created} neue Erinnerung(en), ${moved} verschoben, ${newMessages.length} Mail(s) geprüft.`);
+  console.log(`Fertig. ${created} neue(r) Eintrag/Einträge, ${updated} aktualisiert, ${newMessages.length} Mail(s) geprüft.`);
 }
 
 main().catch((err) => {
