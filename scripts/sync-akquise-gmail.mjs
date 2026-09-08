@@ -1,26 +1,27 @@
 #!/usr/bin/env node
-// Prüft gesendete Gmail-Mails auf die Labels "Firmen-Anfragen" und
-// "Firmen-Anfragen/In_Kontakt" und pflegt daraus automatisch Einträge in
-// content/akquise/ (dieselbe Sammlung, die im CMS unter "🤝
-// Akquise-Tracking" und im Business-Dashboard unter "Akquise" angezeigt
-// wird, siehe admin/config.yml).
+// Prüft gesendete Gmail-Mails auf die Labels "Firmen-Anfragen",
+// "Firmen-Anfragen/In_Kontakt" und "Firmen-Anfragen/Abgelehnt" und pflegt
+// daraus automatisch Einträge in content/akquise/ (dieselbe Sammlung, die
+// im CMS unter "🤝 Akquise-Tracking" und im Business-Dashboard unter
+// "Akquise" angezeigt wird, siehe admin/config.yml).
 //
 // Ursprünglich sollte das direkt in Apple/iCloud Reminders schreiben (per
 // CalDAV) - iCloud liefert für den genutzten Account darüber aber keine
-// Reminders-Inhalte zurück (0 Objekte trotz vorhandener Einträge, vermutlich
-// wegen "Erweiterter Datenschutz"), daher dieser Weg über das ohnehin
+// Reminders-Inhalte zurück (0 Objekte trotz vorhandener Einträge, wegen
+// aktiviertem "Erweiterter Datenschutz"), daher dieser Weg über das ohnehin
 // vorhandene Akquise-Tracking im Dashboard.
 //
 //  - Mail mit Label "Firmen-Anfragen" gesendet, Firma noch nicht erfasst
 //    -> neuer Akquise-Eintrag mit Status "Kontaktiert"
 //  - Mail zusätzlich mit Label "Firmen-Anfragen/In_Kontakt" gesendet
-//    -> bestehender Eintrag bekommt "antwort_am" gesetzt + Notiz-Zeile
-//       (bzw. wird neu angelegt, falls noch nicht erfasst)
+//    -> bestehender Eintrag bekommt antwort_status "Positiv" + antwort_am
+//       gesetzt + Notiz-Zeile (bzw. wird neu angelegt, falls noch nicht
+//       erfasst)
+//  - Mail mit Label "Firmen-Anfragen/Abgelehnt" gesendet
+//    -> Eintrag bekommt Status "Verworfen" + antwort_status "Absage"
 //
-// "Verworfen" (Absage) bleibt bewusst manuell - dafür gibt es kein
-// Gmail-Label, und ob eine Antwort eine Absage ist, lässt sich aus dem
-// Mailtext nicht zuverlässig automatisch entscheiden. Wird per GitHub
-// Actions regelmäßig aufgerufen, siehe .github/workflows/akquise-gmail-sync.yml.
+// Wird per GitHub Actions regelmäßig aufgerufen, siehe
+// .github/workflows/akquise-gmail-sync.yml.
 
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
@@ -36,6 +37,7 @@ const GMAIL_REFRESH_TOKEN = requireEnv("GMAIL_REFRESH_TOKEN");
 const GMAIL_LABEL_ANFRAGE = process.env.GMAIL_LABEL_ANFRAGE || "Firmen-Anfragen";
 // Gmail benennt ein Unterlabel intern als "Elternlabel/Kindlabel".
 const GMAIL_LABEL_IN_KONTAKT = process.env.GMAIL_LABEL_IN_KONTAKT || "Firmen-Anfragen/In_Kontakt";
+const GMAIL_LABEL_ABGELEHNT = process.env.GMAIL_LABEL_ABGELEHNT || "Firmen-Anfragen/Abgelehnt";
 
 // Private/Freemail-Domains, die nicht als "Firma" gezählt werden sollen
 // (z.B. falls eine private Adresse versehentlich im To/Cc mit auftaucht).
@@ -171,16 +173,26 @@ async function main() {
   const labelMap = await getLabelIdMap(gmail);
   const anfrageLabelId = labelMap.get(GMAIL_LABEL_ANFRAGE);
   const inKontaktLabelId = labelMap.get(GMAIL_LABEL_IN_KONTAKT);
+  const abgelehntLabelId = labelMap.get(GMAIL_LABEL_ABGELEHNT);
   if (!anfrageLabelId) throw new Error(`Gmail-Label "${GMAIL_LABEL_ANFRAGE}" wurde nicht gefunden.`);
   if (!inKontaktLabelId) throw new Error(`Gmail-Label "${GMAIL_LABEL_IN_KONTAKT}" wurde nicht gefunden.`);
+  if (!abgelehntLabelId) throw new Error(`Gmail-Label "${GMAIL_LABEL_ABGELEHNT}" wurde nicht gefunden.`);
 
-  const listRes = await gmail.users.messages.list({
-    userId: "me",
-    q: `in:sent (label:"${GMAIL_LABEL_ANFRAGE}" OR label:"${GMAIL_LABEL_IN_KONTAKT}")`,
-    maxResults: 30,
-  });
+  // Alle Seiten abholen statt nur die neuesten - sonst werden ältere
+  // gelabelte Mails nie erreicht, weil sie hinter neueren "verschwinden".
+  const messages = [];
+  let pageToken;
+  do {
+    const listRes = await gmail.users.messages.list({
+      userId: "me",
+      q: `in:sent (label:"${GMAIL_LABEL_ANFRAGE}" OR label:"${GMAIL_LABEL_IN_KONTAKT}" OR label:"${GMAIL_LABEL_ABGELEHNT}")`,
+      maxResults: 100,
+      pageToken,
+    });
+    messages.push(...(listRes.data.messages || []));
+    pageToken = listRes.data.nextPageToken;
+  } while (pageToken);
 
-  const messages = listRes.data.messages || [];
   const newMessages = messages.filter((m) => !processedIds.has(m.id));
 
   if (newMessages.length === 0) {
@@ -206,6 +218,7 @@ async function main() {
     const labelIds = full.data.labelIds || [];
     const hasAnfrageLabel = labelIds.includes(anfrageLabelId);
     const hasInKontaktLabel = labelIds.includes(inKontaktLabelId);
+    const hasAbgelehntLabel = labelIds.includes(abgelehntLabelId);
 
     const toHeader = getHeader(headers, "To");
     if (!toHeader) continue;
@@ -222,15 +235,31 @@ async function main() {
       const slug = slugify(company);
       const existing = entries.get(slug);
 
+      const blankEntry = () => ({
+        firma: company,
+        status: "Kontaktiert",
+        quelle: "Automatisch vorgeschlagen",
+        angeschrieben_am: isoDate(eventDate),
+        antwort_status: "—",
+        notiz: `Automatisch angelegt aus gesendeter Gmail-Mail. E-Mail: ${recipient.email}`,
+      });
+
+      if (hasAbgelehntLabel) {
+        const entry = existing || blankEntry();
+        entry.status = "Verworfen";
+        entry.antwort_status = "Absage";
+        entry.antwort_am = isoDate(eventDate);
+        entry.notiz = `${entry.notiz}\nAbgelehnt am ${eventDate.toLocaleDateString("de-DE")} (automatisch per Gmail-Label "${GMAIL_LABEL_ABGELEHNT}").`;
+        await writeAkquiseEntry(slug, entry);
+        entries.set(slug, entry);
+        if (existing) updated++; else created++;
+        console.log(`✓ Abgelehnt: ${company} (${recipient.email})`);
+        continue;
+      }
+
       if (hasInKontaktLabel) {
-        const entry = existing || {
-          firma: company,
-          status: "Kontaktiert",
-          quelle: "Automatisch vorgeschlagen",
-          angeschrieben_am: isoDate(eventDate),
-          antwort_status: "—",
-          notiz: `Automatisch angelegt aus gesendeter Gmail-Mail. E-Mail: ${recipient.email}`,
-        };
+        const entry = existing || blankEntry();
+        entry.antwort_status = "Positiv";
         entry.antwort_am = isoDate(eventDate);
         entry.notiz = `${entry.notiz}\nIm Kontakt seit ${eventDate.toLocaleDateString("de-DE")} (automatisch per Gmail-Label "${GMAIL_LABEL_IN_KONTAKT}").`;
         await writeAkquiseEntry(slug, entry);
@@ -243,14 +272,8 @@ async function main() {
       if (hasAnfrageLabel) {
         if (existing) continue; // schon erfasst
 
-        const entry = {
-          firma: company,
-          status: "Kontaktiert",
-          quelle: "Automatisch vorgeschlagen",
-          angeschrieben_am: isoDate(eventDate),
-          antwort_status: "—",
-          notiz: `Automatisch angelegt aus gesendeter Gmail-Mail (Label "${GMAIL_LABEL_ANFRAGE}"). E-Mail: ${recipient.email}`,
-        };
+        const entry = blankEntry();
+        entry.notiz = `Automatisch angelegt aus gesendeter Gmail-Mail (Label "${GMAIL_LABEL_ANFRAGE}"). E-Mail: ${recipient.email}`;
         await writeAkquiseEntry(slug, entry);
         entries.set(slug, entry);
         created++;
