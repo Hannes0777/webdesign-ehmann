@@ -526,6 +526,8 @@
   }
   .event-dot.post { background: var(--amber); }
   .event-dot.calendar { background: var(--sky); }
+  .event-dot.calendar-google { background: var(--jade); }
+  .event-dot.calendar-apple { background: var(--violet); }
   .event-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
 
   .loading { color: var(--mist); text-align: center; padding: 1rem; }
@@ -671,8 +673,9 @@
 
         <div id="tab-calendar" class="tab-panel">
           <h2>Kalender</h2>
-          <div style="display:flex; gap:1rem; font-size:0.85rem; color:var(--mist); margin-bottom:0.8rem;">
-            <span><span class="event-dot calendar"></span> Termine</span>
+          <div style="display:flex; gap:1rem; font-size:0.85rem; color:var(--mist); margin-bottom:0.8rem; flex-wrap:wrap;">
+            <span><span class="event-dot calendar-google"></span> Google Kalender</span>
+            <span><span class="event-dot calendar-apple"></span> Apple Kalender</span>
             <span><span class="event-dot post"></span> Social-Media-Beiträge</span>
           </div>
           <div class="card">
@@ -888,10 +891,14 @@
     if (calendar?.events) {
       const nextEvents = calendar.events.filter(e => new Date(e.start) > new Date()).slice(0, 5);
       if (nextEvents.length > 0) {
+        const sourceLabel = { google: "Google", apple: "Apple" };
+        const sourceDot = { google: "calendar-google", apple: "calendar-apple" };
         const list = nextEvents.map(e => `
           <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
-            <div style="font-weight: 600; font-size: 0.9rem;">${e.titel}</div>
-            <div style="font-size: 0.8rem; color: var(--mist);">${new Date(e.start).toLocaleString("de-DE")}</div>
+            <div style="font-weight: 600; font-size: 0.9rem;">
+              <span class="event-dot ${sourceDot[e.quelle] || "calendar"}"></span>${e.titel}
+            </div>
+            <div style="font-size: 0.8rem; color: var(--mist);">${new Date(e.start).toLocaleString("de-DE")}${sourceLabel[e.quelle] ? " · " + sourceLabel[e.quelle] : ""}</div>
           </div>
         `).join("");
         document.getElementById("next-events").innerHTML = list;
@@ -1014,7 +1021,8 @@
       if (!e.start) return;
       const dateKey = e.start.split("T")[0];
       if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
-      eventsByDate[dateKey].push({ type: "calendar", label: e.titel });
+      const type = e.quelle === "apple" ? "calendar-apple" : e.quelle === "google" ? "calendar-google" : "calendar";
+      eventsByDate[dateKey].push({ type, label: e.titel });
     });
     (posts || []).forEach(p => {
       if (!p.geplant_fuer) return;
