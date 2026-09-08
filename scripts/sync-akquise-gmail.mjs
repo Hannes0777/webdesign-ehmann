@@ -188,9 +188,12 @@ async function main() {
   const messages = [];
   let pageToken;
   do {
+    // Kein "in:sent"-Filter: "Firmen-Anfragen" markierst du an einer
+    // gesendeten Mail, "Abgelehnt" aber typischerweise an der eingehenden
+    // Absage-Antwort der Firma - beide Richtungen müssen erfasst werden.
     const listRes = await gmail.users.messages.list({
       userId: "me",
-      q: `in:sent (label:"${GMAIL_LABEL_ANFRAGE}" OR label:"${GMAIL_LABEL_IN_KONTAKT}" OR label:"${GMAIL_LABEL_ABGELEHNT}")`,
+      q: `(label:"${GMAIL_LABEL_ANFRAGE}" OR label:"${GMAIL_LABEL_IN_KONTAKT}" OR label:"${GMAIL_LABEL_ABGELEHNT}")`,
       maxResults: 100,
       pageToken,
     });
@@ -231,8 +234,12 @@ async function main() {
     const hasInKontaktLabel = labelIds.includes(inKontaktLabelId);
     const hasAbgelehntLabel = labelIds.includes(abgelehntLabelId);
 
-    const toHeader = getHeader(headers, "To");
-    if (!toHeader) {
+    // Bei einer gesendeten Mail zählt die Empfänger-Adresse (To) als Firma,
+    // bei einer eingegangenen Mail (z.B. die Absage der Firma) die
+    // Absender-Adresse (From).
+    const isSent = labelIds.includes("SENT");
+    const relevantHeader = getHeader(headers, isSent ? "To" : "From");
+    if (!relevantHeader) {
       state.message_actions[m.id] = done;
       continue;
     }
@@ -240,7 +247,7 @@ async function main() {
     const dateHeader = getHeader(headers, "Date");
     const eventDate = dateHeader ? new Date(dateHeader) : new Date();
 
-    for (const recipient of parseRecipients(toHeader)) {
+    for (const recipient of parseRecipients(relevantHeader)) {
       const domain = recipient.email.split("@")[1];
       if (!domain || FREEMAIL_DOMAINS.has(domain)) continue;
       if (recipient.email === ownEmail) continue;
