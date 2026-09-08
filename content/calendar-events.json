@@ -1,4 +1,717 @@
 {
-  "updated_at": "2026-09-08T09:35:15.211Z",
-  "events": []
+  "updated_at": "2026-09-08T09:41:17.402Z",
+  "events": [
+    {
+      "quelle": "apple",
+      "titel": "SGM TSV Althütte/SV Unterweissach - SV Allmersbach II B-Junioren",
+      "start": "2024-06-29T10:30:00.000Z",
+      "ende": "2024-06-29T12:00:00.000Z",
+      "ganztags": false,
+      "ort": "Jägerhalde\n71554 Weissach im Tal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SGM TSV Lippoldsweiler / TSV Oberbrüden - Auenwald - SV Allmersbach II A-Junioren",
+      "start": "2025-05-10T14:30:00.000Z",
+      "ende": "2025-05-10T16:15:00.000Z",
+      "ganztags": false,
+      "ort": "Jahnstr.\n71549 Auenwald"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Allmersbach II - SV Steinbach A-Junioren",
+      "start": "2025-05-17T16:00:00.000Z",
+      "ende": "2025-05-17T17:45:00.000Z",
+      "ganztags": false,
+      "ort": "Bildäcker 1\n71573 Allmersbach im Tal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SGM Stetten + Rommelshausen II - SV Allmersbach II A-Junioren",
+      "start": "2025-05-24T14:30:00.000Z",
+      "ende": "2025-05-24T16:15:00.000Z",
+      "ganztags": false,
+      "ort": "Am Sportplatz 4\n71394 Kernen im Remstal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Praktische Prüfung",
+      "start": "2025-06-23T05:30:00.000Z",
+      "ende": "2025-06-23T06:25:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "SGV Murr - SV Allmersbach I A-Junioren",
+      "start": "2025-09-06T16:00:00.000Z",
+      "ende": "2025-09-06T17:40:00.000Z",
+      "ganztags": false,
+      "ort": "Hermannsplatz 1\n71711 Murr"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Allmersbach I - SGM TSV Michelfeld/Juniorteam MMB A-Junioren",
+      "start": "2025-09-08T17:30:00.000Z",
+      "ende": "2025-09-08T19:10:00.000Z",
+      "ganztags": false,
+      "ort": "Bildäcker 1\n71573 Allmersbach im Tal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SGM SSV Steinach / Hertmannsweiler - SV Allmersbach I A-Junioren",
+      "start": "2025-09-12T17:00:00.000Z",
+      "ende": "2025-09-12T18:40:00.000Z",
+      "ganztags": false,
+      "ort": "Bruckwiesenstr.\n71364 Winnenden"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Allmersbach I - TV Nellingen I A-Junioren",
+      "start": "2025-09-13T15:00:00.000Z",
+      "ende": "2025-09-13T16:40:00.000Z",
+      "ganztags": false,
+      "ort": "Bildäcker 1\n71573 Allmersbach im Tal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Linus Geburtstag ",
+      "start": "2025-09-13T17:00:00.000Z",
+      "ende": "2025-09-13T18:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "FV Löchgau II - SV Allmersbach I A-Junioren",
+      "start": "2025-09-17T16:30:00.000Z",
+      "ende": "2025-09-17T18:45:00.000Z",
+      "ganztags": false,
+      "ort": "Am Sportplatz 1\n74369 Löchgau"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Friseur ",
+      "start": "2025-09-18T14:00:00.000Z",
+      "ende": "2025-09-18T15:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Unterkunft: Gästehaus Tante Tienchen 7 Minuten zu Fuss zum Europa Park , plus kostenloses Parkplatzticket Rulantica ,alle unsere Suiten haben einen Balkon",
+      "start": "2025-10-27T00:00:00.000Z",
+      "ende": "2025-10-29T00:00:00.000Z",
+      "ganztags": false,
+      "ort": "Gästehaus Tante Tienchen 7 Minuten zu Fuss zum Europa Park , plus kostenloses Parkplatzticket Rulantica ,alle unsere Suiten haben einen Balkon\nLudwigstr.27 77977 Rust Deutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Wk KA1",
+      "start": "2025-12-01T10:00:00.000Z",
+      "ende": "2025-12-01T11:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Dw Lbt ",
+      "start": "2025-12-03T13:00:00.000Z",
+      "ende": "2025-12-03T14:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Unterweissach - Hallenturnier Herren bis 15:45 Uhr Herren",
+      "start": "2026-01-17T10:00:00.000Z",
+      "ende": "2026-01-17T11:40:00.000Z",
+      "ganztags": false,
+      "ort": "Place de Marly 1\n71554 Weissach im Tal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Wk KA2",
+      "start": "2026-04-27T09:00:00.000Z",
+      "ende": "2026-04-27T10:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training SVU",
+      "start": "2026-05-15T07:00:00.000Z",
+      "ende": "2026-05-15T08:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Fitness + Kündigung ",
+      "start": "2026-06-12T19:00:00.000Z",
+      "ende": "2026-06-12T20:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Apple TV kündigen ",
+      "start": "2026-06-12T19:00:00.000Z",
+      "ende": "2026-06-12T20:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - VfR Birkmannsweiler Herren",
+      "start": "2026-07-19T13:00:00.000Z",
+      "ende": "2026-07-19T14:40:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-07-20T17:00:00.000Z",
+      "ende": "2026-07-20T18:30:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-07-21T17:30:00.000Z",
+      "ende": "2026-07-21T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-07-23T17:30:00.000Z",
+      "ende": "2026-07-23T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - TV Weiler/Rems Herren",
+      "start": "2026-07-25T10:00:00.000Z",
+      "ende": "2026-07-25T11:40:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-07-28T17:30:00.000Z",
+      "ende": "2026-07-28T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Überraschung ",
+      "start": "2026-07-29T13:20:00.000Z",
+      "ende": "2026-07-29T21:20:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Spiderman",
+      "start": "2026-07-29T16:00:00.000Z",
+      "ende": "2026-07-29T17:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Neues Ereignis",
+      "start": "2026-07-30T06:30:00.000Z",
+      "ende": "2026-07-30T08:30:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-07-31T17:30:00.000Z",
+      "ende": "2026-07-31T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Maxine Geburtstag ",
+      "start": "2026-08-01T18:00:00.000Z",
+      "ende": "2026-08-02T01:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Hertmannsweiler - TSV Rudersberg Herren",
+      "start": "2026-08-02T13:00:00.000Z",
+      "ende": "2026-08-02T14:40:00.000Z",
+      "ganztags": false,
+      "ort": "Bruckwiesenstr.\n71364 Winnenden"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-08-04T17:30:00.000Z",
+      "ende": "2026-08-04T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-08-06T17:30:00.000Z",
+      "ende": "2026-08-06T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-08-07T17:30:00.000Z",
+      "ende": "2026-08-07T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Bodensee",
+      "start": "2026-08-08T05:00:00.000Z",
+      "ende": "2026-08-09T06:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SV Remshalden Herren",
+      "start": "2026-08-09T13:00:00.000Z",
+      "ende": "2026-08-09T14:40:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Omron Schulung ",
+      "start": "2026-08-11T05:00:00.000Z",
+      "ende": "2026-08-11T13:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-08-11T17:30:00.000Z",
+      "ende": "2026-08-11T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Antrag Schreiben ",
+      "start": "2026-08-13T00:00:00.000Z",
+      "ende": "2026-08-15T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Feedback Gespräch ",
+      "start": "2026-08-13T12:00:00.000Z",
+      "ende": "2026-08-13T13:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Training ",
+      "start": "2026-08-13T17:30:00.000Z",
+      "ende": "2026-08-13T19:00:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg 19\n73635 Rudersberg\nDeutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Pokal ",
+      "start": "2026-08-16T11:00:00.000Z",
+      "ende": "2026-08-16T12:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Österreich ",
+      "start": "2026-08-18T00:00:00.000Z",
+      "ende": "2026-08-23T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Festival ",
+      "start": "2026-08-28T17:00:00.000Z",
+      "ende": "2026-08-28T18:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Festival Arbeiten ",
+      "start": "2026-08-29T21:00:00.000Z",
+      "ende": "2026-08-29T23:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SV Allmersbach II Herren",
+      "start": "2026-08-30T13:00:00.000Z",
+      "ende": "2026-08-30T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Antrag hochladen mit Hergül ",
+      "start": "2026-08-31T09:00:00.000Z",
+      "ende": "2026-08-31T10:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Foto ",
+      "start": "2026-09-03T07:20:00.000Z",
+      "ende": "2026-09-03T08:20:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Grillen ",
+      "start": "2026-09-03T09:30:00.000Z",
+      "ende": "2026-09-03T11:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Coaching ",
+      "start": "2026-09-04T06:00:00.000Z",
+      "ende": "2026-09-04T10:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Date ",
+      "start": "2026-09-04T16:00:00.000Z",
+      "ende": "2026-09-04T17:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Bauwagen mit Lina ",
+      "start": "2026-09-05T18:00:00.000Z",
+      "ende": "2026-09-05T19:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Unterweissach II - TSV Rudersberg Herren",
+      "start": "2026-09-06T10:45:00.000Z",
+      "ende": "2026-09-06T12:30:00.000Z",
+      "ganztags": false,
+      "ort": "Jägerhalde\n71554 Weissach im Tal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Theorie Lernen ",
+      "start": "2026-09-09T08:00:00.000Z",
+      "ende": "2026-09-09T10:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Theorie Lernen ",
+      "start": "2026-09-10T08:00:00.000Z",
+      "ende": "2026-09-10T10:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Freiheit ",
+      "start": "2026-09-12T00:00:00.000Z",
+      "ende": "2026-09-21T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SPVGG Kleinaspach Herren",
+      "start": "2026-09-13T13:00:00.000Z",
+      "ende": "2026-09-13T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Borg Warner Montage ",
+      "start": "2026-09-14T00:00:00.000Z",
+      "ende": "2026-09-18T00:00:00.000Z",
+      "ganztags": false,
+      "ort": "https://maps.app.goo.gl/V2xV4t1Gf7kfUiea9?g_st=ic"
+    },
+    {
+      "quelle": "apple",
+      "titel": "VfR Murrhardt - TSV Rudersberg Herren",
+      "start": "2026-09-20T13:00:00.000Z",
+      "ende": "2026-09-20T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Rudi-Gehring-Str. 21\n71540 Murrhardt"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Schweiz Montage ",
+      "start": "2026-09-21T00:00:00.000Z",
+      "ende": "2026-09-25T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Schule ",
+      "start": "2026-09-25T00:00:00.000Z",
+      "ende": "2026-09-26T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SV Spiegelberg Herren",
+      "start": "2026-09-27T13:00:00.000Z",
+      "ende": "2026-09-27T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "FV Sulzbach/Murr - TSV Rudersberg Herren",
+      "start": "2026-10-04T13:00:00.000Z",
+      "ende": "2026-10-04T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Jahnstr.\n71560 Sulzbach an der Murr"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Kabinendienst",
+      "start": "2026-10-05T00:00:00.000Z",
+      "ende": "2026-10-19T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - Grosser Alexander Backnang Herren",
+      "start": "2026-10-11T13:00:00.000Z",
+      "ende": "2026-10-11T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Justine Geburtstag ",
+      "start": "2026-10-16T00:00:00.000Z",
+      "ende": "2026-10-17T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "SGM SKG Erbstetten I/TSG Backnang II - TSV Rudersberg Herren",
+      "start": "2026-10-18T13:00:00.000Z",
+      "ende": "2026-10-18T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Nellmersbacher Str. 20\n71576 Burgstetten"
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - FSV Weiler zum Stein Herren",
+      "start": "2026-10-25T14:00:00.000Z",
+      "ende": "2026-10-25T15:45:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Doku Schreiben ",
+      "start": "2026-10-26T00:00:00.000Z",
+      "ende": "2026-11-03T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SG Oppenweiler II Herren",
+      "start": "2026-11-01T13:30:00.000Z",
+      "ende": "2026-11-01T15:15:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Messe ",
+      "start": "2026-11-06T10:00:00.000Z",
+      "ende": "2026-11-06T11:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Türk. SC Murrhardt - TSV Rudersberg Herren",
+      "start": "2026-11-08T13:30:00.000Z",
+      "ende": "2026-11-08T15:15:00.000Z",
+      "ganztags": false,
+      "ort": "Rudi-Gehring-Str. 21\n71540 Murrhardt"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Urlaub ",
+      "start": "2026-11-09T00:00:00.000Z",
+      "ende": "2026-11-10T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Prüfung Theorie ",
+      "start": "2026-11-10T00:00:00.000Z",
+      "ende": "2026-11-13T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SV Steinbach II Herren",
+      "start": "2026-11-15T13:30:00.000Z",
+      "ende": "2026-11-15T15:15:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Doku hochladen ",
+      "start": "2026-11-16T13:00:00.000Z",
+      "ende": "2026-11-16T13:20:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "SGM TSV Sulzbach-Laufen / TSF Gschwend - TSV Rudersberg Herren",
+      "start": "2026-11-22T14:15:00.000Z",
+      "ende": "2026-11-22T16:00:00.000Z",
+      "ganztags": false,
+      "ort": "Nestelberg\n74429 Sulzbach-Laufen"
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SK Fichtenberg Herren",
+      "start": "2026-11-29T13:30:00.000Z",
+      "ende": "2026-11-29T15:15:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Spanien ",
+      "start": "2026-12-01T00:00:00.000Z",
+      "ende": "2026-12-08T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Paris ",
+      "start": "2026-12-07T00:00:00.000Z",
+      "ende": "2026-12-09T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Allgäu ",
+      "start": "2026-12-18T00:00:00.000Z",
+      "ende": "2026-12-21T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Fachgespräch ",
+      "start": "2027-01-11T00:00:00.000Z",
+      "ende": "2027-01-30T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Allmersbach II - TSV Rudersberg Herren",
+      "start": "2027-02-21T13:30:00.000Z",
+      "ende": "2027-02-21T15:15:00.000Z",
+      "ganztags": false,
+      "ort": "Bildäcker 1\n71573 Allmersbach im Tal"
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - SV Unterweissach II Herren",
+      "start": "2027-02-28T13:30:00.000Z",
+      "ende": "2027-02-28T15:15:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SPVGG Kleinaspach - TSV Rudersberg Herren",
+      "start": "2027-03-07T14:00:00.000Z",
+      "ende": "2027-03-07T15:45:00.000Z",
+      "ganztags": false,
+      "ort": "Hardtwaldstr.\n71546 Aspach"
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - VfR Murrhardt Herren",
+      "start": "2027-03-14T14:00:00.000Z",
+      "ende": "2027-03-14T15:45:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "SV Spiegelberg - TSV Rudersberg Herren",
+      "start": "2027-03-21T14:00:00.000Z",
+      "ende": "2027-03-21T15:45:00.000Z",
+      "ganztags": false,
+      "ort": "Lerchenstr. 40\n71579 Spiegelberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "TSV Rudersberg - FV Sulzbach/Murr Herren",
+      "start": "2027-04-04T13:00:00.000Z",
+      "ende": "2027-04-04T14:45:00.000Z",
+      "ganztags": false,
+      "ort": "Kirchenackerweg\n73635 Rudersberg"
+    }
+  ]
 }
