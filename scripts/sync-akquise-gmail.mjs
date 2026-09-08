@@ -57,16 +57,22 @@ function requireEnv(name) {
 async function loadState() {
   try {
     const raw = await readFile(STATE_FILE, "utf8");
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    return { message_actions: parsed.message_actions || {} };
   } catch {
-    return { processed_message_ids: [] };
+    return { message_actions: {} };
   }
 }
 
 async function saveState(state) {
   await mkdir(path.dirname(STATE_FILE), { recursive: true });
-  // Nur die letzten 2000 IDs behalten, damit die Datei nicht unbegrenzt wächst.
-  state.processed_message_ids = state.processed_message_ids.slice(-2000);
+  // Abgeschlossene ("terminal", siehe main()) Einträge nicht unbegrenzt
+  // anhäufen lassen - nur die letzten 2000 behalten.
+  const ids = Object.keys(state.message_actions);
+  if (ids.length > 2000) {
+    const toDrop = ids.slice(0, ids.length - 2000);
+    for (const id of toDrop) delete state.message_actions[id];
+  }
   await writeFile(STATE_FILE, JSON.stringify(state, null, 2));
 }
 
@@ -164,7 +170,6 @@ async function main() {
   console.log("Prüfe gesendete Gmail-Mails auf Akquise-Labels...");
 
   const state = await loadState();
-  const processedIds = new Set(state.processed_message_ids);
   const gmail = getGmailClient();
 
   const profile = await gmail.users.getProfile({ userId: "me" });
@@ -193,10 +198,16 @@ async function main() {
     pageToken = listRes.data.nextPageToken;
   } while (pageToken);
 
-  const newMessages = messages.filter((m) => !processedIds.has(m.id));
+  // "Terminal" = Abgelehnt-Aktion schon ausgeführt - eine Absage wird
+  // erfahrungsgemäß nicht zurückgenommen, daher muss diese Mail nicht mehr
+  // erneut abgefragt werden. Alle anderen Mails werden JEDES Mal neu
+  // geprüft (nicht nur beim ersten Mal), weil ein Label wie "In_Kontakt"
+  // oder "Abgelehnt" oft nachträglich auf eine bereits bekannte Mail
+  // gesetzt wird, statt in einer neuen Mail zu erscheinen.
+  const toCheck = messages.filter((m) => !state.message_actions[m.id]?.abgelehnt);
 
-  if (newMessages.length === 0) {
-    console.log("Keine neuen gesendeten Mails mit Akquise-Label seit dem letzten Lauf.");
+  if (toCheck.length === 0) {
+    console.log("Keine offenen Mails mit Akquise-Label zu prüfen.");
     await saveState(state);
     return;
   }
@@ -205,8 +216,8 @@ async function main() {
   let created = 0;
   let updated = 0;
 
-  for (const m of newMessages) {
-    processedIds.add(m.id);
+  for (const m of toCheck) {
+    const done = state.message_actions[m.id] || { anfrage: false, in_kontakt: false, abgelehnt: false };
 
     const full = await gmail.users.messages.get({
       userId: "me",
@@ -221,7 +232,10 @@ async function main() {
     const hasAbgelehntLabel = labelIds.includes(abgelehntLabelId);
 
     const toHeader = getHeader(headers, "To");
-    if (!toHeader) continue;
+    if (!toHeader) {
+      state.message_actions[m.id] = done;
+      continue;
+    }
 
     const dateHeader = getHeader(headers, "Date");
     const eventDate = dateHeader ? new Date(dateHeader) : new Date();
@@ -244,7 +258,7 @@ async function main() {
         notiz: `Automatisch angelegt aus gesendeter Gmail-Mail. E-Mail: ${recipient.email}`,
       });
 
-      if (hasAbgelehntLabel) {
+      if (hasAbgelehntLabel && !done.abgelehnt) {
         const entry = existing || blankEntry();
         entry.status = "Verworfen";
         entry.antwort_status = "Absage";
@@ -253,11 +267,12 @@ async function main() {
         await writeAkquiseEntry(slug, entry);
         entries.set(slug, entry);
         if (existing) updated++; else created++;
+        done.abgelehnt = true;
         console.log(`✓ Abgelehnt: ${company} (${recipient.email})`);
         continue;
       }
 
-      if (hasInKontaktLabel) {
+      if (hasInKontaktLabel && !done.in_kontakt) {
         const entry = existing || blankEntry();
         entry.antwort_status = "Positiv";
         entry.antwort_am = isoDate(eventDate);
@@ -265,11 +280,13 @@ async function main() {
         await writeAkquiseEntry(slug, entry);
         entries.set(slug, entry);
         if (existing) updated++; else created++;
+        done.in_kontakt = true;
         console.log(`✓ In Kontakt: ${company} (${recipient.email})`);
         continue;
       }
 
-      if (hasAnfrageLabel) {
+      if (hasAnfrageLabel && !done.anfrage) {
+        done.anfrage = true;
         if (existing) continue; // schon erfasst
 
         const entry = blankEntry();
@@ -280,12 +297,13 @@ async function main() {
         console.log(`✓ Neuer Akquise-Eintrag: ${company} (${recipient.email})`);
       }
     }
+
+    state.message_actions[m.id] = done;
   }
 
-  state.processed_message_ids = Array.from(processedIds);
   await saveState(state);
 
-  console.log(`Fertig. ${created} neue(r) Eintrag/Einträge, ${updated} aktualisiert, ${newMessages.length} Mail(s) geprüft.`);
+  console.log(`Fertig. ${created} neue(r) Eintrag/Einträge, ${updated} aktualisiert, ${toCheck.length} Mail(s) geprüft.`);
 }
 
 main().catch((err) => {
