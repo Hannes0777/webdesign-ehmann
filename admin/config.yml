@@ -542,6 +542,81 @@ collections:
         default: '{{now}}'
 
   # ----------------------------------------------------------
+  #  PROJEKTE  (Business-Dashboard)
+  # ----------------------------------------------------------
+  - name: projekte
+    label: "📁 Projekte"
+    description: "Laufende Kundenprojekte mit Phase und Fortschritt — erscheinen als Fortschrittsbalken im Business-Dashboard."
+    folder: content/projekte
+    create: true
+    extension: json
+    format: json
+    slug: "{{name}}"
+    summary: "{{name}} — {{phase}}"
+    sortable_fields: ["phase", "fortschritt"]
+    fields:
+      - name: name
+        label: "Projektname"
+        widget: string
+      - name: phase
+        label: "Phase"
+        widget: select
+        options: ["Konzept", "Umsetzung", "Abnahme", "Abgeschlossen"]
+        default: "Konzept"
+      - name: fortschritt
+        label: "Fortschritt (%)"
+        widget: number
+        value_type: int
+        min: 0
+        max: 100
+        default: 0
+      - name: notiz
+        label: "Notiz (optional)"
+        widget: text
+        required: false
+
+  # ----------------------------------------------------------
+  #  ANFRAGEN  (Business-Dashboard)
+  # ----------------------------------------------------------
+  - name: anfragen
+    label: "📥 Anfragen"
+    description: "Eingegangene Anfragen (z.B. per Mail/Telefon) protokollieren — erscheinen als Inbox im Business-Dashboard."
+    folder: content/anfragen
+    create: true
+    extension: json
+    format: json
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{absender}} — {{betreff}}"
+    sortable_fields: ["eingegangen_am", "gelesen"]
+    view_filters:
+      - label: "Neu"
+        field: gelesen
+        pattern: false
+      - label: "Gelesen"
+        field: gelesen
+        pattern: true
+    fields:
+      - name: absender
+        label: "Absender / Firma"
+        widget: string
+      - name: betreff
+        label: "Betreff"
+        widget: string
+      - name: eingegangen_am
+        label: "Eingegangen am"
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        default: '{{now}}'
+      - name: gelesen
+        label: "Bereits gelesen"
+        widget: boolean
+        default: false
+      - name: notiz
+        label: "Notiz (optional)"
+        widget: text
+        required: false
+
+  # ----------------------------------------------------------
   #  RECHTLICHES  (Angaben fürs Impressum)
   # ----------------------------------------------------------
   - name: rechtliches
