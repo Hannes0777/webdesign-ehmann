@@ -2,32 +2,40 @@
 
 Ein GitHub-Actions-Workflow (`.github/workflows/akquise-gmail-sync.yml`) prüft
 alle 15 Minuten deine gesendeten Gmail-Mails mit den Labels
-**„Firmen-Anfragen"** und **„Firmen-Anfragen/In_Kontakt"** und pflegt daraus
-automatisch Einträge in der **Akquise-Liste** (`content/akquise/`) – dieselbe
-Liste, die im CMS unter „🤝 Akquise-Tracking" und im Business-Dashboard unter
-„Akquise" zu sehen ist:
+**„Firmen-Anfragen"**, **„Firmen-Anfragen/In_Kontakt"** und
+**„Firmen-Anfragen/Abgelehnt"** und pflegt daraus automatisch Einträge in der
+**Akquise-Liste** (`content/akquise/`) – dieselbe Liste, die im CMS unter
+„🤝 Akquise-Tracking" und im Business-Dashboard unter „Akquise" zu sehen ist:
 
 - Mail mit Label **„Firmen-Anfragen"** gesendet, Firma noch nicht erfasst
   → neuer Akquise-Eintrag mit Status **„Kontaktiert"**
 - Mail zusätzlich mit Label **„In_Kontakt"** gesendet
-  → der Eintrag bekommt ein Antwort-Datum + eine Notiz-Zeile (bzw. wird
-  neu angelegt, falls noch nicht erfasst)
+  → der Eintrag bekommt Antwort-Status **„Positiv"** + Antwort-Datum + eine
+  Notiz-Zeile (bzw. wird neu angelegt, falls noch nicht erfasst)
+- Mail mit Label **„Abgelehnt"** gesendet
+  → der Eintrag bekommt Status **„Verworfen"** + Antwort-Status **„Absage"**
+  (bzw. wird neu angelegt, falls noch nicht erfasst)
 
-**Absagen bleiben bewusst manuell** – dafür gibt es kein Gmail-Label, und ob
-eine Antwort eine Absage ist, lässt sich aus dem Mailtext nicht zuverlässig
-automatisch erkennen. Im CMS/Dashboard einfach den Status auf „Verworfen"
-setzen, sobald eine Absage kommt.
+Das Label **„Abgelehnt"** muss als Unterlabel unter „Firmen-Anfragen" in
+Gmail existieren (genau wie „In_Kontakt") – falls noch nicht vorhanden, in
+Gmail links bei „Firmen-Anfragen" auf die drei Punkte → „Label erstellen"
+→ Name `Abgelehnt`, „Verschachteln unter" → „Firmen-Anfragen" auswählen.
 
 *Hinweis zur Vorgeschichte:* Ursprünglich sollte das automatisch in Apple
 Reminders schreiben. iCloud liefert für Reminders über die
 Standard-CalDAV-Schnittstelle aber keine Inhalte mehr zurück, sobald
 „Erweiterter Datenschutz" (Advanced Data Protection) aktiv ist – das ist bei
 diesem Account der Fall. Daher landen die Einträge stattdessen im ohnehin
-vorhandenen Akquise-Tracking im Dashboard.
+vorhandenen Akquise-Tracking im Dashboard. Die Apple-Reminders-App selbst
+wird von dieser Automatisierung nicht mehr aktualisiert.
 
 So markierst du im Alltag eine Mail: einfach beim Verfassen/Senden das
 Label **„Firmen-Anfragen"** setzen. Bekommst du eine Antwort und schreibst
-zurück, zusätzlich **„In_Kontakt"** setzen – der Rest läuft automatisch.
+zurück, zusätzlich **„In_Kontakt"** setzen. Kommt eine Absage, eine
+(neue oder die gleiche) Mail mit **„Abgelehnt"** labeln – der Rest läuft
+automatisch. Das Skript fragt jetzt alle gelabelten gesendeten Mails ab
+(nicht nur die letzten 30), ältere Anfragen werden also beim nächsten Lauf
+nachgeholt.
 
 ## Gmail-Zugang einrichten
 
