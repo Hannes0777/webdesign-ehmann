@@ -651,6 +651,11 @@
           <div id="today-todos-list" class="card">
             <div class="empty">Keine Todos für heute</div>
           </div>
+
+          <h2 style="margin-top: 1.5rem;">Neueste Akquise-Kontakte</h2>
+          <div id="latest-akquise" class="card">
+            <div class="loading">Wird geladen...</div>
+          </div>
         </div>
 
         <div id="tab-akquise" class="tab-panel">
@@ -803,6 +808,7 @@
 
       renderOverview(todos, calendar);
       renderAkquise(akquise);
+      renderLatestAkquise(akquise);
       renderTodos(todos);
       renderWebsiteStats(stats);
       renderCalendar(calendar, posts);
@@ -904,6 +910,33 @@
         document.getElementById("next-events").innerHTML = list;
       }
     }
+  }
+
+  function renderLatestAkquise(items) {
+    const container = document.getElementById("latest-akquise");
+    if (!items || items.length === 0) {
+      container.innerHTML = "<div class='empty'>Keine Einträge</div>";
+      return;
+    }
+
+    const withDate = items.map(item => ({
+      item,
+      date: item.antwort_am || item.angeschrieben_am || item.demo_gebaut_am || null,
+    })).filter(x => x.date);
+
+    withDate.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    const list = withDate.slice(0, 5).map(({ item, date }) => `
+      <div style="padding: 0.5rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
+        <div>
+          <div style="font-weight: 600; font-size: 0.9rem;">${item.firma}</div>
+          <div style="font-size: 0.8rem; color: var(--mist);">${new Date(date).toLocaleDateString("de-DE")}${item.quelle === "Automatisch vorgeschlagen" ? " · automatisch" : ""}</div>
+        </div>
+        <span class="status-badge status-${item.status.toLowerCase().replace(/ /g, "-")}">${item.status}</span>
+      </div>
+    `).join("");
+
+    container.innerHTML = list || "<div class='empty'>Keine Einträge</div>";
   }
 
   function renderAkquise(items) {
@@ -1027,13 +1060,33 @@
 
     calendar.innerHTML = "<div class='weekday'>So</div><div class='weekday'>Mo</div><div class='weekday'>Di</div><div class='weekday'>Mi</div><div class='weekday'>Do</div><div class='weekday'>Fr</div><div class='weekday'>Sa</div>";
 
+    // Trägt ein Ereignis in jeden Kalendertag zwischen (inkl.) start und end
+    // ein - wichtig für mehrtägige Termine, die sonst nur am Starttag
+    // auftauchen würden.
+    function addEventRange(eventsByDate, start, end, entry) {
+      const cur = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      const last = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+      let guard = 0;
+      while (cur <= last && guard < 60) {
+        const key = localDateKey(cur);
+        if (!eventsByDate[key]) eventsByDate[key] = [];
+        eventsByDate[key].push(entry);
+        cur.setDate(cur.getDate() + 1);
+        guard++;
+      }
+    }
+
     const eventsByDate = {};
     (calData?.events || []).forEach(e => {
       if (!e.start) return;
-      const dateKey = localDateKey(new Date(e.start));
-      if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
+      const start = new Date(e.start);
+      let end = e.ende ? new Date(e.ende) : start;
+      // Bei ganztägigen mehrtägigen Terminen ist DTEND im iCal-Format
+      // exklusiv (Tag nach dem letzten Tag) - einen Tag zurückrechnen.
+      if (e.ganztags && e.ende) end = new Date(end.getTime() - 24 * 3600 * 1000);
+      if (end < start) end = start;
       const type = e.quelle === "apple" ? "calendar-apple" : e.quelle === "google" ? "calendar-google" : "calendar";
-      eventsByDate[dateKey].push({ type, label: e.titel });
+      addEventRange(eventsByDate, start, end, { type, label: e.titel });
     });
     (posts || []).forEach(p => {
       if (!p.geplant_fuer) return;
