@@ -1,4 +1,4 @@
-name: Akquise – Gmail-Versand mit Apple Reminders abgleichen
+name: Akquise – Gmail-Labels mit Apple Reminders abgleichen
 
 on:
   schedule:
@@ -27,7 +27,7 @@ jobs:
       - name: Abhängigkeiten installieren
         run: npm install googleapis tsdav node-ical
 
-      - name: Gmail-Versand prüfen und Erinnerung anlegen
+      - name: Gmail-Labels prüfen und Reminders abgleichen
         env:
           GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
           GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
