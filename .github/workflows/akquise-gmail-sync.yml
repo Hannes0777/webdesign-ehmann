@@ -1,0 +1,59 @@
+name: Akquise – Gmail-Versand mit Apple Reminders abgleichen
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: akquise-gmail-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Abhängigkeiten installieren
+        run: npm install googleapis tsdav node-ical
+
+      - name: Gmail-Versand prüfen und Erinnerung anlegen
+        env:
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          ICLOUD_APPLE_ID: ${{ secrets.ICLOUD_APPLE_ID }}
+          ICLOUD_APP_PASSWORD: ${{ secrets.ICLOUD_APP_PASSWORD }}
+        run: node scripts/sync-akquise-gmail.mjs
+
+      - name: Sync-Stand committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/akquise-gmail-sync-state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Akquise-Gmail-Sync: Stand aktualisiert"
+            for i in 1 2 3 4 5; do
+              if git push; then
+                exit 0
+              fi
+              echo "Push fehlgeschlagen (Versuch $i), hole Änderungen und versuche erneut..."
+              git fetch origin master
+              git rebase origin/master
+              sleep 3
+            done
+            echo "Push endgültig fehlgeschlagen nach mehreren Versuchen."
+            exit 1
+          else
+            echo "Keine Änderungen."
+          fi
