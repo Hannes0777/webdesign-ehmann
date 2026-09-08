@@ -34,7 +34,9 @@ const LIST_ANFRAGE = process.env.ICLOUD_LIST_ANFRAGE || "Anfrage";
 const LIST_IN_KONTAKT = process.env.ICLOUD_LIST_IN_KONTAKT || "In Kontakt";
 
 const GMAIL_LABEL_ANFRAGE = process.env.GMAIL_LABEL_ANFRAGE || "Firmen-Anfragen";
-const GMAIL_LABEL_IN_KONTAKT = process.env.GMAIL_LABEL_IN_KONTAKT || "In_Kontakt";
+// Gmail benennt ein Unterlabel intern als "Elternlabel/Kindlabel" - "In_Kontakt"
+// hängt in Gmail unter "Firmen-Anfragen", heißt über die API also so.
+const GMAIL_LABEL_IN_KONTAKT = process.env.GMAIL_LABEL_IN_KONTAKT || "Firmen-Anfragen/In_Kontakt";
 
 // Private/Freemail-Domains, die nicht als "Firma" gezählt werden sollen
 // (z.B. falls eine private Adresse versehentlich im To/Cc mit auftaucht).
