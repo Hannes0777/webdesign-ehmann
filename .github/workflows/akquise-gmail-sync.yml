@@ -1,8 +1,10 @@
 name: Akquise – Gmail-Labels mit Apple Reminders abgleichen
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
+  # Zeitplan vorerst deaktiviert: iCloud liefert für diesen Account über
+  # klassisches CalDAV keine Reminders-Inhalte (0 Objekte trotz vorhandener
+  # Einträge, vermutlich wegen "Erweiterter Datenschutz"). Manuell testbar
+  # über workflow_dispatch, bis eine funktionierende Anbindung gefunden ist.
   workflow_dispatch: {}
 
 permissions:
@@ -34,7 +36,6 @@ jobs:
           GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
           ICLOUD_APPLE_ID: ${{ secrets.ICLOUD_APPLE_ID }}
           ICLOUD_APP_PASSWORD: ${{ secrets.ICLOUD_APP_PASSWORD }}
-          DEBUG_DUMP_REMINDERS: "1"
         run: node scripts/sync-akquise-gmail.mjs
 
       - name: Sync-Stand committen
