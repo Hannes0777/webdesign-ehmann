@@ -149,6 +149,36 @@
       "anfrage": false,
       "in_kontakt": false,
       "abgelehnt": false
+    },
+    "1a07b187d8f4a178": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a07b18613219c07": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a062b78459fc157": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a061f0df20f9ecd": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
+    },
+    "1a061b646f63d706": {
+      "anfrage": false,
+      "in_kontakt": true,
+      "abgelehnt": false
+    },
+    "19fc80c46f2dca90": {
+      "anfrage": false,
+      "in_kontakt": false,
+      "abgelehnt": false
     }
   }
 }
