@@ -295,7 +295,7 @@
   .akquise-flags { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 4px; }
   .flag-toggle { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--text-2); cursor: pointer; }
   .flag-toggle .todo-box { width: 14px; height: 14px; }
-  .akquise-anschreiben-select { font-size: 0.72rem !important; padding: 4px 7px !important; }
+  .akquise-anschreiben-select, .akquise-followup-select { font-size: 0.72rem !important; padding: 4px 7px !important; }
 
   /* ---------- Kalender-Detail: Monatsgitter ---------- */
   .month-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -1533,7 +1533,7 @@
   async function addAkquiseLead(firma) {
     const obj = {
       firma, status: "Neu", quelle: "Manuell",
-      kontaktiert: false, demo_gebaut: false, anschreiben_art: "",
+      kontaktiert: false, demo_gebaut: false, anschreiben_art: "", follow_up: "",
       demo_gebaut_am: "", angeschrieben_am: "", antwort_am: "", antwort_status: "—",
       notiz: "", firmenliste_ref: "",
     };
@@ -1547,7 +1547,7 @@
   async function updateAkquiseStatus(item, field, value) {
     const clean = {
       firma: item.firma, status: item.status, quelle: item.quelle,
-      kontaktiert: item.kontaktiert || false, demo_gebaut: item.demo_gebaut || false, anschreiben_art: item.anschreiben_art || "",
+      kontaktiert: item.kontaktiert || false, demo_gebaut: item.demo_gebaut || false, anschreiben_art: item.anschreiben_art || "", follow_up: item.follow_up || "",
       demo_gebaut_am: item.demo_gebaut_am || "", angeschrieben_am: item.angeschrieben_am || "", antwort_am: item.antwort_am || "", antwort_status: item.antwort_status || "—", notiz: item.notiz || "", firmenliste_ref: item.firmenliste_ref || "",
     };
     clean[field] = value;
@@ -1595,6 +1595,14 @@
     "E-Mail ohne Demo, Angebot erwähnt",
     "E-Mail mit Demo, Angebot erwähnt",
   ];
+  // Nachfass-Stand nach der Erstansprache - unabhängig davon erfasst,
+  // da parallel zur Anschreiben-Art relevant (z.B. 2. Erinnerungsmail
+  // *und* schon angerufen).
+  const AKQUISE_FOLLOWUP_OPTIONS = [
+    "1. Erinnerungsmail geschrieben",
+    "2. Erinnerungsmail geschrieben",
+    "Angerufen",
+  ];
 
   function drawAkquiseList() {
     const el = document.getElementById("akquise-detail-list");
@@ -1615,6 +1623,10 @@
             <select class="akquise-anschreiben-select" data-idx="${idx}">
               <option value=""${i.anschreiben_art ? "" : " selected"}>Anschreiben-Art…</option>
               ${AKQUISE_ANSCHREIBEN_OPTIONS.map(o => `<option value="${o}"${o === i.anschreiben_art ? " selected" : ""}>${o}</option>`).join("")}
+            </select>
+            <select class="akquise-followup-select" data-idx="${idx}">
+              <option value=""${i.follow_up ? "" : " selected"}>Nachfass…</option>
+              ${AKQUISE_FOLLOWUP_OPTIONS.map(o => `<option value="${o}"${o === i.follow_up ? " selected" : ""}>${o}</option>`).join("")}
             </select>
           </div>
         </div>
@@ -1656,6 +1668,18 @@
         } catch (err) {
           sel.value = prev;
           showError("Anschreiben-Art konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+    el.querySelectorAll(".akquise-followup-select").forEach(sel => {
+      sel.addEventListener("change", async () => {
+        const item = sorted[Number(sel.dataset.idx)];
+        const prev = item.follow_up || "";
+        try {
+          await updateAkquiseStatus(item, "follow_up", sel.value);
+        } catch (err) {
+          sel.value = prev;
+          showError("Nachfass-Status konnte nicht aktualisiert werden: " + err.message);
         }
       });
     });
