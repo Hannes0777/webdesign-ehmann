@@ -243,6 +243,75 @@
   .panel-meta { font-size: 0.72rem; color: var(--text-3); white-space: nowrap; }
   .panel-meta.hot { color: var(--gold-sand); }
   .empty, .loading { color: var(--text-3); font-size: 0.82rem; padding: 6px 2px; }
+  .panel-clickable { cursor: pointer; transition: box-shadow 120ms ease; }
+  .panel-clickable:hover { box-shadow: 0 0 0 1px var(--gold-ring-35); }
+
+  /* ---------- Detailseiten ---------- */
+  .detail-view { display: flex; flex-direction: column; gap: 18px; }
+  .detail-head { display: flex; align-items: center; gap: 16px; }
+  .detail-head h1 { margin: 0; font-size: 1.4rem; font-weight: 500; }
+  .detail-back {
+    background: transparent; border: 1px solid var(--edge); color: var(--text-2);
+    border-radius: 8px; padding: 7px 14px; font-size: 0.8rem;
+  }
+  .detail-back:hover { border-color: var(--gold); color: var(--gold-sand); }
+  .detail-panel {
+    padding: 18px; border-radius: 14px; background: var(--panel); box-shadow: 0 0 0 1px var(--ring-panel);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .add-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+  .add-form input[type="text"], .add-form input[type="number"], .add-form select, .add-form textarea {
+    background: var(--tile); border: 1px solid var(--edge); border-radius: 8px; color: var(--text);
+    padding: 8px 10px; font-size: 0.82rem; font-family: inherit;
+  }
+  .add-form input[type="text"] { flex: 1; min-width: 160px; }
+  .add-form button { padding: 8px 16px; font-size: 0.82rem; }
+
+  .detail-list { display: flex; flex-direction: column; gap: 2px; }
+  .detail-row {
+    display: flex; align-items: center; gap: 10px; padding: 9px 6px; border-radius: 8px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row:hover { background: var(--hover-1); }
+  .detail-row .todo-box { cursor: pointer; }
+  .detail-row .todo-box.checked { background: var(--gold); border-color: var(--gold); position: relative; }
+  .detail-row .todo-box.checked::after {
+    content: "✓"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 0.62rem; color: #1a1408;
+  }
+  .detail-row .todo-text.checked { color: var(--text-4); text-decoration: line-through; }
+  .detail-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .detail-row-title { font-size: 0.86rem; font-weight: 500; }
+  .detail-row-sub { font-size: 0.72rem; color: var(--text-3); }
+  .detail-row select, .detail-row input[type="number"] {
+    background: var(--tile); border: 1px solid var(--edge); border-radius: 6px; color: var(--text);
+    padding: 5px 8px; font-size: 0.76rem; font-family: inherit;
+  }
+  .detail-row input[type="number"] { width: 60px; }
+  .detail-row .gelesen-box { cursor: pointer; flex: none; }
+
+  /* ---------- Kalender-Detail: Monatsgitter ---------- */
+  .month-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .month-nav button {
+    padding: 5px 12px; font-size: 0.8rem;
+  }
+  .month-nav .month-label { font-size: 0.9rem; font-weight: 500; font-family: var(--mono); letter-spacing: 0.02em; }
+  .month-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+  .month-dow { font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); text-align: center; padding-bottom: 4px; }
+  .month-cell {
+    aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; border-radius: 8px; background: var(--hover-1); cursor: pointer; font-size: 0.78rem;
+  }
+  .month-cell:hover { box-shadow: inset 0 0 0 1px var(--gold-ring-30); }
+  .month-cell.outside { opacity: 0.3; }
+  .month-cell.today { box-shadow: inset 0 0 0 1px var(--gold-ring-45); color: var(--gold-sand); }
+  .month-cell.selected { background: var(--gold-16); box-shadow: inset 0 0 0 1px var(--gold); }
+  .month-cell .dot { width: 4px; height: 4px; border-radius: 50%; background: transparent; }
+  .month-cell.has-event .dot { background: var(--gold); }
+  .day-detail { display: flex; flex-direction: column; gap: 8px; }
+  .day-detail-label { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
 
   /* ---------- Kalender ---------- */
   .week-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
@@ -435,11 +504,12 @@
       </div>
       <nav class="sidebar-nav">
         <button class="nav-btn" data-target="top"><span class="icon">◧</span><span class="label">Übersicht</span></button>
-        <button class="nav-btn" data-target="panel-akquise"><span class="icon">🤝</span><span class="label">Akquise</span></button>
-        <button class="nav-btn" data-target="panel-todos"><span class="icon">✅</span><span class="label">Todos</span></button>
+        <button class="nav-btn" data-route="akquise"><span class="icon">🤝</span><span class="label">Akquise</span></button>
+        <button class="nav-btn" data-route="todos"><span class="icon">✅</span><span class="label">Todos</span></button>
         <button class="nav-btn" data-target="panel-website"><span class="icon">🌐</span><span class="label">Website &amp; Social</span></button>
-        <button class="nav-btn" data-target="panel-kalender"><span class="icon">📅</span><span class="label">Kalender</span></button>
-        <button class="nav-btn" data-target="panel-projekte"><span class="icon">📁</span><span class="label">Projekte</span></button>
+        <button class="nav-btn" data-route="kalender"><span class="icon">📅</span><span class="label">Kalender</span></button>
+        <button class="nav-btn" data-route="projekte"><span class="icon">📁</span><span class="label">Projekte</span></button>
+        <button class="nav-btn" data-route="anfragen"><span class="icon">📥</span><span class="label">Anfragen</span></button>
       </nav>
       <div class="sidebar-foot">
         <button class="nav-btn" onclick="logout()"><span class="icon">⏻</span><span class="label">Abmelden</span></button>
@@ -460,28 +530,23 @@
       </header>
       <p id="login-info" style="display:none;"></p>
 
-      <section class="ring">
+      <section class="ring" id="view-overview">
 
         <div class="col">
-          <div class="panel" id="panel-kalender">
+          <div class="panel" id="panel-kalender" data-route="kalender">
             <div class="panel-head"><h2>Kalender</h2><span class="panel-meta">7 Tage</span></div>
             <div class="week-strip" id="week-strip"></div>
             <div class="event-groups" id="event-groups"><div class="loading">Wird geladen…</div></div>
           </div>
 
-          <div class="panel" id="panel-todos">
+          <div class="panel" id="panel-todos" data-route="todos">
             <div class="panel-head"><h2>Todos</h2><span class="panel-meta" id="todos-open-count">– offen</span></div>
             <div id="todos-groups"><div class="loading">Wird geladen…</div></div>
           </div>
 
-          <div class="panel grow" id="panel-projekte">
+          <div class="panel grow" id="panel-projekte" data-route="projekte">
             <div class="panel-head"><h2>Projekte</h2><a href="../admin/#/collections/projekte" class="panel-action">CMS</a></div>
             <div id="projekte-list"><div class="loading">Wird geladen…</div></div>
-          </div>
-
-          <h2 style="margin-top: 1.5rem;">Neueste Akquise-Kontakte</h2>
-          <div id="latest-akquise" class="card">
-            <div class="loading">Wird geladen...</div>
           </div>
         </div>
 
@@ -517,13 +582,13 @@
         </div>
 
         <div class="col">
-          <div class="panel" id="panel-akquise">
+          <div class="panel" id="panel-akquise" data-route="akquise">
             <div class="panel-head"><h2>Akquise</h2><a href="../admin/#/collections/akquise" class="panel-action">CMS</a></div>
             <div class="funnel" id="akquise-funnel"></div>
             <div class="lead-list" id="akquise-leads"><div class="loading">Wird geladen…</div></div>
           </div>
 
-          <div class="panel" id="panel-anfragen">
+          <div class="panel" id="panel-anfragen" data-route="anfragen">
             <div class="panel-head"><h2>Anfragen</h2><span class="panel-meta hot" id="anfragen-count">– neu</span></div>
             <div id="anfragen-list"><div class="loading">Wird geladen…</div></div>
           </div>
@@ -535,6 +600,14 @@
           </div>
         </div>
 
+      </section>
+
+      <section class="detail-view" id="view-detail" style="display:none;">
+        <div class="detail-head">
+          <button class="detail-back" id="detail-back">← Übersicht</button>
+          <h1 id="detail-title"></h1>
+        </div>
+        <div id="detail-body"></div>
       </section>
     </div>
   </div>
@@ -653,6 +726,12 @@
     return null;
   }
 
+  // Zentraler Zustand: nach dem initialen Laden halten alle Detailseiten
+  // und Overview-Panels ihre Daten aus diesem Cache statt erneut die
+  // GitHub-API abzufragen; einzelne Schreibaktionen (Todo abhaken, Lead
+  // anlegen, ...) aktualisieren die passenden Einträge direkt hier drin.
+  const DATA = { akquise: [], todos: [], projekte: [], anfragen: [], calendar: { events: [] }, posts: [], stats: null, socialStats: null };
+
   async function loadData() {
     try {
       const [akquise, todos, stats, calendar, socialStats, posts, projekte, anfragen] = await Promise.all([
@@ -666,6 +745,9 @@
         loadFolder("content/anfragen"),
       ]);
 
+      DATA.akquise = akquise; DATA.todos = todos; DATA.stats = stats; DATA.calendar = calendar;
+      DATA.socialStats = socialStats; DATA.posts = posts; DATA.projekte = projekte; DATA.anfragen = anfragen;
+
       renderKalender(calendar, posts);
       renderTodos(todos);
       renderProjekte(projekte);
@@ -674,6 +756,7 @@
       renderWebsiteSocial(stats, socialStats, anfragen);
       updateBriefing(todos, calendar, posts, akquise);
       updateJarvis();
+      renderRoute();
     } catch (err) {
       showError("Fehler beim Laden der Daten: " + err.message);
     }
@@ -700,7 +783,14 @@
           try {
             const fileRes = await fetch(file.download_url);
             if (!fileRes.ok) return null;
-            return await fileRes.json();
+            const json = await fileRes.json();
+            // Pfad + sha werden am Objekt mitgeführt (nicht Teil der
+            // gespeicherten Datei selbst), damit spätere Updates per PUT
+            // die richtige Datei/Version treffen. Vor jedem Schreiben
+            // wieder herausfiltern, siehe githubPutFile().
+            json._path = file.path;
+            json._sha = file.sha;
+            return json;
           } catch {
             return null;
           }
@@ -710,6 +800,41 @@
     } catch {
       return [];
     }
+  }
+
+  // ---------- Schreibzugriff (GitHub Contents API) ----------
+  function toBase64Utf8(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  async function githubPutFile(path, obj, message, sha) {
+    const clean = {};
+    Object.keys(obj).forEach(k => { if (k !== "_path" && k !== "_sha") clean[k] = obj[k]; });
+    const body = { message, content: toBase64Utf8(JSON.stringify(clean, null, 2)), branch: BRANCH };
+    if (sha) body.sha = sha;
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+      method: "PUT",
+      headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `GitHub-Fehler ${res.status}`);
+    }
+    return res.json();
+  }
+
+  function slugify(str) {
+    return (str || "").toString().toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/ß/g, "ss")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "eintrag";
+  }
+
+  function dateSlugParts(d) {
+    d = d || new Date();
+    return { year: d.getFullYear(), month: String(d.getMonth() + 1).padStart(2, "0"), day: String(d.getDate()).padStart(2, "0") };
   }
 
   async function loadWebsiteStats() {
@@ -762,27 +887,25 @@
     return `${y}-${m}-${d}`;
   }
 
-  // ---------- Kalender ----------
-  function renderKalender(calData, posts) {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-
-    // Trägt ein Ereignis in jeden Kalendertag zwischen (inkl.) start und end
-    // ein - wichtig für mehrtägige Termine, die sonst nur am Starttag
-    // auftauchen würden.
-    function addEventRange(eventsByDate, start, end, entry) {
-      const cur = new Date(start.getFullYear(), start.getMonth(), start.getDate());
-      const last = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-      let guard = 0;
-      while (cur <= last && guard < 60) {
-        const key = localDateKey(cur);
-        if (!eventsByDate[key]) eventsByDate[key] = [];
-        eventsByDate[key].push(entry);
-        cur.setDate(cur.getDate() + 1);
-        guard++;
-      }
+  // Trägt ein Ereignis in jeden Kalendertag zwischen (inkl.) start und end
+  // ein - wichtig für mehrtägige Termine, die sonst nur am Starttag
+  // auftauchen würden.
+  function addEventRange(eventsByDate, start, end, entry) {
+    const cur = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const last = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    let guard = 0;
+    while (cur <= last && guard < 60) {
+      const key = localDateKey(cur);
+      if (!eventsByDate[key]) eventsByDate[key] = [];
+      eventsByDate[key].push(entry);
+      cur.setDate(cur.getDate() + 1);
+      guard++;
     }
+  }
 
+  // Gemeinsam von Wochenstreifen (Übersicht) und Monatsgitter (Kalender-
+  // Detailseite) genutzt, damit beide exakt dieselben Termine anzeigen.
+  function buildEventsByDate(calData, posts) {
     const eventsByDate = {};
     (calData?.events || []).forEach(e => {
       if (!e.start) return;
@@ -804,6 +927,15 @@
       if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
       eventsByDate[dateKey].push({ start: p.geplant_fuer, title: (p.text || "Beitrag").slice(0, 40), meta: "Social-Media-Beitrag" });
     });
+    return eventsByDate;
+  }
+
+  // ---------- Kalender ----------
+  function renderKalender(calData, posts) {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const eventsByDate = buildEventsByDate(calData, posts);
 
     // Wochenstreifen: heute + die nächsten 6 Tage
     const strip = document.getElementById("week-strip");
@@ -1105,6 +1237,507 @@
   // Seite hängen (z.B. dauerhaft "Denkt nach").
   setInterval(updateJarvis, 3000);
 
+  // ---------- Router: Klick auf ein Panel öffnet dessen Detailseite ----------
+  const ROUTE_LABELS = {
+    kalender: "Kalender",
+    todos: "Todos",
+    akquise: "Akquise",
+    anfragen: "Anfragen",
+    projekte: "Projekte",
+  };
+  const RENDER_DETAIL = {
+    kalender: renderDetailKalender,
+    todos: renderDetailTodos,
+    akquise: renderDetailAkquise,
+    anfragen: renderDetailAnfragen,
+    projekte: renderDetailProjekte,
+  };
+
+  function currentRoute() {
+    const h = location.hash.replace(/^#\/?/, "");
+    return ROUTE_LABELS.hasOwnProperty(h) ? h : null;
+  }
+
+  function renderRoute() {
+    const route = currentRoute();
+    const overview = document.getElementById("view-overview");
+    const detail = document.getElementById("view-detail");
+    if (!route) {
+      overview.style.display = "";
+      detail.style.display = "none";
+      return;
+    }
+    overview.style.display = "none";
+    detail.style.display = "flex";
+    document.getElementById("detail-title").textContent = ROUTE_LABELS[route];
+    RENDER_DETAIL[route]();
+  }
+
+  window.addEventListener("hashchange", renderRoute);
+  document.getElementById("detail-back").addEventListener("click", () => { location.hash = ""; });
+
+  document.querySelectorAll(".panel[data-route]").forEach(panel => {
+    panel.classList.add("panel-clickable");
+    panel.addEventListener("click", e => {
+      if (e.target.closest("a, button, input, textarea, select, label")) return;
+      location.hash = "#/" + panel.dataset.route;
+    });
+  });
+
+  // ---------- Detail: Kalender (Monatsgitter mit Tages-Klick) ----------
+  let kalenderViewMonth = new Date();
+  kalenderViewMonth.setDate(1);
+  let kalenderSelectedKey = localDateKey(new Date());
+
+  function renderDetailKalender() {
+    const body = document.getElementById("detail-body");
+    body.innerHTML = `
+      <div class="detail-panel">
+        <div class="month-nav">
+          <button id="month-prev">‹</button>
+          <span class="month-label" id="month-label"></span>
+          <button id="month-next">›</button>
+        </div>
+        <div class="month-grid" id="month-grid"></div>
+      </div>
+      <div class="detail-panel">
+        <div class="day-detail" id="day-detail"></div>
+      </div>
+    `;
+    document.getElementById("month-prev").addEventListener("click", () => {
+      kalenderViewMonth.setMonth(kalenderViewMonth.getMonth() - 1);
+      drawMonthGrid();
+    });
+    document.getElementById("month-next").addEventListener("click", () => {
+      kalenderViewMonth.setMonth(kalenderViewMonth.getMonth() + 1);
+      drawMonthGrid();
+    });
+    drawMonthGrid();
+  }
+
+  function drawMonthGrid() {
+    const eventsByDate = buildEventsByDate(DATA.calendar, DATA.posts);
+    const todayKey = localDateKey(new Date());
+    const year = kalenderViewMonth.getFullYear();
+    const month = kalenderViewMonth.getMonth();
+
+    document.getElementById("month-label").textContent =
+      kalenderViewMonth.toLocaleDateString("de-DE", { month: "long", year: "numeric" });
+
+    const firstOfMonth = new Date(year, month, 1);
+    // Montag als Wochenstart (deutsche Konvention): getDay() liefert 0=So..6=Sa.
+    const leadingBlank = (firstOfMonth.getDay() + 6) % 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const dows = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+    let cells = dows.map(d => `<div class="month-dow">${d}</div>`).join("");
+
+    const gridStart = new Date(year, month, 1 - leadingBlank);
+    const totalCells = Math.ceil((leadingBlank + daysInMonth) / 7) * 7;
+    for (let i = 0; i < totalCells; i++) {
+      const d = new Date(gridStart);
+      d.setDate(gridStart.getDate() + i);
+      const key = localDateKey(d);
+      const outside = d.getMonth() !== month;
+      const classes = ["month-cell"];
+      if (outside) classes.push("outside");
+      if (key === todayKey) classes.push("today");
+      if (key === kalenderSelectedKey) classes.push("selected");
+      if (eventsByDate[key]) classes.push("has-event");
+      cells += `<div class="${classes.join(" ")}" data-key="${key}"><span>${d.getDate()}</span><span class="dot"></span></div>`;
+    }
+    document.getElementById("month-grid").innerHTML = cells;
+
+    document.querySelectorAll(".month-cell[data-key]").forEach(cell => {
+      cell.addEventListener("click", () => {
+        kalenderSelectedKey = cell.dataset.key;
+        drawMonthGrid();
+        drawDayDetail(eventsByDate);
+      });
+    });
+
+    drawDayDetail(eventsByDate);
+  }
+
+  function drawDayDetail(eventsByDate) {
+    const todayKey = localDateKey(new Date());
+    const el = document.getElementById("day-detail");
+    const label = kalenderSelectedKey === todayKey
+      ? "Heute"
+      : new Date(kalenderSelectedKey).toLocaleDateString("de-DE", { weekday: "long", day: "2-digit", month: "long" });
+    const items = (eventsByDate[kalenderSelectedKey] || []).sort((a, b) => new Date(a.start) - new Date(b.start));
+    el.innerHTML = `<div class="day-detail-label">${label}</div>` + (
+      items.length === 0
+        ? `<div class="empty">Keine Termine an diesem Tag</div>`
+        : items.map(e => `
+          <div class="event-row">
+            <span class="time">${new Date(e.start).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}</span>
+            <div>
+              <div class="title">${e.title}</div>
+              <div class="meta">${e.meta || ""}</div>
+            </div>
+          </div>
+        `).join("")
+    );
+  }
+
+  // ---------- Detail: Todos (voll, mit Anlegen + Abhaken) ----------
+  async function addTodo(text, kategorie) {
+    const now = new Date();
+    const { year, month, day } = dateSlugParts(now);
+    const obj = { text, kategorie: kategorie || "Sonstiges", erledigt: false, faellig_am: "", erstellt_am: now.toISOString() };
+    const path = `content/todos/${year}-${month}-${day}-${slugify(text)}.json`;
+    const result = await githubPutFile(path, obj, `Todo hinzugefügt: ${text}`);
+    obj._path = result.content.path;
+    obj._sha = result.content.sha;
+    DATA.todos.push(obj);
+  }
+
+  async function toggleTodo(todo) {
+    const clean = { text: todo.text, kategorie: todo.kategorie, erledigt: !todo.erledigt, faellig_am: todo.faellig_am || "", erstellt_am: todo.erstellt_am };
+    const result = await githubPutFile(todo._path, clean, `Todo ${clean.erledigt ? "abgehakt" : "wieder geöffnet"}: ${todo.text}`, todo._sha);
+    todo.erledigt = clean.erledigt;
+    todo._sha = result.content.sha;
+  }
+
+  function renderDetailTodos() {
+    const body = document.getElementById("detail-body");
+    body.innerHTML = `
+      <div class="detail-panel">
+        <form class="add-form" id="todo-add-form">
+          <input type="text" id="todo-add-text" placeholder="Neues Todo…" required />
+          <select id="todo-add-kategorie">
+            <option>Kunde</option><option>Akquise</option><option>Website</option><option>Jarvis</option><option selected>Sonstiges</option>
+          </select>
+          <button type="submit">Hinzufügen</button>
+        </form>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-list" id="todo-detail-list"></div>
+      </div>
+    `;
+    document.getElementById("todo-add-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      const input = document.getElementById("todo-add-text");
+      const text = input.value.trim();
+      if (!text) return;
+      const kategorie = document.getElementById("todo-add-kategorie").value;
+      try {
+        await addTodo(text, kategorie);
+        input.value = "";
+        drawTodoList();
+        renderTodos(DATA.todos);
+      } catch (err) {
+        showError("Todo konnte nicht angelegt werden: " + err.message);
+      }
+    });
+    drawTodoList();
+  }
+
+  function drawTodoList() {
+    const el = document.getElementById("todo-detail-list");
+    const sorted = [...DATA.todos].sort((a, b) => {
+      if (!!a.erledigt !== !!b.erledigt) return a.erledigt ? 1 : -1;
+      return (a.faellig_am || "9999").localeCompare(b.faellig_am || "9999");
+    });
+    if (sorted.length === 0) {
+      el.innerHTML = `<div class="empty">Noch keine Todos angelegt</div>`;
+      return;
+    }
+    el.innerHTML = sorted.map((t, i) => `
+      <div class="detail-row">
+        <span class="todo-box${t.erledigt ? " checked" : ""}" data-idx="${i}"></span>
+        <div class="detail-row-main">
+          <span class="detail-row-title todo-text${t.erledigt ? " checked" : ""}">${t.text}</span>
+          <span class="detail-row-sub">${t.kategorie || ""}${t.faellig_am ? " · fällig " + new Date(t.faellig_am).toLocaleDateString("de-DE") : ""}</span>
+        </div>
+      </div>
+    `).join("");
+    el.querySelectorAll(".todo-box").forEach(box => {
+      box.addEventListener("click", async () => {
+        const todo = sorted[Number(box.dataset.idx)];
+        try {
+          await toggleTodo(todo);
+          drawTodoList();
+          renderTodos(DATA.todos);
+          updateBriefing(DATA.todos, DATA.calendar, DATA.posts, DATA.akquise);
+        } catch (err) {
+          showError("Todo konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+  }
+
+  // ---------- Detail: Akquise ----------
+  async function addAkquiseLead(firma) {
+    const obj = {
+      firma, status: "Neu", quelle: "Manuell",
+      demo_gebaut_am: "", angeschrieben_am: "", antwort_am: "", antwort_status: "—",
+      notiz: "", firmenliste_ref: "",
+    };
+    const path = `content/akquise/${slugify(firma)}.json`;
+    const result = await githubPutFile(path, obj, `Akquise-Lead angelegt: ${firma}`);
+    obj._path = result.content.path;
+    obj._sha = result.content.sha;
+    DATA.akquise.push(obj);
+  }
+
+  async function updateAkquiseStatus(item, field, value) {
+    const clean = { firma: item.firma, status: item.status, quelle: item.quelle, demo_gebaut_am: item.demo_gebaut_am || "", angeschrieben_am: item.angeschrieben_am || "", antwort_am: item.antwort_am || "", antwort_status: item.antwort_status || "—", notiz: item.notiz || "", firmenliste_ref: item.firmenliste_ref || "" };
+    clean[field] = value;
+    const result = await githubPutFile(item._path, clean, `Akquise aktualisiert: ${item.firma}`, item._sha);
+    item[field] = value;
+    item._sha = result.content.sha;
+  }
+
+  function renderDetailAkquise() {
+    const body = document.getElementById("detail-body");
+    body.innerHTML = `
+      <div class="detail-panel">
+        <form class="add-form" id="akquise-add-form">
+          <input type="text" id="akquise-add-firma" placeholder="Firmenname…" required />
+          <button type="submit">Hinzufügen</button>
+        </form>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-list" id="akquise-detail-list"></div>
+      </div>
+    `;
+    document.getElementById("akquise-add-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      const input = document.getElementById("akquise-add-firma");
+      const firma = input.value.trim();
+      if (!firma) return;
+      try {
+        await addAkquiseLead(firma);
+        input.value = "";
+        drawAkquiseList();
+        renderAkquise(DATA.akquise);
+      } catch (err) {
+        showError("Lead konnte nicht angelegt werden: " + err.message);
+      }
+    });
+    drawAkquiseList();
+  }
+
+  const AKQUISE_STATUS_OPTIONS = ["Neu", "Priorisiert", "Pitch-Demo gebaut", "Kontaktiert", "Kunde geworden", "Verworfen"];
+
+  function drawAkquiseList() {
+    const el = document.getElementById("akquise-detail-list");
+    const sorted = [...DATA.akquise].sort((a, b) => (b.angeschrieben_am || "").localeCompare(a.angeschrieben_am || ""));
+    if (sorted.length === 0) {
+      el.innerHTML = `<div class="empty">Noch keine Akquise-Kontakte erfasst</div>`;
+      return;
+    }
+    el.innerHTML = sorted.map((i, idx) => `
+      <div class="detail-row">
+        <span class="dot" style="width:8px;height:8px;border-radius:50%;flex:none;background:${STATUS_COLORS[i.status] || "var(--neutral-1)"};"></span>
+        <div class="detail-row-main">
+          <span class="detail-row-title">${i.firma}</span>
+          <span class="detail-row-sub">${i.antwort_status && i.antwort_status !== "—" ? i.antwort_status : ""}</span>
+        </div>
+        <select class="akquise-status-select" data-idx="${idx}">
+          ${AKQUISE_STATUS_OPTIONS.map(o => `<option value="${o}"${o === i.status ? " selected" : ""}>${o}</option>`).join("")}
+        </select>
+      </div>
+    `).join("");
+    el.querySelectorAll(".akquise-status-select").forEach(sel => {
+      sel.addEventListener("change", async () => {
+        const item = sorted[Number(sel.dataset.idx)];
+        const prev = item.status;
+        try {
+          await updateAkquiseStatus(item, "status", sel.value);
+          renderAkquise(DATA.akquise);
+          updateBriefing(DATA.todos, DATA.calendar, DATA.posts, DATA.akquise);
+        } catch (err) {
+          sel.value = prev;
+          showError("Status konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+  }
+
+  // ---------- Detail: Anfragen ----------
+  async function addAnfrage(absender, betreff) {
+    const now = new Date();
+    const { year, month, day } = dateSlugParts(now);
+    const obj = { absender, betreff: betreff || "", eingegangen_am: now.toISOString(), gelesen: false, notiz: "" };
+    const path = `content/anfragen/${year}-${month}-${day}-${slugify(absender)}.json`;
+    const result = await githubPutFile(path, obj, `Anfrage erfasst: ${absender}`);
+    obj._path = result.content.path;
+    obj._sha = result.content.sha;
+    DATA.anfragen.push(obj);
+  }
+
+  async function toggleAnfrageGelesen(item) {
+    const clean = { absender: item.absender, betreff: item.betreff || "", eingegangen_am: item.eingegangen_am, gelesen: !item.gelesen, notiz: item.notiz || "" };
+    const result = await githubPutFile(item._path, clean, `Anfrage ${clean.gelesen ? "gelesen" : "ungelesen"}: ${item.absender}`, item._sha);
+    item.gelesen = clean.gelesen;
+    item._sha = result.content.sha;
+  }
+
+  function renderDetailAnfragen() {
+    const body = document.getElementById("detail-body");
+    body.innerHTML = `
+      <div class="detail-panel">
+        <form class="add-form" id="anfrage-add-form">
+          <input type="text" id="anfrage-add-absender" placeholder="Absender / Firma…" required />
+          <input type="text" id="anfrage-add-betreff" placeholder="Betreff…" />
+          <button type="submit">Hinzufügen</button>
+        </form>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-list" id="anfragen-detail-list"></div>
+      </div>
+    `;
+    document.getElementById("anfrage-add-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      const absenderInput = document.getElementById("anfrage-add-absender");
+      const absender = absenderInput.value.trim();
+      if (!absender) return;
+      const betreff = document.getElementById("anfrage-add-betreff").value.trim();
+      try {
+        await addAnfrage(absender, betreff);
+        absenderInput.value = "";
+        document.getElementById("anfrage-add-betreff").value = "";
+        drawAnfragenList();
+        renderAnfragen(DATA.anfragen);
+      } catch (err) {
+        showError("Anfrage konnte nicht angelegt werden: " + err.message);
+      }
+    });
+    drawAnfragenList();
+  }
+
+  function drawAnfragenList() {
+    const el = document.getElementById("anfragen-detail-list");
+    const sorted = [...DATA.anfragen].sort((a, b) => (b.eingegangen_am || "").localeCompare(a.eingegangen_am || ""));
+    if (sorted.length === 0) {
+      el.innerHTML = `<div class="empty">Noch keine Anfragen erfasst</div>`;
+      return;
+    }
+    el.innerHTML = sorted.map((i, idx) => `
+      <div class="detail-row">
+        <span class="todo-box gelesen-box${i.gelesen ? " checked" : ""}" data-idx="${idx}" title="Gelesen"></span>
+        <div class="detail-row-main">
+          <span class="detail-row-title">${i.absender}</span>
+          <span class="detail-row-sub">${i.betreff || ""} · ${formatRelative(i.eingegangen_am)}</span>
+        </div>
+      </div>
+    `).join("");
+    el.querySelectorAll(".gelesen-box").forEach(box => {
+      box.addEventListener("click", async () => {
+        const item = sorted[Number(box.dataset.idx)];
+        try {
+          await toggleAnfrageGelesen(item);
+          drawAnfragenList();
+          renderAnfragen(DATA.anfragen);
+          renderWebsiteSocial(DATA.stats, DATA.socialStats, DATA.anfragen);
+        } catch (err) {
+          showError("Anfrage konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+  }
+
+  // ---------- Detail: Projekte ----------
+  async function addProjekt(name) {
+    const obj = { name, phase: "Konzept", fortschritt: 0, notiz: "" };
+    const path = `content/projekte/${slugify(name)}.json`;
+    const result = await githubPutFile(path, obj, `Projekt angelegt: ${name}`);
+    obj._path = result.content.path;
+    obj._sha = result.content.sha;
+    DATA.projekte.push(obj);
+  }
+
+  async function updateProjektField(item, field, value) {
+    const clean = { name: item.name, phase: item.phase, fortschritt: item.fortschritt || 0, notiz: item.notiz || "" };
+    clean[field] = value;
+    const result = await githubPutFile(item._path, clean, `Projekt aktualisiert: ${item.name}`, item._sha);
+    item[field] = value;
+    item._sha = result.content.sha;
+  }
+
+  const PROJEKT_PHASE_OPTIONS = ["Konzept", "Umsetzung", "Abnahme", "Abgeschlossen"];
+
+  function renderDetailProjekte() {
+    const body = document.getElementById("detail-body");
+    body.innerHTML = `
+      <div class="detail-panel">
+        <form class="add-form" id="projekt-add-form">
+          <input type="text" id="projekt-add-name" placeholder="Projektname…" required />
+          <button type="submit">Hinzufügen</button>
+        </form>
+      </div>
+      <div class="detail-panel">
+        <div class="detail-list" id="projekt-detail-list"></div>
+      </div>
+    `;
+    document.getElementById("projekt-add-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      const input = document.getElementById("projekt-add-name");
+      const name = input.value.trim();
+      if (!name) return;
+      try {
+        await addProjekt(name);
+        input.value = "";
+        drawProjekteList();
+        renderProjekte(DATA.projekte);
+      } catch (err) {
+        showError("Projekt konnte nicht angelegt werden: " + err.message);
+      }
+    });
+    drawProjekteList();
+  }
+
+  function drawProjekteList() {
+    const el = document.getElementById("projekt-detail-list");
+    const sorted = [...DATA.projekte];
+    if (sorted.length === 0) {
+      el.innerHTML = `<div class="empty">Noch keine Projekte hinterlegt</div>`;
+      return;
+    }
+    el.innerHTML = sorted.map((p, idx) => `
+      <div class="detail-row">
+        <div class="detail-row-main">
+          <span class="detail-row-title">${p.name}</span>
+          <div class="project-bar" style="margin-top:4px;"><span style="width:${Math.max(0, Math.min(100, p.fortschritt || 0))}%;"></span></div>
+        </div>
+        <select class="projekt-phase-select" data-idx="${idx}">
+          ${PROJEKT_PHASE_OPTIONS.map(o => `<option value="${o}"${o === p.phase ? " selected" : ""}>${o}</option>`).join("")}
+        </select>
+        <input type="number" class="projekt-fortschritt-input" data-idx="${idx}" min="0" max="100" value="${p.fortschritt || 0}" />
+      </div>
+    `).join("");
+    el.querySelectorAll(".projekt-phase-select").forEach(sel => {
+      sel.addEventListener("change", async () => {
+        const item = sorted[Number(sel.dataset.idx)];
+        const prev = item.phase;
+        try {
+          await updateProjektField(item, "phase", sel.value);
+          renderProjekte(DATA.projekte);
+        } catch (err) {
+          sel.value = prev;
+          showError("Phase konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+    el.querySelectorAll(".projekt-fortschritt-input").forEach(input => {
+      input.addEventListener("change", async () => {
+        const item = sorted[Number(input.dataset.idx)];
+        const prev = item.fortschritt;
+        const value = Math.max(0, Math.min(100, Number(input.value) || 0));
+        try {
+          await updateProjektField(item, "fortschritt", value);
+          renderProjekte(DATA.projekte);
+        } catch (err) {
+          input.value = prev;
+          showError("Fortschritt konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+  }
+
   // ---------- Sidebar-Toggle + Nav-Scroll ----------
   const shellEl = document.getElementById("shell");
   const sidebarToggle = document.getElementById("sidebar-toggle");
@@ -1125,9 +1758,17 @@
 
   document.querySelectorAll(".nav-btn[data-target]").forEach(btn => {
     btn.addEventListener("click", () => {
+      location.hash = "";
       const target = btn.getAttribute("data-target");
-      const el = document.getElementById(target);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      requestAnimationFrame(() => {
+        const el = document.getElementById(target);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  });
+  document.querySelectorAll(".nav-btn[data-route]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      location.hash = "#/" + btn.dataset.route;
     });
   });
 
