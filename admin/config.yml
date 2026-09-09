@@ -482,6 +482,12 @@ collections:
         options: ["Erste E-Mail ohne Demo", "E-Mail mit Demo", "E-Mail ohne Demo, Angebot erwähnt", "E-Mail mit Demo, Angebot erwähnt"]
         required: false
         hint: "In welcher Form wurde angeschrieben (Demo/Angebot erwähnt) - unabhängig vom Status oben."
+      - name: follow_up
+        label: "Nachfass-Stand"
+        widget: select
+        options: ["1. Erinnerungsmail geschrieben", "2. Erinnerungsmail geschrieben", "Angerufen"]
+        required: false
+        hint: "Wie weit die Nachfass-Ansprache nach der Erstmail schon ist."
       - name: demo_gebaut_am
         label: "Demo gebaut am"
         widget: datetime
