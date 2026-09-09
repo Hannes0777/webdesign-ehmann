@@ -1,7 +1,7 @@
 {
   "text": "Test-To-do 1: Webseitenoptimierung prüfen",
   "kategorie": "Website",
-  "erledigt": false,
+  "erledigt": true,
   "faellig_am": "2026-09-10T18:00:00Z",
   "erstellt_am": "2026-09-07T12:00:00Z"
 }
