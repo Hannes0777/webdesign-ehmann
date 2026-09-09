@@ -466,6 +466,22 @@ collections:
         widget: select
         options: ["Automatisch vorgeschlagen", "Manuell"]
         default: "Manuell"
+      - name: kontaktiert
+        label: "Kontaktiert"
+        widget: boolean
+        default: false
+        required: false
+      - name: demo_gebaut
+        label: "Demo gebaut"
+        widget: boolean
+        default: false
+        required: false
+      - name: anschreiben_art
+        label: "Anschreiben-Art"
+        widget: select
+        options: ["Erste E-Mail ohne Demo", "E-Mail mit Demo", "E-Mail ohne Demo, Angebot erwähnt", "E-Mail mit Demo, Angebot erwähnt"]
+        required: false
+        hint: "In welcher Form wurde angeschrieben (Demo/Angebot erwähnt) - unabhängig vom Status oben."
       - name: demo_gebaut_am
         label: "Demo gebaut am"
         widget: datetime
@@ -561,7 +577,7 @@ collections:
       - name: phase
         label: "Phase"
         widget: select
-        options: ["Konzept", "Umsetzung", "Abnahme", "Abgeschlossen"]
+        options: ["Konzept", "Demo gebaut", "Umsetzung", "Änderung von Kunde", "Abnahme", "Abgeschlossen"]
         default: "Konzept"
       - name: fortschritt
         label: "Fortschritt (%)"
