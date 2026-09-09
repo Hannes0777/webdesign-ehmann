@@ -206,14 +206,14 @@
   .sidebar-foot-text { font-size: 0.68rem; color: var(--text-4); padding-left: 11px; white-space: nowrap; }
 
   /* ---------- Main / Header ---------- */
-  .main-area { min-width: 0; display: flex; flex-direction: column; gap: 16px; padding: 22px 28px 34px; }
+  .main-area { min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 16px 24px 18px; }
 
   header.top {
     display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap;
   }
   header.top .head-left { display: flex; flex-direction: column; gap: 3px; }
   header.top .date-line { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-sand); font-family: var(--mono); }
-  header.top h1 { margin: 0; font-size: 1.7rem; font-weight: 500; letter-spacing: -0.015em; }
+  header.top h1 { margin: 0; font-size: 1.4rem; font-weight: 500; letter-spacing: -0.015em; }
   header.top .head-right { display: flex; align-items: center; gap: 8px; }
   .status-pill {
     display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono);
@@ -225,16 +225,16 @@
   #login-info { margin: 0; color: var(--text-3); font-size: 0.78rem; }
 
   /* ---------- Ring-Layout ---------- */
-  .ring { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+  .ring { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
   .ring > .col-jarvis { order: -1; }
   @media (min-width: 1180px) {
     .ring { grid-template-columns: minmax(236px, 0.85fr) minmax(400px, 1.5fr) minmax(236px, 0.85fr); }
     .ring > .col-jarvis { order: 0; }
   }
-  .col { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .col { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 
   .panel {
-    flex: none; display: flex; flex-direction: column; gap: 12px; padding: 16px;
+    flex: none; display: flex; flex-direction: column; gap: 10px; padding: 13px 14px;
     border-radius: 14px; background: var(--panel); box-shadow: 0 0 0 1px var(--ring-panel);
   }
   .panel.grow { flex: 1; }
@@ -291,6 +291,11 @@
   }
   .detail-row input[type="number"] { width: 60px; }
   .detail-row .gelesen-box { cursor: pointer; flex: none; }
+  .akquise-row { align-items: flex-start; }
+  .akquise-flags { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 4px; }
+  .flag-toggle { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--text-2); cursor: pointer; }
+  .flag-toggle .todo-box { width: 14px; height: 14px; }
+  .akquise-anschreiben-select { font-size: 0.72rem !important; padding: 4px 7px !important; }
 
   /* ---------- Kalender-Detail: Monatsgitter ---------- */
   .month-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -301,15 +306,26 @@
   .month-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
   .month-dow { font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); text-align: center; padding-bottom: 4px; }
   .month-cell {
-    aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 3px; border-radius: 8px; background: var(--hover-1); cursor: pointer; font-size: 0.78rem;
+    min-height: 76px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
+    gap: 2px; padding: 6px 5px 20px; border-radius: 8px; background: var(--hover-1); cursor: pointer;
+    font-size: 0.78rem; overflow: hidden; position: relative;
   }
   .month-cell:hover { box-shadow: inset 0 0 0 1px var(--gold-ring-30); }
   .month-cell.outside { opacity: 0.3; }
   .month-cell.today { box-shadow: inset 0 0 0 1px var(--gold-ring-45); color: var(--gold-sand); }
   .month-cell.selected { background: var(--gold-16); box-shadow: inset 0 0 0 1px var(--gold); }
-  .month-cell .dot { width: 4px; height: 4px; border-radius: 50%; background: transparent; }
-  .month-cell.has-event .dot { background: var(--gold); }
+  .month-cell-num { font-variant-numeric: tabular-nums; }
+  .month-chip {
+    max-width: 100%; font-size: 0.58rem; line-height: 1.3; color: var(--text-2); background: var(--hover-2);
+    border-radius: 4px; padding: 1px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .month-chip-more { font-size: 0.56rem; color: var(--text-4); }
+  .month-bar {
+    align-self: end; height: 15px; margin-bottom: 3px; border-radius: 4px; z-index: 1;
+    background: var(--gold-22); box-shadow: inset 0 0 0 1px var(--gold-ring-35);
+    display: flex; align-items: center; padding: 0 6px; overflow: hidden;
+    font-size: 0.58rem; font-weight: 500; color: var(--gold-sand); white-space: nowrap; pointer-events: none;
+  }
   .day-detail { display: flex; flex-direction: column; gap: 8px; }
   .day-detail-label { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
 
@@ -388,9 +404,9 @@
   .bar-row > span.peak { background: var(--gold-light); }
 
   /* ---------- Jarvis-Mitte ---------- */
-  .col-jarvis { align-items: center; justify-content: center; gap: 22px; padding: 0 11px; }
+  .col-jarvis { align-items: center; justify-content: center; gap: 16px; padding: 0 11px; }
   .jarvis-orb {
-    position: relative; width: clamp(200px, 55%, 320px); aspect-ratio: 1; flex: none;
+    position: relative; width: clamp(160px, 42%, 240px); aspect-ratio: 1; flex: none;
   }
   .jarvis-orb-glow {
     position: absolute; inset: -14%; border-radius: 50%;
@@ -436,7 +452,7 @@
   .jarvis-activity.offline { color: var(--coral); }
   .jarvis-chat {
     width: 100%; max-width: 460px; display: flex; flex-direction: column; justify-content: flex-end;
-    gap: 8px; text-align: left; min-height: 40px; max-height: 168px; overflow-y: auto;
+    gap: 8px; text-align: left; min-height: 40px; max-height: 120px; overflow-y: auto;
     padding: 10px; border-radius: 10px; background: var(--tile); box-shadow: 0 0 0 1px var(--ring-panel);
   }
   @keyframes bubble-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -887,6 +903,14 @@
     return `${y}-${m}-${d}`;
   }
 
+  // Gegenstück zu localDateKey: baut aus "YYYY-MM-DD" wieder ein lokales
+  // Date (Mitternacht) - bewusst nicht new Date(key), da das als UTC
+  // geparst wird und in DE zum Vortag verschieben kann.
+  function dateFromKey(key) {
+    const [y, m, d] = key.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+
   // Trägt ein Ereignis in jeden Kalendertag zwischen (inkl.) start und end
   // ein - wichtig für mehrtägige Termine, die sonst nur am Starttag
   // auftauchen würden.
@@ -905,7 +929,12 @@
 
   // Gemeinsam von Wochenstreifen (Übersicht) und Monatsgitter (Kalender-
   // Detailseite) genutzt, damit beide exakt dieselben Termine anzeigen.
-  function buildEventsByDate(calData, posts) {
+  // multiDayOut (optional): wird, falls übergeben, mit einem Eintrag pro
+  // mehrtägigem Termin gefüllt (für den durchgehenden Balken im Monatsgitter) -
+  // die einzelnen Tage bleiben zusätzlich ganz normal in eventsByDate,
+  // markiert mit multiDay:true, damit sie in Tages-Chips nicht doppelt
+  // auftauchen.
+  function buildEventsByDate(calData, posts, multiDayOut) {
     const eventsByDate = {};
     (calData?.events || []).forEach(e => {
       if (!e.start) return;
@@ -915,17 +944,18 @@
       // exklusiv (Tag nach dem letzten Tag) - einen Tag zurückrechnen.
       if (e.ganztags && e.ende) end = new Date(end.getTime() - 24 * 3600 * 1000);
       if (end < start) end = start;
-      addEventRange(eventsByDate, start, end, {
-        start: e.start,
-        title: e.titel,
-        meta: e.ort || (e.quelle === "apple" ? "Apple Kalender" : e.quelle === "google" ? "Google Kalender" : ""),
-      });
+      const startKey = localDateKey(start);
+      const endKey = localDateKey(end);
+      const multiDay = startKey !== endKey;
+      const meta = e.ort || (e.quelle === "apple" ? "Apple Kalender" : e.quelle === "google" ? "Google Kalender" : "");
+      addEventRange(eventsByDate, start, end, { start: e.start, title: e.titel, meta, multiDay });
+      if (multiDay && multiDayOut) multiDayOut.push({ title: e.titel, startKey, endKey, meta });
     });
     (posts || []).forEach(p => {
       if (!p.geplant_fuer) return;
       const dateKey = localDateKey(new Date(p.geplant_fuer));
       if (!eventsByDate[dateKey]) eventsByDate[dateKey] = [];
-      eventsByDate[dateKey].push({ start: p.geplant_fuer, title: (p.text || "Beitrag").slice(0, 40), meta: "Social-Media-Beitrag" });
+      eventsByDate[dateKey].push({ start: p.geplant_fuer, title: (p.text || "Beitrag").slice(0, 40), meta: "Social-Media-Beitrag", multiDay: false });
     });
     return eventsByDate;
   }
@@ -1316,7 +1346,8 @@
   }
 
   function drawMonthGrid() {
-    const eventsByDate = buildEventsByDate(DATA.calendar, DATA.posts);
+    const multiDayEvents = [];
+    const eventsByDate = buildEventsByDate(DATA.calendar, DATA.posts, multiDayEvents);
     const todayKey = localDateKey(new Date());
     const year = kalenderViewMonth.getFullYear();
     const month = kalenderViewMonth.getMonth();
@@ -1343,9 +1374,39 @@
       if (outside) classes.push("outside");
       if (key === todayKey) classes.push("today");
       if (key === kalenderSelectedKey) classes.push("selected");
+      // Mehrtägige Termine bekommen weiter unten einen eigenen durchgehenden
+      // Balken - hier in der Zelle nur die eintägigen Termine als Chips,
+      // sonst würde ein mehrtägiger Termin an jedem seiner Tage nochmal als
+      // Text auftauchen.
+      const dayEvents = (eventsByDate[key] || []).filter(e => !e.multiDay);
       if (eventsByDate[key]) classes.push("has-event");
-      cells += `<div class="${classes.join(" ")}" data-key="${key}"><span>${d.getDate()}</span><span class="dot"></span></div>`;
+      const shown = dayEvents.slice(0, 2);
+      const chipsHtml = shown.map(e => `<span class="month-chip">${e.title}</span>`).join("")
+        + (dayEvents.length > shown.length ? `<span class="month-chip-more">+${dayEvents.length - shown.length} mehr</span>` : "");
+      cells += `<div class="${classes.join(" ")}" data-key="${key}"><span class="month-cell-num">${d.getDate()}</span>${chipsHtml}</div>`;
     }
+
+    // Mehrtägige Termine als durchgehenden Balken über die betroffenen Tage
+    // zeichnen (ein CSS-Grid-Item pro Wochenzeile, da ein Grid-Item nicht
+    // über einen Zeilenumbruch hinweg gezeichnet werden kann).
+    multiDayEvents.forEach(ev => {
+      const startIdx = Math.round((dateFromKey(ev.startKey) - gridStart) / 86400000);
+      const endIdx = Math.round((dateFromKey(ev.endKey) - gridStart) / 86400000);
+      const s = Math.max(0, startIdx);
+      const e = Math.min(totalCells - 1, endIdx);
+      if (s > e) return;
+      let cur = s;
+      while (cur <= e) {
+        const row = Math.floor(cur / 7);
+        const rowEndIdx = row * 7 + 6;
+        const segEnd = Math.min(e, rowEndIdx);
+        const colStart = cur % 7;
+        const colEnd = segEnd % 7;
+        cells += `<div class="month-bar" style="grid-row:${row + 2}; grid-column:${colStart + 1} / ${colEnd + 2};" title="${ev.title}">${ev.title}</div>`;
+        cur = segEnd + 1;
+      }
+    });
+
     document.getElementById("month-grid").innerHTML = cells;
 
     document.querySelectorAll(".month-cell[data-key]").forEach(cell => {
@@ -1472,6 +1533,7 @@
   async function addAkquiseLead(firma) {
     const obj = {
       firma, status: "Neu", quelle: "Manuell",
+      kontaktiert: false, demo_gebaut: false, anschreiben_art: "",
       demo_gebaut_am: "", angeschrieben_am: "", antwort_am: "", antwort_status: "—",
       notiz: "", firmenliste_ref: "",
     };
@@ -1483,7 +1545,11 @@
   }
 
   async function updateAkquiseStatus(item, field, value) {
-    const clean = { firma: item.firma, status: item.status, quelle: item.quelle, demo_gebaut_am: item.demo_gebaut_am || "", angeschrieben_am: item.angeschrieben_am || "", antwort_am: item.antwort_am || "", antwort_status: item.antwort_status || "—", notiz: item.notiz || "", firmenliste_ref: item.firmenliste_ref || "" };
+    const clean = {
+      firma: item.firma, status: item.status, quelle: item.quelle,
+      kontaktiert: item.kontaktiert || false, demo_gebaut: item.demo_gebaut || false, anschreiben_art: item.anschreiben_art || "",
+      demo_gebaut_am: item.demo_gebaut_am || "", angeschrieben_am: item.angeschrieben_am || "", antwort_am: item.antwort_am || "", antwort_status: item.antwort_status || "—", notiz: item.notiz || "", firmenliste_ref: item.firmenliste_ref || "",
+    };
     clean[field] = value;
     const result = await githubPutFile(item._path, clean, `Akquise aktualisiert: ${item.firma}`, item._sha);
     item[field] = value;
@@ -1521,6 +1587,14 @@
   }
 
   const AKQUISE_STATUS_OPTIONS = ["Neu", "Priorisiert", "Pitch-Demo gebaut", "Kontaktiert", "Kunde geworden", "Verworfen"];
+  // Wie wurde angeschrieben - unabhängig vom Funnel-Status, da Demo/Angebot
+  // in beliebiger Kombination Teil der Erstansprache sein können.
+  const AKQUISE_ANSCHREIBEN_OPTIONS = [
+    "Erste E-Mail ohne Demo",
+    "E-Mail mit Demo",
+    "E-Mail ohne Demo, Angebot erwähnt",
+    "E-Mail mit Demo, Angebot erwähnt",
+  ];
 
   function drawAkquiseList() {
     const el = document.getElementById("akquise-detail-list");
@@ -1530,17 +1604,61 @@
       return;
     }
     el.innerHTML = sorted.map((i, idx) => `
-      <div class="detail-row">
+      <div class="detail-row akquise-row">
         <span class="dot" style="width:8px;height:8px;border-radius:50%;flex:none;background:${STATUS_COLORS[i.status] || "var(--neutral-1)"};"></span>
         <div class="detail-row-main">
           <span class="detail-row-title">${i.firma}</span>
           <span class="detail-row-sub">${i.antwort_status && i.antwort_status !== "—" ? i.antwort_status : ""}</span>
+          <div class="akquise-flags">
+            <label class="flag-toggle"><span class="todo-box akquise-kontaktiert-box${i.kontaktiert ? " checked" : ""}" data-idx="${idx}"></span>Kontaktiert</label>
+            <label class="flag-toggle"><span class="todo-box akquise-demo-box${i.demo_gebaut ? " checked" : ""}" data-idx="${idx}"></span>Demo gebaut</label>
+            <select class="akquise-anschreiben-select" data-idx="${idx}">
+              <option value=""${i.anschreiben_art ? "" : " selected"}>Anschreiben-Art…</option>
+              ${AKQUISE_ANSCHREIBEN_OPTIONS.map(o => `<option value="${o}"${o === i.anschreiben_art ? " selected" : ""}>${o}</option>`).join("")}
+            </select>
+          </div>
         </div>
         <select class="akquise-status-select" data-idx="${idx}">
           ${AKQUISE_STATUS_OPTIONS.map(o => `<option value="${o}"${o === i.status ? " selected" : ""}>${o}</option>`).join("")}
         </select>
       </div>
     `).join("");
+    el.querySelectorAll(".akquise-kontaktiert-box").forEach(box => {
+      box.addEventListener("click", async () => {
+        const item = sorted[Number(box.dataset.idx)];
+        const next = !item.kontaktiert;
+        try {
+          await updateAkquiseStatus(item, "kontaktiert", next);
+          box.classList.toggle("checked", next);
+        } catch (err) {
+          showError("Kontaktiert-Status konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+    el.querySelectorAll(".akquise-demo-box").forEach(box => {
+      box.addEventListener("click", async () => {
+        const item = sorted[Number(box.dataset.idx)];
+        const next = !item.demo_gebaut;
+        try {
+          await updateAkquiseStatus(item, "demo_gebaut", next);
+          box.classList.toggle("checked", next);
+        } catch (err) {
+          showError("Demo-Status konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
+    el.querySelectorAll(".akquise-anschreiben-select").forEach(sel => {
+      sel.addEventListener("change", async () => {
+        const item = sorted[Number(sel.dataset.idx)];
+        const prev = item.anschreiben_art || "";
+        try {
+          await updateAkquiseStatus(item, "anschreiben_art", sel.value);
+        } catch (err) {
+          sel.value = prev;
+          showError("Anschreiben-Art konnte nicht aktualisiert werden: " + err.message);
+        }
+      });
+    });
     el.querySelectorAll(".akquise-status-select").forEach(sel => {
       sel.addEventListener("change", async () => {
         const item = sorted[Number(sel.dataset.idx)];
@@ -1658,7 +1776,7 @@
     item._sha = result.content.sha;
   }
 
-  const PROJEKT_PHASE_OPTIONS = ["Konzept", "Umsetzung", "Abnahme", "Abgeschlossen"];
+  const PROJEKT_PHASE_OPTIONS = ["Konzept", "Demo gebaut", "Umsetzung", "Änderung von Kunde", "Abnahme", "Abgeschlossen"];
 
   function renderDetailProjekte() {
     const body = document.getElementById("detail-body");
