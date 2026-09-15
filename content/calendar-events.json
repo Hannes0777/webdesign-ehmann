@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T07:22:45.586Z",
+  "updated_at": "2026-09-15T12:49:16.616Z",
   "events": [
     {
       "quelle": "apple",
@@ -483,14 +483,6 @@
     },
     {
       "quelle": "apple",
-      "titel": "Schweiz Montage ",
-      "start": "2026-09-21T00:00:00.000Z",
-      "ende": "2026-09-25T00:00:00.000Z",
-      "ganztags": false,
-      "ort": null
-    },
-    {
-      "quelle": "apple",
       "titel": "Schule ",
       "start": "2026-09-25T00:00:00.000Z",
       "ende": "2026-09-26T00:00:00.000Z",
@@ -518,6 +510,14 @@
       "titel": "Kabinendienst",
       "start": "2026-10-05T00:00:00.000Z",
       "ende": "2026-10-19T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Schweiz Montage ",
+      "start": "2026-10-05T00:00:00.000Z",
+      "ende": "2026-10-09T00:00:00.000Z",
       "ganztags": false,
       "ort": null
     },
