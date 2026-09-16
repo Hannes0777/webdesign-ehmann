@@ -1,18 +1,5 @@
 [
   {
-    "at": "2026-09-02T13:15:33.720Z",
-    "facebook_followers": null,
-    "instagram_followers": 51,
-    "facebook_likes": 0,
-    "facebook_comments": 0,
-    "facebook_reach": 0,
-    "instagram_likes": 41,
-    "instagram_comments": 0,
-    "instagram_reach": 544,
-    "instagram_accounts_engaged": 5,
-    "instagram_total_interactions": 3
-  },
-  {
     "at": "2026-09-02T13:20:40.009Z",
     "facebook_followers": null,
     "instagram_followers": 51,
@@ -51996,6 +51983,19 @@
     "instagram_likes": 72,
     "instagram_comments": 0,
     "instagram_reach": 1470,
+    "instagram_accounts_engaged": 20,
+    "instagram_total_interactions": 43
+  },
+  {
+    "at": "2026-09-16T06:45:32.641Z",
+    "facebook_followers": null,
+    "instagram_followers": 68,
+    "facebook_likes": 0,
+    "facebook_comments": 0,
+    "facebook_reach": 0,
+    "instagram_likes": 72,
+    "instagram_comments": 0,
+    "instagram_reach": 1473,
     "instagram_accounts_engaged": 20,
     "instagram_total_interactions": 43
   }
