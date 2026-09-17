@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /vorschau/
 
 Sitemap: https://www.webdesign-ehmann.de/sitemap.xml
