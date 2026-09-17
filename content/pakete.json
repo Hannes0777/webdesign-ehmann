@@ -1,13 +1,9 @@
 {
-  "sonderangebot_hinweis": "🎉 Nur für Neukunden: Website ab 100 €",
-  "preis_hinweis": "Einführungspreis nur für Neukunden — regulär 250 €",
   "pakete": [
     {
       "name": "Starter",
-      "regulaer_preis": "250",
       "ab_preis": "100",
       "preis_text": "",
-      "preis_notiz": "Nur für Neukunden",
       "tagline": "Eine Seite, alle wichtigen Infos auf einen Blick.",
       "empfohlen": false,
       "leistungen": [
@@ -21,8 +17,8 @@
     },
     {
       "name": "Business",
-      "ab_preis": "",
-      "preis_text": "Preis auf Anfrage",
+      "ab_preis": "150",
+      "preis_text": "",
       "tagline": "Mehrseitige Website mit klarer Struktur.",
       "empfohlen": false,
       "leistungen": [
@@ -35,8 +31,8 @@
     },
     {
       "name": "Premium",
-      "ab_preis": "",
-      "preis_text": "Preis auf Anfrage",
+      "ab_preis": "200",
+      "preis_text": "",
       "tagline": "Die umfangreichste, individuellste Umsetzung.",
       "empfohlen": true,
       "leistungen": [
