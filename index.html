@@ -53,18 +53,18 @@
 <!-- =====================================================
      NAVIGATION
      ===================================================== -->
-<header id="main-nav" class="nav" role="banner">
+<header id="main-nav" class="nav">
   <div class="nav__inner container">
     <a href="index.html" class="nav__logo nav__logo--shine">
       Webdesign<span class="nav__logo-dot">.</span>Ehmann
     </a>
 
-    <button id="nav-toggle" class="nav__toggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="nav-menu">
+    <button type="button" id="nav-toggle" class="nav__toggle" aria-label="Navigation öffnen" aria-expanded="false" aria-controls="nav-menu">
       <span></span><span></span><span></span>
     </button>
 
     <nav id="nav-menu" class="nav__menu" aria-label="Hauptnavigation">
-      <ul role="list">
+      <ul>
         <li><a href="design-stile.html" class="nav__link">Design-Stile</a></li>
         <li><a href="leistungen.html" class="nav__link">Leistungen</a></li>
         <li><a href="pakete.html" class="nav__link">Pakete</a></li>
@@ -80,7 +80,7 @@
      PROMO-MARQUEE — durchlaufender Angebots-Streifen, direkt
      unter der Navigation, nicht zu übersehen.
      ===================================================== -->
-<a href="pakete.html" class="promo-marquee" aria-label="Nur für Neukunden: Website ab 100 Euro statt 250 Euro — zum Angebot">
+<a href="pakete.html" class="promo-marquee" aria-label="Nur für Neukunden: Website ab 100 € — zum Angebot">
   <div class="promo-marquee__track" aria-hidden="true">
     <div class="promo-marquee__group">
       <span class="promo-marquee__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>Nur für Neukunden: Website ab 100&nbsp;€</span>
@@ -111,8 +111,8 @@
       <div class="grid-spotlight cine-hero__grid-spotlight" aria-hidden="true"></div>
 
       <h1 class="cine-text-wrapper" id="cine-text-wrapper">
-        <div class="cine-line" id="cine-line-1">Ihre Website,</div>
-        <div class="cine-line cine-line--accent" id="cine-line-2">fertig gedacht.</div>
+        <span class="cine-line" id="cine-line-1">Ihre Website,</span>
+        <span class="cine-line cine-line--accent" id="cine-line-2">fertig gedacht.</span>
       </h1>
 
       <div class="cine-cta-wrapper" id="cine-cta-wrapper">
@@ -330,7 +330,7 @@
 <!-- =====================================================
      FOOTER
      ===================================================== -->
-<footer class="footer" role="contentinfo">
+<footer class="footer">
   <div class="container footer__inner">
     <div class="footer__brand">
       <span class="footer__logo">Webdesign<span class="nav__logo-dot">.</span>Ehmann</span>
@@ -360,7 +360,7 @@
 <script src="js/cine-hero.js" defer></script>
 <script src="js/main.js" defer></script>
 <!-- Cloudflare Web Analytics -->
-<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "325fa2df90a3448aa37c0912f6b6930a"}'></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "325fa2df90a3448aa37c0912f6b6930a"}'></script>
 <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
