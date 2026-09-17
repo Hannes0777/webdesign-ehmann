@@ -484,6 +484,7 @@ button { font: inherit; cursor: pointer; }
   font-weight: inherit;
 }
 .cine-line {
+  display: block;
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(2.1rem, 1.5rem + 2.6vw, 4rem);
