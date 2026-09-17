@@ -178,7 +178,7 @@ if ('IntersectionObserver' in window && revealEls.length) {
    mitgegeben und dort ausgelesen, siehe unten)
    ============================================================ */
 function goToKontaktMitPaket(paketName) {
-  const url = paketName ? 'kontakt.html?paket=' + encodeURIComponent(paketName) : 'kontakt.html';
+  const url = paketName ? 'kontakt?paket=' + encodeURIComponent(paketName) : 'kontakt';
   window.location.href = url;
 }
 
