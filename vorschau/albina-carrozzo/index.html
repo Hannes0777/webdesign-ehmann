@@ -16,13 +16,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Florist",
   "name": "Albina Carrozzo Blumengeschäft",
-  "image": "",
   "telephone": "+4971839319903",
   "priceRange": "€€",
   "address": {
@@ -33,11 +33,7 @@
     "addressRegion": "Baden-Württemberg",
     "addressCountry": "DE"
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 48.8680,
-    "longitude": 9.4990
-  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 48.8680, "longitude": 9.4990 },
   "openingHoursSpecification": [
     { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Thursday","Friday"], "opens": "08:00", "closes": "18:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Wednesday","Saturday"], "opens": "08:00", "closes": "12:30" },
@@ -45,276 +41,6 @@
   ]
 }
 </script>
-
-<style>
-  :root{
-    --cream:#faf4e8;
-    --cream-deep:#f1e0bf;
-    --ink:#211c14;
-    --ink-soft:#4c4232;
-    --sage:#3f7a4c;
-    --sage-deep:#204a2c;
-    --clay:#c94f2e;
-    --clay-soft:#f3c39a;
-    --rose:#c23e6b;
-    --rose-soft:#f2c9d8;
-    --gold:#d69a1f;
-    --line:#dcc491;
-    --radius:2px;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  section[id]{scroll-margin-top:84px;}
-  a:focus-visible, button:focus-visible{outline:2px solid var(--clay);outline-offset:2px;}
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{transition-duration:0.01ms !important;}
-  }
-  body{
-    margin:0;
-    background:var(--cream);
-    color:var(--ink);
-    font-family:'Karla',sans-serif;
-    font-size:17px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:500;color:var(--ink);letter-spacing:-0.01em;}
-  img,svg{max-width:100%;display:block;}
-  a{color:inherit;}
-  .container{max-width:1140px;margin:0 auto;padding:0 24px;}
-  .eyebrow{
-    font-family:'Karla',sans-serif;
-    text-transform:uppercase;
-    letter-spacing:.14em;
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--sage-deep);
-  }
-
-  .demo-badge{
-    position:fixed;bottom:16px;left:16px;z-index:500;
-    background:rgba(47,43,36,0.92);color:#f7f2ea;
-    font-size:12px;font-weight:600;letter-spacing:.02em;
-    padding:8px 14px;border-radius:999px;
-    font-family:'Karla',sans-serif;
-  }
-  .demo-badge a{color:#f0dcc9;text-decoration:underline;}
-
-  /* ---------- HEADER ---------- */
-  header.nav{
-    position:sticky;top:0;z-index:100;
-    background:rgba(247,242,234,0.92);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav__inner{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:18px 24px;
-  }
-  .nav__logo{display:flex;flex-direction:column;text-decoration:none;line-height:1.1;}
-  .nav__logo-main{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--ink);}
-  .nav__logo-sub{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-deep);margin-top:3px;}
-  nav.nav__menu ul{list-style:none;display:flex;gap:32px;margin:0;padding:0;align-items:center;}
-  nav.nav__menu a{text-decoration:none;font-size:15px;color:var(--ink-soft);}
-  nav.nav__menu a:hover{color:var(--sage-deep);}
-  .btn{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:11px 22px;border-radius:var(--radius);
-    font-family:'Karla',sans-serif;font-weight:600;font-size:14.5px;
-    text-decoration:none;border:1px solid transparent;cursor:pointer;
-  }
-  .btn--primary{background:var(--clay);color:#fff;}
-  .btn--primary:hover{background:var(--rose);}
-  .btn--outline{border-color:var(--sage-deep);color:var(--sage-deep);}
-  .btn--outline:hover{background:var(--sage-deep);color:#fff;}
-  .nav__toggle{display:none;background:none;border:0;cursor:pointer;padding:6px;}
-  .nav__toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:transform .2s ease, opacity .2s ease;}
-  .nav__toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-  .nav__toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
-  .nav__toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-
-  /* ---------- HERO ---------- */
-  .hero{padding:64px 0 0;overflow:hidden;}
-  .hero__grid{
-    display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;
-  }
-  .hero__eyebrow{margin-bottom:18px;}
-  .hero h1{font-size:clamp(32px,4.2vw,52px);line-height:1.08;margin:0 0 22px;}
-  .hero h1 em{font-style:italic;color:var(--clay);}
-  .hero p.lead{font-size:18px;color:var(--ink-soft);max-width:46ch;margin:0 0 30px;}
-  .hero__actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px;}
-  .hero__meta{
-    display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:var(--ink-soft);
-    border-top:1px solid var(--line);padding-top:18px;
-  }
-  .hero__meta strong{color:var(--ink);font-weight:600;}
-
-  .hero__visual{
-    position:relative;aspect-ratio:4/5;
-    background:
-      radial-gradient(circle at 30% 22%, var(--rose-soft) 0%, transparent 55%),
-      radial-gradient(circle at 72% 68%, var(--clay-soft) 0%, transparent 58%),
-      var(--cream-deep);
-    border-radius:var(--radius);overflow:hidden;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .hero__visual-note{
-    position:absolute;bottom:14px;left:14px;right:14px;
-    font-size:11.5px;color:var(--ink-soft);background:rgba(247,242,234,.85);
-    padding:6px 10px;border-radius:2px;
-  }
-
-  /* ---------- ÖFFNUNGSZEITEN BAND ---------- */
-  .hours-band{
-    background:linear-gradient(100deg, var(--sage-deep) 0%, var(--sage) 100%);color:#f2ead9;margin-top:70px;
-  }
-  .hours-band__inner{
-    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
-    gap:20px;padding:26px 24px;
-  }
-  .hours-band__row{display:flex;flex-wrap:wrap;gap:0;font-size:14px;}
-  .hours-band__item{
-    padding:0 18px;border-right:1px solid rgba(242,234,217,.25);
-    display:flex;flex-direction:column;gap:2px;
-  }
-  .hours-band__item:last-child{border-right:0;}
-  .hours-band__item span.day{opacity:.75;font-size:12px;text-transform:uppercase;letter-spacing:.06em;}
-  .hours-band__item span.time{font-weight:600;}
-  .hours-band__highlight{
-    background:var(--gold);color:var(--ink);padding:4px 10px;border-radius:2px;font-size:12px;font-weight:700;
-    text-transform:uppercase;letter-spacing:.04em;
-  }
-
-  /* ---------- SECTION GENERIC ---------- */
-  section{padding:96px 0;}
-  .section-head{max-width:640px;margin-bottom:48px;}
-  .section-head h2{font-size:clamp(26px,3vw,36px);margin:10px 0 0;}
-
-  /* ---------- SORTIMENT ---------- */
-  .sortiment__grid{display:grid;grid-template-columns:1.3fr .9fr;gap:40px;}
-  .sortiment__main{
-    background:var(--cream-deep);border-radius:var(--radius);padding:40px;
-  }
-  .sortiment__main h3{font-size:24px;margin:0 0 14px;}
-  .sortiment__main p{color:var(--ink-soft);margin:0 0 22px;max-width:52ch;}
-  .sortiment__tags{display:flex;flex-wrap:wrap;gap:10px;}
-  .tag{
-    border:1px solid transparent;padding:7px 14px;border-radius:999px;
-    font-size:13.5px;font-weight:600;color:#fff;background:var(--sage);
-  }
-  .tag:nth-child(2){background:var(--clay);}
-  .tag:nth-child(3){background:var(--rose);}
-  .tag:nth-child(4){background:var(--sage-deep);}
-  .sortiment__side{display:flex;flex-direction:column;gap:24px;}
-  .sortiment__side-item{border-top:1px solid var(--line);padding-top:20px;}
-  .sortiment__side-item:first-child{border-top:0;padding-top:0;}
-  .sortiment__side-item h4{font-family:'Fraunces',serif;font-weight:500;font-size:19px;margin:0 0 8px;}
-  .sortiment__side-item p{margin:0;color:var(--ink-soft);font-size:15px;}
-
-  /* ---------- PERSÖNLICH ---------- */
-  .persoenlich{background:linear-gradient(160deg, var(--rose-soft) 0%, var(--cream-deep) 45%);}
-  .persoenlich__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;}
-  .persoenlich__portrait{
-    aspect-ratio:3/4;
-    background:radial-gradient(circle at 50% 30%, var(--clay-soft) 0%, var(--rose-soft) 100%);
-    border-radius:var(--radius);
-    display:flex;align-items:center;justify-content:center;position:relative;
-  }
-  .persoenlich__portrait-note{
-    position:absolute;bottom:14px;left:14px;right:14px;font-size:11.5px;color:#5c3826;
-    background:rgba(247,242,234,.85);padding:6px 10px;border-radius:2px;
-  }
-  .persoenlich__text h3{font-size:26px;margin:0 0 16px;}
-  .persoenlich__text p{color:var(--ink-soft);margin:0 0 16px;max-width:56ch;}
-  blockquote{
-    margin:28px 0 0;padding:20px 24px;border-left:3px solid var(--rose);
-    background:var(--cream);font-family:'Fraunces',serif;font-style:italic;
-    font-size:18px;color:var(--ink);
-  }
-  blockquote footer{
-    margin-top:10px;font-family:'Karla',sans-serif;font-style:normal;
-    font-size:13px;color:var(--ink-soft);
-  }
-
-  /* ---------- ANLÄSSE ---------- */
-  .anlaesse__list{border-top:1px solid var(--line);margin-top:8px;}
-  .anlass-row{
-    display:flex;align-items:baseline;justify-content:space-between;gap:24px;
-    padding:22px 0 22px 20px;border-bottom:1px solid var(--line);
-    border-left:3px solid var(--sage);
-  }
-  .anlass-row:nth-child(2){border-left-color:var(--clay);}
-  .anlass-row:nth-child(3){border-left-color:var(--rose);}
-  .anlass-row:nth-child(4){border-left-color:var(--gold);}
-  .anlass-row h4{font-family:'Fraunces',serif;font-weight:500;font-size:20px;margin:0;min-width:220px;}
-  .anlass-row p{margin:0;color:var(--ink-soft);font-size:15px;max-width:56ch;}
-
-  /* ---------- STANDORT ---------- */
-  .standort__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px;align-items:stretch;}
-  .standort__card{
-    background:var(--cream-deep);border-radius:var(--radius);padding:36px;
-    display:flex;flex-direction:column;gap:22px;
-  }
-  .standort__block h4{
-    font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--sage-deep);
-    margin:0 0 8px;font-family:'Karla',sans-serif;font-weight:700;
-  }
-  .standort__block p{margin:0;color:var(--ink-soft);}
-  .standort__block a.link{color:var(--ink);text-decoration:underline;text-underline-offset:3px;}
-  .hours-table{width:100%;border-collapse:collapse;font-size:14.5px;}
-  .hours-table td{padding:5px 0;color:var(--ink-soft);border-bottom:1px dashed var(--line);}
-  .hours-table td:last-child{text-align:right;color:var(--ink);font-weight:600;}
-  .hours-table tr.sun td{color:var(--clay);font-weight:700;}
-  .standort__map{
-    border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);min-height:340px;
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    background:
-      radial-gradient(circle at 50% 45%, var(--rose-soft) 0%, transparent 60%),
-      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(63,122,76,.15) 27px, rgba(63,122,76,.15) 28px),
-      repeating-linear-gradient(90deg, transparent, transparent 27px, rgba(63,122,76,.15) 27px, rgba(63,122,76,.15) 28px),
-      var(--cream-deep);
-    text-decoration:none;transition:background-color .15s ease;
-  }
-  .standort__map:hover{background-color:var(--line);}
-  .standort__map-inner{padding:24px;}
-  .standort__map-pin{font-size:28px;display:block;margin-bottom:10px;}
-  .standort__map-text{font-size:14.5px;color:var(--ink-soft);}
-  .standort__map-link{color:var(--sage-deep);font-weight:600;}
-
-  /* ---------- FOOTER ---------- */
-  footer.footer{background:var(--sage-deep);color:#e9e2d3;padding:56px 0 28px;}
-  .footer__grid{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;margin-bottom:40px;}
-  .footer__brand .nav__logo-main{color:#f7f2ea;}
-  .footer__brand p{color:#cfe0cf;max-width:32ch;margin-top:10px;font-size:14.5px;}
-  .footer__col h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin:0 0 12px;}
-  .footer__col p, .footer__col a{display:block;color:#e9e2d3;text-decoration:none;margin-bottom:6px;font-size:14.5px;}
-  .footer__bottom{
-    border-top:1px solid rgba(233,226,211,.2);padding-top:22px;
-    font-size:13px;color:#a9c4ab;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
-  }
-  .footer__bottom a{color:var(--gold);}
-
-  @media (max-width: 860px){
-    .hero__grid,.sortiment__grid,.persoenlich__grid,.standort__grid{grid-template-columns:1fr;}
-    .hero__visual{order:-1;aspect-ratio:16/10;}
-    .persoenlich__portrait{aspect-ratio:16/9;}
-    .anlass-row{flex-direction:column;gap:6px;}
-    .anlass-row h4{min-width:0;}
-    nav.nav__menu{
-      position:fixed;inset:0 0 0 30%;background:var(--cream);
-      transform:translateX(100%);transition:transform .25s ease;
-      padding:90px 28px;border-left:1px solid var(--line);
-    }
-    nav.nav__menu.open{transform:translateX(0);}
-    nav.nav__menu ul{flex-direction:column;align-items:flex-start;gap:22px;}
-    .nav__toggle{display:block;}
-    .hours-band__inner{flex-direction:column;align-items:flex-start;}
-    .hours-band__row{gap:16px 0;}
-    .hours-band__item{border-right:0;padding:0 0 0 0;}
-    section{padding:64px 0;}
-  }
-</style>
 </head>
 <body>
 
@@ -322,7 +48,7 @@
 
 <header class="nav">
   <div class="nav__inner">
-    <a href="#top" class="nav__logo">
+    <a href="index.html" class="nav__logo">
       <span class="nav__logo-main">Albina Carrozzo</span>
       <span class="nav__logo-sub">Blumen &amp; Pflanzen · Schlechtbach</span>
     </a>
@@ -331,16 +57,17 @@
     </button>
     <nav class="nav__menu" id="navMenu" aria-label="Hauptnavigation">
       <ul>
-        <li><a href="#sortiment">Blumen &amp; Pflanzen</a></li>
-        <li><a href="#anlaesse">Anlässe</a></li>
-        <li><a href="#standort">Öffnungszeiten &amp; Lage</a></li>
+        <li><a href="blumen-pflanzen.html">Blumen &amp; Pflanzen</a></li>
+        <li><a href="anlaesse.html">Anlässe</a></li>
+        <li><a href="ueber-albina.html">Über Albina</a></li>
+        <li><a href="kontakt.html">Öffnungszeiten &amp; Lage</a></li>
         <li><a href="tel:+4971839319903" class="btn btn--primary">07183 93 19 03</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-<main id="top">
+<main>
 
   <!-- HERO -->
   <section class="hero">
@@ -351,7 +78,7 @@
         <p class="lead">Albina Carrozzo führt ihr Blumengeschäft in der Friedrich-Ebert-Straße in Schlechtbach – mit Beratung, die auf den Anlass eingeht, statt auf die Uhr zu schauen.</p>
         <div class="hero__actions">
           <a href="tel:+4971839319903" class="btn btn--primary">Anrufen &amp; Strauß vereinbaren</a>
-          <a href="#standort" class="btn btn--outline">Öffnungszeiten ansehen</a>
+          <a href="kontakt.html" class="btn btn--outline">Öffnungszeiten ansehen</a>
         </div>
         <div class="hero__meta">
           <span><strong>Friedrich-Ebert-Str. 8</strong> · 73635 Rudersberg-Schlechtbach</span>
@@ -359,26 +86,32 @@
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
-        <svg width="170" height="170" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.8">
-          <g stroke="#204a2c" stroke-width="1.4">
-            <path d="M75 140 C 75 100, 60 90, 75 55" fill="none"/>
-            <path d="M75 100 C 60 95, 52 100, 48 110" fill="none"/>
-            <path d="M75 85 C 90 80, 98 85, 100 95" fill="none"/>
+        <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="500" fill="#f1e0bf"/>
+          <g fill="none" stroke="#204a2c" stroke-width="2">
+            <path d="M200 460 C 200 340, 150 300, 200 190"/>
+            <path d="M200 340 C 150 320, 120 340, 100 380"/>
+            <path d="M200 280 C 250 260, 280 280, 300 320"/>
           </g>
-          <circle cx="75" cy="45" r="10" fill="#d69a1f" opacity=".9"/>
-          <g fill="#c23e6b" opacity=".85">
-            <ellipse cx="60" cy="45" rx="9" ry="5" transform="rotate(-30 60 45)"/>
-            <ellipse cx="90" cy="45" rx="9" ry="5" transform="rotate(30 90 45)"/>
-            <ellipse cx="75" cy="28" rx="5" ry="9"/>
+          <circle cx="200" cy="160" r="34" fill="#d69a1f" opacity=".92"/>
+          <g fill="#c23e6b" opacity=".9">
+            <ellipse cx="150" cy="160" rx="30" ry="17" transform="rotate(-25 150 160)"/>
+            <ellipse cx="250" cy="160" rx="30" ry="17" transform="rotate(25 250 160)"/>
+            <ellipse cx="200" cy="100" rx="17" ry="30"/>
+            <ellipse cx="200" cy="220" rx="17" ry="30"/>
+          </g>
+          <g fill="#3f7a4c" opacity=".8">
+            <ellipse cx="110" cy="390" rx="20" ry="9" transform="rotate(-40 110 390)"/>
+            <ellipse cx="300" cy="330" rx="20" ry="9" transform="rotate(35 300 330)"/>
           </g>
         </svg>
-        <p class="hero__visual-note">Bildplatz für Ladenfoto — echte Aufnahmen aus dem Geschäft folgen im nächsten Schritt.</p>
+        <p class="hero__visual-note">Bildplatz für ein echtes Ladenfoto — folgt, sobald Fotos vorliegen.</p>
       </div>
     </div>
   </section>
 
   <!-- ÖFFNUNGSZEITEN BAND -->
-  <div class="hours-band">
+  <div class="hours-band hours-band--top-margin">
     <div class="container hours-band__inner">
       <div class="hours-band__row">
         <div class="hours-band__item"><span class="day">Mo – Di</span><span class="time">08:00–18:00</span></div>
@@ -391,123 +124,28 @@
     </div>
   </div>
 
-  <!-- SORTIMENT -->
-  <section id="sortiment">
+  <!-- QUICKLINKS -->
+  <section aria-label="Übersicht">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Im Laden</p>
-        <h2>Blumen und Pflanzen aus Schlechtbach</h2>
+        <p class="eyebrow">Auf einen Blick</p>
+        <h2>Was Sie bei Albina Carrozzo finden</h2>
       </div>
-      <div class="sortiment__grid">
-        <div class="sortiment__main">
-          <h3>Sträuße &amp; Gestecke nach Wunsch</h3>
-          <p>Ob ein spontaner Gruß, ein Geburtstagsstrauß oder Blumenschmuck für einen besonderen Tag – Albina Carrozzo bindet vor Ort, nach Anlass und Budget, nicht nach Katalog.</p>
-          <div class="sortiment__tags">
-            <span class="tag">Frische Schnittblumen</span>
-            <span class="tag">Sträuße nach Wunsch</span>
-            <span class="tag">Gestecke</span>
-            <span class="tag">Grabpflege &amp; Trauerbinderei</span>
-          </div>
-        </div>
-        <div class="sortiment__side">
-          <div class="sortiment__side-item">
-            <h4>Pflanzen fürs Zuhause</h4>
-            <p>Topf- und Grünpflanzen für Wohnung, Balkon und Garten – mit Beratung, was am jeweiligen Standort wirklich anwächst.</p>
-          </div>
-          <div class="sortiment__side-item">
-            <h4>Direkt vor Ort</h4>
-            <p>Kein Online-Katalog, kein Warenkorb – ein Anruf oder ein Besuch in der Friedrich-Ebert-Straße genügt.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PERSÖNLICH -->
-  <section class="persoenlich">
-    <div class="container persoenlich__grid">
-      <div class="persoenlich__portrait" aria-hidden="true">
-        <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
-          <circle cx="55" cy="40" r="18" stroke="#5c3826" stroke-width="1.4" fill="none"/>
-          <path d="M25 95 C 25 65, 85 65, 85 95" stroke="#5c3826" stroke-width="1.4" fill="none"/>
-        </svg>
-        <p class="persoenlich__portrait-note">Bildplatz für Portrait von Albina Carrozzo — folgt nach Freigabe.</p>
-      </div>
-      <div class="persoenlich__text">
-        <p class="eyebrow">Vor Ort</p>
-        <h3>Beratung von Albina selbst</h3>
-        <p>Wer in der Friedrich-Ebert-Straße 8 vorbeikommt, wird von Albina Carrozzo persönlich beraten – nicht von einem austauschbaren Team. Kundinnen und Kunden heben genau das hervor: eine Auswahl, die mitdenkt, und Sträuße, die erkennbar von Hand gebunden sind.</p>
-        <blockquote>
-          „Super Laden, mit toller Beratung, frische Blumen und tolle Ideen :-)“
-          <footer>— Google-Bewertung, 5 von 5 Sternen</footer>
-        </blockquote>
-      </div>
-    </div>
-  </section>
-
-  <!-- ANLÄSSE -->
-  <section id="anlaesse">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Für welchen Anlass</p>
-        <h2>Wann ein Anruf bei Albina sich lohnt</h2>
-      </div>
-      <div class="anlaesse__list">
-        <div class="anlass-row">
-          <h4>Kurzfristiger Besuch</h4>
-          <p>Geburtstag vergessen? Auch sonntagvormittags zwischen 10 und 12 Uhr ist geöffnet – ungewöhnlich für ein kleines Blumengeschäft in der Region.</p>
-        </div>
-        <div class="anlass-row">
-          <h4>Feste Termine</h4>
-          <p>Für Hochzeiten, Jubiläen oder Firmenanlässe lohnt sich ein früher Anruf, damit genug Zeit für Absprache und Beschaffung bleibt.</p>
-        </div>
-        <div class="anlass-row">
-          <h4>Trauer &amp; Gedenken</h4>
-          <p>Kranz- und Grabgestaltung wird persönlich und mit der nötigen Ruhe besprochen.</p>
-        </div>
-        <div class="anlass-row">
-          <h4>Einfach so</h4>
-          <p>Ein Strauß ohne besonderen Grund – vorbeischauen und sich von der aktuellen Auswahl inspirieren lassen.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STANDORT -->
-  <section id="standort">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Anfahrt</p>
-        <h2>Öffnungszeiten &amp; Lage</h2>
-      </div>
-      <div class="standort__grid">
-        <div class="standort__card">
-          <div class="standort__block">
-            <h4>Adresse</h4>
-            <p>Albina Carrozzo Blumengeschäft<br>Friedrich-Ebert-Str. 8<br>73635 Rudersberg-Schlechtbach</p>
-          </div>
-          <div class="standort__block">
-            <h4>Kontakt</h4>
-            <p><a class="link" href="tel:+4971839319903">07183 93 19 03</a></p>
-          </div>
-          <div class="standort__block">
-            <h4>Öffnungszeiten</h4>
-            <table class="hours-table">
-              <tr><td>Montag</td><td>08:00–18:00</td></tr>
-              <tr><td>Dienstag</td><td>08:00–18:00</td></tr>
-              <tr><td>Mittwoch</td><td>08:00–12:30</td></tr>
-              <tr><td>Donnerstag</td><td>08:00–18:00</td></tr>
-              <tr><td>Freitag</td><td>08:00–18:00</td></tr>
-              <tr><td>Samstag</td><td>08:00–12:30</td></tr>
-              <tr class="sun"><td>Sonntag</td><td>10:00–12:00</td></tr>
-            </table>
-          </div>
-        </div>
-        <a class="standort__map" href="https://www.openstreetmap.org/?mlat=48.8680&mlon=9.4990#map=17/48.8680/9.4990" target="_blank" rel="noopener" aria-label="Standort auf OpenStreetMap öffnen: Friedrich-Ebert-Str. 8, Rudersberg-Schlechtbach">
-          <span class="standort__map-inner">
-            <span class="standort__map-pin">📍</span>
-            <span class="standort__map-text">Friedrich-Ebert-Str. 8, Rudersberg-Schlechtbach<br><span class="standort__map-link">Karte öffnen →</span></span>
-          </span>
+      <div class="quicklinks__grid">
+        <a class="quicklink" href="blumen-pflanzen.html">
+          <h3>Blumen &amp; Pflanzen</h3>
+          <p>Sträuße, Gestecke und Topfpflanzen — gebunden nach Wunsch, nicht nach Katalog.</p>
+          <span>Sortiment ansehen →</span>
+        </a>
+        <a class="quicklink" href="anlaesse.html">
+          <h3>Anlässe</h3>
+          <p>Von der spontanen Idee bis zur Trauerfloristik — wann sich ein Anruf lohnt.</p>
+          <span>Anlässe ansehen →</span>
+        </a>
+        <a class="quicklink" href="ueber-albina.html">
+          <h3>Über Albina</h3>
+          <p>Persönliche Beratung von der Inhaberin selbst, keine austauschbaren Verkäufer.</p>
+          <span>Mehr erfahren →</span>
         </a>
       </div>
     </div>
@@ -541,18 +179,6 @@
   </div>
 </footer>
 
-<script>
-  const toggle = document.getElementById('navToggle');
-  const menu = document.getElementById('navMenu');
-  toggle.addEventListener('click', () => {
-    const open = menu.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
-  });
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    menu.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
-  }));
-</script>
-
+<script src="js/main.js"></script>
 </body>
 </html>
