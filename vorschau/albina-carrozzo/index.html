@@ -4,12 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Gestaltungsvorschlag: Albina Carrozzo Blumengeschäft, Rudersberg-Schlechtbach – Design-Referenz von Webdesign Ehmann.">
-<title>Albina Carrozzo Blumengeschäft – Gestaltungsvorschlag</title>
+<meta name="description" content="Albina Carrozzo Blumengeschäft in Rudersberg-Schlechtbach – Sträuße, Gestecke und Pflanzen, persönlich gebunden. Friedrich-Ebert-Str. 8, auch sonntags geöffnet.">
+<meta name="theme-color" content="#204a2c">
+<title>Albina Carrozzo Blumengeschäft – Blumen &amp; Pflanzen in Rudersberg-Schlechtbach</title>
+
+<meta property="og:type" content="business.business">
+<meta property="og:title" content="Albina Carrozzo Blumengeschäft – Rudersberg-Schlechtbach">
+<meta property="og:description" content="Sträuße, Gestecke und Pflanzen, persönlich gebunden von Albina Carrozzo. Friedrich-Ebert-Str. 8, Rudersberg-Schlechtbach – auch sonntags geöffnet.">
+<meta property="og:locale" content="de_DE">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Florist",
+  "name": "Albina Carrozzo Blumengeschäft",
+  "image": "",
+  "telephone": "+4971839319903",
+  "priceRange": "€€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Friedrich-Ebert-Str. 8",
+    "postalCode": "73635",
+    "addressLocality": "Rudersberg",
+    "addressRegion": "Baden-Württemberg",
+    "addressCountry": "DE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 48.8680,
+    "longitude": 9.4990
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Thursday","Friday"], "opens": "08:00", "closes": "18:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Wednesday","Saturday"], "opens": "08:00", "closes": "12:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "12:00" }
+  ]
+}
+</script>
 
 <style>
   :root{
@@ -29,6 +64,12 @@
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  section[id]{scroll-margin-top:84px;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--clay);outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition-duration:0.01ms !important;}
+  }
   body{
     margin:0;
     background:var(--cream);
@@ -88,7 +129,10 @@
   .btn--outline{border-color:var(--sage-deep);color:var(--sage-deep);}
   .btn--outline:hover{background:var(--sage-deep);color:#fff;}
   .nav__toggle{display:none;background:none;border:0;cursor:pointer;padding:6px;}
-  .nav__toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;}
+  .nav__toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:transform .2s ease, opacity .2s ease;}
+  .nav__toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav__toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .nav__toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
   /* ---------- HERO ---------- */
   .hero{padding:64px 0 0;overflow:hidden;}
