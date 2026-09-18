@@ -206,8 +206,20 @@
   .hours-table td{padding:5px 0;color:var(--ink-soft);border-bottom:1px dashed var(--line);}
   .hours-table td:last-child{text-align:right;color:var(--ink);font-weight:600;}
   .hours-table tr.sun td{color:var(--clay);font-weight:700;}
-  .standort__map{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);min-height:340px;}
-  .standort__map iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+  .standort__map{
+    border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);min-height:340px;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    background:
+      linear-gradient(var(--cream-deep),var(--cream-deep)),
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(92,107,79,.12) 27px, rgba(92,107,79,.12) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, rgba(92,107,79,.12) 27px, rgba(92,107,79,.12) 28px);
+    text-decoration:none;transition:background-color .15s ease;
+  }
+  .standort__map:hover{background-color:var(--line);}
+  .standort__map-inner{padding:24px;}
+  .standort__map-pin{font-size:28px;display:block;margin-bottom:10px;}
+  .standort__map-text{font-size:14.5px;color:var(--ink-soft);}
+  .standort__map-link{color:var(--sage-deep);font-weight:600;}
 
   /* ---------- FOOTER ---------- */
   footer.footer{background:var(--ink);color:#e9e2d3;padding:56px 0 28px;}
@@ -430,12 +442,12 @@
             </table>
           </div>
         </div>
-        <div class="standort__map">
-          <iframe
-            title="Standort Albina Carrozzo Blumengeschäft, Friedrich-Ebert-Str. 8, Rudersberg"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=9.4890%2C48.8630%2C9.5090%2C48.8730&layer=mapnik&marker=48.8680%2C9.4990"
-            loading="lazy"></iframe>
-        </div>
+        <a class="standort__map" href="https://www.openstreetmap.org/?mlat=48.8680&mlon=9.4990#map=17/48.8680/9.4990" target="_blank" rel="noopener" aria-label="Standort auf OpenStreetMap öffnen: Friedrich-Ebert-Str. 8, Rudersberg-Schlechtbach">
+          <span class="standort__map-inner">
+            <span class="standort__map-pin">📍</span>
+            <span class="standort__map-text">Friedrich-Ebert-Str. 8, Rudersberg-Schlechtbach<br><span class="standort__map-link">Karte öffnen →</span></span>
+          </span>
+        </a>
       </div>
     </div>
   </section>
