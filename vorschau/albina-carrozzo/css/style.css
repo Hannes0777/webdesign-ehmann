@@ -81,6 +81,7 @@ nav.nav__menu a[aria-current="page"]{font-weight:700;}
 .btn--outline{border-color:var(--sage-deep);color:var(--sage-deep);}
 .btn--outline:hover{background:var(--sage-deep);color:#fff;}
 .nav__toggle{display:none;background:none;border:0;cursor:pointer;padding:6px;position:relative;z-index:200;}
+.nav__close{display:none;}
 .nav__toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:transform .2s ease, opacity .2s ease;}
 .nav__toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
 .nav__toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
@@ -230,9 +231,11 @@ blockquote footer{
 .standort__block p{margin:0;color:var(--ink-soft);}
 .standort__block a.link{color:var(--ink);text-decoration:underline;text-underline-offset:3px;}
 .hours-table{width:100%;border-collapse:collapse;font-size:14.5px;}
-.hours-table td{padding:5px 0;color:var(--ink-soft);border-bottom:1px dashed var(--line);}
-.hours-table td:last-child{text-align:right;color:var(--ink);font-weight:600;}
+.hours-table td{padding:11px 0;color:var(--ink-soft);border-bottom:1px dashed var(--line);}
+.hours-table td:first-child{padding-right:16px;}
+.hours-table td:last-child{text-align:right;color:var(--ink);font-weight:600;white-space:nowrap;}
 .hours-table tr.sun td{color:var(--clay);font-weight:700;}
+.hours-table tr:last-child td{border-bottom:0;}
 .standort__map{
   border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);min-height:340px;
   display:flex;align-items:center;justify-content:center;text-align:center;
@@ -288,6 +291,18 @@ footer.footer{background:var(--sage-deep);color:#e9e2d3;padding:56px 0 28px;}
   nav.nav__menu li:last-child a{border-bottom:0;margin-top:14px;text-align:center;}
   header.nav{isolation:isolate;}
   .nav__toggle{display:block;}
+
+  .nav__close{
+    position:absolute;top:20px;right:20px;
+    width:44px;height:44px;
+    display:flex;align-items:center;justify-content:center;
+    background:none;border:0;cursor:pointer;padding:0;
+  }
+  .nav__close::before,.nav__close::after{
+    content:"";position:absolute;width:22px;height:2px;background:var(--ink);
+  }
+  .nav__close::before{transform:rotate(45deg);}
+  .nav__close::after{transform:rotate(-45deg);}
   .hours-band__inner{flex-direction:column;align-items:flex-start;}
   .hours-band__row{gap:16px 0;}
   .hours-band__item{border-right:0;padding:0 0 0 0;}
