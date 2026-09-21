@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21T06:50:56.576Z",
+  "updated_at": "2026-09-21T13:43:10.774Z",
   "events": [
     {
       "quelle": "apple",
@@ -528,6 +528,14 @@
       "ende": "2026-10-11T14:45:00.000Z",
       "ganztags": false,
       "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Schweiz Montage ",
+      "start": "2026-10-12T00:00:00.000Z",
+      "ende": "2026-10-16T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
     },
     {
       "quelle": "apple",
