@@ -1,15 +1,6 @@
 {
   "2026-08-25-032f7ff1e36f.json": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 4,
-      "instagram_comments": 0,
-      "instagram_reach": 60
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -17999,18 +17990,18 @@
       "instagram_likes": 4,
       "instagram_comments": 0,
       "instagram_reach": 67
-    }
-  ],
-  "2026-08-25-437ef361d044.json": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
-      "instagram_likes": 7,
+      "instagram_likes": 4,
       "instagram_comments": 0,
-      "instagram_reach": 72
-    },
+      "instagram_reach": 67
+    }
+  ],
+  "2026-08-25-437ef361d044.json": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -36001,18 +35992,18 @@
       "instagram_likes": 7,
       "instagram_comments": 0,
       "instagram_reach": 80
-    }
-  ],
-  "ext:instagram:18626034721055519": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
-      "instagram_likes": 4,
+      "instagram_likes": 7,
       "instagram_comments": 0,
-      "instagram_reach": 47
-    },
+      "instagram_reach": 80
+    }
+  ],
+  "ext:instagram:18626034721055519": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -53997,6 +53988,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 4,
+      "instagram_comments": 0,
+      "instagram_reach": 52
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -54007,15 +54007,6 @@
   ],
   "ext:instagram:17944183398293666": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 3,
-      "instagram_comments": 0,
-      "instagram_reach": 48
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -72005,18 +71996,18 @@
       "instagram_likes": 3,
       "instagram_comments": 0,
       "instagram_reach": 57
-    }
-  ],
-  "ext:instagram:18146736370530971": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
-      "instagram_likes": 4,
+      "instagram_likes": 3,
       "instagram_comments": 0,
-      "instagram_reach": 42
-    },
+      "instagram_reach": 57
+    }
+  ],
+  "ext:instagram:18146736370530971": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -90007,18 +89998,18 @@
       "instagram_likes": 4,
       "instagram_comments": 0,
       "instagram_reach": 53
-    }
-  ],
-  "ext:instagram:18073001468421164": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
-      "instagram_likes": 2,
+      "instagram_likes": 4,
       "instagram_comments": 0,
-      "instagram_reach": 59
-    },
+      "instagram_reach": 53
+    }
+  ],
+  "ext:instagram:18073001468421164": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -108003,6 +107994,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 2,
+      "instagram_comments": 0,
+      "instagram_reach": 66
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -108013,15 +108013,6 @@
   ],
   "ext:instagram:18123693823813297": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 3,
-      "instagram_comments": 0,
-      "instagram_reach": 74
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -126005,6 +125996,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 3,
+      "instagram_comments": 0,
+      "instagram_reach": 80
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -126015,15 +126015,6 @@
   ],
   "ext:instagram:18198686728372881": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 3,
-      "instagram_comments": 0,
-      "instagram_reach": 42
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -144007,6 +143998,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 3,
+      "instagram_comments": 0,
+      "instagram_reach": 47
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -144017,15 +144017,6 @@
   ],
   "ext:instagram:18616304611044648": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 3,
-      "instagram_comments": 0,
-      "instagram_reach": 42
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -162015,18 +162006,18 @@
       "instagram_likes": 3,
       "instagram_comments": 0,
       "instagram_reach": 45
-    }
-  ],
-  "ext:instagram:18112861001293115": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
-      "instagram_likes": 6,
+      "instagram_likes": 3,
       "instagram_comments": 0,
-      "instagram_reach": 35
-    },
+      "instagram_reach": 45
+    }
+  ],
+  "ext:instagram:18112861001293115": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -180011,6 +180002,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 6,
+      "instagram_comments": 0,
+      "instagram_reach": 36
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -187970,15 +187970,6 @@
   ],
   "ext:instagram:18124899133688764": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 4,
-      "instagram_comments": 0,
-      "instagram_reach": 105
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -205962,6 +205953,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 4,
+      "instagram_comments": 0,
+      "instagram_reach": 130
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -206010,15 +206010,6 @@
   ],
   "2026-08-27-e47724c2cf34.json": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": null,
-      "instagram_comments": null,
-      "instagram_reach": null
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -224002,6 +223993,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": null,
+      "instagram_comments": null,
+      "instagram_reach": null
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -224012,15 +224012,6 @@
   ],
   "2026-08-27-2ca5f01d6d97.json": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 4,
-      "instagram_comments": 0,
-      "instagram_reach": 58
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -242004,6 +241995,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 4,
+      "instagram_comments": 0,
+      "instagram_reach": 72
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -242014,15 +242014,6 @@
   ],
   "ext:instagram:18041219057820249": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 4,
-      "instagram_comments": 0,
-      "instagram_reach": 88
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -260012,18 +260003,18 @@
       "instagram_likes": 4,
       "instagram_comments": 0,
       "instagram_reach": 114
-    }
-  ],
-  "ext:instagram:18001065386794511": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
       "instagram_likes": 4,
       "instagram_comments": 0,
-      "instagram_reach": 64
-    },
+      "instagram_reach": 114
+    }
+  ],
+  "ext:instagram:18001065386794511": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -278014,18 +278005,18 @@
       "instagram_likes": 4,
       "instagram_comments": 0,
       "instagram_reach": 75
-    }
-  ],
-  "ext:instagram:18004389680975663": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
-      "instagram_likes": 3,
+      "instagram_likes": 4,
       "instagram_comments": 0,
-      "instagram_reach": 77
-    },
+      "instagram_reach": 75
+    }
+  ],
+  "ext:instagram:18004389680975663": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -296016,18 +296007,18 @@
       "instagram_likes": 3,
       "instagram_comments": 0,
       "instagram_reach": 98
-    }
-  ],
-  "ext:instagram:18618439981011008": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
       "instagram_likes": 3,
       "instagram_comments": 0,
-      "instagram_reach": 89
-    },
+      "instagram_reach": 98
+    }
+  ],
+  "ext:instagram:18618439981011008": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -314018,18 +314009,18 @@
       "instagram_likes": 3,
       "instagram_comments": 0,
       "instagram_reach": 120
-    }
-  ],
-  "ext:instagram:18327231115263586": [
+    },
     {
-      "at": "2026-09-15T22:05:25.710Z",
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
-      "instagram_likes": 4,
+      "instagram_likes": 3,
       "instagram_comments": 0,
-      "instagram_reach": 217
-    },
+      "instagram_reach": 120
+    }
+  ],
+  "ext:instagram:18327231115263586": [
     {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
@@ -332014,6 +332005,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 4,
+      "instagram_comments": 0,
+      "instagram_reach": 239
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
@@ -332024,15 +332024,6 @@
   ],
   "ext:instagram:18028009883893909": [
     {
-      "at": "2026-09-15T22:05:25.710Z",
-      "facebook_likes": null,
-      "facebook_comments": null,
-      "facebook_reach": null,
-      "instagram_likes": 7,
-      "instagram_comments": 0,
-      "instagram_reach": 221
-    },
-    {
       "at": "2026-09-15T22:10:32.109Z",
       "facebook_likes": null,
       "facebook_comments": null,
@@ -350016,6 +350007,15 @@
     },
     {
       "at": "2026-09-22T17:45:32.794Z",
+      "facebook_likes": null,
+      "facebook_comments": null,
+      "facebook_reach": null,
+      "instagram_likes": 7,
+      "instagram_comments": 0,
+      "instagram_reach": 248
+    },
+    {
+      "at": "2026-09-22T17:50:36.891Z",
       "facebook_likes": null,
       "facebook_comments": null,
       "facebook_reach": null,
