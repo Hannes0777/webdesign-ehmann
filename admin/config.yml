@@ -184,6 +184,72 @@ collections:
                 default: 5
 
   # ----------------------------------------------------------
+  #  DESIGN-STILE (Vorzeige-Designs auf /design-stile)
+  # ----------------------------------------------------------
+  - name: design_stile
+    label: "🎨 Design-Stile (Vorzeige-Designs)"
+    description: "Die Design-Beispiele auf der Seite /design-stile. Jeder Eintrag ist ein eigenständiges Kapitel mit Text links und einer echten, eingebetteten Vorschau-Website rechts. Reihenfolge hier = Reihenfolge auf der Seite. Beliebig viele Einträge möglich, nicht nur die ursprünglichen 4."
+    files:
+      - name: design_stile
+        label: "Design-Stile verwalten"
+        file: content/design-stile.json
+        fields:
+          - name: designs
+            label: "Design-Beispiele"
+            label_singular: "Design-Beispiel"
+            widget: list
+            min: 1
+            summary: "{{title}}"
+            fields:
+              - name: title
+                label: "Titel (z.B. 'Dunkel & aufwendig')"
+                widget: string
+              - name: bullets
+                label: "Stichpunkte"
+                label_singular: "Stichpunkt"
+                widget: list
+                min: 2
+                max: 6
+                field:
+                  name: text
+                  label: "Stichpunkt"
+                  widget: string
+              - name: note
+                label: "Hinweistext unter den Stichpunkten (optional)"
+                widget: string
+                required: false
+                hint: "Leer lassen für den Standardtext 'Design-Beispiel — Name & Firmendaten frei erfunden, Layout und Umsetzung real.'. Bei einer echten, bereits umgesetzten Kundenseite hier z.B. 'Live-Projekt für [Kunde]' eintragen."
+              - name: address
+                label: "Angezeigte Adresse in der Browser-Leiste"
+                widget: string
+                hint: "Nur zur Optik, z.B. 'handwerksfirma-mustermann.de' — muss keine echte, erreichbare Adresse sein."
+              - name: previewUrl
+                label: "Pfad/Link zur echten Vorschau-Website"
+                widget: string
+                hint: "Bei einer neuen eigenen Vorschau-Website zuerst den fertigen Ordner unter vorschau/<name>/ im Repo ablegen und hier z.B. 'vorschau/<name>/index.html' eintragen. Eine externe URL (https://...) funktioniert ebenfalls."
+              - name: bgColor
+                label: "Hintergrundfarbe (Bühne)"
+                widget: color
+                enableAlpha: false
+              - name: textColor
+                label: "Textfarbe (Überschrift)"
+                widget: color
+                enableAlpha: false
+              - name: mistColor
+                label: "Textfarbe (Stichpunkte, gedämpfter Ton)"
+                widget: color
+                enableAlpha: false
+              - name: accentColor
+                label: "Akzentfarbe (Eyebrow-Label & Punkte vor den Stichpunkten)"
+                widget: color
+                enableAlpha: false
+              - name: chromeLight
+                label: "Helle Browser-Leiste im Vorschau-Rahmen"
+                widget: boolean
+                default: true
+                hint: "Aus = dunkle Browser-Leiste über dem iframe, An = helle Browser-Leiste. Rein optisch, unabhängig von der Hintergrundfarbe der Bühne."
+
+  # ----------------------------------------------------------
   #  ÜBER MICH
   # ----------------------------------------------------------
   - name: uebermich
