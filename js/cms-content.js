@@ -16,6 +16,12 @@
 
 (async function () {
 
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+  }
+
   async function fetchJSON(path) {
     try {
       const r = await fetch(path);
@@ -27,7 +33,7 @@
     }
   }
 
-  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches, cmsErklaerung, marketing, rezensionen] = await Promise.all([
+  const [siteinfo, hero, pakete, uebermich, kontakt, rechtliches, cmsErklaerung, marketing, rezensionen, designStile] = await Promise.all([
     fetchJSON('content/siteinfo.json'),
     fetchJSON('content/hero.json'),
     fetchJSON('content/pakete.json'),
@@ -37,6 +43,7 @@
     fetchJSON('content/cms-erklaerung.json'),
     fetchJSON('content/marketing.json'),
     fetchJSON('content/rezensionen.json'),
+    fetchJSON('content/design-stile.json'),
   ]);
 
   // ── 1. Seiteninfos ────────────────────────────────────────
@@ -234,9 +241,6 @@
   if (rezensionen && Array.isArray(rezensionen.eintraege)) {
     const stage = document.getElementById('reviews-stage');
     if (stage) {
-      const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-      }[c]));
       const starPath = 'M12 2.5l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.8-6.2 3.8 1.6-7L2 9.8l7.1-.7z';
       const starsHtml = (n) => {
         let out = '';
@@ -303,6 +307,64 @@
 
         startTimer();
       }
+    }
+  }
+
+  // ── 4e. Design-Stile (Vorzeige-Designs, Seite /design-stile) ──
+  // Beliebig viele Einträge aus content/design-stile.json. Panels,
+  // Vorschau-Mockups und Dots werden komplett neu aufgebaut, weil
+  // die Anzahl im CMS frei wählbar ist (siehe js/dstyles.js für die
+  // gepinnte Scroll-Crossfade-Bühne, die auf dieser DOM-Struktur
+  // aufbaut und erst nach dem "cms-ready"-Event startet).
+  if (designStile && Array.isArray(designStile.designs)) {
+    const grid = document.getElementById('dstyles-grid');
+    if (grid) {
+      const defaultNote = 'Design-Beispiel — Name & Firmendaten frei erfunden, Layout und Umsetzung real.';
+      const openIcon = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>';
+      const entries = designStile.designs.filter((d) => d && d.title && d.previewUrl);
+      const total = entries.length;
+
+      // Panel und zugehörige Vorschau abwechselnd (nicht alle Panels dann
+      // alle Vorschauen) - der gestapelte Mobil-Fallback (.dstyles__grid
+      // ohne .dstyles--active) zeigt sie als direkte Geschwister im
+      // Dokumentfluss, siehe Kommentar bei .dstyles__grid in style.css.
+      const pairsHtml = entries.map((d, i) => {
+        const bullets = Array.isArray(d.bullets) ? d.bullets : [];
+        const style = 'style="--panel-ink:' + (d.textColor || '#14171a')
+          + ';--panel-mist:' + (d.mistColor || '#5b625a')
+          + ';--panel-eyebrow:' + (d.accentColor || '#b98f3f')
+          + ';--panel-dot:' + (d.accentColor || '#b98f3f') + '"';
+        const panel = '<div class="dstyles__panel" id="dstyles-text-' + (i + 1) + '" data-index="' + i + '" data-bg-color="' + (d.bgColor || '#0d1210') + '" ' + style + '>'
+          + '<span class="dstyles__eyebrow">Design-Stile · ' + (i + 1) + '/' + total + '</span>'
+          + '<h2>' + escapeHtml(d.title) + '</h2>'
+          + '<ul>' + bullets.map((b) => '<li>' + escapeHtml(b) + '</li>').join('') + '</ul>'
+          + '<p class="dstyles__note">' + escapeHtml(d.note && String(d.note).trim() ? d.note : defaultNote) + '</p>'
+          + '</div>';
+
+        const chromeClass = d.chromeLight === false ? '' : ' dstyles__chrome--light';
+        const addressClass = d.chromeLight === false ? '' : ' dstyles__address--light';
+        const url = escapeHtml(d.previewUrl);
+        const mockup = '<div class="dstyles__mockup" id="dstyles-mockup-' + (i + 1) + '" data-index="' + i + '">'
+          + '<div class="dstyles__chrome' + chromeClass + '">'
+          + '<span></span><span></span><span></span>'
+          + '<div class="dstyles__address' + addressClass + '">' + escapeHtml(d.address || '') + '</div>'
+          + '<a class="dstyles__open" href="' + url + '" target="_blank" rel="noreferrer" title="Echte Seite in neuem Tab öffnen" aria-label="Echte Seite in neuem Tab öffnen">' + openIcon + '</a>'
+          + '</div>'
+          + '<div class="dstyles__frame-wrap">'
+          + '<iframe class="dstyles__frame" src="' + url + '" title="' + escapeHtml(d.title) + ' – Design-Beispiel" loading="lazy"></iframe>'
+          + '</div>'
+          + '</div>';
+
+        return panel + mockup;
+      }).join('');
+
+      const dotsHtml = total > 1
+        ? '<div class="dstyles__dots" id="dstyles-dots" aria-hidden="true">'
+          + entries.map((_, i) => '<span class="dstyles__dot" data-index="' + i + '"></span>').join('')
+          + '</div>'
+        : '';
+
+      grid.innerHTML = pairsHtml + dotsHtml;
     }
   }
 

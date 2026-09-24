@@ -1,0 +1,72 @@
+{
+  "designs": [
+    {
+      "title": "Dunkel & aufwendig",
+      "bullets": [
+        "Cinematic Scroll-Effekte, wie auf dieser Seite",
+        "Bewegte Elemente, die im Kopf bleiben",
+        "Für Marken, die auffallen wollen",
+        "Aufwendigste Umsetzung, größter Wow-Effekt"
+      ],
+      "note": "Design-Beispiel — Name & Firmendaten frei erfunden, Layout und Umsetzung real.",
+      "address": "landmetzgerei-sonnenhof.de",
+      "previewUrl": "vorschau/sonnenhof/index.html",
+      "bgColor": "#0d1210",
+      "textColor": "#f2f4f1",
+      "mistColor": "#9aa39c",
+      "accentColor": "#d9ae5c",
+      "chromeLight": false
+    },
+    {
+      "title": "Klar & vertrauensvoll",
+      "bullets": [
+        "Übersichtliche Struktur, klare Handlungsaufforderungen",
+        "Schnelle Ladezeiten, kein Schnickschnack",
+        "Fokus auf Vertrauen & schnelle Kontaktaufnahme",
+        "Ideal für Handwerk & Dienstleister"
+      ],
+      "note": "Design-Beispiel — Name & Firmendaten frei erfunden, Layout und Umsetzung real.",
+      "address": "waermetechnik-talblick.de",
+      "previewUrl": "vorschau/talblick/index.html",
+      "bgColor": "#efefef",
+      "textColor": "#14171a",
+      "mistColor": "#5b625a",
+      "accentColor": "#b98f3f",
+      "chromeLight": true
+    },
+    {
+      "title": "Warm & einladend",
+      "bullets": [
+        "Warme Farben, freundliche Illustrationen",
+        "Für Freizeit, Gastronomie & Familienbetriebe",
+        "Charakterstarke, handgezeichnete Details",
+        "Bleibt garantiert in Erinnerung"
+      ],
+      "note": "Design-Beispiel — Name & Firmendaten frei erfunden, Layout und Umsetzung real.",
+      "address": "seeblick-waldschaenke.de",
+      "previewUrl": "vorschau/seeblick/index.html",
+      "bgColor": "#f2a668",
+      "textColor": "#241c3d",
+      "mistColor": "#4f426e",
+      "accentColor": "#ffffff",
+      "chromeLight": true
+    },
+    {
+      "title": "Kräftig & wandlungsstark",
+      "bullets": [
+        "Scroll-gesteuerte Vorher/Nachher-Story im Hero",
+        "Kräftige Material-Farben statt Pastell",
+        "Für Betriebe mit sichtbarem Ergebnis (Handwerk, Sanierung)",
+        "Zeigt sofort, was sich für den Kunden ändert"
+      ],
+      "note": "Design-Beispiel — Name & Firmendaten frei erfunden, Layout und Umsetzung real.",
+      "address": "dachwerk-lindenhof.de",
+      "previewUrl": "vorschau/dachwerk-lindenhof/index.html",
+      "bgColor": "#c1662e",
+      "textColor": "#ffffff",
+      "mistColor": "#f2d9c2",
+      "accentColor": "#16232e",
+      "chromeLight": true
+    }
+  ]
+}

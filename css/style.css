@@ -1155,11 +1155,11 @@ button { font: inherit; cursor: pointer; }
 /* --- Aktiver Zustand: gepinnte Crossfade-Bühne (nur Desktop-Layout,
    auf schmalen Viewports bleibt die gestapelte Grundfassung) --- */
 @media (min-width: 1024px) {
-  .dstyles--active { height: 480vh; }
-  .dstyles--active .dstyles__panel--1 { --panel-ink: #f2f4f1; --panel-mist: #9aa39c; --panel-eyebrow: #d9ae5c; --panel-dot: #d9ae5c; }
-  .dstyles--active .dstyles__panel--2 { --panel-ink: #14171a; --panel-mist: #5b625a; --panel-eyebrow: #b98f3f; --panel-dot: #b98f3f; }
-  .dstyles--active .dstyles__panel--3 { --panel-ink: #241c3d; --panel-mist: #4f426e; --panel-eyebrow: #ffffff; --panel-dot: #241c3d; }
-  .dstyles--active .dstyles__panel--4 { --panel-ink: #ffffff; --panel-mist: #f2d9c2; --panel-eyebrow: #16232e; --panel-dot: #16232e; }
+  /* Farbschema pro Panel (--panel-ink/-mist/-eyebrow/-dot) kommt als
+     Inline-Style direkt aus content/design-stile.json (siehe
+     js/cms-content.js) statt aus nummerierten Klassen - Anzahl der
+     Panels ist dadurch beliebig, nicht auf 4 begrenzt. */
+  .dstyles--active { height: var(--dstyles-height, 480vh); }
   .dstyles--active .dstyles__stage {
     position: sticky;
     top: 0;
@@ -1194,7 +1194,8 @@ button { font: inherit; cursor: pointer; }
     opacity: 0;
     visibility: hidden;
   }
-  .dstyles--active .dstyles__panel--1 { opacity: 1; visibility: visible; }
+  /* Erstes Panel wird per JS (gsap.set, siehe js/dstyles.js) sichtbar
+     geschaltet, sobald die Bühne aktiviert wird. */
   .dstyles--active .dstyles__dots {
     display: flex;
     gap: 8px;
@@ -1225,7 +1226,7 @@ button { font: inherit; cursor: pointer; }
     opacity: 0;
     visibility: hidden;
   }
-  .dstyles--active .dstyles__mockup--1 { opacity: 1; visibility: visible; }
+  /* Erste Vorschau wird ebenfalls per JS sichtbar geschaltet. */
 }
 
 /* ============================================================
