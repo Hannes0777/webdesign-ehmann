@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29T19:10:58.063Z",
+  "updated_at": "2026-09-29T22:59:12.536Z",
   "events": [
     {
       "quelle": "apple",
@@ -654,6 +654,14 @@
       "titel": "Paris ",
       "start": "2026-12-07T00:00:00.000Z",
       "ende": "2026-12-09T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Adventswald Schicht ",
+      "start": "2026-12-11T20:00:00.000Z",
+      "ende": "2026-12-11T21:00:00.000Z",
       "ganztags": false,
       "ort": null
     },
