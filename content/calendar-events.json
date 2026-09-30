@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30T02:01:05.523Z",
+  "updated_at": "2026-09-30T08:35:30.602Z",
   "events": [
     {
       "quelle": "apple",
@@ -496,6 +496,14 @@
       "ende": "2026-09-27T14:45:00.000Z",
       "ganztags": false,
       "ort": "Kirchenackerweg\n73635 Rudersberg"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Gespräch Hergül ",
+      "start": "2026-10-01T06:00:00.000Z",
+      "ende": "2026-10-01T06:15:00.000Z",
+      "ganztags": false,
+      "ort": null
     },
     {
       "quelle": "apple",
