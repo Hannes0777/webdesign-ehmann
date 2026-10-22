@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22T15:58:20.192Z",
+  "updated_at": "2026-10-22T19:57:38.980Z",
   "events": [
     {
       "quelle": "apple",
@@ -568,6 +568,14 @@
       "ende": "2026-10-18T14:45:00.000Z",
       "ganztags": false,
       "ort": "Nellmersbacher Str. 20\n71576 Burgstetten"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Spahiu Demo ",
+      "start": "2026-10-23T00:00:00.000Z",
+      "ende": "2026-10-24T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
     },
     {
       "quelle": "apple",
