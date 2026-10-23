@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-23T12:09:13.322Z",
+  "updated_at": "2026-10-23T17:08:50.588Z",
   "events": [
     {
       "quelle": "apple",
@@ -736,6 +736,14 @@
       "ende": "2026-12-12T18:00:00.000Z",
       "ganztags": false,
       "ort": "Bargau\nSchwäbisch Gmünd, Baden-Württemberg, Deutschland"
+    },
+    {
+      "quelle": "apple",
+      "titel": "Zeugnis-Übergabe ",
+      "start": "2026-12-16T14:00:00.000Z",
+      "ende": "2026-12-16T15:00:00.000Z",
+      "ganztags": false,
+      "ort": null
     },
     {
       "quelle": "apple",
