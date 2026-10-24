@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-24T15:44:24.243Z",
+  "updated_at": "2026-10-24T18:22:55.854Z",
   "events": [
     {
       "quelle": "apple",
@@ -670,6 +670,14 @@
       "titel": "Lina Handball ",
       "start": "2026-11-21T15:00:00.000Z",
       "ende": "2026-11-21T16:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "Fabi Geburtstag ",
+      "start": "2026-11-21T17:00:00.000Z",
+      "ende": "2026-11-21T18:00:00.000Z",
       "ganztags": false,
       "ort": null
     },
