@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-26T03:46:47.673Z",
+  "updated_at": "2026-10-26T09:52:26.185Z",
   "events": [
     {
       "quelle": "apple",
@@ -590,6 +590,14 @@
       "titel": "Doku Schreiben ",
       "start": "2026-10-26T00:00:00.000Z",
       "ende": "2026-11-03T00:00:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "E-Plan Schulung ",
+      "start": "2026-10-27T06:30:00.000Z",
+      "ende": "2026-10-29T14:30:00.000Z",
       "ganztags": false,
       "ort": null
     },
