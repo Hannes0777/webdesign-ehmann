@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30T06:17:07.344Z",
+  "updated_at": "2026-10-30T13:22:26.939Z",
   "events": [
     {
       "quelle": "apple",
@@ -726,6 +726,14 @@
       "titel": "Lina Handball  vs Weissach ",
       "start": "2026-12-06T17:45:00.000Z",
       "ende": "2026-12-06T18:45:00.000Z",
+      "ganztags": false,
+      "ort": null
+    },
+    {
+      "quelle": "apple",
+      "titel": "GoForEurope Präsentation ",
+      "start": "2026-12-07T00:00:00.000Z",
+      "ende": "2026-12-19T00:00:00.000Z",
       "ganztags": false,
       "ort": null
     },
