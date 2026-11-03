@@ -317,7 +317,7 @@
 <body>
 
 <header>
-  <a class="back-link" href="/admin/">← Zurück zum CMS</a>
+  <a class="back-link" href="/admin/intern/">← Zurück zum internen CMS</a>
   <h1>📅 Social-Media-Dashboard</h1>
   <p>Geplante &amp; veröffentlichte Facebook-/Instagram-Beiträge im Überblick.</p>
 </header>
@@ -399,7 +399,7 @@
 
   const AUTH_BASE_URL = "https://cms-auth-webdesign-ehmann.ehmann-hannes07.workers.dev";
   const OWNER = "Hannes0777";
-  const REPO = "webdesign-ehmann";
+  const REPO = "webdesign-ehmann-intern"; // privates Repo mit internen Daten
   const POSTS_PATH = "content/social-posts";
   const TOKEN_KEY = "wde_dashboard_gh_token";
 
@@ -456,7 +456,30 @@
     });
   }
 
+  let ghToken = null;
+  const imageCache = {};
+
+  // Liest eine Datei aus dem privaten Repo über die GitHub-API (mit Token).
+  async function ghRaw(path) {
+    return fetch("https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + path, {
+      headers: { Authorization: "token " + ghToken, Accept: "application/vnd.github.raw" },
+    });
+  }
+
+  // Vorschaubilder aus dem privaten Repo als Blob laden (img-src kann kein Token mitschicken).
+  async function preloadImages(posts) {
+    await Promise.all(posts.map(async (post) => {
+      const img = firstImage(post);
+      if (!img || imageCache[img]) return;
+      try {
+        const res = await ghRaw(img.replace(/^\/+/, ""));
+        if (res.ok) imageCache[img] = URL.createObjectURL(await res.blob());
+      } catch { /* Bild überspringen */ }
+    }));
+  }
+
   async function fetchPosts(token) {
+    ghToken = token;
     const listRes = await fetch(
       "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + POSTS_PATH,
       { headers: { Authorization: "token " + token, Accept: "application/vnd.github+json" } }
@@ -484,9 +507,7 @@
 
   async function fetchStats() {
     try {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/content/social-stats.json"
-      );
+      const res = await ghRaw("content/social-stats.json");
       if (!res.ok) return null;
       return await res.json();
     } catch {
@@ -496,9 +517,7 @@
 
   async function fetchHistory() {
     try {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/content/social-stats-history.json"
-      );
+      const res = await ghRaw("content/social-stats-history.json");
       if (!res.ok) return [];
       const data = await res.json();
       return Array.isArray(data) ? data : [];
@@ -538,9 +557,7 @@
 
   async function fetchPostHistory() {
     try {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/content/social-post-stats-history.json"
-      );
+      const res = await ghRaw("content/social-post-stats-history.json");
       if (!res.ok) return {};
       const data = await res.json();
       return data && typeof data === "object" ? data : {};
@@ -551,7 +568,7 @@
 
   function imageUrl(imgPath) {
     if (!imgPath) return null;
-    return "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/" + imgPath.replace(/^\/+/, "");
+    return imageCache[imgPath] || null;
   }
 
   function firstImage(post) {
@@ -1780,6 +1797,7 @@
       allHistory = history;
       allPostHistory = postHistory;
       allFollowLog = followLog;
+      await preloadImages(posts);
       allPosts = posts.concat((stats?.other_posts || []).map(externalToPost));
       renderStats();
       renderCharts();
@@ -1799,6 +1817,7 @@
     errorBox.style.display = "none";
     try {
       const posts = await fetchPosts(token);
+      await preloadImages(posts);
       allStats = await fetchStats();
       allHistory = await fetchHistory();
       allPostHistory = await fetchPostHistory();
