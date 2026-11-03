@@ -2309,3 +2309,15 @@ a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
   transition: text-decoration-color 0.2s ease, color 0.2s ease;
 }
 .error-hero__links a:hover { color: var(--green-deep); text-decoration-color: var(--green-deep); }
+
+/* SEO: Keyword-Zeile in der Startseiten-H1 */
+.cine-kicker {
+  display: block;
+  font-size: clamp(0.8rem, 0.7rem + 0.4vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 0.75em;
+}
+.footer__address { font-style: normal; opacity: 0.8; }
