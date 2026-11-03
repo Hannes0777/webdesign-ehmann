@@ -364,18 +364,24 @@ button { font: inherit; cursor: pointer; }
      backdrop-filter erzeugt einen "containing block" nur für die
      position:fixed-KINDER des Elements, nicht für sich selbst - und
      .nav__menu hat keine eigenen fixed-positionierten Kinder. */
+  /* Menü beginnt ganz oben (top:0) statt bei 100px, damit zwischen
+     Kopfzeile und Menü bzw. rund um die abgerundete Kopfzeile keine
+     Seiteninhalte mehr durchscheinen. Logo + X liegen per z-index
+     darüber; der Abstand zur Kopfzeile kommt über padding-top. */
+  .nav__logo, .nav__toggle { position: relative; z-index: 2; }
   .nav__menu {
     position: fixed;
-    top: 100px;
+    top: 0;
     inset-inline: 0;
     bottom: 0;
-    background: rgba(var(--paper-rgb), 0.96);
+    z-index: 1;
+    background: var(--paper);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 32px 24px;
+    padding: calc(120px + env(safe-area-inset-top, 0px)) 24px 32px;
     transform: translateX(100%);
     transition: transform 0.3s ease;
   }
