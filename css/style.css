@@ -2389,6 +2389,7 @@ a.promo-marquee:hover .promo-marquee__track { animation-play-state: paused; }
 .demo-card h3 { margin-top: 8px; font-size: 1.2rem; }
 .demo-card p { margin-top: 8px; color: var(--mist); font-size: 0.95rem; line-height: 1.6; }
 .demo-card__link { display: inline-block; margin-top: 14px; color: var(--gold); font-weight: 600; font-size: 0.95rem; }
+.demo-grid--4 { grid-template-columns: repeat(2, 1fr); }
 .demo-more { margin-top: 28px; }
 .demo-more a { color: var(--gold); text-decoration: underline; }
 
