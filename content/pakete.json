@@ -1,45 +1,48 @@
 {
   "pakete": [
     {
-      "name": "Starter",
-      "ab_preis": "100",
+      "name": "Visitenkarte",
+      "preis": "149",
+      "ab_anzeigen": false,
       "preis_text": "",
-      "tagline": "Eine Seite, alle wichtigen Infos auf einen Blick.",
+      "tagline": "Für Einzelpersonen und kleines Budget.",
       "empfohlen": false,
       "leistungen": [
         "Einseitige Website (One-Pager) mit allen wichtigen Infos",
-        "Individuelles Design passend zu Ihrem Unternehmen",
-        "Optimiert für Smartphone, Tablet & Desktop",
-        "Kontaktmöglichkeit für Ihre Kunden",
-        "Schnelle Ladezeiten, moderne Umsetzung",
-        "Rechtssicher (Impressum & Datenschutz)"
+        "Individuelles Design, optimiert fürs Handy",
+        "Kontakt per Telefon, E-Mail & WhatsApp",
+        "Rechtssicher (Impressum & Datenschutz)",
+        "1. Jahr Domain + Hosting inklusive"
       ]
     },
     {
-      "name": "Business",
-      "ab_preis": "150",
+      "name": "Start-Paket",
+      "preis": "249",
+      "ab_anzeigen": false,
       "preis_text": "",
-      "tagline": "Mehrseitige Website mit klarer Struktur.",
-      "empfohlen": false,
+      "tagline": "Für Neugründer & Dienstleister.",
+      "empfohlen": true,
       "leistungen": [
-        "Alles aus Starter",
-        "Mehrseitige Website (z.B. Leistungen, Über uns, Kontakt einzeln)",
-        "Kontaktformular statt nur E-Mail/Telefon",
-        "Grundlegende SEO-Optimierung (Meta-Angaben, Struktur, Sitemap)",
-        "Anbindung Standort/Anfahrt (Karte)"
+        "Mehrere Seiten (z. B. Leistungen, Über uns, Kontakt)",
+        "Anfrageformular oder Online-Buchung",
+        "Karte & Anfahrt",
+        "Basis-SEO für Ihren Ort",
+        "1. Jahr Domain + Hosting + kleine Änderungen inklusive",
+        "In der Regel in 2 Wochen online"
       ]
     },
     {
       "name": "Premium",
-      "ab_preis": "300",
+      "preis": "449",
+      "ab_anzeigen": true,
       "preis_text": "",
-      "tagline": "Die umfangreichste, individuellste Umsetzung.",
-      "empfohlen": true,
+      "tagline": "Für Unterkünfte, Events & kleine Shops.",
+      "empfohlen": false,
       "leistungen": [
-        "Alles aus Business",
-        "Umfangreichste Individualisierung (z.B. Animationen, besonderes Design)",
-        "Beliebig viele Unterseiten nach Bedarf",
-        "Umfangreiche lokale SEO-Vorbereitung (strukturierte Daten)",
+        "Alles aus dem Start-Paket",
+        "Inhalte selbst ändern (CMS) – Preise, Texte, Bilder",
+        "Belegungskalender oder Katalog",
+        "Lokale SEO (strukturierte Daten, Google-Profil-Vorbereitung)",
         "Priorität bei Umsetzung & Support"
       ]
     }

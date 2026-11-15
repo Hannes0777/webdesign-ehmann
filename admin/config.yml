@@ -77,7 +77,7 @@ collections:
   # ----------------------------------------------------------
   - name: pakete
     label: "💼 Leistungen & Pakete"
-    description: "Die 3 Pakete (Starter/Business/Premium) sowie die Zusatz-Hinweise zu CMS und Marketing-Leistungen."
+    description: "Die 3 Pakete (Visitenkarte/Start-Paket/Premium) sowie die Zusatz-Hinweise zu CMS und Marketing-Leistungen."
     files:
       - name: pakete
         label: "Pakete verwalten"
@@ -107,11 +107,22 @@ collections:
                 widget: string
                 required: false
                 hint: "Nur bei einem befristeten Einführungspreis ausfüllen, z.B. '250' — erscheint durchgestrichen vor dem Ab-Preis. Leer lassen für normale Preisanzeige ohne Streichpreis."
-              - name: ab_preis
-                label: "Ab-Preis in Euro (nur Zahl, ohne €-Zeichen)"
+              - name: preis
+                label: "Preis in Euro (nur Zahl, ohne €-Zeichen)"
                 widget: string
                 required: false
-                hint: "Leer lassen und stattdessen 'Preis-Text' nutzen, wenn kein fester Ab-Preis gezeigt werden soll (z.B. bei Premium 'Preis auf Anfrage')."
+                hint: "Festpreis, z. B. '249'. Wird ohne 'ab' angezeigt – Festpreise wirken vertrauenswürdiger."
+              - name: ab_anzeigen
+                label: "'ab' vor den Preis schreiben"
+                widget: boolean
+                default: false
+                required: false
+                hint: "Nur einschalten, wenn der Preis wirklich je nach Umfang steigt (z. B. Premium)."
+              - name: ab_preis
+                label: "(Alt) Ab-Preis in Euro – lieber das Feld 'Preis' nutzen"
+                widget: string
+                required: false
+                hint: "Altes Feld, zeigt immer 'ab' an. Bleibt leer, wenn oben 'Preis' ausgefüllt ist."
               - name: preis_text
                 label: "Preis-Text (überschreibt Ab-Preis, z.B. 'Preis auf Anfrage')"
                 widget: string
@@ -158,6 +169,12 @@ collections:
         label: "Rezensionen verwalten"
         file: content/rezensionen.json
         fields:
+          - name: anzeigen
+            label: "Rezensionen auf der Website anzeigen"
+            widget: boolean
+            default: false
+            required: false
+            hint: "Erst einschalten, wenn es echte Bewertungen mit Vorname, Betrieb und Ort gibt (am besten aus Google übernommen)."
           - name: eintraege
             label: "Rezensionen"
             label_singular: "Rezension"

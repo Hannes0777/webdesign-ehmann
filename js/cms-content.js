@@ -103,9 +103,13 @@
           if (p.preis_text) {
             price.textContent = p.preis_text;
             price.classList.add('pricing-card__price--onrequest');
-          } else if (p.ab_preis) {
+          } else if (p.preis || p.ab_preis) {
+            // "preis" = Festpreis (ohne "ab"), nur mit ab_anzeigen=true kommt "ab" davor.
+            // "ab_preis" bleibt als Altfeld lauffähig (zeigt immer "ab").
+            const betrag = p.preis || p.ab_preis;
+            const mitAb = p.preis ? !!p.ab_anzeigen : true;
             const oldPrice = isSale ? '<span class="pricing-card__price-old">' + p.regulaer_preis + '&nbsp;€</span>' : '';
-            price.innerHTML = oldPrice + '<span class="pricing-card__price-prefix">ab</span> ' + p.ab_preis + '&nbsp;€';
+            price.innerHTML = oldPrice + (mitAb ? '<span class="pricing-card__price-prefix">ab</span> ' : '') + betrag + '&nbsp;€';
             price.classList.remove('pricing-card__price--onrequest');
           }
         }
@@ -238,7 +242,14 @@
   // Karten liegen per CSS-Grid-Stacking übereinander (siehe
   // .review-card in style.css); JS schaltet nur .is-active um
   // und rotiert bei mehreren Einträgen automatisch weiter.
-  if (rezensionen && Array.isArray(rezensionen.eintraege)) {
+  // Der Bereich ist im HTML standardmäßig versteckt (hidden) und wird
+  // nur eingeblendet, wenn im CMS "Rezensionen anzeigen" an ist und es
+  // mindestens eine Rezension gibt - ein leerer Block schadet mehr als keiner.
+  const zeigeRezensionen = rezensionen && rezensionen.anzeigen === true
+    && Array.isArray(rezensionen.eintraege)
+    && rezensionen.eintraege.some((r) => r && r.name && r.text);
+  document.querySelectorAll('section.reviews').forEach((sec) => { sec.hidden = !zeigeRezensionen; });
+  if (zeigeRezensionen) {
     const stage = document.getElementById('reviews-stage');
     if (stage) {
       const starPath = 'M12 2.5l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.8-6.2 3.8 1.6-7L2 9.8l7.1-.7z';

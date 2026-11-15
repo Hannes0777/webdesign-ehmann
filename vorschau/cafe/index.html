@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Design-Beispiel: Café Lindenblüte – Neueröffnung mit Speisekarte und Tischreservierung. Demo-Website von Webdesign Ehmann.">
+  <title>Café Lindenblüte – Design-Beispiel</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%233a2a22'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23a8d5c2'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --bg:#fdf6e9; --bg2:#f6ead3; --ink:#3a2a22; --mist:#7a6558; --mint:#a8d5c2; --mint-d:#5e9e86; --cherry:#d9534f; --card:#fffdf8; --line:rgba(58,42,34,.14);
+      --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; --sans:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+    .demo-badge{position:fixed;bottom:14px;left:14px;z-index:50;background:rgba(58,42,34,.88);color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:999px}
+    h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1}
+    .kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mint-d)}
+    .btn{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;padding:14px 24px;border-radius:999px;border:0;cursor:pointer;font-size:15px;transition:transform .2s,background .2s}
+    .btn:hover{transform:translateY(-2px);background:#24180f}
+    .btn--mint{background:var(--mint);color:var(--ink)} .btn--mint:hover{background:#94c9b2}
+    .ribbon{background:var(--cherry);color:#fff;text-align:center;font-weight:600;font-size:14px;padding:9px 16px}
+    nav .wrap{display:flex;justify-content:space-between;align-items:center;height:72px}
+    .logo{font-family:var(--serif);font-size:26px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:10px}
+    .logo i{width:30px;height:30px;border-radius:50%;background:var(--mint);box-shadow:inset 0 0 0 7px var(--ink)}
+    nav ul{display:flex;gap:26px;list-style:none;font-size:15px}
+    nav ul a{text-decoration:none;color:var(--mist)}
+    .hero{padding:40px 0 90px}
+    .hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+    .hero h1{font-size:clamp(44px,6vw,80px);margin:16px 0}
+    .hero h1 span{color:var(--cherry);font-style:italic}
+    .hero p{font-size:18px;color:var(--mist);max-width:470px}
+    .count{display:flex;gap:12px;margin:30px 0}
+    .count div{background:var(--card);border:1.5px solid var(--ink);border-radius:16px;min-width:78px;padding:10px 0;text-align:center;box-shadow:4px 4px 0 var(--ink)}
+    .count b{display:block;font-family:var(--serif);font-size:32px;line-height:1.1}
+    .count small{font-size:12px;color:var(--mist);text-transform:uppercase;letter-spacing:.08em}
+    .remind{display:flex;gap:8px;max-width:440px}
+    .remind input{flex:1;font:inherit;padding:13px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;min-width:0}
+    .remind-ok{display:none;margin-top:10px;font-size:14px;color:var(--mint-d);font-weight:600}
+    .art{position:relative;aspect-ratio:1;border-radius:50%;background:var(--mint)}
+    .art svg{width:100%;height:100%}
+    .sticker{position:absolute;top:6%;right:2%;width:120px;height:120px;border-radius:50%;background:var(--cherry);color:#fff;display:grid;place-items:center;text-align:center;font-weight:700;font-size:14px;line-height:1.2;transform:rotate(12deg);box-shadow:0 10px 24px rgba(217,83,79,.35)}
+    .sticker b{font-family:var(--serif);font-size:26px;display:block}
+    section{padding:88px 0}
+    .alt{background:var(--bg2)}
+    .head{text-align:center;max-width:620px;margin:0 auto 40px}
+    .head h2{font-size:clamp(34px,4vw,52px);margin-top:10px}
+    .head p{color:var(--mist);margin-top:12px}
+    .tabs{display:flex;justify-content:center;gap:8px;margin-bottom:30px;flex-wrap:wrap}
+    .tab{font:inherit;font-weight:600;border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:9px 20px;border-radius:999px;cursor:pointer}
+    .tab.on{background:var(--ink);color:#fff}
+    .menu{max-width:760px;margin:0 auto;background:var(--card);border-radius:24px;padding:16px 34px;border:1.5px solid var(--line)}
+    .item{display:flex;align-items:baseline;gap:12px;padding:16px 0;border-bottom:1px dashed var(--line)}
+    .item:last-child{border:0}
+    .item h3{font-size:20px;font-weight:600}
+    .item p{font-size:14px;color:var(--mist)}
+    .item .dots{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-5px)}
+    .item .pr{font-family:var(--serif);font-size:20px;font-weight:600}
+    .veg{display:inline-block;font-size:11px;font-weight:700;color:var(--mint-d);border:1px solid var(--mint-d);border-radius:999px;padding:0 7px;margin-left:6px;vertical-align:3px}
+    .cms-hint{display:block;text-align:center;margin-top:20px;font-size:13px;color:var(--mint-d)}
+    .res{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+    .res h2{font-size:clamp(34px,4vw,50px);margin:10px 0 16px}
+    .res p{color:var(--mist)}
+    .form{background:var(--card);border-radius:24px;padding:30px;border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field{display:grid;gap:6px;font-size:14px;font-weight:600;margin-bottom:14px}
+    .field input,.field select{font:inherit;font-weight:400;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;color:var(--ink)}
+    .people{display:flex;gap:6px}
+    .people button{flex:1;font:inherit;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 0;cursor:pointer;color:var(--ink)}
+    .people button.on{background:var(--mint);border-color:var(--ink)}
+    .form .btn{width:100%}
+    .form-ok{display:none;text-align:center;padding:30px 10px}
+    .form-ok b{font-family:var(--serif);font-size:28px;display:block;margin-bottom:8px}
+    .info{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .info div{background:var(--card);border-radius:20px;padding:26px;border:1.5px solid var(--line)}
+    .info h3{font-size:22px;margin-bottom:10px}
+    .info p{color:var(--mist);font-size:15px}
+    footer{background:var(--ink);color:#e9dccb;padding:38px 0;font-size:14px}
+    footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    footer a{color:#e9dccb}
+    @media (max-width:900px){
+      .hero .wrap,.res,.info{grid-template-columns:1fr}
+      .art{max-width:340px;margin:0 auto;width:100%}
+      nav ul li:not(:last-child){display:none}
+      .count div{min-width:0;flex:1}
+      .menu{padding:10px 20px}
+      section{padding:64px 0}
+    }
+  </style>
+</head>
+<body>
+  <span class="demo-badge">Design-Beispiel · fiktiver Betrieb</span>
+  <div class="ribbon">🎉 Große Eröffnung am <span id="open-date"></span> – der erste Kaffee geht aufs Haus</div>
+
+  <nav>
+    <div class="wrap">
+      <a href="#" class="logo"><i></i>Lindenblüte</a>
+      <ul>
+        <li><a href="#karte">Speisekarte</a></li>
+        <li><a href="#info">Öffnungszeiten</a></li>
+        <li><a href="#reservieren" class="btn btn--mint" style="padding:10px 18px">Tisch reservieren</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" style="padding-top:40px">
+      <div class="wrap">
+        <div>
+          <span class="kicker">Neueröffnung · Musterstadt</span>
+          <h1>Bald riecht's hier nach <span>frischem Kuchen.</span></h1>
+          <p>Hausgemachte Torten, Siebträger-Kaffee und ein Frühstück, für das man gern früher aufsteht. Wir zählen die Tage – Sie auch?</p>
+          <div class="count" aria-label="Countdown bis zur Eröffnung">
+            <div><b id="c-d">0</b><small>Tage</small></div>
+            <div><b id="c-h">0</b><small>Std</small></div>
+            <div><b id="c-m">0</b><small>Min</small></div>
+            <div><b id="c-s">0</b><small>Sek</small></div>
+          </div>
+          <form class="remind" id="remind">
+            <input type="email" required placeholder="Ihre E-Mail-Adresse" aria-label="E-Mail-Adresse">
+            <button class="btn">Erinnern</button>
+          </form>
+          <p class="remind-ok" id="remind-ok">Demo – nichts gesendet. Echt: Sie bekommen am Eröffnungstag eine kurze Mail.</p>
+        </div>
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 400 400">
+            <ellipse cx="200" cy="300" rx="130" ry="26" fill="#3a2a22" opacity=".12"/>
+            <path d="M110 170h170l-16 120a30 30 0 0 1-30 26h-78a30 30 0 0 1-30-26z" fill="#fffdf8" stroke="#3a2a22" stroke-width="6"/>
+            <path d="M280 190c40 0 44 60 0 64" fill="none" stroke="#3a2a22" stroke-width="6"/>
+            <ellipse cx="195" cy="172" rx="85" ry="16" fill="#7a4a30" stroke="#3a2a22" stroke-width="6"/>
+            <path d="M180 156c0-30 30-30 30-60M210 156c0-24 24-24 24-48M160 150c0-20 18-22 18-40" fill="none" stroke="#3a2a22" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+            <path d="M170 232c10-14 34-14 44 0 10 14-22 34-22 34s-32-20-22-34z" fill="#d9534f"/>
+          </svg>
+          <div class="sticker"><div><b id="st-date"></b>Eröffnung</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="karte" class="alt">
+      <div class="wrap">
+        <div class="head">
+          <span class="kicker">Speisekarte</span>
+          <h2>Klein, aber mit Liebe gemacht.</h2>
+        </div>
+        <div class="tabs" role="tablist">
+          <button class="tab on" data-t="kaffee" role="tab">Kaffee</button>
+          <button class="tab" data-t="kuchen" role="tab">Kuchen</button>
+          <button class="tab" data-t="fruehstueck" role="tab">Frühstück</button>
+        </div>
+        <div class="menu" id="menu"></div>
+        <span class="cms-hint">✎ Speisekarte &amp; Tageskuchen ändert das Café selbst im CMS – auch vom Handy aus</span>
+      </div>
+    </section>
+
+    <section id="reservieren">
+      <div class="wrap res">
+        <div>
+          <span class="kicker">Tisch reservieren</span>
+          <h2>Ihr Platz zur Eröffnung.</h2>
+          <p>Gerade in den ersten Wochen wird's voll. Reservieren Sie online – wir bestätigen innerhalb weniger Stunden. Größere Gruppen und Feiern gern auf Anfrage.</p>
+        </div>
+        <div class="form">
+          <form id="res-form">
+            <div class="row">
+              <label class="field">Datum<input type="date" id="res-date" required></label>
+              <label class="field">Uhrzeit
+                <select required><option>09:00</option><option>10:30</option><option>12:00</option><option>14:00</option><option>15:30</option></select>
+              </label>
+            </div>
+            <div class="field">Personen
+              <div class="people" id="people"><button type="button">1</button><button type="button" class="on">2</button><button type="button">3</button><button type="button">4</button><button type="button">5+</button></div>
+            </div>
+            <label class="field">Name<input required autocomplete="off" placeholder="Vor- und Nachname"></label>
+            <label class="field">Telefon<input required autocomplete="off" placeholder="Für die Bestätigung"></label>
+            <button class="btn">Reservierung anfragen</button>
+          </form>
+          <div class="form-ok" id="res-ok"><b>Danke! ☕</b>Demo – es wurde nichts gesendet. Auf der echten Website landet die Reservierung direkt beim Café.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="info" class="alt">
+      <div class="wrap">
+        <div class="info">
+          <div><h3>Öffnungszeiten</h3><p>Mi – Fr 8 – 18 Uhr<br>Sa &amp; So 9 – 18 Uhr<br>Mo &amp; Di Ruhetag</p></div>
+          <div><h3>Adresse</h3><p>Marktplatz 7<br>00000 Musterstadt<br>Tel. 0000 / 000000</p></div>
+          <div><h3>Auch zum Mitnehmen</h3><p>Ganze Torten auf Vorbestellung – bis 2 Tage vorher, einfach anrufen oder hier reservieren.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© Café Lindenblüte (fiktiv)</span>
+      <span>Design-Beispiel von <a href="/" target="_top">Webdesign Ehmann</a></span>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    // Eröffnung: immer 3 Wochen in der Zukunft, Samstag 9 Uhr
+    var o=new Date(); o.setDate(o.getDate()+21); o.setDate(o.getDate()+((6-o.getDay()+7)%7)); o.setHours(9,0,0,0);
+    var MN=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    document.getElementById('open-date').textContent=o.getDate()+'. '+MN[o.getMonth()];
+    document.getElementById('st-date').textContent=o.getDate()+'.'+(o.getMonth()+1)+'.';
+    function tick(){
+      var s=Math.max(0,Math.floor((o-new Date())/1000));
+      document.getElementById('c-d').textContent=Math.floor(s/86400);
+      document.getElementById('c-h').textContent=Math.floor(s%86400/3600);
+      document.getElementById('c-m').textContent=Math.floor(s%3600/60);
+      document.getElementById('c-s').textContent=s%60;
+    }
+    tick(); setInterval(tick,1000);
+    var di=document.getElementById('res-date'); di.min=o.toISOString().slice(0,10); di.value=di.min;
+
+    var M={
+      kaffee:[['Cappuccino','Siebträger, Hafermilch ohne Aufpreis','3,60 €',0],['Flat White','doppelter Espresso, samtiger Milchschaum','3,90 €',0],['Chai Latte','hausgemachter Gewürzsirup','4,20 €',0],['Espresso','Röstung aus der Region','2,40 €',0]],
+      kuchen:[['Käsesahne','nach Omas Rezept','4,20 €',0],['Apfel-Streusel','mit Sahne auf Wunsch','3,90 €',0],['Schoko-Tarte','vegan, mit Himbeeren','4,50 €',1],['Kuchen des Tages','wechselt täglich – fragen Sie uns','ab 3,80 €',0]],
+      fruehstueck:[['Lindenblüten-Frühstück','Brötchen, Käse, Aufschnitt, Ei, Marmelade','11,50 €',0],['Avocado-Brot','Sauerteig, Kräuter, Chili','8,90 €',1],['Granola-Bowl','Joghurt, Beeren, Honig','7,40 €',1]]
+    };
+    var menu=document.getElementById('menu');
+    function show(t){
+      menu.innerHTML=M[t].map(function(i){return '<div class="item"><div><h3>'+i[0]+(i[3]?'<span class="veg">vegetarisch</span>':'')+'</h3><p>'+i[1]+'</p></div><span class="dots"></span><span class="pr">'+i[2]+'</span></div>';}).join('');
+    }
+    document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});b.classList.add('on');show(b.dataset.t);});});
+    show('kaffee');
+    document.querySelectorAll('#people button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#people button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');});});
+    document.getElementById('res-form').addEventListener('submit',function(e){e.preventDefault();this.style.display='none';document.getElementById('res-ok').style.display='block';});
+    document.getElementById('remind').addEventListener('submit',function(e){e.preventDefault();document.getElementById('remind-ok').style.display='block';});
+  })();
+  </script>
+</body>
+</html>

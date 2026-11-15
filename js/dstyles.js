@@ -117,6 +117,9 @@
           .to(mockups[i + 1], { autoAlpha: 1, duration: 1 }, pos);
       }
 
+      // Bühne startet in der Farbe des ersten Design-Beispiels (das kann
+      // auch ein helles sein, z. B. die Friseur-Demo).
+      gsap.set(bg, { backgroundColor: bgColors[0] });
       section.classList.add("dstyles--active");
       gsap.set(panels[0], { autoAlpha: 1 });
       gsap.set(mockups[0], { autoAlpha: 1 });

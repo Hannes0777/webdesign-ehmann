@@ -1,6 +1,57 @@
 {
   "designs": [
     {
+      "title": "Friseur mit Online-Terminbuchung",
+      "bullets": [
+        "Freie Termine sehen und direkt online buchen",
+        "Preisliste, die der Salon selbst im CMS ändert",
+        "Team, Galerie, Öffnungszeiten & Anfahrt",
+        "Ideal für Friseure, Kosmetik, Massage, Coaches"
+      ],
+      "note": "Demo-Website — Name & Firmendaten frei erfunden, Funktionen und Umsetzung real.",
+      "address": "salon-feinschnitt.de",
+      "previewUrl": "vorschau/friseur/index.html",
+      "bgColor": "#f7f2ec",
+      "textColor": "#2b2320",
+      "mistColor": "#6f625b",
+      "accentColor": "#b5654a",
+      "chromeLight": true
+    },
+    {
+      "title": "Ferienwohnung mit Direktbuchung",
+      "bullets": [
+        "Belegungskalender mit freien und belegten Tagen",
+        "Preis wird sofort berechnet – ohne Portal-Provision",
+        "Kalender & Preise selbst pflegen (CMS)",
+        "Ideal für Ferienwohnungen, Pensionen, Eventverleih"
+      ],
+      "note": "Demo-Website — Name & Firmendaten frei erfunden, Funktionen und Umsetzung real.",
+      "address": "fewo-weinbergblick.de",
+      "previewUrl": "vorschau/ferienwohnung/index.html",
+      "bgColor": "#2f4a3a",
+      "textColor": "#fbf8f1",
+      "mistColor": "#cfd8cf",
+      "accentColor": "#e9d8b4",
+      "chromeLight": true
+    },
+    {
+      "title": "Café-Neueröffnung",
+      "bullets": [
+        "Countdown & Erinnerung zur Eröffnung",
+        "Speisekarte, die das Café selbst ändert",
+        "Online-Tischreservierung",
+        "Ideal für Neugründer: vor der Eröffnung online sein"
+      ],
+      "note": "Demo-Website — Name & Firmendaten frei erfunden, Funktionen und Umsetzung real.",
+      "address": "cafe-lindenbluete.de",
+      "previewUrl": "vorschau/cafe/index.html",
+      "bgColor": "#fdf6e9",
+      "textColor": "#3a2a22",
+      "mistColor": "#7a6558",
+      "accentColor": "#d9534f",
+      "chromeLight": true
+    },
+    {
       "title": "Dunkel & aufwendig",
       "bullets": [
         "Cinematic Scroll-Effekte, wie auf dieser Seite",

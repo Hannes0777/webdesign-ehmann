@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Design-Beispiel: Ferienwohnung Weinbergblick – Direktbuchung mit Belegungskalender. Demo-Website von Webdesign Ehmann.">
+  <title>Ferienwohnung Weinbergblick – Design-Beispiel</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%232f4a3a'/%3E%3Cpath d='M8 20l8-8 8 8' stroke='%23e9d8b4' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --bg:#fbf8f1; --bg2:#f1ebdd; --ink:#1f2a23; --mist:#5f6a62; --green:#2f4a3a; --green-l:#4d6b57; --sand:#e9d8b4; --gold:#b8873b; --card:#fff; --line:rgba(31,42,35,.12); --booked:#e6ddd0;
+      --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; --sans:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+    .demo-badge{position:fixed;bottom:14px;left:14px;z-index:50;background:rgba(31,42,35,.85);color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:999px}
+    h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.15}
+    .kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+    .btn{display:inline-block;background:var(--gold);color:#fff;text-decoration:none;font-weight:600;padding:13px 24px;border-radius:10px;border:0;cursor:pointer;font-size:15px;transition:filter .2s,transform .2s}
+    .btn:hover{filter:brightness(.92);transform:translateY(-1px)}
+    .btn--light{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4)}
+    /* Hero */
+    .hero{position:relative;min-height:min(88vh,760px);color:#fff;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(180deg,#f3c98b 0%,#e7a46a 32%,#8b6a5a 58%,#2f4a3a 78%)}
+    .sun{position:absolute;right:16%;top:22%;width:120px;height:120px;border-radius:50%;background:#fbe3b0;opacity:.85;box-shadow:0 0 80px 30px rgba(251,227,176,.45)}
+    .hero svg.land{position:absolute;inset:auto 0 0 0;width:100%;height:62%}
+    .hero nav{position:relative;z-index:2}
+    .hero nav .wrap{display:flex;justify-content:space-between;align-items:center;height:76px}
+    .logo{font-family:var(--serif);font-size:22px;text-decoration:none}
+    .hero nav ul{display:flex;gap:26px;list-style:none;font-size:15px}
+    .hero nav ul a{text-decoration:none;opacity:.9}
+    .hero__body{position:relative;z-index:2;margin-top:auto;padding-bottom:64px}
+    .hero h1{font-size:clamp(42px,6vw,78px);max-width:760px;text-shadow:0 2px 30px rgba(0,0,0,.25)}
+    .hero p{font-size:19px;max-width:540px;margin:18px 0 28px;opacity:.95}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+    .badges span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:999px;font-size:14px;backdrop-filter:blur(4px)}
+    section{padding:88px 0}
+    .alt{background:var(--bg2)}
+    .head{max-width:660px;margin-bottom:40px}
+    .head h2{font-size:clamp(32px,3.8vw,48px);margin-top:10px}
+    .head p{color:var(--mist);margin-top:12px}
+    /* Features */
+    .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .feat div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+    .feat b{display:block;font-family:var(--serif);font-size:20px;font-weight:500;margin:8px 0 4px}
+    .feat small{color:var(--mist);font-size:14px}
+    .feat i{font-style:normal;font-size:24px}
+    .rooms{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:200px 200px;gap:14px;margin-top:40px}
+    .rooms div{border-radius:16px;position:relative;overflow:hidden}
+    .rooms div span{position:absolute;left:14px;bottom:12px;color:#fff;font-size:14px;font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+    .rooms div:nth-child(1){grid-row:span 2;background:linear-gradient(160deg,#d9c7a8,#8c7357 70%,#4d3d2c)}
+    .rooms div:nth-child(2){background:linear-gradient(140deg,#c9d6c4,#6f8a75)}
+    .rooms div:nth-child(3){background:linear-gradient(140deg,#f1e2c4,#c49b5c)}
+    .rooms div:nth-child(4){grid-column:span 2;background:linear-gradient(100deg,#2f4a3a,#7f9a6e 60%,#e7c48d)}
+    /* Booking */
+    .book{display:grid;grid-template-columns:1.25fr .75fr;gap:28px;align-items:start}
+    .cal{background:var(--card);border-radius:20px;padding:24px;border:1px solid var(--line)}
+    .cal__top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .cal__top button{background:var(--bg2);border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;color:var(--ink)}
+    .cal__months{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .month h3{font-size:19px;margin-bottom:10px;text-align:center}
+    .grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;font-size:14px}
+    .grid7 .wd{font-size:12px;color:var(--mist);padding-bottom:4px}
+    .grid7 button{aspect-ratio:1;border:0;background:transparent;border-radius:8px;cursor:pointer;font:inherit;color:var(--ink)}
+    .grid7 button:hover:not(:disabled){background:var(--bg2)}
+    .grid7 button:disabled{cursor:not-allowed;color:#a49c90;background:var(--booked);text-decoration:line-through}
+    .grid7 button.past{background:transparent;text-decoration:none;color:#c9c2b6}
+    .grid7 button.in{background:rgba(184,135,59,.18);border-radius:0}
+    .grid7 button.edge{background:var(--green);color:#fff}
+    .legend{display:flex;gap:18px;margin-top:16px;font-size:13px;color:var(--mist)}
+    .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+    .side{background:var(--green);color:#fff;border-radius:20px;padding:26px;position:sticky;top:20px}
+    .side .price{font-family:var(--serif);font-size:34px}
+    .side .price small{font-size:15px;font-family:var(--sans);opacity:.8}
+    .side .tag{display:inline-block;background:var(--sand);color:var(--green);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+    .dates{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}
+    .dates div{background:rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;font-size:13px}
+    .dates b{display:block;font-size:15px}
+    .calc div{display:flex;justify-content:space-between;font-size:14px;padding:5px 0;opacity:.9}
+    .calc .sum{border-top:1px solid rgba(255,255,255,.25);margin-top:6px;padding-top:10px;font-weight:700;font-size:17px;opacity:1}
+    .side .btn{width:100%;margin-top:16px}
+    .side .note{font-size:12px;opacity:.75;margin-top:10px;text-align:center}
+    .ok{display:none;background:var(--sand);color:var(--green);border-radius:12px;padding:12px;font-size:14px;margin-top:12px}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+    .compare div{border-radius:16px;padding:20px;border:1px solid var(--line);background:var(--card)}
+    .compare div:last-child{border-color:var(--green);box-shadow:0 0 0 2px var(--green) inset}
+    .compare b{font-family:var(--serif);font-size:24px;font-weight:500;display:block}
+    .compare small{color:var(--mist)}
+    .cms-hint{display:inline-flex;gap:8px;margin-top:22px;font-size:13px;color:var(--green-l);background:rgba(77,107,87,.12);padding:7px 14px;border-radius:999px}
+    .area{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .area div{padding:22px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+    .area b{font-family:var(--serif);font-size:20px;font-weight:500}
+    .area p{color:var(--mist);font-size:14px;margin-top:6px}
+    .area em{font-style:normal;font-size:13px;color:var(--gold);font-weight:600}
+    footer{background:var(--ink);color:#cdd3cd;padding:38px 0;font-size:14px}
+    footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    footer a{color:#cdd3cd}
+    @media (max-width:900px){
+      .feat{grid-template-columns:1fr 1fr}
+      .book,.cal__months,.area,.compare{grid-template-columns:1fr}
+      .rooms{grid-template-columns:1fr 1fr;grid-template-rows:160px 160px 160px}
+      .rooms div:nth-child(1){grid-row:auto;grid-column:span 2}
+      .hero nav ul li:not(:last-child){display:none}
+      .side{position:static}
+      section{padding:64px 0}
+    }
+  </style>
+</head>
+<body>
+  <span class="demo-badge">Design-Beispiel · fiktiver Betrieb</span>
+
+  <header class="hero">
+    <div class="sun" aria-hidden="true"></div>
+    <svg class="land" viewBox="0 0 1440 560" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 260 C 240 170 420 230 640 190 S 1040 120 1440 210 V560 H0z" fill="#7d6b56" opacity=".55"/>
+      <path d="M0 330 C 260 250 520 320 760 270 S 1180 230 1440 300 V560 H0z" fill="#4d6b57"/>
+      <g stroke="#3e5a47" stroke-width="3" opacity=".7">
+        <path d="M80 400 Q 400 330 760 360" fill="none"/><path d="M60 430 Q 420 360 800 392" fill="none"/><path d="M40 462 Q 440 392 840 424" fill="none"/>
+        <path d="M700 380 Q 1050 320 1440 350" fill="none"/><path d="M720 412 Q 1070 352 1440 382" fill="none"/>
+      </g>
+      <path d="M0 470 C 300 420 640 470 960 440 S 1300 420 1440 450 V560 H0z" fill="#2f4a3a"/>
+      <g fill="#fbf8f1"><rect x="1130" y="372" width="70" height="46"/><path d="M1122 376 l43-34 43 34z" fill="#b8873b"/><rect x="1150" y="388" width="12" height="14" fill="#f3c98b"/><rect x="1172" y="388" width="12" height="14" fill="#f3c98b"/></g>
+    </svg>
+    <nav>
+      <div class="wrap">
+        <a href="#" class="logo">Weinbergblick</a>
+        <ul>
+          <li><a href="#wohnung">Wohnung</a></li>
+          <li><a href="#umgebung">Umgebung</a></li>
+          <li><a href="#buchen" class="btn btn--light">Verfügbarkeit prüfen</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="wrap hero__body">
+      <span class="kicker" style="color:var(--sand)">Ferienwohnung · Musterdorf</span>
+      <h1>Aufwachen mit Blick über die Weinberge.</h1>
+      <p>65 m² für bis zu 4 Gäste, ruhig gelegen am Ortsrand. Direkt bei uns buchen – günstiger als über Portale, ohne Provision.</p>
+      <a href="#buchen" class="btn">Freie Termine ansehen</a>
+      <div class="badges"><span>★ 4,9 aus Gästebewertungen</span><span>Balkon mit Aussicht</span><span>Hunde willkommen</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section id="wohnung">
+      <div class="wrap">
+        <div class="head">
+          <span class="kicker">Die Wohnung</span>
+          <h2>Alles da, was den Urlaub leicht macht.</h2>
+        </div>
+        <div class="feat">
+          <div><i>🛏️</i><b>2 Schlafzimmer</b><small>Doppelbett &amp; zwei Einzelbetten</small></div>
+          <div><i>🍳</i><b>Volle Küche</b><small>Spülmaschine, Kaffeemaschine</small></div>
+          <div><i>🌄</i><b>Südbalkon</b><small>Abendsonne mit Weinbergblick</small></div>
+          <div><i>📶</i><b>WLAN &amp; Parkplatz</b><small>kostenlos, direkt am Haus</small></div>
+        </div>
+        <div class="rooms" aria-label="Bilder der Wohnung (Platzhalter)">
+          <div><span>Wohnbereich</span></div><div><span>Schlafzimmer</span></div><div><span>Küche</span></div><div><span>Aussicht vom Balkon</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="buchen" class="alt">
+      <div class="wrap">
+        <div class="head">
+          <span class="kicker">Direkt buchen</span>
+          <h2>Wählen Sie An- und Abreise im Kalender.</h2>
+          <p>Belegte Tage sind ausgegraut. Der Preis wird sofort berechnet – ohne versteckte Gebühren.</p>
+        </div>
+        <div class="book">
+          <div class="cal">
+            <div class="cal__top">
+              <button type="button" id="prev" aria-label="Vorherige Monate">‹</button>
+              <strong id="cal-label"></strong>
+              <button type="button" id="next" aria-label="Nächste Monate">›</button>
+            </div>
+            <div class="cal__months" id="months"></div>
+            <div class="legend"><span><i style="background:var(--green)"></i>Ihr Zeitraum</span><span><i style="background:var(--booked)"></i>belegt</span></div>
+          </div>
+          <aside class="side">
+            <span class="tag">Direktbuchung: −12 % ggü. Portalen</span>
+            <div class="price">89 € <small>pro Nacht</small></div>
+            <div class="dates">
+              <div>Anreise<b id="d-in">–</b></div>
+              <div>Abreise<b id="d-out">–</b></div>
+            </div>
+            <div class="calc" id="calc">
+              <div><span>Bitte Zeitraum wählen</span><span></span></div>
+            </div>
+            <button type="button" class="btn" id="req" disabled>Unverbindlich anfragen</button>
+            <div class="ok" id="ok">Demo – es wurde nichts gesendet. Auf der echten Website landet die Anfrage direkt bei den Gastgebern.</div>
+            <p class="note">Mindestaufenthalt 2 Nächte</p>
+          </aside>
+        </div>
+        <div class="compare">
+          <div><small>Über ein Buchungsportal</small><b>bis zu 15 % Provision</b><small>gehen bei jeder Buchung an das Portal</small></div>
+          <div><small>Über die eigene Website</small><b>0 % Provision</b><small>Gäste buchen direkt – das Geld bleibt bei Ihnen</small></div>
+        </div>
+        <span class="cms-hint">✎ Belegung &amp; Preise pflegen die Gastgeber selbst im CMS</span>
+      </div>
+    </section>
+
+    <section id="umgebung">
+      <div class="wrap">
+        <div class="head">
+          <span class="kicker">Umgebung</span>
+          <h2>Wandern, Wein und gutes Essen.</h2>
+        </div>
+        <div class="area">
+          <div><em>5 Min zu Fuß</em><br><b>Weinlehrpfad</b><p>Rundweg durch die Reben mit Vesperstube am Ende.</p></div>
+          <div><em>10 Min mit dem Auto</em><br><b>Badesee</b><p>Liegewiese, Kiosk und flaches Ufer für Kinder.</p></div>
+          <div><em>20 Min mit der Bahn</em><br><b>Altstadt</b><p>Fachwerk, Wochenmarkt und kleine Cafés.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© Ferienwohnung Weinbergblick (fiktiv) · Musterweg 3 · 00000 Musterdorf</span>
+      <span>Design-Beispiel von <a href="/" target="_top">Webdesign Ehmann</a></span>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var NIGHT=89, CLEAN=45;
+    var months=document.getElementById('months'), label=document.getElementById('cal-label');
+    var today=new Date(); today.setHours(0,0,0,0);
+    var offset=0, start=null, end=null;
+    var MN=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    function key(d){return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
+    // pseudo-belegte Tage: feste Blöcke relativ zu heute
+    var booked={};
+    [[3,6],[11,15],[22,24],[30,36],[44,47],[55,60]].forEach(function(r){
+      for(var i=r[0];i<=r[1];i++){var d=new Date(today);d.setDate(d.getDate()+i);booked[key(d)]=1;}
+    });
+    function fmt(d){return d.getDate()+'.'+(d.getMonth()+1)+'.'+String(d.getFullYear()).slice(2);}
+    function render(){
+      months.innerHTML='';
+      for(var m=0;m<2;m++){
+        var first=new Date(today.getFullYear(),today.getMonth()+offset+m,1);
+        var box=document.createElement('div'); box.className='month';
+        box.innerHTML='<h3>'+MN[first.getMonth()]+' '+first.getFullYear()+'</h3>';
+        var g=document.createElement('div'); g.className='grid7';
+        ['Mo','Di','Mi','Do','Fr','Sa','So'].forEach(function(w){g.insertAdjacentHTML('beforeend','<span class="wd">'+w+'</span>');});
+        var pad=(first.getDay()+6)%7; for(var p=0;p<pad;p++) g.appendChild(document.createElement('span'));
+        var days=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();
+        for(var dd=1;dd<=days;dd++){
+          (function(d){
+            var b=document.createElement('button'); b.type='button'; b.textContent=d.getDate();
+            if(d<=today){b.disabled=true;b.className='past';}
+            else if(booked[key(d)]) b.disabled=true;
+            if(start && key(d)===key(start)) b.classList.add('edge');
+            if(end && key(d)===key(end)) b.classList.add('edge');
+            if(start && end && d>start && d<end) b.classList.add('in');
+            b.addEventListener('click',function(){pick(d);});
+            g.appendChild(b);
+          })(new Date(first.getFullYear(),first.getMonth(),dd));
+        }
+        box.appendChild(g); months.appendChild(box);
+      }
+      var a=new Date(today.getFullYear(),today.getMonth()+offset,1), z=new Date(today.getFullYear(),today.getMonth()+offset+1,1);
+      label.textContent=MN[a.getMonth()]+' – '+MN[z.getMonth()];
+      document.getElementById('prev').disabled = offset===0;
+    }
+    function rangeFree(a,b){var d=new Date(a);d.setDate(d.getDate()+1);while(d<b){if(booked[key(d)])return false;d.setDate(d.getDate()+1);}return true;}
+    function pick(d){
+      document.getElementById('ok').style.display='none';
+      if(!start || end || d<=start){start=d;end=null;}
+      else{
+        var n=Math.round((d-start)/864e5);
+        if(n<2 || !rangeFree(start,d)){start=d;end=null;} else end=d;
+      }
+      render(); summary();
+    }
+    function summary(){
+      document.getElementById('d-in').textContent=start?fmt(start):'–';
+      document.getElementById('d-out').textContent=end?fmt(end):'–';
+      var c=document.getElementById('calc'), r=document.getElementById('req');
+      if(start && end){
+        var n=Math.round((end-start)/864e5);
+        c.innerHTML='<div><span>'+n+' Nächte × '+NIGHT+' €</span><span>'+(n*NIGHT)+' €</span></div><div><span>Endreinigung</span><span>'+CLEAN+' €</span></div><div class="sum"><span>Gesamt</span><span>'+(n*NIGHT+CLEAN)+' €</span></div>';
+        r.disabled=false;
+      } else {
+        c.innerHTML='<div><span>'+(start?'Jetzt Abreise wählen':'Bitte Zeitraum wählen')+'</span><span></span></div>';
+        r.disabled=true;
+      }
+    }
+    document.getElementById('prev').addEventListener('click',function(){if(offset>0){offset--;render();}});
+    document.getElementById('next').addEventListener('click',function(){if(offset<10){offset++;render();}});
+    document.getElementById('req').addEventListener('click',function(){document.getElementById('ok').style.display='block';});
+    render();
+  })();
+  </script>
+</body>
+</html>
