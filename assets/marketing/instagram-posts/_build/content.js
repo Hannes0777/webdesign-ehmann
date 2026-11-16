@@ -512,7 +512,7 @@ const POSTS = [
         kind: "cover",
         big: true,
         kicker: "NEUKUNDEN-AKTION",
-        headline: ["Website ab", "<span class=\"accent\">100 €</span>"],
+        headline: ["Website ab", "<span class=\"accent\">149 €</span>"],
         subtext: "Für die ersten Neukunden — statt regulär 250 €.",
       },
       {
@@ -541,7 +541,7 @@ const POSTS = [
         kind: "cta",
         kicker: "NUR FÜR NEUKUNDEN",
         headline: "Sicher dir den Einführungspreis",
-        subtext: "Website ab 100 € — schreib mir einfach kurz.",
+        subtext: "Website ab 149 € — schreib mir einfach kurz.",
         button: "JETZT ANFRAGEN →",
       },
     ],
